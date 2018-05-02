@@ -1,0 +1,210 @@
+\section{微商与微分}
+\subsection{微分}
+课本上关于微分和微商的定义只是能够让读者看懂，但还不能让读者们理解到其背后深刻的内涵，因此在这里我们尝试换个角度来理解.
+\begin{definition}
+对于函数$f(x)$，存在线性函数$L(x)$满足
+\[\lim_{x\to x_0}\frac{|f(x)-L(x)|}{x-x_0}=0\]
+则称$L(x)$是$f(x)$的线性逼近(linear approximation).
+对应地，如果存在$H(x)$满足
+\[\lim_{x\to x_0}\frac{|f(x)-H(x)|}{(x-x_0)^n}=0\]
+则称$H(x)$是$f(x)$的高阶($n$阶)逼近(high order approximation).
+\end{definition}
+\begin{definition}[可微性]
+\label{differentiability}
+函数$f(x)$在$x_0$可微，当且仅当它在$x=x_0$存在一个线性逼近
+\end{definition}
+上述定义告诉我们，若$f(x)$在$x_0$可微，则其线性逼近$L(x)$靠近$f(x_0)$的速度比$x$靠近$x_0$的速度快；而所谓的高阶逼近\footnote{高阶可微意味着存在高阶逼近，但高阶可微不代表高阶可导}，则对应着我们之后要学习的泰勒展开；更特殊地，我们可以定义出$0$阶逼近，那它代表的就是$f(x)$在$x=x_0$连续了. 因而我们也就能够理解下面这条熟知的定理了
+\begin{theorem}
+可导一定连续，连续不一定可导
+\end{theorem}
+因为可导（存在线性/一阶逼近）是比连续（存在常数/$0$阶逼近）更加强的性质，故可导是蕴含着连续的.
+\par 更一般地，结合线性代数的知识，我们可以有以下定义
+\begin{definition}
+对于函数$f:\mathbb{R}^n\to\mathbb{R}^m$，如果存在线性变换$T(\mathbf{x_0}):\mathbb{R}^n\to\mathbb{R}^m$使得
+\[\lim_{\mathbf{x}\to \mathbf{x_0}}\frac{\|f(\mathbf{x})-(f(\mathbf{x_0})+T(\mathbf{x_0})(\mathbf{x}-\mathbf{x_0}))\|}{\|\mathbf{x}-\mathbf{x_0}\|}=0\]
+则称$f(\mathbf{x})$在$\mathbf{x_0}$可微，线性变换$T(\mathbf{x_0})$称为$f$在$\mathbf{x_0}$处的导数.
+\par 特殊地，取$n=m=1$，$f(x)$为一元函数；取$m=1$，$f(x)$为多元函数.
+\end{definition}
+实际上这个定义也是采用逼近的思想，用一个$n$维的线性映射来逼近一个$n$元的函数.\footnote{多元函数中可微与可导的直观区别是什么？ - 冯白羽的回答 - 知乎 \url{https://www.zhihu.com/question/23468713/answer/26043048}}
+\par 结合定义\ref{differentiability}我们可以得到，对于一元函数，可微与可导等价，因为$f(x)$可微就存在一个线性逼近$L(x)=T(x_0)(x-x_0)+f(x_0)$，也就对应着这样一个线性变换$T(x_0)$，即其导数，故可导；反过来，$f(x)$可导，即存在一个线性变换$T(x_0)$，也就存在一个线性逼近$L(x)$同上定义符合逼近性质，进而推出$f(x)$可微.
+\par 但对于多元函数，可微（可以全微分）说明存在一个与曲面相切的（超）平面，那其各个方向的偏导数都应存在；而可导（可求偏导）只是存在某个方向的切线，不能推出可微.
+\par 至于高阶微分只需知道以下一些事实：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 一阶微分具有形式不变性（即$dy=f'(u)du,dy=\varphi'(x)dx$形式相同），而高阶微分没有（即$d^ny=f^{(n)}(x)dx^n$不成立，乘法法则会多出几项），故高阶微分不可随意进行变量代换
+	\item 高阶微商的莱布尼茨公式
+	\[y^{(n)}=\sum_{k=0}^nC_n^ku^{(n-k)}v{(k)}\]
+\end{enumerate}
+
+\subsection{求导}
+链式法则、对数求导法、隐函数求导、参数方程微分法等等在这里均不作详细说明，将各种求导公式（特别是三角反三角）记熟即可.
+
+\subsection{微分中值定理}
+\begin{theorem}[费马(Fermart)定理]
+$f(x)$在$\mathring{U}(x_0)$有定义，在$x_0$达到极值，且$f(x)$在$x_0$可导，则$f'(x_0)=0$
+\end{theorem}
+\begin{theorem}[罗尔(Rolle)定理]
+$f(x)$在$[a,b]$连续，在$(a,b)$可导，$f(a)=f(b)$，则$\exists\xi\in(a,b)$，$f'(\xi)=0$
+\end{theorem}
+\begin{theorem}[拉格朗日(Lagrange)中值定理(微分中值定理)]
+$f(x)$在$[a,b]$连续，在$(a,b)$可导，则$\exists\xi\in(a,b)$，使得
+\[f'(\xi)=\frac{f(b)-f(a)}{b-a}\]
+或者
+\[\theta=\frac{\xi-a}{b-a}\in(0,1),\xi=a+\theta(b-a),f(b)-f(a)=f'(a+\theta(b-a))(b-a)\]
+\end{theorem}
+\begin{theorem}[柯西(Cauchy)中值定理]
+$f(x),g(x)$在$[a,b]$连续，在$(a,b)$可导，$g'(x)\ne 0$，则$\exists\xi\in(a,b)$，使得
+\[\frac{f'(\xi)}{g'(\xi)}=\frac{f(b)-f(a)}{g(b)-g(a)}\]
+\end{theorem}
+\begin{theorem}
+$f(x),g(x),h(x)$在$[a,b]$连续，在$(a,b)$可导，则$\exists\xi\in(a,b)$，使得
+\begin{equation*}
+\begin{vmatrix}
+f(a) & g(a) & h(a)\\
+f(b) & g(b) & h(b)\\
+f'(\xi) & g'(\xi) & h'(\xi)
+\end{vmatrix}=0
+\end{equation*}
+\end{theorem}
+需要理清以下几个关系：\textbf{连续可导(continuously differentiable)}\footnote{\url{https://math.stackexchange.com/questions/1117323/the-definition-of-continuously-differentiable-functions}}是指\textbf{导函数连续}，不是指原函数连续并且可导，因为可导已经蕴含了（可推出）连续，所以没必要再强调；也不是指二阶可导，由于连续不一定可导；但\textbf{二阶可导}蕴含了连续可导.
+\begin{definition}[光滑函数]
+若$f(x)$连续，则称其为$C^0$函数；若$f(x)$连续可导，则称其为$C^1$函数；若$f(x)$满足$n$阶连续可导，则称其为$C^n$函数. $\forall n,f(x)\in C^n$，则称$f(x)$光滑，并称其为$C^\infty$函数
+\end{definition}
+\begin{example}
+\label{egcondiff}
+\[f(x)=\begin{cases}
+\displaystyle x^m\sin\frac{1}{x},\quad x\ne 0\\
+0,\quad x=0\end{cases}
+\quad(m\in\mathbb{Z}^+)\]
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item $m\geq 1,f(x)$在$x=0$连续
+	\[\lim_{x\to 0}f(x)=\lim x^m\sin\frac{1}{x}=f(0)=0\]
+	要满足上式且在$x<0$部分有定义，则$m\geq 1$，因$-x\leq x\sin\frac{1}{x}\leq x$，夹逼得$f(x)\to 0(x\to 0)$
+	\item $m\geq 2,f(x)$在$x=0$可导
+	\[\lim_{\Delta x\to 0}\frac{f(0+\Delta x)-f(0)}{\Delta x}=\lim_{\Delta x\to 0}(\Delta x)^{m-1}\sin\frac{1}{\Delta x}\]
+	要使上式极限存在，则$m-1\geq 1\implies m\geq 2$
+	\item $m\geq 3,f(x)$在$x=0$连续可导
+	\[\lim_{x\to 0}f'(x)=\lim_{x\to 0}(mx^{m-1}\sin\frac{1}{x}-x^{m-2}\cos\frac{1}{x})=0\]
+	同$(2)$理，$m-1\geq 1$且$m-2\geq 1\implies m\geq 3$
+\end{enumerate}
+\end{analysis}
+由例\ref{egcondiff}可以看出这几个术语的区别，如当$m=2$时，$f(x)$是病态的(pathological)，因其在$x=0$处可导但不连续可导.
+\par 下面这个补充的定理来自课本习题，结论十分简单，但相当有用.
+\begin{theorem}[达布(Darboux)定理]
+$f(x)$在$[a,b]$可导，且$f'(a)\neq f'(b)$，$k$为介于$f'(a)$与$f'(b)$之间的任意实数，则至少存在一点$\xi\in(a,b)$，使得$f'(\xi)=k$
+\end{theorem}
+\begin{analysis}
+法一：\\
+由上面的讨论知此题不能直接用连续函数介值定理做，因为题设只给了$f(x)$可导，但其导函数不一定连续，故我们需要另辟蹊径.\\
+构造函数$F(x)=f(x)-kx$，因为$F(x)$在$[a,b]$连续，由闭区间连续函数最值定理，在$[a,b]$上必存在$f(x)$的最值点，记$\xi=\arg\max\,f(x)$.若$\xi\in(a,b)$，由费马定理立得$F'(\xi)=0$，即$f'(\xi)=k$.\\
+下证$\xi\ne a,b$.\\
+显然$F(x)$在$(a,b)$上可导，且
+\[F'(a)=f'(a)-k,F'(b)=f'(b)-k\]
+由题设知$F'(a),F'(b)$一正一负，不妨设$F'(a)>0,F'(b)<0$，由导数的定义我们有
+\[F'(a)=\lim_{x\to a^+}\frac{F(x)-F(a)}{x-a}>0\]
+\[F'(b)=\lim_{x\to b^-}\frac{F(x)-F(b)}{x-b}<0\]
+再由函数极限的局部保号性，存在$\delta_1$，使得$x\in(a,a+\delta_1)$有
+\[\frac{F(x)-F(a)}{x-a}>\frac{F'(a)}{2}>0\]
+存在$\delta_2$，使得$x\in(b-\delta_2,b)$有
+\[\frac{F(x)-F(b)}{x-b}<\frac{F'(b)}{2}<0\]
+则
+\[F(a+\frac{\delta_1}{2})>F(a),F(b-\frac{\delta_2}{2})>F(b)\]
+故我们找到两个点$\displaystyle a+\frac{\delta_1}{2}$和$\displaystyle b-\frac{\delta_2}{2}$，它们的函数值分别大于$a,b$两点的函数值，因此最大值点不会落在$a,b$上.
+\end{analysis}
+\begin{analysis}
+法二：\\
+不妨设$f'(b)<k<f'(a)$（类似于增函数），考虑$k$与$\displaystyle\frac{f(b)-f(a)}{b-a}$的关系，不外乎三种可能
+\begin{enumerate}
+	\item $k=\displaystyle\frac{f(b)-f(a)}{b-a}$，则直接利用微分中值定理即得证
+	\item $k>\displaystyle\frac{f(b)-f(a)}{b-a}$，令
+	\[g(x)=\begin{cases}
+	f'(a),\,x=a\\
+	\displaystyle\frac{f(x)-f(a)}{x-a},a<x\leq b\end{cases}\]
+	有$\displaystyle g(a)=f'(a)>k>\frac{f(b)-f(a)}{b-a}=g(b)$（假设），由于$g(x)$为连续函数，则由介值定理，
+	\[\exists x_0\in(a,b)\:s.t.\:g(x_0)=\frac{f(x_0)-f(a)}{x_0-a}=k\]
+	进而由微分中值定理，
+	\[\exists \xi\in(a,x_0)\:s.t.\:f'(\xi)=\frac{f(x_0)-f(a)}{x_0-a}=k\]
+	\item $k<\displaystyle\frac{f(b)-f(a)}{b-a}$，令
+	\[g(x)=\begin{cases}
+	f'(b),\,x=b\\
+	\displaystyle\frac{f(b)-f(x)}{b-x},a\leq x<b\end{cases}\]
+	同理可证.\\
+	注：这种方法的思想即先找到一条割线，再通过拉格朗日中值定理找切线.
+\end{enumerate}
+\end{analysis}
+我们把导函数$f'(x)$可以取$f'(a)$与$f'(b)$之间任意值的这种性质称为介值性(intermediate value property). 由这个证明可以看出，达布定理只需要可导，而不需要导函数连续，这是比连续函数介值定理更强的性质. 
+\begin{corollary}
+\label{coro1}
+若$f(x)$在$[a,b]$上可微，则$f'(x)$在$[a,b]$上不可能有第一类间断点
+\end{corollary}
+\begin{analysis}
+若不然，$\exists c\in[a,b]$是$f'(x)$的一个第一类间断点.\\
+若$c\in(a,b)$，不妨设$f'(c^-)<f'(c^+)$，任取$r,s\in\mathbb{R}$使得$f'(c^-)<r<s<f'(c^+)$且$f'(c)\ne [r,s]$. （通过$sgn(x)$的图像脑补这种构造）
+由函数极限的局部保序性，$\exists\delta>0\,s.t.\,(c-\delta,c+\delta)\subset(a,b)$，且当$x\in(c-\delta,c)$时，$f'(x)<r$；当$x\in(c,c+\delta)$时，$f'(x)>s$.\\
+于是当$x\in\mathring{U}(c,\delta)$时，$f'(x)\notin[r,s]$，这与达布定理的介值性矛盾.\\
+同理可证得$c=a$或$c=b$的情况，进而$f'(x)$在$[a,b]$上不可能有第一类间断点.\\
+注：本题也可用拉格朗日中值定理来求解.
+\end{analysis}
+\begin{theorem}
+\label{mono_and_conti}
+$f(x)$在$(a,b)$上可导，且$f'(x)$单调，证明$f'(x)$在$(a,b)$连续
+\end{theorem}
+\begin{analysis}
+由例\ref{conti1}知，若$f'(x)$有间断点，则必为第一类间断点；但推论\ref{coro1}又告诉我们$f'(x)$不可能有第一类间断点，两者相矛盾. 故$f'(x)$在$(a,b)$上没有间断点，即$f'(x)$在$(a,b)$连续
+\end{analysis}
+同时推论\ref{coro1}也说明了：存在这样的函数，如$sgn(x)$，在区间上是黎曼可积的，但不存在原函数.
+\begin{corollary}
+$f(x)$在$(a,b)$上可微，若在$[a,b]$上$f'(x)\ne 0$，则$f'(x)$在$[a,b]$上保持同号（恒正或恒负）
+\end{corollary}
+下面的练习是中值定理和达布定理的综合应用，请读者自行尝试.（当然也有其他方法）
+\begin{exercise}
+$f(x)$在$[0,1]$上连续，在$(0,1)$内可导，且$f(0)=f(1)=0$，证明$\forall x_0\in(0,1),\exists\xi\in(0,1)\,s.t.\,f'(\xi)=f(x_0)$
+\end{exercise}
+
+关于一般题目中值定理的运用请见例\ref{egrolle1}，常规思路即构造函数（具体怎么构造见例\ref{constructfun}），目的是：
+\begin{enumerate}
+	\item 补充定义保证函数在整个区间上\textbf{连续}
+	\item 通过代数变换使趋于无限的极限过程变为在\textbf{有限}区间上讨论
+	\item 若用罗尔定理函数能够保证端点值相等
+\end{enumerate}
+\begin{example}
+\label{egrolle1}
+设$f(x)$在$(a,+\infty)$上可导，且$\displaystyle\lim_{x\to a^+}f(x)=\lim_{x\to +\infty}f(x)=A$，证明：存在$\xi\in(a,+\infty)$，使得$f'(\xi)=0$
+\end{example}
+\begin{analysis}
+令$b>a$，构造
+\[F(t)=\begin{cases}
+\displaystyle f(\frac{a-b}{t-b}a)\quad t\in(a,b)\\
+A\quad t=a,b
+\end{cases}\qquad\mbox{补充定义}\]
+则易知$F(x)$在$[a,b]$上连续，在$(a,b)$可导，且$F(a)=F(b)=A$\\
+由罗尔定理，$\exists\xi_0\in(a,b)$使得
+\[F'(\xi)=-\frac{(a-b)a}{(\xi_0-b)^2}f'(\frac{a-b}{\xi_0-b}a)=0\]
+$\because b>a,\xi_0\in(a,b)\qquad\displaystyle\therefore f'(\frac{a-b}{\xi_0-b}a)=0$\\
+故取$\displaystyle\xi=\frac{a-b}{\xi_0-b}a\in(a,+\infty)$，即有$f'(\xi)=0$
+\end{analysis}
+\begin{example}
+\label{constructfun}
+$f(x)$在$(-\infty,+\infty)$连续，且$\displaystyle\lim_{x\to\pm \infty}f(x)=+\infty$，证明$f(x)$在$(-\infty,+\infty)$上取到它的最小值
+\end{example}
+\begin{analysis}
+根据构造函数的目的，我们希望找到这样一个函数$x\to +\infty(t\to a),x\to -\infty(t\to b)$，那$u(t)=\tan t$不失为一个好函数.\\
+同样我们希望$v(t)\to c(f(x)\to +\infty)$，不假思索地，用$v(t)=\arctan t$即可满足条件.\\
+则我们构造出
+\[g(t)=\begin{cases}
+\displaystyle\arctan f(\tan t),\,t\in(-\frac{\pi}{2},\frac{\pi}{2})\\
+\displaystyle\frac{\pi}{2},\,t=-\frac{\pi}{2},\frac{\pi}{2}
+\end{cases}\]
+虽然函数长得比较难看，但它是符合题设条件的，即$\displaystyle g(t)\to \frac{\pi}{2},f(x)\to+\infty(t\to \frac{\pm\pi}{2},x\to \pm\infty)$.\\
+又$g(t)$在$\displaystyle[-\frac{\pi}{2},\frac{\pi}{2}]$上连续，由连续函数最值定理知存在最小值，又由极限的保号性，知最小值一定不会在端点处取到，进而得证.\\
+注：连续不一定可导，故本题不可用罗尔定理
+\end{analysis}
+\begin{example}
+$f(x)$在$[a,+\infty)$有界，$f'(x)$存在，证明$A=\displaystyle\lim_{x\to+\infty}f'(x)=0$
+\end{example}
+\begin{analysis}
+使用反证法，不妨设$A>0$，则由极限的保号性知$\displaystyle\exists x_0,x>x_0:f'(x)>\frac{A}{2}>0$\\
+对区间$[x_0,x]$用拉格朗日中值定理有$\exists\xi\in(x_0,x):\displaystyle f'(\xi)=\frac{f(x)-f(x_0)}{x-x_0}$，进而$\displaystyle f(x)=f(x_0)+f'(\xi)(x-x_0)>f(x_0)+\frac{A}{2}(x-x_0)$，故$\displaystyle\lim_{x\to+\infty}f(x)=+\infty$，与$f(x)$有界矛盾.
+\end{analysis}

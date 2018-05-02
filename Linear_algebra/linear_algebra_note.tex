@@ -1,0 +1,1526 @@
+\documentclass[11pt,UTF8]{ctexart}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}%\because\therefore
+\usepackage{mathtools}%underset
+\usepackage{cancel}
+\usepackage{extarrows}
+\usepackage{gensymb}
+\usepackage{enumerate}
+\usepackage{lipsum}
+\usepackage{multicol}
+\usepackage{verbatim}%comment
+\usepackage{array}
+\usepackage{bm}
+\usepackage[unicode=true,%本行非常重要 支持中文目录hyperref CJKbookmarks对二级目录没用
+	colorlinks,
+	linkcolor=black,
+	anchorcolor=black,
+	citecolor=black,
+	CJKbookmarks=false]{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{algorithm}{算法}
+\newtheorem{definition}{定义}
+\newtheorem{proposition}{命题}
+\newtheorem{example}{例}%*去除编号
+\newtheorem*{analysis}{分析}
+\newtheorem{corollary}{推论}
+\geometry{top=20mm,bottom=20mm,left=20mm,right=20mm}
+\pagestyle{plain}%删除页眉
+
+\def\vx{\mathbf{x}}
+\def\vy{\mathbf{y}}
+\def\vbb{\bm{\beta}}
+\def\vv{\mathbf{v}}
+\def\vu{\mathbf{u}}
+\def\dis{\displaystyle}
+\def\dd{\,\mathrm{d}}
+\def\rn{\mathbb{R}^n}
+\def\dim{\mathrm{dim}\,}
+\def\rank{\mathrm{rank}\,}
+\def\span{\mathrm{Span}\,}
+\def\col{\mathrm{Col}\,}
+\def\nul{\mathrm{Nul}\,}
+\def\row{\mathrm{Row}\,}
+\def\sgn{\mathrm{sgn}\,}
+\def\tv{\mathrm{TVar}\,}
+\def\tr{\mathrm{tr}\,}
+\def\ker{\mathrm{Ker}\,}
+\def\ii{\mathrm{i}}
+\def\aff{\mathrm{aff}\,}
+\def\conv{\mathrm{conv}\,}
+\newcommand{\proj}[1]{\mathrm{proj}_{#1}}
+\newcommand{\inp}[2]{\langle #1,#2 \rangle}
+\newcommand{\vb}[1]{\mathbf{#1}}
+\newcommand{\bmat}[2]{\begin{bmatrix}{#1}&\cdots&{#2}\end{bmatrix}}
+\newcommand{\setenu}[2]{\{#1,\dots,#2\}}
+\newcommand{\underwrite}[3][]{% \underwrite[<thickness>]{<numerator>}{<denominator>}
+  \genfrac{}{}{#1}{}{\textstyle #2}{\scriptstyle #3}
+}
+\newcommand{\xdownarrow}[1]{%
+  {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
+\newcommand{\xuparrow}[1]{%
+  {\left\uparrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\title{线性代数笔记整理V2.0}
+\author{Reddie}
+\date{2018.1\protect\footnote{\text{Build 201801280000}}}
+\begin{document}
+\maketitle
+
+
+\setcounter{tocdepth}{2}%设置深度
+\tableofcontents
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{0}
+
+\section{矩阵与线性方程组}
+\subsection{基本概念}
+在此仅罗列一些基本的知识点的名字，具体内容本文不作赘述.
+\begin{enumerate}
+	\itemsep -3pt
+	\item 解线性方程组（高斯消元法）
+	\item 方程组无解、唯一解、多解的判断，与主元列、主元位置的关系\\
+		解的\textbf{存在性}：看每一列是否都有主元位置\\
+		解的\textbf{唯一性}：看有无自由变元（$A\vx=\vb{0}$是否有\textbf{非平凡解}同样看自由变元）
+	\item \textbf{齐次方程}$A\vx=\vb{0}$解的参数表示\\
+		\textbf{非齐次方程}$A\vx=\vb{b}$解的形式为$\vx=\vb{p}+t\vb{v},t\in\mathbb{R}$，即非齐通解$=$齐通解$+$非齐特解，但要注意首先得有解\\
+		这两种方程的具体比较见\ref{nul_and_col}节
+	\item 线性相关与线性无关\\
+	要判定一组向量是线性相关还是线性无关，即判断$A\vx=\vb{0}$是否有非平凡解
+	\item 基本矩阵运算（加减乘除、求逆、转置）
+\end{enumerate}
+\begin{definition}[基本行变换/初等矩阵变换]
+替换、交换、数乘
+\end{definition}
+\begin{definition}[初等(elementary)矩阵]
+对单位矩阵做一次基本行变换所得的矩阵.
+\end{definition}
+\par 下面是线性无关线性相关一些常见的结论.
+\begin{theorem}
+\label{linear_relationship}
+$S=\{\vb{v}_1,\dots,\vb{v}_p\},|S|>1$
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item $S$线性相关，当且仅当至少有一向量可以表示为其他向量的线性组合（注意\textbf{不是}每一个）
+	\item 若$S$线性相关，$\vb{v}_1\ne 0$，那么$\exists\vb{v}_j,j>1$可以被表示为$\vb{v}_1,\dots,\vb{v}_{j-1}$的线性组合
+	\item 若$S$的子集$S'$线性相关，则$S$线性相关；若$S$线性无关，则$S'$线性无关（注意关系不能颠倒）
+	\item 初等行变换不改变\textbf{列}之间的线性相关关系
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+记$A=\bmat{\vb{v}_1}{\vb{v}_n}$，$B\thicksim A$为$A$的阶梯形
+\begin{enumerate}[(a)]
+	\item \label{enu1a}必要性：即$\exists c_1,\dots,c_n$不全为$0$，使得$c_1\vb{v}_1+\cdots+c_n\vb{v}_n=\vb{0}$.\\
+	不妨设$c_1\ne 0$，则$\vb{v}_1=(-\dfrac{c_2}{c_1})\vv_2+\cdots+(-\dfrac{c_n}{c_1})\vb{v}_n$，证毕.\\
+	充分性：不妨设$\vb{v}_1=c_2\vb{v}_2+\cdots+c_n\vb{v}_n$，移项得$(-1)\vb{v}_1+c_2\vb{v}_2+\cdots+c_n\vb{v}_n=\vb{0}$.
+	\item 用(\ref{enu1a})的结论，设$\vb{v}_p=c_1\vb{v}_1+\cdots+c_{p-1}\vb{v}_{p-1}+c_{p+1}\vb{v}_{p+1}+\cdots+c_n\vb{v}_n,p>1$，找出最大的$j$使得$c_j\ne 0$（$\vb{v}_p$的系数$c_p=-1$也计入），进而$c_1\vb{v}_1+\cdots+c_j\vb{v}_j=\vb{0}$，接下来证明方法与(\ref{enu1a})相同，$\vb{v}_j$即为所求.
+	\item 因两者互为逆否命题，故只用证前者，而前者通过不断扩充$S'$并令扩充部分的权重全为$0$即可.
+	\item $A\vx=\vb{0}$与$B\vx=\vb{0}$有相同的解，故线性相关关系不会改变.
+\end{enumerate}
+\end{analysis}
+
+\subsection{矩阵的逆}
+如无特殊说明，在本节中我们讨论的矩阵均为方阵.
+\begin{definition}[逆]
+$A$为$n\times n$的矩阵，若$\exists C\,s.t.\,CA=I_n,\,AC=I_n$，则称$A$可逆.\\
+注意：在定义中要求左乘右乘都满足才说其可逆.
+\end{definition}
+\begin{theorem}
+$A$是$m\times n$矩阵，若存在$n\times m$矩阵$C$和$D$使得$CA=I_n$，$AD=I_m$，则$m=n$且$C=D$
+\end{theorem}
+\begin{analysis}
+这个定理告诉我们只有方阵才会存在逆，下面来证明.\\
+$1\degree\;$证明若$CA=I_n$，则$m\geq n$\\
+因为$CA\vx=I_n\vx=\vx=\vb{0}$，故$A\vx=\vb{0}$只有平凡解，没有自由变元，因此$m\geq n$.\\
+$2\degree\;$证明若$AD=I_m$，则$m\leq n$\\
+因为$AD\vb{b}=I_m\vb{b}=\vb{b}$，也即$\forall \vb{b}\in\mathbb{R}^m,\,A\vx=\vb{b}$都有解$\vx=D\vb{b}$，因此$m\leq n$.\\
+$3\degree\;$由上分析知，$m=n$.\\
+考虑乘积$CAD$，有$CAD=(CA)D=I_nD=D=C(AD)=CI_m=C$，故$C=D$.
+\end{analysis}
+\begin{theorem}[二阶矩阵的逆]
+\[A=\begin{bmatrix}
+a&b\\c&d
+\end{bmatrix}\quad\implies\quad
+A^{-1}=\dfrac{1}{\det A}\begin{bmatrix}
+d&-b\\-c&a
+\end{bmatrix},\,\det A\ne 0\]
+\end{theorem}
+\begin{proposition}
+\label{row_redu_alg}
+若$A=BC$，$B$可逆，则$\begin{bmatrix}B&A\end{bmatrix}\thicksim\begin{bmatrix}I&C\end{bmatrix}$
+\end{proposition}
+\begin{analysis}
+\[EB=I\implies E=B^{-1}\]
+\[EA=C\implies B^{-1}A=C\iff A=BC\]
+\end{analysis}
+\begin{algorithm}[求逆]
+\[\begin{bmatrix}A&I\end{bmatrix}\thicksim\begin{bmatrix}I&A^{-1}\end{bmatrix}\]
+\end{algorithm}
+\begin{analysis}
+在命题\ref{row_redu_alg}中令$A\gets I,\,B\gets A,\,C\gets A^{-1}$即可.
+\end{analysis}
+若令$A^{-1}=\bmat{\vx_1}{\vx_n}$，那么也可以将上述求逆过程看成是解下面的这个方程组
+\[A\vx_1=\vb{e}_1,\quad A\vx_2=\vb{e}_2,\quad\dots,\quad A\vx_n=\vb{e}_n\]
+其说明的是矩阵$A$乘上$A^{-1}$的第$i$列，将得到$I_n$的第$i$列，也即$\vb{e}_i$.
+\par 虽然只是变换了视角，但对于一些问题来说这种视角的变换是重要的.
+\newpage
+\begin{theorem}[可逆阵定理]
+对于$n\times n$矩阵$A$，下列说法均等价
+\begin{multicols}{2} %multicols!
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item $A$可逆
+	\item $A\thicksim I_n$
+	\item $A$有$n$个主元位置
+	\item $A\vx=\vb{0}$只有平凡解
+	\item $A$的列线性无关
+	\item $\vx\mapsto A\vx$是单射
+	\item $A\vx=\vb{b},\forall b\in\mathbb{R}^n$至少有一解
+	\item $A$的列张成$\mathbb{R}^n$
+	\item $\vx\mapsto A\vx$是满射
+	\item $\exists\;n\times n\;C\,s.t.\,CA=I$
+	\item $\exists\;n\times n\;D\,s.t.\,AD=I$
+	\item $A^T$可逆
+	\item $A$的列构成$\rn$的一组基
+	\item $\col A=\rn$
+	\item $\dim\col A=n$
+	\item $\rank A=n$（满秩）
+	\item $\nul A=\{\vb{0}\}$
+	\item $\dim\nul A=0$
+	\item $0$\textbf{不是}$A$的特征值
+	\item $\det A\ne 0$
+	\item $(\col A)^\perp=\nul A^T=\{\vb{0}\}$
+	\item $(\nul A)^\perp=\row A=\rn$
+	\item $\row A=\rn$
+	\item $A$有$n$个非零奇异值
+\end{enumerate}
+\end{multicols}
+\end{theorem}
+\begin{algorithm}[LU分解]
+$A$为$m\times n$的矩阵，则$A$一定可以被分解为$A=LU$，其中$L$为下三角矩阵，$U$为上三角矩阵.以下为步骤
+\begin{enumerate}
+	\itemsep -3pt
+	\item 初等行变换（\textbf{只进行替换}）将$A$变成行阶梯形$U$，并记录每次$E_1,\dots,E_p$
+	\item 则$L=(E_p\cdots E_1)^{-1}$，相当于将每次初等行变换逆过来，并将矩阵直接重合即可
+\end{enumerate}
+\end{algorithm}
+\par 注意到LU分解与方阵求逆的方法基本相同，但它适用于所有矩阵，算是矩阵分解里最简单的一种了. 用LU分解解方程，加法乘法计算量会降低不少（因为只需回代）.
+\begin{proposition}[消去律]
+若$A$可逆，$AB=AC$，则$B=C$.
+\end{proposition}
+\begin{proposition}
+若$AB$可逆，则$A$，$B$都可逆. 若$A$\textbf{或}$B$不可逆，则$AB$不可逆.
+\end{proposition}
+\begin{analysis}
+$C=AB\implies I=BC^{-1}A\implies A^{-1}=BC^{-1}$，$B$同理. 而后面一句为前面一句的逆否命题，故证毕.
+\end{analysis}
+\begin{theorem}
+上（下）三角矩阵的逆仍为上（下）三角
+\end{theorem}
+\begin{analysis}
+不妨设$A$为下三角矩阵，则$a_{ij}=0,i\in\{1,\dots,n-1\},j\in\{i+1,\dots,n\}$.\\
+若$j\ne n-1$，注意到$a_{(n-1)n}=0$一定被包含在$A_{ji}$中，且一定在$A_{ji}$的对角线上（最右下角）；\\
+若$j=n-1$，$a_{(n-1)(n-3)}=0$一定被包含在$A_{ji}$中，且也在$A_{ji}$对角线上（右下角倒数第二个元素）.\\
+又注意到在$a_{ij}=0,i\in\{1,\dots,n-1\},j\in\{i+1,\dots,n\}$的前提下，$A_{ji}$一定为下三角矩阵，由上分析知对角线上一定存在$0$元素，故代数余子式$C_{ji}$为$0$. 进而伴随矩阵为下三角，原矩阵的逆为下三角.
+\end{analysis}
+
+\subsection{分块矩阵}
+\par 需要知道矩阵乘法另外的表示方法
+\[AB=A\bmat{\vb{b}_1}{\vb{b}_n}=\bmat{A\vb{b}_1}{A\vb{b}_n}\]
+类似地，分块矩阵有
+\[AB=\bmat{\vb{a}_1}{\vb{a}_n}\begin{bmatrix}\vb{b}_1\\\vdots\\\vb{b}_n\end{bmatrix}=\sum_{i=1}^n\vb{a}_i\vb{b}_i\]
+注意区别正常的矩阵乘法（行乘列得到某一位置上的元素），分块矩阵乘法是列乘行得到矩阵.
+\par 分块矩阵的转置除了每一个矩阵转置外，大的矩阵内部也需要转，如
+\[A=\begin{bmatrix}A_{11}&A_{12}\\A_{21}&A_{22}\end{bmatrix}\implies A^T=\begin{bmatrix}A_{11}^T&A_{21}^T\\A_{12}^T&A_{22}^T\end{bmatrix}\]
+\par 分块矩阵求逆并不是每一块分别求逆简单合并即可，而是需要将逆设出来，乘开后通过对比系数来求. 如下面定理\ref{part_inverse}所示.
+\begin{theorem}
+\label{part_inverse}
+\[A=\begin{bmatrix}A_{11}&A_{12}\\O&A_{22}\end{bmatrix}\implies A^{-1}=\begin{bmatrix}A_{11}^{-1}&-A_{11}^{-1}\,A_{12}\,A_{22}^{-1}\\O&A_{22}^{-1}\end{bmatrix}\]
+特别地，当$A_{12}$为$0$矩阵，该分块矩阵的逆可以变成各个矩阵分别求逆. 实际上对于\textbf{对角矩阵}，其$k$次方都是主对角线上的元素直接取$k$次幂，求逆看成是$-1$次幂当然也成立，见推论\ref{part_inverse_col}.
+\end{theorem}
+\begin{analysis}
+设$B=\begin{bmatrix}B_{11}&B_{12}\\B_{21}&B_{22}\end{bmatrix}$，且
+\[\begin{bmatrix}A_{11}&A_{12}\\O&A_{22}\end{bmatrix}\begin{bmatrix}B_{11}&B_{12}\\B_{21}&B_{22}\end{bmatrix}=\begin{bmatrix}I_p&O\\O&I_q\end{bmatrix}\]
+乘开后对比系数有
+\[\begin{aligned}
+A_{11}B_{11}+A_{12}B_{21}&=I_p\\
+A_{11}B_{12}+A_{12}B_{22}&=O\\
+A_{22}B_{21}&=O\\
+A_{22}B_{22}&=I_q\end{aligned}\]
+由下往上回代即得结果.
+\end{analysis}
+\begin{corollary}
+\label{part_inverse_col}
+$A=\begin{bmatrix}B&O \\ O&C\end{bmatrix}$，$B,C$均为方阵，则$A$可逆，当且仅当$B,C$都可逆.若$A$可逆，则$A^{-1}=\begin{bmatrix}B^{-1}&O \\ O&C^{-1}\end{bmatrix}$
+\end{corollary}
+如求以下这个矩阵的逆就可以划分为对角矩阵后，直接对各块求逆合并.
+\[\begin{bmatrix}
+1&2&0&0&0\\
+3&5&0&0&0\\
+0&0&2&0&0\\
+0&0&0&7&8\\
+0&0&0&5&6
+\end{bmatrix}\]
+\par 当然，分块也是需要技巧的，常常需要先观察矩阵的性质，再做出合理划分，见例\ref{part_inverse_eg}.
+\begin{example}%2.4T24
+\label{part_inverse_eg}
+\[A=\begin{bmatrix}1&0&0&\cdots&0\\1&1&0& &0\\1&1&1& &0\\\vdots& & &\ddots& &\\1&1&1&\cdots&1\end{bmatrix},\,\text{证明}B=\begin{bmatrix}1&0&0&\cdots&0\\-1&1&0& &0\\0&-1&1& &0\\\vdots& &\ddots &\ddots& &\\0& &\cdots&-1&1\end{bmatrix}\text{为$A$的逆}\]
+\end{example}
+\begin{analysis}
+递归定义分块矩阵：$A_{k+1}=\begin{bmatrix}1&\vb{0}^T\\\vb{v}&A_k\end{bmatrix},\,B_{k+1}=\begin{bmatrix}1&\vb{0}^T\\\vb{w}&B_k\end{bmatrix}$，并用数学归纳法可证.
+\end{analysis}
+\begin{theorem}
+两个上（下）三角矩阵的乘积仍为上（下）三角
+\end{theorem}
+\begin{analysis}
+不妨设两个矩阵$A,B$都为下三角，且$A=[a_{ij}],B=[b_{ij}],C=AB=[c_{ij}]$，其中
+\[c_{ij}=a_{i1}b_{1j}+a_{i2}b_{2j}+\cdots+a_{in}b_{nj}\]
+当$i<j$时，$a_{ij}=b_{ij}=0$，故（自行画图观察可得以下事实）
+\[\underwrite[0pt]{c_{ij}}{}\underwrite[0pt]{=}{}\underwrite{a_{i1}}{\ne 0}\underwrite{b_{1j}}{=0}\underwrite[0pt]{+\cdots+}{}\underwrite{a_{ii}}{\ne 0}\underwrite{b_{ij}}{=0}\underwrite[0pt]{+}{}\underwrite{a_{i(i+1)}}{=0}\underwrite{b_{(i+1)j}}{=0}\underwrite[0pt]{+\cdots+}{}\underwrite{a_{ij}}{=0}\underwrite{b_{jj}}{\ne 0}\underwrite[0pt]{+\cdots+}{}\underwrite{a_{in}}{=0}\underwrite{b_{nj}}{\ne 0}\underwrite[0pt]{= 0}{}\]
+\end{analysis}
+\begin{theorem}[舒尔(Schur)补]
+若$A_{11}$可逆，则
+\[\begin{bmatrix}A_{11}&A_{12}\\A_{21}&A_{22}\end{bmatrix}=\begin{bmatrix}I & O\\X & I\end{bmatrix}\begin{bmatrix}A_{11} & O\\O &S\end{bmatrix}\begin{bmatrix}I& Y\\O & I\end{bmatrix}\]
+其中$S=A_{22}-A_{21}A_{11}^{-1}A_{12}$称为$A_{11}$的舒尔补，$X=A_{21}A_{11}^{-1}$，$Y=A_{11}^{-1}A_{12}$.
+\end{theorem}
+\begin{analysis}
+类似定理\ref{part_inverse}的方法，乘开后通过对比系数可得.
+\end{analysis}
+
+\subsection{行列式}
+\begin{proposition}[行列式的基本运算]\mbox{}\par
+\begin{enumerate}
+	\itemsep -1pt
+	\item $\det A^T=\det A$
+	\item $\det AB=(\det A)(\det B)=\det BA$
+	\item \label{det3}$\det A^{-1}=\dfrac{1}{\det A}$
+	\item $\det A^k=(\det A)^k$（如果把矩阵的逆看成$-1$次幂，那就是\ref{det3}式）
+	\item $\det rA=r^n\det A$
+\end{enumerate}
+\end{proposition}
+\begin{proposition}[行列式基本行变换]
+三种基本行变换与矩阵相同，但替换不改变它的值，交换乘$(-1)$，数乘乘$k$.
+\end{proposition}
+\begin{theorem}[拉普拉斯(Laplace)展开]
+$A$为$n\times n$的矩阵，称$C_{ij}=(-1)^{i+j}\det A_{ij}$为$(i,j)$的代数余子式，其中$A_{ij}$是$A$删除第$i$行和第$j$列后剩下的矩阵.\\
+对第$i$行展开有
+\[\det A=\sum_{j=1}^{n}a_{ij}C_{ij}\]
+对第$j$列展开有
+\[\det A=\sum_{i=1}^{n}a_{ij}C_{ij}\]
+\end{theorem}
+特别地，若$A$是三角矩阵，则$\det A=$主对角线上元素的积（因对第一行或第一列展开，形式不变）.
+\begin{theorem}[克莱姆(Cramer)法则]
+$A\vx=\vb{b}$，则$\vx_i=\dfrac{\det A_i(\vb{b})}{\det A}$，其中\[\det A_i(\vb{b})=\Big[\vb{a}_1\quad\cdots\quad\vb{b}^{\dis\swarrow\raisebox{0.5em}{$\mathrm{col}\;i$}}\quad\cdots\quad\vb{a}_n\Big]\]
+\end{theorem}
+\begin{analysis}直接构造
+\[AI_i(\vb{b})=A\begin{bmatrix}\vb{e}_1&\cdots&\vb{b}&\cdots&\vb{e}_n\end{bmatrix}=\begin{bmatrix}A\vb{a}_1&\cdots& A\vb{b}&\cdots& A\vb{a}_n\end{bmatrix}\]
+左右两边取$\det$得
+\[\det AI_i(\vb{b})=(\det A)(\det I_i(\vb{b}))=(\det A)\vx_i=\det A_i(\vb{b})\]
+\end{analysis}
+\begin{theorem}
+若$A$可逆，则$A^{-1}=\dfrac{1}{\det A}\mathrm{adj}\,A$，其中共轭/伴随矩阵$(\mathrm{adj}\,A)_{ij}=C_{ji}$\\
+注意：共轭矩阵元素下标与代数余子式下标不同.
+\end{theorem}
+\begin{analysis}求逆算法换个角度思考，记$B=A^{-1}$的第$j$列为$\vb{b}_j$，则$A\vb{b}_j=\vb{e}_j$，\\
+又记第$i$个元素为$b_{ij}$，则由克莱姆法则，$b_{ij}=\dfrac{\det A_i(\vb{e}_j)}{\det A}$，分子
+\[\det A_i(\vb{e}_j)=(-1)^{j+i}\det A_{ji}=C_{ji}\]
+（对第$i$列进行展开，除了第$j$行为$1$，其余行均为$0$），得证.
+\end{analysis}
+\begin{theorem}[行列式的线性性]
+记$T:\rn\to\mathbb{R}$，$T(\vx)=\det\begin{bmatrix}\vb{a}_1&\cdots&\vb{a}_{j-1}&\vx&\vb{a}_{j+1}&\cdots&\vb{a}_n\end{bmatrix}$，则$T$为线性变换.\\
+注：这里的线性性只是针对行列式中的一列可变来说的，若整个行列式都可变，则不一定有$\det (A+B)=\det A+\det B$.
+\end{theorem}
+\begin{theorem}[线性变换与体积变化]
+线性变换$T:\rn\to\rn$的标准矩阵为$A$，$S$是一块有限的区域，那么
+\[T(S)\text{的面积或体积}=|\det A|\cdot\,S\text{的面积或体积}\]
+\end{theorem}
+由此定理立得椭圆面积为$\pi a b$.
+\begin{theorem}[解析几何]
+\begin{enumerate}
+	\item 相异两点$A(x_1,y_1),B(x_2,y_2)\in\mathbb{R}^2$，则直线$AB$的方程为$\det\begin{bmatrix}1&x&y\\1&x_1&y_1\\1&x_2&y_2\end{bmatrix}=0$
+	\item 过点$A(x_1,y_1)\in\mathbb{R}^2$，斜率为$k$的直线方程为$\det\begin{bmatrix}1&x&y\\1&x_1&y_1\\0&1&k\end{bmatrix}=0$
+	\item $A(x_1,y_1),B(x_2,y_2),C(x_3,y_3)\in\mathbb{R}^2$，三角形$ABC$的面积为$\dfrac{1}{2}\left|\det\begin{bmatrix}x_1&y_1&1\\x_2&y_2&1\\x_3&y_3&1\end{bmatrix}\right|$
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+实际上还有很多类似的结论，在此不作赘述. 均是做基本行变换后展开即得证.
+\end{analysis}
+\begin{theorem}[范德蒙(Vandermonde)矩阵]
+\[\displaystyle V={\begin{bmatrix}1&\alpha _{1}&\alpha _{1}^{2}&\dots &\alpha _{1}^{n-1}\\1&\alpha _{2}&\alpha _{2}^{2}&\dots &\alpha _{2}^{n-1}\\1&\alpha _{3}&\alpha _{3}^{2}&\dots &\alpha _{3}^{n-1}\\\vdots &\vdots &\vdots &\ddots &\vdots \\1&\alpha _{m}&\alpha _{m}^{2}&\dots &\alpha _{m}^{n-1}\end{bmatrix}}\]
+令首行为变量，其他行为常量可得$n-1$次多项式，常被用于多项式插值. 当$m=n$时它的行列式
+\[\det(V) =\prod_{1\le i<j\le n} (\alpha_j-\alpha_i)\]%\sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i = 1}^n \alpha_i^{\sigma(i)-1}=
+\begin{analysis}
+从第$n-1$列到第$1$列，每一列乘上$-\alpha_n$后加到后一列：
+\[\begin{aligned}
+\det(V_n)&=\begin{vmatrix}
+1 & \alpha_1-\alpha_n & \alpha_1^2-\alpha_1\alpha_n & \cdots & \alpha_1^{n-2}-\alpha_1^{n-3}\alpha_n & \alpha_1^{n-1}-\alpha_1^{n-2}\alpha_n\\
+1 & \alpha_2-\alpha_n & \alpha_2^2-\alpha_2\alpha_n & \cdots & \alpha_2^{n-2}-\alpha_2^{n-3}\alpha_n & \alpha_2^{n-1}-\alpha_2^{n-2}\alpha_n\\
+\vdots & \vdots & \vdots & & \vdots & \vdots\\
+1 & \alpha_{n-1}-\alpha_n & \alpha_{n-1}^2-\alpha_{n-1}\alpha_n & \cdots & \alpha_1^{n-2}-\alpha_{n-1}^{n-3}\alpha_n & \alpha_{n-1}^{n-1}-\alpha_{n-1}^{n-2}\alpha_n\\
+1 & 0 & 0 & \cdots & 0 & 0
+\end{vmatrix}\\
+&=(-1)^{n+1}\begin{vmatrix}
+\alpha_1-\alpha_n & \alpha_1(\alpha_1-\alpha_n) & \cdots & \alpha_1^{n-3}(\alpha_1-\alpha_n) & \alpha_1^{n-2}(\alpha_1-\alpha_n)\\
+\alpha_2-\alpha_n & \alpha_2(\alpha_2-\alpha_n) & \cdots & \alpha_2^{n-3}(\alpha_2-\alpha_n) & \alpha_2^{n-2}(\alpha_2-\alpha_n)\\
+\vdots & \vdots & & \vdots& \vdots\\
+\alpha_{n-1}-\alpha_n & \alpha_{n-1}(\alpha_{n-1}-\alpha_n) & \cdots & \alpha_1^{n-2}(\alpha_{n-1}-\alpha_n) & \alpha_{n-1}^{n-2}(\alpha_{n-1}-\alpha_n)
+\end{vmatrix}\quad\mbox{按最后一行展开}\\
+&=(-1)^{n+1}(\alpha_1-\alpha_n)(\alpha_2-\alpha_n)\cdots(\alpha_{n-1}-\alpha_n)\begin{vmatrix}1&\alpha _{1}&\alpha _{1}^{2}&\dots &\alpha _{1}^{n-2}\\1&\alpha _{2}&\alpha _{2}^{2}&\dots &\alpha _{2}^{n-2}\\1&\alpha _{3}&\alpha _{3}^{2}&\dots &\alpha _{3}^{n-2}\\\vdots &\vdots &\vdots &\ddots &\vdots \\1&\alpha _{n-1}&\alpha _{n-1}^{2}&\dots &\alpha _{n-1}^{n-2}\end{vmatrix}\\
+&=(\alpha_n-\alpha_1)(\alpha_n-\alpha_2)\cdots(\alpha_{n}-\alpha_{n-1})\det(V_{n-1})=\prod_{1\le i<j\le n} (\alpha_j-\alpha_i)
+\end{aligned}\]
+\end{analysis}
+\end{theorem}
+\par 除了懂得用拉普拉斯展开外，也要懂得通过基本行变换（或列变换）来计算行列式，如例\ref{fund_row_det}.
+\begin{example}
+\label{fund_row_det}
+\[\displaystyle A={\begin{bmatrix}1&1&1&\dots &1\\1&2&2&\dots &2\\1&2&3&\dots &3\\\vdots &\vdots &\vdots &\ddots &\vdots \\1&2&3&\dots &n\end{bmatrix}}\implies\det A=1\]
+\end{example}
+\begin{analysis}
+将每行乘$(-1)$后加到下一行，最后只剩对角线上元素全为$1$.
+\end{analysis}
+
+
+\section{向量空间}
+\subsection{基本定义}
+\begin{definition}[向量空间/线性空间]
+给定一个域$F$\footnote{参见\url{https://en.wikipedia.org/wiki/Field_(mathematics)}}，若对一个非空集合$V$满足以下十条公理，则称$V$为$F$上的向量空间：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 定义两种运算 $+$ 和 $\cdot$
+		$ \langle V , +, \cdot \rangle$
+		加法是$V\times V$到$V$的一个映射，数乘是$F\times V$到$V$的一个映射\\
+		注：在说明一个集合构成一个向量空间时，一定要指出域是什么，向量加法是怎么定义的，数乘是怎么定义的，否则一切都只是空中楼阁.
+	\item 封闭性(对两种运算封闭)
+	\item $V$的基本性质，设$u,v,w\in V$，$c,d$为常数
+		\begin{enumerate}
+			\itemsep -3pt
+			\item 零元 $u+0=u$
+			\item 单位元 $1\cdot u=u$
+			\item 逆元 $u+(-u)=0$
+			\item 加法交换律 $u+v=v+u$ （暂不定义两向量相乘）
+			\item 结合律 $(u+v)+w=u+(v+w),(cd)u=c(du)$
+			\item 左右分配律 $c(u+v)=cu+cv,(c+d)u=cu+du$
+		\end{enumerate}
+\end{enumerate}
+\end{definition}
+要注意，这里的向量空间实际上是很抽象的，$F,V$可以是一些很奇怪的东西.
+\par如度为$n$的多项式所构成的集合$\mathbb{P}_n$，有
+\[\mathbf{p}(t)=a_0+a_1t+a_2t+\cdots+a_nt^n\]
+的形式（这里的$t$虽然可以取任意值，但在$\{1,t,\dots,t^n\}$这组标准基下区别不同多项式的是前面的系数，也即坐标向量. 故考虑其线性性时，不是考虑$\vb{p}(u+v)$，而是考虑$\vb{p}(t)+\vb{q}(t)$），这个集合满足以上所有公理，也被称为向量空间.
+\par甚至于不用显式地表示出来的也可以算是向量空间，如定义在$[a,b]$上实值函数$f$的集合，同样是一个向量空间.
+
+\subsection{四个基本子空间}
+\begin{definition}[子空间]
+称$H$是$V$的子空间，当$\vu,\vv\in H$，有：
+\begin{enumerate}
+	\itemsep -5pt
+	\item $\mathbf{0}\in H$
+	\item $\vu+\vv\in H$
+	\item $c\vu\in H$
+\end{enumerate}
+注意：$\mathbb{R}^2$并不是$\mathbb{R}^3$的子空间，向量元素数目都不同，但可以通过补$0$来达到目的.
+\end{definition}
+\begin{definition}[基本子空间]
+$A$为$m\times n$的矩阵，则列空间$\col A$、行空间$\row A$、零空间$\nul A$、左零空间$\nul A^T$称为$A$的基本子空间
+\end{definition}
+\label{nul_and_col}
+我们先来探究$A$的零空间与列空间：
+\renewcommand\arraystretch{1.2}
+\begin{table}[!htbp]%摆放位置
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$\nul A$ & $\col A$ \\ \hline
+$\{\mathbf{x}:\mathbf{x}\in\mathbb{R}^n,A\mathbf{x}=\mathbf{0}\}$ & $\{\mathbf{b}:\exists\,\mathbf{x}\in\mathbb{R}^n,A\mathbf{x}=\mathbf{b}\}$\\ \hline
+隐性(implicit)定义 & 显性(explicit)定义 \\ \hline
+$\mathbb{R}^n$的子空间 & $\mathbb{R}^m$的子空间\\ \hline
+考虑有$n$个变量 & 考虑有$m$个方程\\ \hline
+$\mathrm{dim}=$方程自由变量个数 & $\mathrm{dim}=$主元列数 \\ \hline
+基得解出来才知道 & 基为\textbf{原矩阵}的主元列\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\renewcommand\arraystretch{1}
+\par 同时我们发现：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\mathrm{Nul}\, A=\{\mathbf{0}\}$（$A$的列线性无关）当且仅当$\mathbf{x}\mapsto A\mathbf{x}$是一一映射/单射\\
+		也说明$A$的每一列都为主元列($n$个)，并且$m\geq n$，无自由变元.
+	\item $\mathrm{Col}\, A=\mathbb{R}^m$当且仅当$\mathbf{x}\mapsto A\mathbf{x}$将$\mathbb{R}^n$映上/满射到$\mathbb{R}^m$\\
+		也说明$A$的每一行都有主元位置($m$个)，并且$m\leq n$，\textbf{可能}存在自由变元.
+\end{enumerate}
+需要注意：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 当$A$不是方阵时，$\mathrm{Nul}\, A$与$\mathrm{Col}\, A$是两个完全不同的空间；$A$是方阵，则有可能存在非零向量同时属于这两个空间
+	\item 基本行变换不会影响列之间的相关关系，但\textbf{会改变}其列空间
+	\item 基本行变换\textbf{不会改变}其行空间，阶梯形的\textbf{非零行}形成其行空间的一组基，也是原矩阵行空间的一组基
+\begin{analysis}
+$B$是由$A$经过行变换得来的矩阵，则$B$的行是$A$的行的线性组合，因此$B$的行的线性组合也一定是$A$的行的线性组合，进而$\row B\subset\row A$；而行操作又是可逆的，相反的操作可以说明$\row A\subset\row B$，因此$\row A=\row B$.\\
+若$B$是阶梯形，它的非零行一定线性无关，因为没有一个非零行是它下面非零行的线性组合（定理\ref{linear_relationship}$(c)$的逆否命题），证毕.
+\end{analysis}
+\end{enumerate}
+\begin{theorem}
+\[(\row A)^{\perp}=\nul A,(\col A)^{\perp}=\nul A^T\]
+\end{theorem}
+\begin{analysis}
+若$\vx\in\nul A$，由矩阵乘法，$A$每一行与$\vx$都正交，而$A$的行张成$\row A$，因此$\nul A\subset(\row A)^{\perp}$.\\
+若$\vx\in(\row A)^\perp$，则$\vx$与$A$的每一行都正交，进而$\vx\in\nul A$，因此$(\row A)^{\perp}\subset\nul A$.\\
+故$(\row A)^{\perp}=\nul A$. 最后令$A\gets A^T$代入即可得第二个结论.
+\end{analysis}
+\par 关于四个基本子空间维度之间的关系，见定理\ref{rank_theo}.
+
+\subsection{线性变换}
+\begin{definition}[线性变换\protect\footnote{有些地方说线性映射(linear mapping)是从一个向量空间$V$到另一个向量空间$W$的映射且保持加法运算和数量乘法运算，而线性变换(linear transformation)是线性空间$V$到其自身的线性映射. 但从国外的课本上看，这两者并没有区分得特别清楚.}]
+若$T:V\to W$ 满足
+\begin{enumerate}
+	\itemsep -3pt
+	\item $T(\vb{u}+\vb{v})=T(\vb{u})+T(\vb{v})$
+	\item $T(c\vb{u})=cT(\vb{u})$
+\end{enumerate}
+则称$T$为线性变换.\\
+注意：这里并不需要零元的定义，即$T(\mathbf{0})=\mathbf{0}\,(*)$，因线性变换保持数乘不变性，这已经可以推出 $(*)$式
+\end{definition}
+\par 线性变换研究的是两个向量空间，则更加抽象. 如对一个实值连续函数求导，也可以算是一个线性变换.
+\begin{theorem}[标准(standard)矩阵]
+对于线性变换$T:\rn\to\mathbb{R}^m$，存在唯一矩阵$A$使得
+\[T(\vx)=A\vx,\forall\vx\in\rn\]
+其中$A$是一个$m\times n$的矩阵，且
+\[A=\Big[T(\vb{e}_1)\quad\cdots\quad T(\vb{e}_n)\Big]\]
+称$A$为$T$的标准矩阵.
+\end{theorem}
+\begin{analysis}
+$1\degree\;$存在性：
+\[\begin{aligned}T(\vx) &= T(x_1\vb{e}_1+\cdots+x_n\vb{e}_n)\\
+&= x_1T(\vb{e}_1)+\cdots+x_nT(\vb{e}_n)\\
+&= \Big[T(\vb{e}_1)\quad\cdots\quad T(\vb{e}_n)\Big]\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
+&= A\vx
+\end{aligned}\]
+$2\degree\;$唯一性：
+设存在另一矩阵$B$使得$T(\vx)=B\vx,\forall\vx\in\rn$，故$A\vx=B\vx,\forall\vx\in\rn$，令$\vx=\vb{e}_i$即得$A=B$
+\end{analysis}
+这里需要注意几点：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 由矩阵乘向量的线性性知，所有的矩阵变换都是线性变换.
+	\item 线性变换着重于映射的性质，而矩阵变换则描述了该映射是怎么实施的.
+	\item 标准矩阵的唯一性是在确定了基的情况下才说的，如上面的定理是标准基，非标准基的情况请见定理\ref{linear_trans_tot}.
+\end{enumerate}
+\begin{definition}[单射与满射]
+线性变换$T:V\to W$满足：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\forall\vb{b}\in W$\textbf{至多}可以在$V$中找到一个原像$\vx$，则称$T$单射（即$T(\vb{u})=T(\vb{v})\implies \vb{u}=\vb{v}$）
+	\item $\forall\vb{b}\in W$\textbf{至少}可以在$V$中找到一个原像$\vx$，则称$T$满射
+	\item $\forall\vb{b}\in W$在$V$中都\textbf{有且只有}一个原像$\vx$，则称$T$双射/一一映射，称$V$和$W$\textbf{同构}，记为$V\cong W$.
+\end{enumerate}
+\end{definition}
+\begin{definition}[核空间与值域空间]
+$T(\vx)=\vb{0}$的解为$T$的核空间，$T(\vx),\forall\vx$的所有可能值构成$T$的值域空间，分别对应着矩阵中的零空间和列空间.
+\end{definition}
+\begin{theorem}%4.3 T31 32
+\label{lt_theo}
+线性变换$T:V\to W$，$S=\{\vb{v}_1,\dots,\vb{v}_p\}\in V$，$S'=\{T(\vb{v}_1),\dots,T(\vb{v}_p)\}\in W$，$U$是$V$的子空间
+\begin{enumerate}
+	\itemsep -3pt
+	\item \label{l1}若$S$线性相关，则$S'$线性相关；若$S'$线性无关，则$S$线性无关
+	\item \label{l2}$T$是单射，若$S'$线性相关，则$S$线性相关；若$S$线性无关，则$S'$线性无关
+	\item \label{l3}若$S$为$U$的一组基，则$S'$张成$T(U)$
+	\item \label{l4}$V\cong W$，若$S$是$V$的线性无关组（生成集/基），则$S'$是$W$的线性无关组（生成集/基）
+	\item $V\cong W\iff\dim V=\dim W$
+	\item \label{subspace_range}$T(U)$是$W$的子空间
+	\item $\dim T(U)\leq\dim U$，当$T$为单射时取等
+	\item \textbf{核是定义域的子空间}，\textbf{值域空间是对映域的子空间}
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+\begin{enumerate}
+\itemsep-3pt
+\item 不妨设$\vv_p=c_1\vv_1+\cdots+c_{p-1}\vv_{p-1}$，则$T(\vv_p)=T(c_1\vv_1+\cdots+c_{p-1}\vv_{p-1})=c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})$，说明$S'$也线性相关. 后者为前者的逆否命题，易知成立.
+\item 不妨设$T(\vv_p)=c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})$，则$c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})=T(c_1\vv_1+\cdots+c_{p-1}\vv_{p-1})=T(\vv_p)$. 又因$T$是单射，故$\vv_p=c_1\vv_1+\cdots+c_{p-1}\vv_{p-1}$，$S$线性相关.
+\item $\vb{y}\in T(U),\,\exists\,T(\vx)=\vb{y}$，因$\vx\in U$，所以$\vx=c_1\vv_1+\cdots+c_p\vv_p$，因$T$为线性，故$\vb{y}=T(\vx)=c_1T(\vb{v}_1)+\cdots+c_pT(\vb{v}_p)$，即可说明.（注意这里只能说明$T(U)$的基在$S'$内，而不能说明$S'$就是基）
+\item 结合\ref{l1},\ref{l2},\ref{l3}即得证.
+\item 结合\ref{l4}，$S$为$V$的基，$S'$为$W$的基，都含有$p$个向量，故维度相同.
+\item \begin{enumerate}
+	\itemsep -3pt
+	\item $\vb{0}\in U,\,T(\vb{0})=\vb{0}\in T(U)$
+	\item $\forall\vv_1,\vv_2\in T(U),\,\exists\,\vu_1,\vu_2\in U\,s.t.\,\vv_1=T(\vu_1),\,\vv_2=T(\vu_2),\\
+	\because \vu_1+\vu_2\in U\quad\therefore T(\vu_1+\vu_2)=T(\vu_1)+T(\vu_2)=\vv_1+\vv_2 \in T(U)$
+	\item $\forall\vv\in T(U),\,\exists\,\vu\in U\,s.t.\,\vv=T(\vu),\\
+	\because c\vu\in U\quad\therefore T(c\vu)=cT(\vu)=c\vv\in T(U)$
+\end{enumerate}
+\item 由定理\ref{basis_theo}$(d)$知$\dim T(U)\leq\dim U$. 若$S$为$U$的一组基，则$S'$张成$T(U)$，又本题的题$2$证明了$S'$线性无关，故$S'$为$T(U)$的一组基，故$\dim T(U)=p=\dim U$
+\item 记$T$的核为$\ker T$，显然$\vb{0}\in\ker T$. 若$\vu,\vv\in \ker T$，即$T(\vu)=\vb{0},T(\vv)=\vb{0}$，则$T(\vu+\vv)=T(\vu)+T(\vv)=\vb{0}\implies \vu+\vv\in \ker T,T(c\vu)=cT(\vu)=\vb{0}\implies c\vu\in\ker T$，故核是定义域的子空间.\\
+上面\ref{subspace_range}中令$U\gets V$，即得值域空间是对映域的子空间.
+\end{enumerate}
+\end{analysis}
+
+\subsection{基、维度与秩}
+\begin{definition}[基]
+$H$是向量空间$V$的子空间，$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_p\}$满足以下两个条件：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\mathcal{B}$为线性无关集
+	\item $\mathrm{Span}\{\vb{b}_1,\dots,\vb{b}_p\}=H$
+\end{enumerate}
+则称$\mathcal{B}$是$H$的基. 换言之，基是\textbf{极大线性无关组}，也是\textbf{极小生成集}.
+\end{definition}
+由条件2知$\vb{b}_1,\dots,\vb{b}_p$都得在$H$中，这个显然的结论看似没用，但却是$\mathcal{B}$成为基的重要条件（在后文证明施密特正交化（算法\ref{schmidt}）时也需要说明这一点）.
+\par如$\mathbf{v}_1=(1,0,1),\mathbf{v}_2=(0,1,1),\mathbf{v}_3=(0,1,0)$，令$H=\{(s,t,t):s,t\in \mathbb{R}\}$，有
+\[
+\begin{bmatrix}s \\t \\t\end{bmatrix}=s\begin{bmatrix}1 \\0 \\1\end{bmatrix}+(t-s)\begin{bmatrix}0 \\1 \\1 \end{bmatrix}+s\begin{bmatrix}0 \\1 \\0 \end{bmatrix}\]
+这里$\vv_1,\vv_3\notin H$，其实$H$只是$\mathrm{Span}\{\vv_1,\vv_2,\vv_3\}$的子集，故$\{\vv_1,\vv_2,\vv_3\}$不能称为一组基.
+\begin{theorem}[生成集(Spanning set)]
+$S=\{\vb{v}_1,\dots,\vb{v}_p\}$是$V$中的集合，令$H=\span\{\vb{v}_1,\dots,\vb{v}_p\}$，
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item 若$\vb{v}_k$是$S$中其余向量的线性组合，则将$\vb{v}_k$移除，$S$仍然张成$H$
+	\item 若$H\ne\{\vb{0}\}$，则$S$的某个子集是$H$的基
+\end{enumerate}
+\end{theorem}
+\begin{analysis}不妨设$\vb{v}_p$可以被其他向量线性表示，则
+\[\vb{v}_p=a_1\vv_1+\cdots+a_{p-1}\vv_{p-1}\]
+将上式代入下式，可知将$\vb{v}_p$移除后，$H$中的向量$\vx$依然可以被其余$p-1$个向量线性表示，即$S$仍然张成$H$
+\[\vx=c_1\vv_1+\cdots+c_p\vv_p=(c_1+a_1c_p)\vv_1+\cdots+(c_{p-1}+a_{p-1}c_p)\vv_{p-1}\]
+不断重复$(a)$的步骤，删除线性相关的向量，那么剩下的向量一定都线性无关，且可张成$H$，故形成一组基
+\end{analysis}
+\begin{definition}[维度]
+向量空间$V$的一组基中向量的个数定义为$V$的维度，记为$\dim V$
+\end{definition}
+\begin{definition}[秩]
+对于矩阵$A$，它的秩记为
+\[\mathrm{rank}\,A=\mathrm{dim}\,\mathrm{Col}\,A\]
+一般地，对于一组向量集合，它的秩是极大线性无关组中向量的数目
+\end{definition}
+\begin{theorem}以下是关于基和维度的一些结论. 设$S=\{\vv_1,\dots,\vv_n\}\in V,\,|S|\geq 1$，且$S$为$V$的基
+\label{basis_theo}
+\begin{enumerate}[(a)]
+	\itemsep -1pt
+	\item \label{b1}在$V$中任取$p(p>n)$个向量，一定线性相关 %P257
+	\item 在$V$中任取$p(p<n)$个向量，一定不能张成$V$%P261T25
+	\item $V$的所有基都包含$n$个向量
+	\begin{analysis}
+	由假设知$\dim V=n$，先将$S$与这$p$个向量改写成坐标向量后（见\ref{coordinate-system}节），构造$n\times p$矩阵$A$，$A$的每一列即为这$p$个向量. 由\ref{nul_and_col}节的讨论知，若$n<p$，则$A$一定存在自由变元，$A$的列一定线性相关；若$n>p$，则不能保证每一行都有主元位置，进而不能张成$\rn$，对应地也就不能张成$V$. 因此，$V$的所有基都包含$n$个向量.
+	直接推论是：每一个$\mathbb{R}^n$的基都必须包含$n$个向量.
+	\end{analysis}
+	\item \label{b4}$H$是$V$的一个子空间，则$H$内任一线性无关集都可以被拓展为$H$的一组基，且$\dim H\leq\dim V$（基的存在性）
+	\begin{analysis}
+	若$H=\{\vb{0}\}$，显然$\dim H=0\leq\dim V$；\\
+	否则，令$S'=\{\vu_1,\dots,\vu_k\}$是$H$的一个线性无关集. 若$S'$张成$H$，则$S'$是$H$的一组基；否则，$\exists\vu_{k+1}\in H-\span S'$，则$\{\vu_1,\dots,\vu_k,\vu_{k+1}\}$将线性无关. 继续这个过程，可以不断扩展$S'$直至其能张成$H$，也即成为$H$的一组基. 但由(\ref{b1})，$S'$中向量的数量不能超过$\dim V$. 综上，$\dim H\leq\dim V$.
+	\end{analysis}
+	\item \label{b5}任一$p$个元素的线性无关集或是可张成$V$的集合自动成为$V$的基
+	\begin{analysis}
+	由(\ref{b4})，有$p$个元素的线性无关集$S'$可以被拓展成$V$的基，但这组基一定得含$p$个元素，因为$\dim V=p$，因此$S'$已经是$V$的基. 假设$S''$有$p$个元素且可张成$V$，因为$V\ne\{\vb{0}\}$，生成集定理告诉我们$S''$的某一个子集$S^*$一定是$V$的基，又因$\dim V=p$，所以$S^*$一定包含$p$个向量，也即$S^*=S''$.
+	\end{analysis}
+	\item $H$是$V$的$n$维子空间，则$H=V$
+	\begin{analysis}
+	若$\dim V=\dim H=0$，则$V=H=\{\vb{0}\}$；\\
+	若$\dim V=\dim H>0$，则$H$存在一组基$S'$包含$n$个向量，那么由(\ref{b5})，$S'$也是$V$的基，因此$H=V=\span S'$.
+	\end{analysis}
+	\item $\mathbb{P}$是无限维空间，$C(\mathbb{R})$为所有实值连续函数构成的空间，也是无限维的
+	\begin{analysis}
+	反证法，假设$\dim\mathbb{P}=k<\infty$，$\mathbb{P}_n$是$\mathbb{P}$的子空间，$\dim\mathbb{P}_{k-1}=k$，因此$\dim\mathbb{P}_{k-1}=\dim\mathbb{P}$，进而$\mathbb{P}_{k-1}=\mathbb{P}$，这显然不对，如$\vb{p}(t)=t^k$在$\mathbb{P}$内，但不在$\mathbb{P}_{k-1}$内，矛盾.\\
+	因$\mathbb{P}$是$C(\mathbb{R})$的子空间，若$C(\mathbb{R})$为有限维，则由(\ref{b4})，$\mathbb{P}$也是有限维的，矛盾.
+	\end{analysis}
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[秩定理]
+\label{rank_theo}
+\[\mathrm{rank}\,A+\mathrm{dim}\,\mathrm{Nul}\,A=n\]
+\[\dim\row A+\dim \nul A^T=m\]
+\end{theorem}
+\begin{analysis}
+由前面\ref{nul_and_col}节的讨论知道，列空间的维度为主元列数，加上零空间的维度为自由变量个数就等于总的列数.
+\end{analysis}
+\begin{example}
+若一个非齐次线性方程组有$6$个方程$8$个未知数，已知其有一个有$2$个自由变元的解，则无论方程右侧的常数是什么，该方程组总有解.
+\end{example}
+\begin{analysis}
+$\dim\nul A=2,\rank=8-2=6,\col A\in\mathbb{R}^6\implies\col A=\mathbb{R}^6$
+\end{analysis}
+\begin{example}
+$A\vx=\vb{b},\forall\vb{b}\in\mathbb{R}^m$都有解$\iff A^T\vx=\vb{0}$只有平凡解
+\end{example}
+\begin{analysis}
+$\rank A=\dim\col A=\dim\row A=m\implies\dim\nul A^T=0$
+\end{analysis}
+\begin{theorem}[秩的进阶定理]%P300
+$A$是$m\times n$矩阵，$B$是$n\times p$矩阵，记$\rank A=r=r_1$，$\rank B=r_2$，有以下结论
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item $\rank AB\leq \rank A,\rank AB\leq \rank B$
+	\begin{analysis}
+	设$\vb{y}\in\col AB$，则$\exists\,\vx\,s.t.\,\vb{y}=AB\vx$，而$AB\vx=A(B\vx)=\vb{y}$，因此$\vb{y}\in\col A$，故$\col AB$为$\col A$的子空间，由定理\ref{basis_theo}(\ref{b4})知$\rank AB\leq \rank A$.\\
+	又由秩定理，$\rank AB=\rank(AB)^T=\rank B^TA^T\leq\rank B^T=\rank B$.
+	\end{analysis}
+	\item $P$是$m\times m$可逆矩阵，$Q$是$n\times n$可逆矩阵，则$\rank PA=\rank AQ=\rank A$
+	\begin{analysis}
+	由$(a)$有$\rank PA\leq\rank A=\rank(P^{-1}P)A=\rank P^{-1}(PA)\leq PA\implies \rank PA=\rank A$.\\
+	$\rank AQ=\rank (AQ)^T=\rank Q^TA^T=\rank A^T=\rank A$.
+	\end{analysis}
+	\item 若$AB=O$，则$\rank A+\rank B\leq n$
+	\begin{analysis}
+	由$AB=O$知，$B$的每一列都在$\nul A$中，故$\col B$是$\nul A$的子空间，故$\rank B\leq \dim\nul A$.\\
+	又由秩定理$n=\rank A+\dim \nul A\geq\rank A+\rank B$.
+	\end{analysis}
+	\item $\rank(A+B)\leq\rank A+\rank B$
+	\begin{analysis}
+	引理：一定存在秩分解$A=CR$，其中$C$是$m\times r$矩阵，$R$是$r\times n$矩阵.\\
+	将$A,B$秩分解得$A=C_1R_1,B=C_2R_2$，构造$m\times (r_1+r_2)$矩阵$C=\begin{bmatrix}C_1&C_2\end{bmatrix}$，则
+	\[A+B=C_1R_1+C_2R_2=\begin{bmatrix}C_1&C_2\end{bmatrix}\begin{bmatrix}R_1\\R_2\end{bmatrix}=CR\]
+	因$C$有$r_1+r_2$列，故$\rank C\leq r_1+r_2$，同理$R$有$r_1+r_2$行，故$\rank R\leq r_1+r_2$，进而$\rank (A+B)\leq r_1+r_2=\rank A+\rank B$.
+	\end{analysis}
+	\item $A$的秩为$r$当且仅当$A$包含一个$r\times r$的子矩阵，且没有更大的方阵是可逆的
+	\begin{analysis}
+	$1\degree$ 证明$A$一定有$m\times r$且秩为$r$的子矩阵$A_1$\\
+	令$A_1$包含$A$的$r$个主元列，因这些列线性无关，故$A_1$即为所求.\\
+	$2\degree$ 证明$A_1$一定有$r\times r$且可逆的子矩阵$A_2$\\
+	$\rank A_1=\dim\row A_1=r$，令$A_2$包含$A_1$的$r$个线性无关的行，则$A_2$即为所求，且为方阵故可逆.
+	\end{analysis}
+	\item 若$C=\begin{bmatrix}A&O\\O&B\end{bmatrix}$，则$\rank C=\rank A+\rank B$
+	\begin{analysis}
+	将$A,B$都写成阶梯形，因分块矩阵其余位置都为$0$，故$C$此时也为阶梯形，$C$的秩就等于$A,B$主元列之和.
+	\end{analysis}
+\end{enumerate}
+\end{theorem}
+
+\subsection{坐标系统}
+\label{coordinate-system}
+\begin{theorem}[向量唯一表示定理]
+$\mathcal{B}=\{b_1,\cdots,b_p\}$是向量空间$V$的基，则$\forall\vx\in V$，存在唯一$c_1,\dots,c_n$使得$\vx=c_1\vb{b}_1+\cdots+c_p\vb{b}_p$
+\end{theorem}
+\begin{analysis}
+\[0=\vx-\vx=(c_1-d_1)\vb{b}_1+\cdots+(c_p-d_p)\vb{b}_p\]
+由基线性无关，知上述方程只有平凡解.
+\end{analysis}
+\begin{definition}[坐标向量]
+$\mathcal{B}=\{b_1,\cdots,b_p\}$是$H$的基，$\forall\vx\in H,\;\vx=c_1\vb{b}_1+\cdots+c_p\vb{b}_p$，则$\vx$关于$\mathcal{B}$的坐标向量定义为
+\[[\vx]_{\mathcal{B}}:=\begin{bmatrix}c_1\\ \vdots \\ c_p\end{bmatrix}\]
+\end{definition}
+\par坐标系统最大的用处是可以将向量空间$V$中奇奇怪怪的东西转换成$\mathbb{R}^n$中我们熟悉的向量，求解坐标的过程实质上又是解线性方程组，进而有如下定理.
+\begin{theorem}[坐标变换矩阵]
+对于$V$的一组基$\mathcal{B}=\{\vb{b}_1,\cdots,\vb{b}_n\}$，存在唯一$n\times n$矩阵$P_\mathcal{B}$使得
+\[\mathbf{x}=P_\mathcal{B}[\mathbf{x}]_{\mathcal{B}},\,\forall \vx\in V\]
+其中$P_\mathcal{B}=\bmat{\vb{b}_1}{\vb{b}_n}$称为坐标变换矩阵. 移项即可解出坐标，
+\[[\mathbf{x}]_{\mathcal{B}}=P_\mathcal{B}^{-1} \mathbf{x}\]
+\end{theorem}
+\begin{theorem}[换基]
+$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\},\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_n\}$都是向量空间$V$的基，那么存在唯一的$n\times n$矩阵$\underset{\mathcal{C}\gets \mathcal{B}}{P}$，使得
+\[[\vx]_{\mathcal{C}}=\underset{\mathcal{C}\gets \mathcal{B}}{P}[\vx]_{\mathcal{B}}\]
+其中$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\begin{bmatrix}[\vb{b}_1]_{\mathcal{C}}&[\vb{b}_2]_{\mathcal{C}}&\cdots&[\vb{b}_n]_{\mathcal{C}}\end{bmatrix}$，称为过渡矩阵.
+\end{theorem}
+\begin{algorithm}[在$\rn$中换基]
+要求$\underset{\mathcal{C}\gets \mathcal{B}}{P}$，首先要将$\mathcal{B}$与$\mathcal{C}$之间的关系找到，即用$\mathcal{C}$中的向量表示$\mathcal{B}$中的向量.\\
+设坐标变换矩阵$P_\mathcal{C}=\bmat{\vb{c}_1}{\vb{c}_n}$，进而$\vb{b}_i=P_{\mathcal{C}}[\vb{b}_i]_{\mathcal{C}}$，故
+\[P_{\mathcal{B}}=P_{\mathcal{C}}\underset{\mathcal{C}\gets \mathcal{B}}{P}\]
+（注意矩阵下标）由命题\ref{row_redu_alg}，可得以下过程
+\[\begin{bmatrix}P_\mathcal{C}&P_\mathcal{B}\end{bmatrix}\thicksim\begin{bmatrix}I&\underset{\mathcal{C}\gets \mathcal{B}}{P}\end{bmatrix}\]
+或者$P_\mathcal{B}[\vx]_\mathcal{B}=\vx=P_\mathcal{C}[\vx]_\mathcal{C}\implies [\vx]_\mathcal{C}=P_\mathcal{C}^{-1}P_\mathcal{B}[\vx]_\mathcal{B}\implies \underset{\mathcal{C}\gets \mathcal{B}}{P}=P_{\mathcal{C}}^{-1}P_{\mathcal{B}}$.
+\end{algorithm}
+\begin{theorem}%P250 P254T23 24
+关于坐标变换$T:\vx\mapsto[\vx]_{\mathcal{B}}$，其中$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$，有如下结论.
+\begin{enumerate}
+	\itemsep -3pt
+	\item $T$是一个双射的线性变换，$\vx$所处的空间$V$与$[\vx]_\mathcal{B}$所处的空间$\rn$同构
+	\item $S=\{\vb{u}_1,\dots,\vb{u}_p\}$线性无关当且仅当$S'=\left\{[\vb{u}_1]_\mathcal{B},\dots,[\vb{u}_p]_\mathcal{B}\right\}$线性无关；$S$线性相关当且仅当$S'$线性相关
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$[\vu]_\mathcal{B}=[\vb{w}]_\mathcal{B}=\begin{bmatrix}c_1\\\vdots\\c_n\end{bmatrix}$，由坐标向量定义$\vb{u}=\vb{w}=c_1\vb{b}_1+\cdots+c_n\vb{b}_n$，而$\vb{u},\vb{w}$均为$V$中任意元素，故$T$为单射. 令$\vb{y}=\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}$，$\vb{u}=y_1\vb{b}_1+\cdots+y_n\vb{b}_n$，则由定义$[\vb{u}]_\mathcal{B}=\vb{y}$，因$\vb{y}$为$\rn$任意向量，故$T$为满射.
+	\item 由定理\ref{lt_theo}易知.
+\end{enumerate}
+\end{analysis}
+
+
+\section{内积空间}
+\subsection{基本定义}
+\begin{definition}[内积空间]
+线性空间$V$上的内积是一个函数$\langle\cdot,\cdot\rangle:V\times V\to\mathbb{R}$，$\forall u,v,w\in V,c$为常数，满足
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\langle \mathbf{u},\mathbf{v} \rangle=\langle \mathbf{v},\mathbf{u} \rangle$
+	\item $\langle \mathbf{u}+\mathbf{v},\mathbf{w} \rangle=\langle \mathbf{u},\mathbf{w} \rangle+\langle \mathbf{v},\mathbf{w} \rangle$
+	\item $\langle c\mathbf{u},\mathbf{v} \rangle=c\langle \mathbf{u},\mathbf{v} \rangle$
+	\item $\langle \mathbf{u},\mathbf{u} \rangle\geq 0$，且$\langle \mathbf{u},\mathbf{u} \rangle=0$当且仅当$u=0$
+\end{enumerate}
+定义了内积的向量空间称为内积空间.
+\end{definition}
+\begin{definition}[长度/模/范数]
+$V$是一个内积空间，则对于某一向量$v\in V$的长度为$\|v\|:=\sqrt{\langle v,v\rangle}$.
+\end{definition}
+注：如无特殊说明，下文在谈论到内积时都是指最简单不加权的内积，即$\inp{\vb{u}}{\vb{v}}=\vb{u}\cdot\vb{v}=\vb{u}^T\vb{v}$.
+
+\subsection{正交}
+\begin{definition}[正交]
+若$\langle u,v\rangle=0$，则称$u,v$正交.\\
+注：与高中的定义不同，这里我们可以说$\mathbf{0}$与任意向量正交.
+\end{definition}
+下面这些定理看似简单，因为有二维三维空间的几何直观作为基础，但拓展到高维空间这些定理还是否会成立呢？我们不得而知，因此还应从公理出发一一证明.
+\begin{theorem}[毕达哥拉斯(Pythagoras)定理]
+$u,v$正交当且仅当$\|\mathbf{u}\|^2+\|\mathbf{v}\|^2=\|\mathbf{u}+\mathbf{v}\|^2$
+\end{theorem}
+\begin{definition}
+设$W$是向量空间$V$的子空间，$V$中与所有与$W$正交的向量构成的集合称为$W$的正交补，记为$W^\perp$.
+\end{definition}
+以下有两条性质
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\mathbf{x}\in W^\perp\iff\mathbf{x}$与张成$V$的一组向量中的每一个都正交
+	\item $W^\perp$是$V$的子空间
+\end{enumerate}
+\begin{theorem}[正交必定线性无关]
+\label{ortho_indep}
+$S=\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的一个由\textbf{非零}向量构成的正交集，那么$S$线性无关，因此构成$\mathrm{Span}\;S$的基.\\
+注：一定要注意前提条件！！！
+\end{theorem}
+\begin{analysis}
+\[\vb{0}=c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p\]
+\[\begin{aligned}0&=\inp{\vb{0}}{\vb{u}_1}=\inp{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p}{\vb{u}_1}\\
+&=\inp{c_1\vb{u}_1}{\vb{u}_1}+\inp{c_2\vb{u}_2}{\vb{u}_1}+\cdots+\inp{c_p\vb{u}_p}{\vb{u}_1}\\
+&=c_1\inp{\vb{u}_1}{\vb{u}_1}+c_2\inp{\vb{u}_2}{\vb{u}_1}+\cdots+c_p\inp{\vb{u}_p}{\vb{u}_1}\\
+&=c_1\inp{\vb{u}_1}{\vb{u}_1}
+\end{aligned}\]
+因为$\vb{u}_1\ne\vb{0}$，所以$c_1=0$. 类似地，可以推出$c_i=0,i=2,\dots,p$，因此$S$线性无关.
+\end{analysis}
+\begin{theorem}[正交分解]
+$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组正交基，对于$\vb{y}\in V$，都可以唯一表示成$\vb{y}=\hat{\vb{y}}+\vb{z}$，其中$\hat{\vb{y}}\in W,\vb{z}\in W^\perp$，且
+\[\hat{\mathbf{y}}=c_1\mathbf{u}_1+\cdots+c_p\mathbf{u}_p\]
+各项为
+\[\hat{\mathbf{y}}_i=\mathrm{proj}_{u_i}\hat{\mathbf{y}}=c_i\mathbf{u}_i=\frac{\langle \hat{\mathbf{y}},\mathbf{u}_i\rangle}{\langle\mathbf{u}_i,\mathbf{u}_i\rangle}\mathbf{u}_i=\frac{\langle \hat{\mathbf{y}},\mathbf{u}_i\rangle}{\|\mathbf{u}_i\|}\frac{\mathbf{u}_i}{\|\mathbf{u}_i\|}\,,i=1,\dots,p\qquad(*)\]
+注：与选的基没有关系，只和$W$有关.
+\end{theorem}
+\begin{analysis}
+类似定理\ref{ortho_indep}的证明有$\inp{\hat{\vb{y}}}{\vb{u}_i}=\inp{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p}{\vb{u}_i}=c_i\inp{\vb{u}_i}{\vb{u}_i}$，移项即得$(*)$式.
+\[\begin{aligned}\inp{\vb{z}}{\vb{u}_1}=\inp{\vb{y}-\hat{\vb{y}}}{\vb{u}_1}&=\inp{\vb{y}}{\vb{u}_1}-\inp{\frac{\langle \hat{\mathbf{y}},\mathbf{u}_1\rangle}{\langle\mathbf{u}_1,\mathbf{u}_1\rangle}\mathbf{u}_1}{\vb{u}_1}-0-\cdots-0\\
+&=\inp{\vb{y}}{\vb{u}_1}-\inp{\vb{y}}{\vb{u}_1}=0\end{aligned}\]
+类似地可证明$\vb{z}$与$W$的每一个基$\vb{u}_i$都正交，进而$\vb{z}\in W^\perp$.\\
+为证明唯一性，不妨设存在另一表示方法$\vb{y}=\hat{\vb{y}}'+\vb{z'}$，其中$\hat{\vb{y}}'\in W$，$\vb{z'}\in W^\perp$那么$\hat{\vb{y}}+\vb{z}=\hat{\vb{y}}'+\vb{z'}$，即$\hat{\vb{y}}-\hat{\vb{y}}'=\vb{z'}-\vb{z}$. 因为$\vb{z},\vb{z'}\in W^\perp$，所以$\vb{z'}-\vb{z}\in W^\perp$，故$\hat{\vb{y}}-\hat{\vb{y}}'\in W^\perp$，而$\hat{\vb{y}}-\hat{\vb{y}}'\in W$，推出$\inp{\hat{\vb{y}}-\hat{\vb{y}}'}{\hat{\vb{y}}-\hat{\vb{y}}'}=0$，即$\hat{\vb{y}}=\hat{\vb{y}}'$，同时$\vb{z'}=\vb{z}$.
+\end{analysis}
+\par 从$(*)$的最后一个等式可以看出，实际上正交分解与我们高中所学的向量知识是一致的，即$\mathbf{y}$在$\mathbf{u}_i$上的投影的长度再乘上该方向上的单位向量.
+\begin{theorem}[最佳估计]
+$W$为$V$的子空间，$\vb{y}\in V$，则
+\[\|\mathbf{y}-\hat{\mathbf{y}}\|\leq\|\mathbf{y}-\mathbf{v}\|,\forall v\in W\]
+\end{theorem}
+\begin{analysis}
+\[\vy-\vv=(\vy-\hat{\vy})+(\hat{\vy}-\vv)\]
+因为$\hat{\vy}-\vv\in W,\vy-\hat{\vy}\in W^\perp$，所以由毕达哥拉斯定理
+\[\|\vy-\vv\|^2=\|\vy-\hat{\vy}\|^2+\|\hat{\vy}-\vv\|^2\]
+即得结论.
+\end{analysis}
+\begin{theorem}[柯西(Cauchy)不等式]
+\[\|\mathbf{u}\|\|\mathbf{v}\|\geq|\langle \mathbf{u},\mathbf{v} \rangle|\]
+\end{theorem}
+\begin{analysis}
+\[\|\proj{\vb{u}}\vv\|=\dfrac{\inp{\vb{u}}{\vv}}{\|\vb{u}\|}\leq\|\vv\|\]
+\end{analysis}
+\begin{theorem}[三角不等式]
+\[\|\mathbf{u}\|+\|\mathbf{v}\|\geq\|\mathbf{u}+\mathbf{v}\|\]
+\end{theorem}
+\begin{analysis}
+平方后用柯西不等式.
+\end{analysis}
+\begin{proposition}%P417
+$A$是$m\times n$矩阵，$A\vx=\vb{0}$当且仅当$A^TA\vx=\vb{0}$，进而$\nul A=\nul A^TA$.\\
+$A^TA$可逆当且仅当$A$的列线性无关. $\rank A^TA=n-\dim\nul A^TA=\nul A=\rank A$
+\end{proposition}
+\begin{analysis}
+$\vx^TA^TA\vx=\vb{0}$
+\end{analysis}
+
+\subsection{正交矩阵}
+\begin{theorem}
+$U$是$m\times n$矩阵，则$U$每一列都\textbf{单位正交}当且仅当$U^TU=I$
+\end{theorem}
+\begin{analysis}
+\[U^TU=\begin{bmatrix}\vb{u}_1^T\\\vdots\\\vb{u}_n^T\end{bmatrix}[\vb{u}_1\quad\cdots\quad\vb{u}_n]
+=\begin{bmatrix}\vb{u}_1^T\vb{u}_1 & \cdots & \vb{u}_1^T\vb{u}_n\\
+\vdots&\ddots&\vdots\\
+\vb{u}_n^T\vb{u}_1 & \cdots & \vb{u}_n^T\vb{u}_n\\\end{bmatrix}
+=\begin{bmatrix}1 & \cdots & 0\\
+\vdots&\ddots&\vdots\\
+0 & \cdots & 1\\\end{bmatrix}=I\]
+\end{analysis}
+\begin{theorem}
+$U$是$m\times n$矩阵且每一列都单位正交，$x,y\in\mathbb{R}^n$
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\|U\mathbf{x}\|=\|\mathbf{x}\|$
+	\item $(U\mathbf{x})\cdot(U\mathbf{y})=\mathbf{x}\cdot\mathbf{y}$
+	\item $(U\mathbf{x})\cdot(U\mathbf{y})=0\iff\mathbf{x}\cdot\mathbf{y}=0$
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+$(U\mathbf{x})\cdot(U\mathbf{y})=(U\mathbf{x})^T(U\mathbf{y})=\mathbf{x}^TU^TU\mathbf{y}=\mathbf{x}\cdot\mathbf{y}$，
+$1,3$同理可证.
+\end{analysis}
+\begin{definition}[正交矩阵]
+若$U$为\textbf{方阵}且每一列都\textbf{单位正交}，则称$U$为正交矩阵.\\
+注：从定义上看似乎应该叫单位正交矩阵(orthonormal matrix)比较合适，但实际上在线性代数中正交矩阵(orthogonal matrix)已经包含了单位正交的意思.
+\end{definition}
+由以上定理和定义可知下面几条显然的结论.
+\begin{proposition}
+\begin{enumerate}
+	\itemsep -3pt
+	\item $U$为方阵则一定可逆，因$U^TU=I=U^{-1}U=I$
+	\item $U,V$均为正交矩阵，则$UV$也为正交矩阵
+	\item $U$中的列交换一下得到$V$，则$V$也为正交矩阵
+\end{enumerate}
+\end{proposition}
+\begin{proposition}
+$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交基，则$\proj{W}\vy=UU^T\vy,\,\forall\vy\in V$
+\end{proposition}
+\begin{algorithm}[施密特(Schmidt)正交化]
+\label{schmidt}
+设$\{\mathbf{v}_1,\dots,\mathbf{v}_p\}$是$W$的一组基，定义
+\[\begin{aligned}\mathbf {u} _{1}&=\mathbf {v} _{1}\\
+\mathbf {u} _{2}&=\mathbf {v} _{2}-\mathrm {proj} _{\mathbf {u} _{1}}\vv_2\\
+\vdots\\
+\mathbf {u} _{p}&=\mathbf {v} _{p}-\sum _{j=1}^{p-1}\mathrm {proj} _{\mathbf {u} _{j}}\,\mathbf {v} _{p}\end{aligned}\]
+则$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$W$的一组正交基，且
+\[\mathrm{Span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}=\mathrm{Span}\{\mathbf{u}_1,\dots,\mathbf{u}_k\},\forall\;1\leq k\leq p\]
+注：此过程说明了结合向量空间基的存在性可说明正交基的存在性.
+\end{algorithm}
+\begin{analysis}
+设$V_k=\span\{\mathbf{v}_1,\dots,\mathbf{v}_k\},W_k=\span\{\mathbf{u}_1,\dots,\mathbf{u}_k\},1\leq k\leq p$，则$\vb{u}_{k+1}=\vv_{k+1}-\proj{W_k}\vv_{k+1}$，进而$\vb{u}_{k+1}\in W_{k+1}^\perp$，即每一$\vb{u}_i$均与前面的$\vb{u}_j,1\leq j\leq i-1$正交（也就保证了两两正交）. 而$\vb{v}_i\in V_i$，由向量加减法的封闭性，$\vb{u}_i\in V_i$，故$\vb{u}_i\in V_p$（因$V_k\subset V_{k+1}$）. 又正交一定线性无关，且$V$已有一组$p$个向量的基，故$\{\mathbf{u}_1,\dots,\mathbf{u}_k\}$是$V_k$的一组正交基，进而$V_k=W_k$.\\
+\end{analysis}
+\begin{theorem}[QR分解]
+\label{qr_fact}
+若$m\times n$矩阵$A$的\textbf{列线性无关}，则$A$可被分解为$A=QR$，其中$Q$是$m\times n$矩阵且它的列形成$\col A$的\textbf{单位正交}基，$R$是$n\times n$可逆上三角矩阵且对角线上元素全为正数.\\
+注：在下面的证明可以看出$A=QR$，单位正交不是必须的，但可能因为具有某种性质，所以才要强调单位正交.
+\end{theorem}
+\begin{analysis}
+施密特正交化将$A$的列转为正交基$\{\mathbf{u}_1,\dots,\mathbf{u}_n\}$，则$Q=\bmat{\vb{u}_1}{\vb{u}_n}$.\\
+由算法\ref{schmidt}的分析知$\vx_k\in V_k=W_k$，故存在$r_{k1},\dots,r_{kk}$，使得
+\[\vx_k=r_{k1}\vb{u}_1+\cdots+r_{kk}\vb{u}_k+0\cdot\vb{u}_{k+1}+\cdots+0\cdot\vb{u}_n\]
+假设$r_{kk}\geq 0$（否则给$r_{kk}$和$\vb{u}_k$同乘$-1$），令
+\[\vb{r}_k=\begin{bmatrix}r_{k1}\\\vdots\\r_{kk}\\0\\\vdots\\0\end{bmatrix}\]
+为$R$的列，显然$R$为上三角，即可满足$\vx_k=Q\vb{r}_k$.
+\end{analysis}
+\begin{algorithm}[QR分解]
+\begin{enumerate}
+	\itemsep -3pt
+	\item 先将$A$的列向量单位正交化，得到$Q$
+	\item 通过$R=IR=Q^TQR=Q^TA$计算得$R$
+\end{enumerate}
+\end{algorithm}
+
+
+\section{特征值与特征向量}
+\subsection{基本定义}
+\begin{definition}$A$为$n\times n$的矩阵，若$\exists\lambda,\,\mathbf{x}\ne\mathbf{0}\,s.t.\,A\mathbf{x}=\lambda\mathbf{x}$，则
+\begin{enumerate}
+	\itemsep -2pt
+	\item $\lambda$称为$A$的\textbf{特征值}，$\mathbf{x}$称为关于$\lambda$的\textbf{特征向量}
+	\item $\mathrm{Nul}\,(A-\lambda I)$称为$A$关于$\lambda$的\textbf{特征空间}
+	\item $\det\,(A-\lambda I)$称为$A$的\textbf{特征多项式}
+	\item $\lambda$的\textbf{代数重数}是它在特征多项式中作为根的重数，\textbf{几何重数}是它对应的特征空间的维度
+\end{enumerate}
+\end{definition}
+需要注意：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 特征向量不能为$\mathbf{0}$，但特征值可以为$0$
+	\item $A$不可逆，则$0$是一个特征值（充要条件）；$A-\lambda I$不可逆，$A$才有特征值
+\end{enumerate}
+\begin{theorem}
+\label{distinct_lambda}
+$\lambda_1,\cdots,\lambda_r$是$n\times n$矩阵$A$不同的特征值，则其对应的特征向量$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性无关.
+\end{theorem}
+\begin{analysis}
+反证，假设$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性相关.令$p$是最小的下标使得$\vb{v}_{p+1}$是之前向量的线性组合，即
+\begin{equation}\label{eq1} c_1\vb{v}_1+\cdots+c_p\vb{v}_p=\vb{v}_{p+1}\quad\end{equation}
+左右同乘$A$，得
+\[c_1A\vb{v}_1+\cdots+c_pA\vb{v}_p=A\vb{v}_{p+1}\]
+进而
+\begin{equation}\label{eq2} c_1\lambda_1\vb{v}_1+\cdots+c_p\lambda_p\vb{v}_p=\lambda_{p+1}\vb{v}_{p+1}\end{equation}
+将(\ref{eq1})式同乘$\lambda_{p+1}$，并与(\ref{eq2})式相减得
+\[c_1(\lambda_1-\lambda_{p+1})\vb{v}_1+\cdots+c_p(\lambda_p-\lambda_{p+1})\vb{v}_p=\vb{0}\]
+由于$\{\mathbf{v}_1,\cdots,\mathbf{v}_p\}$线性无关，则它们的权重$c_i(\lambda_i-\lambda_{p+1})=0,\,i=1,\dots,p$.而$A$的特征值均不同，故$\lambda_i-\lambda_{p+1}\ne 0$，因而$c_i=0,\,i=1,\dots,p$.\\
+但由(\ref{eq1})又推出$\vb{v}_{p+1}=\vb{0}$，与特征向量的定义矛盾，故假设不成立.
+\end{analysis}
+\begin{proposition}特征值与矩阵运算
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\lambda$为可逆矩阵$A$的特征值，则$\lambda^{-1}$为$A^{-1}$的特征值
+	\item $\lambda$是$A$的特征值，当且仅当$\lambda$是$A^T$的特征值
+\end{enumerate}
+\begin{analysis}
+前者给$A\vx=\lambda\vx$左乘$A^{-1}$后显然. 后者$\det(A-\lambda I)=\det(A-\lambda I)^T=\det(A^T-\lambda I)$特征多项式相同\end{analysis}
+\end{proposition}
+\begin{definition}[相似性]
+矩阵$A,B$满足$A=P^{-1}BP$，则称$A,B$相似.\\
+注：相似性不同于行等价，行变换\textbf{会改变}矩阵的特征值，但相似性不会变
+\end{definition}
+
+\subsection{对角化}
+\begin{theorem}
+\label{diagonal_iff}
+$n\times n$矩阵$A$可对角化当且仅当$A$有$n$个线性无关的特征向量.
+\end{theorem}
+\begin{analysis}\mbox{}\\
+$1\degree\,$必要性：$A$可对角化，即$A=PDP^{-1}$，$D$为对角矩阵，也即$AP=PD$.设$P=\bmat{\vb{v}_1}{\vb{v}_n}$，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$（注意这里$\vb{v}_i$只是$P$的列，还不是特征向量；同样$\lambda_i$也还不是$A$的特征值）.则
+\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=PD=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}\]
+进而$A\vb{v}_i=\lambda_i\vb{v}_i$，$\lambda_i$为$A$的特征值，又$\vb{v}_i\ne 0$，$\vb{v}_i$为$\lambda_i$对应的特征向量.\\
+由于$P$可逆，故$P$的列，也即$A$的特征向量线性无关.\\
+$2\degree\,$充分性：令$P=\bmat{\vb{v}_1}{\vb{v}_n}$，其中$\vb{v}_i$为$\lambda_i$对应的特征向量，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$，其中$\lambda_i$为$A$的特征向量.那么\\
+\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}=PD\]
+因为$\vb{v}_i$线性无关，故$P$可逆，进而$A=PDP^{-1}$.\\
+注：从以上构造可以知道$\lambda$相同并不影响对角矩阵的构造，但是$\vb{v}$相同则无法保证线性无关.
+\end{analysis}
+\begin{theorem}
+若$n\times n$矩阵$A$有$n$个不同的特征值，则$A$可对角化.
+\end{theorem}
+\begin{analysis}
+从定理\ref{distinct_lambda}可知，$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性无关，进而由定理\ref{diagonal_iff}，$A$可对角化.
+\end{analysis}
+\begin{algorithm}[对角化]\mbox{}\par
+\begin{enumerate}
+	\itemsep -3pt
+	\item 找到$A$的特征值
+	\item 找到$A$的线性无关特征向量
+	\item 构造$P$，其中$P=\bmat{\mathbf{v}_1}{\mathbf{v}_n}$
+	\item 构造$D$，其中$D=\bmat{\lambda_1\mathbf{e}_1}{\lambda_n\mathbf{e}_n}$
+\end{enumerate}
+\end{algorithm}
+注：对角化不是唯一的，会随着特征值摆放位置、特征向量的不同而改变. 可逆与可对角化没有必然联系.
+\begin{theorem}
+$A$是$n\times n$矩阵，$\lambda_1,\cdots,\lambda_p$是$A$不同的特征值，则
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\forall 1\leq k\leq p$，$\lambda_k$的几何重数$\leq\lambda_k$的代数重数
+	\item $A$可对角化，当且仅当不同特征值的几何重数之和为$n$，而这当且仅当对于每一个$\lambda_k$，其代数重数都等于几何重数
+	\item 若$A$可对角化，$\mathcal{B}_k$是$\lambda_k$对应的特征空间的基，那么$\mathcal{B}_1,\dots,\mathcal{B}_p$形成$\rn$的一组特征向量基
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[线性变换矩阵]
+\label{linear_trans_tot}
+$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$为向量空间$V$的基，$\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_m\}$为向量空间$W$的基，线性变换$T:V\to W$，存在唯一$m\times n$矩阵$M$使得
+\[[T(\vx)]_\mathcal{C}=M[\vx]_\mathcal{B},\,\forall\vx\in V\]
+其中
+\[M=\begin{bmatrix}[T(\mathbf{b}_1)]_\mathcal{C}&[T(\mathbf{b}_2)]_\mathcal{C}&\cdots&[T(\mathbf{b}_n)]_\mathcal{C}\end{bmatrix}\]
+称为$T$关于基$\mathcal{B}$和$\mathcal{C}$的矩阵 (the matrix for $T$ relative to the bases $\mathcal{B}$ and $\mathcal{C}$).\\
+特别地，当线性空间和基取特殊值时，可以得到我们之前求得的一些矩阵.
+\begin{enumerate}
+	\itemsep -1pt
+	\item $T$的标准矩阵 (standard matrix for $T$)\\
+	$A=\bmat{T(\vb{e}_1)}{T(\vb{e}_n)}$，当$V=W=\rn,\mathcal{B}=\mathcal{C}=\mathcal{E}$（$\rn$中的标准基）
+	\item $T$的$\mathcal{B}$矩阵 (the matrix for $T$ relative to $\mathcal{B}$, or the $\mathcal{B}$-matrix for $T$)\\
+	$[T]_{\mathcal{B}}=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}$，当$V=W,\mathcal{B}=\mathcal{C}$
+	\item 坐标变换矩阵 (change-of-coordinates matrix)，右乘坐标可以将坐标变换成具体的$\vx$\\
+	$P_\mathcal{B}=\bmat{\vb{b}_1}{\vb{b}_n}$，当$V=W=\rn,\mathcal{C}=\mathcal{E}$，$T(\vx)=\vx$
+	\item 过渡矩阵/$\mathcal{B}$到$\mathcal{C}$的坐标变换矩阵 (change-of-coordinates matrix from $\mathcal{B}$ to $\mathcal{C}$)\\
+	$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\bmat{[\vb{b}_1]_{\mathcal{C}}}{[\vb{b}_n]_{\mathcal{C}}}$，当$V=W$，$T(\vx)=\vx$
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+$1\degree\;$存在性：
+\[\begin{aligned} [T(\vx)]_{\mathcal{C}}&= [T(x_1\vb{b}_1+\cdots+x_n\vb{b}_n)]_{\mathcal{C}}\\
+&= x_1[T(\vb{b}_1)]_{\mathcal{C}}+\cdots+x_n[T(\vb{b}_n)]_{\mathcal{C}}\\
+&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
+&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}[\vx]_{\mathcal{B}}\\
+&= M[\vx]_{\mathcal{B}}
+\end{aligned}\]
+$2\degree\;$唯一性：
+设存在另一矩阵$M'$使得$[T(\vx)]_{\mathcal{C}}=M'[\vx]_{\mathcal{B}}$，故$M[\vx]_{\mathcal{B}}=M'[\vx]_{\mathcal{B}}$，令$\vx=\vb{b}_i$即得$M=M'$
+\end{analysis}
+\begin{proposition}
+若$A=PDP^{-1}$，$D$是$n\times n$的对角矩阵，若$\mathcal{B}$是$\col P$的一组基，则$D$是线性变换$\vx\mapsto A\vx$的$\mathcal{B}$-矩阵.
+\end{proposition}
+\begin{analysis}
+\[\begin{aligned}
+[T]_{\mathcal{B}}&=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}\\
+&=\bmat{[A\vb{b}_1]_\mathcal{B}}{[A\vb{b}_n]_\mathcal{B}}\\
+&=\bmat{P^{-1}A\vb{b}_1}{P^{-1}A\vb{b}_n}\quad\mbox{坐标变换}\\
+&=P^{-1}A\bmat{\vb{b}_1}{\vb{b}_n}\\
+&=P^{-1}AP=D
+\end{aligned}\]
+求解方法$\begin{bmatrix}P&AP\end{bmatrix}\thicksim\begin{bmatrix}I&P^{-1}AP\end{bmatrix}$. 由上面分析知$D$不需是对角矩阵，只要$A$与$D$相似即可.
+\end{analysis}
+\par 
+如下图所示\footnote{图根据课本重绘，话摘自 线性变换的矩阵为什么要强调在这组基下? - 匡世珉的回答 - 知乎
+\url{https://www.zhihu.com/question/22218306/answer/88697757}}，一个线性变换$T$对于标准基（或其他基）的矩阵为$A$，为了更清楚地通过矩阵看出这个线性变换的效果，就将$A$对角化：$A=PDP^{-1}$.这其实相当于先把标准基换成由特征向量组成的基($P^{-1}$的意义)，于是每一个基向量在经过$T$变换后都只是乘了个常数($D$的意义)，最后再把由特征向量组成的基换回标准基($P$的意义). 因此对角化其实是用一组比标准基更好的基来描述线性变换，也就是由特征向量组成的基. 至于更好的基，由特征向量组成的规范正交基（谱定理）描述的则更好.%Jordan form
+\begin{table}[!htbp]%摆放位置
+\begin{center}
+\begin{tabular}{cp{1cm}<{\centering}p{1.4cm}<{\centering}}
+$\vx$ & $\xrightarrow{\quad\text{乘}A\quad}$ & $A\vx$\\
+$\xdownarrow{0.8cm}\mathllap{\scriptstyle\text{乘}P^{-1}\quad}$ &  & $\quad\mathrlap{\xuparrow{0.8cm}}{\scriptstyle\quad\text{乘}P}$\\
+$[\vb{x}]_{\mathcal{B}}$ & $\xrightarrow{\quad\text{乘}D\quad}$ & $[A\vb{x}]_{\mathcal{B}}$
+\end{tabular}
+\end{center}
+\end{table}
+\begin{definition}[迹(trace)]
+$A$为$n\times n$的方阵，$A$主对角线上元素之和称为$A$的迹，定义为
+\[\tr A=\sum_{i=1}^na_{ii}\]
+\end{definition}
+\begin{theorem}
+若$A,B$均为$n\times n$的方阵，则$\tr(AB)=\tr(BA)$
+\end{theorem}
+\begin{analysis}
+\[\tr(AB)=\sum_{i=1}^n\sum_{j=1}^na_{ij}b_{ji}=\sum_{j=1}^n\sum_{i=1}^na_{ji}b_{ij}=\sum_{i=1}^n\sum_{j=1}^nb_{ij}a_{ji}=\tr(BA)\]
+\end{analysis}
+\begin{theorem}[相似性一些定理]已知$A$与$B$相似，
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$A$可逆，则$A^{-1}$与$B^{-1}$相似
+	\item 则$A^k$与$B^k$相似
+	\item $A$与$C$相似，则$B$与$C$相似
+	\item $A$可对角化，则$B$也可对角化
+	\item $A=PBP^{-1}$，$\vx$是$A$关于$\lambda$的特征向量，则$P^{-1}\vx$是$B$关于$\lambda$的特征向量
+	\item $\rank A=\rank B$
+\end{enumerate}
+\end{theorem}
+
+
+\section{对称矩阵与二次型}
+\subsection{谱分解}
+\begin{definition}[对称矩阵]
+$A^T=A$（显然得是方阵）
+\end{definition}
+\begin{theorem}
+$A$为对称矩阵，任两个不同特征空间的特征向量一定正交
+\end{theorem}
+\begin{analysis}
+设$\vv_1,\vv_2$为不同特征值$\lambda_1,\lambda_2$对应的特征向量
+\[\begin{aligned}\lambda_1\vv_1\cdot\vv_2&=(\lambda_1\vv_1)^T\vv_2=(A\vv_1)^T\vv_2\\
+&=\vv_1^TA^T\vv_2=\vv_1^T(A\vv_2)\\
+&=\lambda_2\vv_1\cdot\vv_2\end{aligned}\]
+进而$(\lambda_1-\lambda_2)\vv_1\cdot\vv_2=0$，而$\lambda_1,\lambda_2$不同，故$\vv_1\cdot\vv_2=0$
+\end{analysis}
+\begin{definition}[正交对角化]
+若存在对角矩阵$D$和正交矩阵$P$使得$A=PDP^T=PDP^{-1}$，则称$A$可正交对角化
+\end{definition}
+\begin{algorithm}[正交对角化]\mbox{}\par
+\begin{enumerate}
+	\itemsep -3pt
+	\item 先将矩阵一般对角化，暂不用求$P^{-1}$
+	\item 然后将$P$的列施密特\textbf{单位}正交化，使$P$变为正交矩阵
+	\item $P^T=P^{-1}$直接求得$P$的逆
+\end{enumerate}
+\end{algorithm}
+\begin{theorem}[谱定理]
+$A$为$n\times n$的对称矩阵，则
+\begin{enumerate}
+	\itemsep -3pt
+	\item $A$有$n$个实特征值（包含重数）
+	\item $\mathrm{dim}\;W_{\lambda_i}=\lambda_i$的代数重数
+	\item 特征空间相互正交，对应不同特征值的特征向量都正交
+	\item $A$可以被正交对角化（\textbf{充要条件}）
+\end{enumerate}
+注：正交矩阵不一定可以被正交对角化，正交对角化一定会产生正交矩阵，要理清关系.
+\end{theorem}
+\begin{theorem}[谱分解]
+$A$为对称矩阵，记正交矩阵$P$的列为$\vu_i$，则$A=\lambda_1\vu_1\vu_1^T+\lambda_2\vu_2\vu_2^T+\cdots+\lambda_n\vu_n\vu_n^T$
+\end{theorem}
+\begin{definition}[投影矩阵]
+$A$是对称矩阵且$A^2=A$，则称其为投影矩阵
+\end{definition}
+\begin{proposition}
+若$A=\vu\vu^T$，其中$\vu\in\rn$为\textbf{单位}向量，则
+\begin{enumerate}
+	\itemsep -3pt
+	\item $A$是投影矩阵
+	\item $A\vx=\proj{\vu}\vx$
+	\item $\vu$是$A$的特征向量
+\end{enumerate}
+\end{proposition}
+
+\subsection{奇异值分解}%7.4 奇异值分解与子空间
+\begin{theorem}
+$A^TA$的特征值均为非负数
+\end{theorem}
+\begin{analysis}
+$\forall\vu_i,\,\|A\vu_i\|^2=(A\vu_i)^TA\vu_i=\vu_i^T(A^TA)\vu_i=\vu_i^T\lambda_i\vu_i=\lambda_i\vu_i\cdot\vu_i=\lambda_i\|\vu_i\|\geq 0\implies \lambda_i\geq 0$，故记$\sigma_i=\sqrt{\lambda_i}=\|A\vu_i\|$为$A$的奇异值，注意这里的$\lambda_i$都为$A^TA$的特征值.
+\end{analysis}
+\begin{definition}[奇异值]
+$A$的奇异值是$A^TA$的特征值的算术平方根，记为$\sigma_i:=\sqrt{\lambda_i},\forall 1\leq i\leq n$，且呈递减序列.
+\end{definition}
+\begin{theorem}
+$A$为$m\times n$矩阵，$\dis A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，假设有$r$个非零特征值，不妨设$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>\lambda_{r+1}=\cdots=\lambda_n=0$，则$\{A\vu_1,\dots,A\vu_r\}$是$\col A$正交基，且$\rank A=r$.
+\end{theorem}
+\begin{analysis}
+$\|A\vu_i\|=\sqrt{\lambda_i}\ne 0,i=1,\dots,r$\\
+正交性：$\forall i\ne j,\,(A\vu_i)\cdot(A\vu_j)=\vu_i^TA^TA\vu_j=\lambda_j\vu_i^T\vu_j=0$\\
+任取$\vv\in\col A$，即$\exists\vx\in\rn\,s.t.\,A\vx=\vv$，其中$\vx=c_1\vu_1+\cdots+c_n\vu_n$，则$\vv=c_1A\vu_1+\cdots+c_nA\vu_n=c_1A\vu_1+\cdots+c_rA\vu_r+0+\cdots+0$，即说明$\vv$可由$\{A\vu_1,\dots,A\vu_r\}$线性表示，故证毕.
+\end{analysis}
+\begin{theorem}[奇异值分解(SVD)]
+$A$是$m\times n$的矩阵，$\rank A=r$，则存在$m\times n$矩阵$\Sigma=\begin{bmatrix}D&O\\O&O\end{bmatrix}$，其中$D$的对角线是前$r$个$A$的奇异值，且$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$，那么存在$m\times m$正交矩阵$U$和$n\times n$正交矩阵$V$使得$A=U\Sigma V^T$.
+\end{theorem}
+\begin{analysis}
+设$\dis A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，其有$r$个非零特征值，$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>0$.\\
+$\{A\vu_1,\dots,A\vu_r\}$是$\col A$正交基，将其标准化，得$\{\vu_1,\dots,\vu_r\}$，其中$\vu_i=\dfrac{A\vv_i}{\|A\vv_i\|}=\dfrac{1}{\sigma_i}A\vv_i$，即$A\vv_i=\sigma_i\vu_i$.\\
+将$\{\vu_1,\dots,\vu_r\}$拓展为$\mathbb{R}^m$的正交基$\{\vu_1,\dots,\vu_m\}$，令
+\[U=\begin{bmatrix}\vu_1&\cdots&\vu_m\end{bmatrix},\,V=\begin{bmatrix}\vv_1&\cdots&\vv_n\end{bmatrix}\]
+那么$U,V$均为正交矩阵，而且
+\[AV=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vb{0}\cdots\vb{0}\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vb{0}\cdots\vb{0}\end{bmatrix}\]
+进而
+\[\begin{aligned}U\Sigma&=\begin{bmatrix}\vu_1&\cdots&\vu_m\end{bmatrix}\begin{bmatrix}D&O\\O&O\end{bmatrix}\\
+&=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vb{0}\cdots\vb{0}\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vb{0}\cdots\vb{0}\end{bmatrix}\\
+&=AV\end{aligned}\]
+因为$V$为正交矩阵，故$U\Sigma V^T=AVV^T=A$.
+\end{analysis}
+\begin{algorithm}[奇异值分解]
+分为以下几个步骤
+\begin{enumerate}
+	\itemsep -3pt
+	\item 对$A^TA$正交对角化
+	\item 建立起$\Sigma$和$V$
+	\item 建立起$U$
+\end{enumerate}
+\end{algorithm}
+
+
+\subsection{二次型}
+\begin{definition}[二次型]
+$Q(\vx)=\vx^TA\vx$，其中$A$是对称矩阵
+\end{definition}
+将二次型合并为矩阵的写法，平方项放对角线，交叉项取一半对称写. 以三元二次型为例，观察下面各个元素的去向.
+\[\begin{aligned}Q(\vx)=\vx^TA\vx&=\begin{bmatrix}x_1&x_2&x_3\end{bmatrix}\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\
+&=a_{11}x_1^2+a_{22}x_2^2+a_{33}x_3^2+(a_{12}+a_{21})x_1x_2+(a_{13}+a_{31})x_1x_3+(a_{23}+a_{32})x_2x_3\end{aligned}\]
+\begin{theorem}[主轴定理]
+$\vx=P\vb{y}$，存在$P$将二次型$\vx^TA\vx$转为$\vb{y}^TD\vb{y}$，其中$P$的列（$A$的单位特征向量）称为$\vx^TA\vx$的主轴.
+\end{theorem}
+\begin{algorithm}[标准型变换]
+将矩阵$A$\textbf{正交对角化}后，得到$A=PDP^{-1}$，做变换$\vx=P\vb{y}$，可得$\vx^TA\vx=\vb{y}^TD\vb{y}$，由于$D$为对角矩阵，由上面的分析即可知变换后的二次型不存在交叉项，这种形式称为\textbf{标准型}. 又$\vx=P\vy$，令$\vy=\vb{e}_i$（变换后的主轴在坐标轴上），可得$\vx=\vu_i$，即原来的主轴为$P$的列，也即$A$的特征向量.
+\end{algorithm}
+\begin{definition}
+对于二次型$Q(\vx)$
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$Q(\vx)>0\;\forall \vx\ne\vb{0}$，正定$\iff\forall\lambda>0$；$Q(\vx)\geq0\;\forall \vx\ne\vb{0}$，半正定
+	\item 若$Q(\vx)<0\;\forall \vx\ne\vb{0}$，负定$\iff\forall\lambda<0$；$Q(\vx)\leq0\;\forall \vx\ne\vb{0}$，半负定
+	\item $Q(\vx)$正负值都有，不定
+\end{enumerate}
+\end{definition}
+\begin{analysis}
+对二次型进行标准型变换使其没有交叉项，$Q(\vx)=\vx^TA\vx=\vb{y}^TD\vb{y}=\lambda_1y_1^2+\cdots+\lambda_ny_n^2$，进而得证.
+\end{analysis}
+\begin{proposition}
+\begin{enumerate}
+\itemsep -3pt
+\item $B$为$m\times n$矩阵，$B^TB$为半正定；若$B$为方阵且可逆，则$B^TB$正定.
+\begin{analysis}
+$\vx^T(B^TB)\vx=\|B\vx\|\geq 0$，可逆则$B\vx=\vb{0}$只有平凡解.
+\end{analysis}
+\item $A$为方阵且正定，那么存在一个正定方阵$B$使得$A=B^TB$
+\end{enumerate}
+\end{proposition}
+\begin{proposition}
+$A,B$均为方阵，且特征值均为正数，则$A+B$的特征值也全为正数.
+\end{proposition}
+\begin{analysis}
+$\vx^TA\vx>0,\vx^TB\vx>0\implies\vx^T(A+B)\vx>0$
+\end{analysis}
+
+\subsection{带约束的最值问题}
+\begin{theorem}
+二次型$Q$，$\dis\min_{\|\vx\|=1}Q(\vx)=\lambda_{\min}$，$\dis\max_{\|\vx\|=1}Q(\vx)=\lambda_{\max}$
+\end{theorem}
+\begin{analysis}
+化为标准型后直接放缩即可.
+\end{analysis}
+\begin{theorem}
+$A$为$m\times n$矩阵，$\dis\min_{\|\vx\|=1}\|A\vx\|=\lambda_{\min}$，$\dis\max_{\|\vx\|=1}\|A\vx\|=\lambda_{\max}$
+\end{theorem}
+\begin{analysis}
+$\|A\vx\|^2=(A\vx)^TA\vx=\vx^T(A^TA)\vx$进而转化为二次型. 实际上$\|A\vx\|\leq\lambda\|x\|$.
+\end{analysis}
+
+\section{仿射空间}
+由于这一章涉及的概念太多，且比较难找到对应的中文术语，故在专业术语后都会标上对应的英文名称.
+\subsection{仿射组合与凸组合}
+\begin{definition}[仿射组合与凸组合]\rm
+$\rn$中的向量$\vv_1,\dots,\vv_p$的线性组合$c_1\vv_1+\cdots+c_p\vv_p$，若满足权重$c_1+\cdots+c_p=1$，则该线性组合称为仿射组合，集合$S$所有点仿射组合的集合称为仿射包(affine hull)或仿射生成(affine span)集，记为$\aff S$. 在仿射组合的基础上满足权重$c_i\geq 0,i=1,\dots,p$，则该线性组合称为凸组合，集合$S$所有点凸组合的集合称为凸包(convex hull)，记为$\conv S$.
+\end{definition}
+由定义得知，$S=\{\vv_1\}$时，$\aff S$和$\conv S$均为一个点$\vv_1$；$S=\{\vv_1,\vv_2\}$时，$\aff S$是通过$\vv_1,\vv_2$的直线（定比分点），$\conv S$则是线段$\overline{\vv_1\vv_2}$；$S=\{\vv_1,\vv_2,\vv_3\}$时，$\aff S$是通过$\vv_1,\vv_2,\vv_3$的平面，$\conv S$则是三角形$\triangle\vv_1\vv_2\vv_3$；以此类推.
+\begin{definition}[仿射(affine)与凸性(convex)]
+对于集合$S$，若$\forall\vu,\vv\in S,\,(1-t)\vu+t\vv\in S,\,\forall t\in\mathbb{R}$，则称$S$是仿射集. 若$\forall\vu,\vv\in S,\overline{\vu\vv}\in S$，则称$S$是凸集.
+\end{definition}
+\begin{theorem}以下是关于仿射集和凸集的一些定理.
+\begin{enumerate}
+	\itemsep -3pt
+	\item $S$是仿射集当且仅当$S=\aff S$；$S$是凸集当且仅当$S=\conv S$
+	\item 仿射集的子集是仿射集，凸集的子集是凸集
+\end{enumerate}
+\end{theorem}
+\begin{definition}
+\rm$\rn$的一个集合$S$经向量$\vb{p}$的平移(translate)变为$S+\vb{p}=\{\vb{s}+\vb{p}|\vb{s}\in S\}$. $\rn$的一个面(flat)\footnote{\url{https://en.wikipedia.org/wiki/Flat_(geometry)}}是$\rn$子空间的一个平移. 若一个面是另一个的平移，则两个面平行. 一个面的维度是它对应的平行子空间的维度. $S$的维度是包含$S$最小的面的维度. $\rn$中的线是一维的面，$\rn$中的超平面(hyperplane)是$n-1$维的面.\\
+注：由于子空间必须包含零点，故经过平移的子空间就不是子空间了，就称为面. 真(proper)面即不包含自己的面.
+\end{definition}
+\begin{definition}[齐次(homogeneous)坐标]
+对于$\vv\in\rn$，其标准齐次坐标为$\tilde{\vv}=\begin{bmatrix}\vv\\1\end{bmatrix}\in\mathbb{R}^{n+1}$
+\end{definition}
+引入齐次坐标的好处有以下几点.
+\begin{enumerate}
+	\itemsep -3pt
+	\item 合并矩阵加法乘法运算
+	\item 引入无穷远点 等同于其他点
+\end{enumerate}
+\begin{definition}[仿射无关]
+若存在$c_1,\dots,c_p$不全为$0$，使得$c_1+\cdots+c_p=0,c_1\vv_1+\cdots+c_p\vv_p=\vb{0}$，则称$\{\vv_1,\dots,\vv_p\}\in\rn$仿射相关，否则称为仿射无关.
+\end{definition}
+\begin{theorem}$S=\{\vv_1,\dots,\vv_p\}\in\rn,p\geq 2$，以下命题都等价
+\begin{enumerate}
+	\itemsep -3pt
+	\item $S$仿射相关
+	\item $S$其中一个点是其他点的仿射组合
+	\item $\setenu{\vv_2-\vv_1}{\vv_p-\vv_1}\in\rn$线性相关
+	\item $\setenu{\tilde{\vv}_1}{\tilde{\vv}_p}\in\mathbb{R}^{n+1}$线性相关
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[向量唯一表示定理（仿射组合）]
+\rm $S=\setenu{\vv_1}{\vv_k}$是$\rn$的仿射无关集，那么$\forall\vb{p}\in\aff S$有唯一向量表示
+\[\vb{p}=c_1\vv_1+\cdots+c_k\vv_k\quad\text{且}\quad c_1+\cdots+c_k=1\]
+其中$c_1,\dots,c_p$称为$\vb{p}$的质心(barycentric)坐标或仿射坐标.
+\end{theorem}
+\begin{analysis}
+相当于解$\tilde{\vb{p}}=c_1\tilde{\vv}_1+\cdots+c_k\tilde{\vv}_k$，通过高斯消元初等行变换可得. 广泛应用于图像渐变、透视关系.
+\end{analysis}
+\begin{theorem}
+\begin{enumerate}
+	\itemsep -3pt
+	\item 一个非空子集$S$是仿射集当且仅当它是一个面
+	\item $S$仿射无关，$\vb{p}\in\aff S$，那么$\vb{p}\in\conv S$当且仅当$\vb{p}$的质心坐标全部非负
+	\item $\conv S$是所有包含$S$的凸集的交
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[Caratheodory]
+$S$是$\rn$的一个非空子集，那么$\conv S$的每一个点都可以被表示成$S$中小于等于$n+1$个点的凸组合
+\end{theorem}
+
+
+\subsection{超平面}
+\begin{definition}[线性泛函(linear functional)]
+线性变换$f:\rn\to\mathbb{R}$是一个线性泛函. $\forall d\in\mathbb{R},[f:d]:=\{\vx\in\rn:\,f(\vx)=d\}$. 零泛函是使得$f(\vx)=0,\forall\vx\in\rn$的变换，其他均称为非零.
+\end{definition}
+\begin{theorem}
+$\rn$的子集$H$是一个超平面当且仅当$H=[f:d]$，其中$f$是非零泛函，$d\in\mathbb{R}$. 因此，若$H$是一个超平面，则存在一个非零向量$\vb{n}$和$d\in\mathbb{R}$使得$H=\{\vx:\vb{n}\cdot\vx=d\}$
+\end{theorem}
+\begin{definition}[拓扑概念]
+\rm $\forall\vb{p}\in\rn,\delta>0$，中心为$\vb{p}$，半径为$\delta$的开球(open ball)记为$B(\vb{p},\delta):=\{\vx:\,\|\vx-\vb{p}\|<\delta\}$. 给定集合$S\in\rn$，若$\exists\delta>0\,s.t.\,B(\vb{p},\delta)\subset S$，则称$\vb{p}$是$S$的内点(interior point). 若每一个中心在$\vb{p}$的开球都与$S$和$S$的补相交，则$\vb{p}$是$S$的边界点(boundary point). 若$S$不包含任一边界点，则称$S$是开的(open)；若$S$包含所有边界点，则称$S$是闭的(closed)；否则既不开也不闭. 若$\exists\delta>0\,s.t.\,S\subset B(\vb{0},\delta)$，则称$S$是有界的(bounded). $S$同时是闭的，又是有界的，则称$S$是紧的(compact).（欧氏空间上有界闭集等于紧集）
+\end{definition}
+\begin{theorem}
+开集的凸包是开的，紧集的凸包是紧的，但闭集的凸包不一定是闭的
+\end{theorem}
+\begin{definition}
+\rm 称超平面$H=[f:d]$将集合$A,B$分隔(seperate)，若满足以下其一
+\begin{enumerate}
+	\itemsep -3pt
+	\item $f(A)\leq d$且$f(B)\geq d$
+	\item $f(A)\geq d$且$f(B)\leq d$
+\end{enumerate}
+\end{definition}
+\begin{theorem}
+$A,B$均为非空凸集，$A$是紧集，$B$是闭集，那么存在一个超平面$H$严格分割$A,B$，当且仅当$A\cap B=\varnothing$
+\end{theorem}
+\begin{theorem}
+$A,B$均为非空紧集，那么那么存在一个超平面$H$严格分割$A,B$，当且仅当$(\conv A)\cap (\conv B)=\varnothing$
+\end{theorem}
+
+\subsection{多胞形}
+\begin{definition}[多胞形(polytopes)]
+$\rn$中的多胞形是有限集合的凸包. $\mathbb{R}^2$中，多胞体就是简单的多边形；$\mathbb{R}^3$，则是多面体.
+\end{definition}
+\begin{definition}
+\rm $S$是$\rn$紧致的凸集，$F$是$S$的非空子集，若$F\ne S$，$\exists H=[f:d]\,s.t.\,F=S\cap H$以及$f(S)\leq d$或$f(S)\geq d$，则称$F$为$S$的面(face). $H$称为$S$的支撑超平面(supporting hyperplane). 若$\dim F=k$，则$F$称为$S$的$k$-面. 若$P$是$k$维的多胞体，称$P$为$k$-多胞体. $P$的$0$-面称为顶点(vertex/vertices)，$1$-面称为边(edge)，$k-1$-面是$S$的facet.
+\end{definition}
+\begin{definition}[端点]
+\rm $S$是凸集，若$\vx,\vy\in S,\vb{p}\in\overline{\vx\vy}$，则$\vb{p}=\vx$或$\vb{p}=\vy$称为$S$的端点(extreme point)，$S$的所有端点称为$S$的轮廓(profile).
+\end{definition}
+\begin{definition}[最小表示]
+\rm 若多胞形$P=\conv\setenu{\vv_1}{\vv_k}$且$\vv_i\notin\conv\{\vv_j:j\ne i\},\forall i=1,\dots,k$，则称$\setenu{\vv_1}{\vv_k}$是$P$的最小表示(minimal representation).
+\end{definition}
+\begin{theorem}
+$M=\setenu{\vv_1}{\vv_k}$是多胞形$P$的最小表示，则以下说法等价
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\vb{p}\in M$
+	\item $\vb{p}$是$P$的顶点
+	\item $\vb{p}$是$P$的端点
+\end{enumerate}
+\end{theorem}
+\begin{theorem}
+$S$是非空紧致凸集，则$S$是它轮廓（$S$的端点）的凸包
+\end{theorem}
+\begin{theorem}
+$f$是一个定义在非空紧致凸集$S$上的线性泛函，则存在$S$的端点$\hat{\vv},\hat{\vb{w}}$使得
+\[f(\hat{\vv})=\max_{\vv\in S}f(\vv)\quad f(\hat{\vb{w}})=\min_{\vv\in S}f(\vv)\]
+注：线性规划极值点取得依据
+\end{theorem}
+\begin{definition}[单纯形(simplex)]
+单纯形是有限仿射无关向量构成的集合的凸包. $\mathbb{R}^2$中，多胞体就是简单的多边形；$\mathbb{R}^3$，则是多面体.
+\end{definition}
+\[\begin{aligned}
+0\text{-单纯形} S^0 &:\; \text{一个点} \{\vv_1\}\\
+\vdots\\
+k\text{-单纯形} S^k &:\; \conv(S^{k-1}\cup\{\vv_{k+1}\})\text{，其中}\vv_{k+1}\notin S^{k-1}
+\end{aligned}\]
+\begin{definition}[超立方体(hypercube)]
+\rm $I_i=\overline{\vb{0}\vb{e}_i}$，向量和(vector sum)\footnote{$A+B=\{\vb{c}:\vb{c}=\vb{a}+\vb{b},\forall\vb{a}\in A,\vb{b}\in B\}$}$C^k=I_1+I_2+\cdots+I_k$称为f$k$-维超立方体
+\end{definition}
+\begin{theorem}[欧拉(Euler)公式]
+记$f_k(P)$为$n$-维多胞形$P$的$k$-维面的数目，则
+\[\sum_{k=0}^{n-1}(-1)^kf_k(P)=1+(-1)^{n-1}\]
+特别地，当$n=3$时，有$v-e+f=2$，其中$v,e,f$分别为顶点、边、面的数量.
+\end{theorem}
+
+\subsection{曲线和表面}
+\begin{definition}[贝塞尔(Bézier)曲线]
+三阶贝塞尔曲线
+\[\vx(t)=\begin{bmatrix}\vb{p}_0&\vb{p}_1&\vb{p}_2&\vb{p}_3\end{bmatrix}\begin{bmatrix}1&-3&3&-1\\0&3&-6&3\\0&0&3&-3\\0&0&0&1\end{bmatrix}\begin{bmatrix}1\\t\\t^2\\t^3\end{bmatrix}=GM_B\vb{u}(t)\]
+\rm 其中$G$为四个控制点构成的几何(geometry)矩阵，$M_B$为贝塞尔基底矩阵. 换种形式表示
+\[\vx(s)=\vb{u}(s)^TM_B^TG^T=\begin{bmatrix}(1-s)^3&3s(1-s)^2&3s^2(1-s)&s^3\end{bmatrix}\begin{bmatrix}\vb{p}_0\\\vb{p}_1\\\vb{p}_2\\\vb{p}_3\end{bmatrix}\]
+\end{definition}
+\begin{definition}[贝塞尔表面]
+\[GM_B\vb{u}(t)\begin{bmatrix}\vb{p}_{11}&\vb{p}_{12}&\vb{p}_{13}&\vb{p}_{14}\\\vb{p}_{21}&\vb{p}_{22}&\vb{p}_{23}&\vb{p}_{24}\\\vb{p}_{31}&\vb{p}_{32}&\vb{p}_{33}&\vb{p}_{34}\\\vb{p}_{41}&\vb{p}_{42}&\vb{p}_{43}&\vb{p}_{44}\end{bmatrix}\begin{bmatrix}(1-t)^3\\3t(1-t)^2\\3t^2(1-t)\\t^3\end{bmatrix}\]
+进而，
+\[\vb{x}(s,t)=\vb{u}(s)^TM_B^TGM_B\vb{u}(t),0\leq s,t\leq 1\]
+\end{definition}
+
+
+\section{拓展}
+%4.8 微分/差分方程 5.7
+\subsection{线性模型与最小二乘}%6.6 在线性模型的应用
+\begin{theorem}[最小二乘]
+$A$为$m\times n$的矩阵，$\mathbf{b}\in\mathbb{R}^m$，$A\mathbf{x}=\mathbf{b}$的最小二乘解是$\hat{\mathbf{x}}\in\mathbb{R}^n$使得
+\[\|\vb{b}-A\hat{\vx}\|\leq\|\vb{b}-A\vx\|\]
+则$\dis\hat{\vb{b}}=\mathrm{proj}_{\mathrm{Col}\;A}\vb{b}$，解与$A^TA\vx=A^T\vb{b}$相同.\\
+若$A$可被$QR$分解（定理\ref{qr_fact}），则$\hat{\vx}=R^{-1}Q^T\vb{b}$.
+\end{theorem}
+%A^TA计算误差可能引起全局大误差，最好用QR分解，算R\vx=Q^T\vb{b}
+\begin{analysis}
+$\vb{a}_j\cdot(\vb{b}-A\hat{\vx})=\vb{a}_j^T(\vb{b}-A\hat{\vx})=0\implies A^T(\vb{b}-A\hat{\vx})=\vb{0}\implies A^TA\vx=A^T\vb{b}$
+\end{analysis}
+\begin{algorithm}[最小二乘估计]
+直接计算$A^TA\vx=A^T\vb{b}$即可.
+\end{algorithm}
+\begin{definition}[一般线性模型]
+$\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbb$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbb=\vy$的最小二乘解.
+\end{definition}
+以下是一些例子.
+\begin{enumerate}
+	\itemsep -3pt
+	\item 直线拟合
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+	\item 抛物线拟合
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&x_1&x_1^2\\1&x_2&x_2^2\\\vdots&\vdots&\vdots\\1&x_n&x_n^2\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\\\beta_2\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+	\item 多重回归
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&u_1&v_1\\1&u_2&v_2\\\vdots&\vdots&\vdots\\1&u_n&v_n\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\\\beta_2\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+\end{enumerate}
+
+\subsection{马尔可夫链}%4.9 马尔科夫链
+\begin{definition}[马尔可夫(Markov)链]
+具有非负分量的数值且相加等于$1$的向量$\vx_0,\vx_1,\dots$称为\textbf{概率向量}，各列向量均为概率向量的方阵$P$称为\textbf{随机矩阵}，则\textbf{马尔可夫链}为$\vx_{k+1}=P\vx_{k},k=0,1,2,\dots$，其中$\vx_k$称为\textbf{状态向量}.
+\end{definition}
+\begin{theorem}[马尔可夫链收敛定理\protect\footnote{具体情况比较复杂}]
+马尔可夫链$\{\vx_{k+1}\}$一定会收敛至\textbf{平衡向量}$\vb{q}$，其中$\vb{q}$满足$P\vb{q}=\vb{q}$.
+\end{theorem}
+
+\subsection{复数特征值}%5.5 复数特征值
+\begin{theorem}
+当$A$为实矩阵时，它的复特征值成对出现.
+\end{theorem}
+\begin{analysis}
+$A\bar{\vx}=\bar{A}\bar{\vx}=\overline{A\vx}=\overline{\lambda\vx}=\bar{\lambda}\bar{\vx}$
+\end{analysis}
+\begin{theorem}
+$A$为$2\times 2$实矩阵，有复特征值$\lambda=a-b\ii(b\ne 0)$及对应$\mathbb{C}^2$中的复特征向量$\vv$，则
+\[A=PCP^{-1}\,\text{，其中}\,P=\begin{bmatrix}\Re\vv&\Im\vv\end{bmatrix},C=\begin{bmatrix}a&-b\\b&a\end{bmatrix}\]
+\end{theorem}
+\begin{analysis}
+证明利用了结论：$A$是实矩阵，则$A(\Re\vx)=\Re A\vx$，$A(\Im\vx)=\Im A\vx$. $\Re\vx$与$\Im\vx$线性无关
+\end{analysis}
+
+\subsection{离散动力系统}%5.6 离散动力系统
+若$A$可对角化，有$n$个线性无关的特征向量$\vv_1,\dots,\vv_n$和对应的特征值$\lambda_1,\dots,\lambda_n$，且由大到小排列. 由于$\{\vv_1,\cdots,\vv_n\}$为$\rn$的基. 故任一初始向量可唯一表示为$\vx_0=c_1\vv_1+\cdots+c_n\vv_n$，则
+\[\vx_k=A^k\vx_0=c_1(\lambda_1)^k\vv_1+\cdots+c_n(\lambda_n)^k\vv_n\]
+线性动力系统中，只有原点才可能是吸引子($|\lambda|<1$)或者排斥子($|\lambda|>1$)，但非线性系统中可能存在多个吸引子或排斥子，其可用雅可比矩阵的特征值定义. 若特征值正负都有，则原点为鞍点.
+
+\subsection{估计特征值}%5.8 迭代估计特征值
+幂算法、逆幂法、QR算法
+\par 若$A$可对角化，特征向量$\vv_1,\dots,\vv_n$是$\rn$的基，且
+\[|\lambda_1|>|\lambda_2|\geq|\lambda_3|\geq\cdots\geq|\lambda_n|\]
+（注意第一个符号为严格大）其中$\lambda_1$称为主特征值
+\[\vx_k=A^k\vx_0=c_1(\lambda_1)^k\vv_1+\cdots+c_n(\lambda_n)^k\vv_n\]
+假设$c_1\ne 0$，左右同除$\lambda_1^k$，可知$(\lambda_1)^{-k}A^k\vx\to c_1\vv_1(k\to\infty)$
+
+\subsection{傅里叶级数}%6.8 加权最小二乘 傅里叶级数
+$\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt\}$，定义内积$\inp{f}{g}=\displaystyle\int_0^{2\pi} f(t)g(t)\dd t$，知这个集合为正交集
+\begin{theorem}[傅里叶(Fourier)级数]
+\[f(t)=\dfrac{a_0}{2}+\sum_{k=1}^\infty(a_k\cos kt+b_k\sin kt)\]
+当$k\geq 1$时，
+\[a_k=\dfrac{\inp{f}{\cos kt}}{\inp{\cos kt}{\cos kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\cos kt\dd t,\,b_k=\dfrac{\inp{f}{\sin kt}}{\inp{\sin kt}{\sin kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\sin kt\dd t\]
+常数项，
+\[\dfrac{\inp{f}{1}}{\inp{1}{1}}=\dfrac{a_0}{2}\]
+\end{theorem}
+
+\subsection{统计学应用}%7.5 图像处理及统计学应用
+\begin{definition}[平均值]
+$p\times N$的观测矩阵$A=\bmat{\vb{X}_1}{\vb{X}_N}$（即有$N$个样本，每个样本有$p$个维度的信息），则其样本均值为$\vb{M}=\dfrac{1}{N}(\vb{X}_1+\cdots+\vb{X}_N)$. 平均偏差形式为$B=\bmat{\vb{\hat{X}}_1}{\vb{\hat{X}}_N}$，其中$\vb{\hat{X}}_k=\vb{X}_k-\vb{M}$.
+\end{definition}
+\begin{definition}[方差]
+协方差矩阵为$S=\dfrac{1}{N-1}BB^T$（$BB^T$正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\tv B=\tr S$
+\end{definition}
+\begin{definition}[主成分分析]
+假设$A=\bmat{\vb{X}_1}{\vb{X}_N}$为平均偏差形式，找到$p\times p$正交矩阵$P=\bmat{\vu_1}{\vu_p}$使得$\vb{X}=P\vb{Y}$，其中$y_1,\dots,y_p$都线性无关且方差递减. $\vu_1,\dots,\vu_p$为数据的主成分，第一主成分是$S$最大的特征值对应的特征向量.\\
+注：主成分分析等同于正交回归
+\end{definition}
+\begin{analysis}
+$\vb{X}_k=P\vb{Y}_k\implies \vb{Y}_k=P^{-1}\vb{X}_k=P^T\vb{X}_k,k=1,\dots,N\implies S=PDP^T, P^TSP=D$\\
+可以验证对于任意正交矩阵$P$，$\vb{Y},\dots\vb{Y}_N$的协方差矩阵都是$P^TSP$
+\end{analysis}
+变量的正交变换$\vb{X}=P\vb{Y}$不改变数据的总方差，且$\tv \vb{X}=\tv \vb{Y}=\tr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\tr S$表明$y_j$的占比，用于降维
+
+
+\end{document}
+
+\begin{comment}
+
+V:所有定义在[a,b]上可微且导函数连续的函数f
+W:所有定义在[a,b]上的连续函数
+D:V\to W  f\to f'
+D(f+g)=D(f)+D(g)
+D(cf)=cD(f)
+D为线性变换
+核：常值函数
+值域：W
+
+%P262T33
+\{\vb{v}_1,\dots,\vb{v}_k\}线性无关可被扩展成\rn的基A=[V  e_1  \cdots  e_n]
+\{\vb{v}_1,\dots,\vb{v}_k\}一定包含在Col A的基中，Col A=R^n
+
+%P270T31
+秩1矩阵当且仅当它是个外积，即A=uv^T
+
+\vx^TA\vx正定，同样\vx^TA^{-1}\vx
+\end{comment}
+%Jordan分解
+
+%行阶梯形的唯一性 P15
+%flop P23
+%三角函积分一次性降幂升角 P277/17
+%P318估计特征值QR算法
+%P393 refl_Ly=2proj_Ly-y
+%P408 T(x)=proj_W x线性变换
+
+%有自由变元不代表有无穷多个解，也可能无解
+%线性组合的权重可以都为0
+%内积u^Tv转置相同
+%外积uv^T
+%经过原点的子空间才是\rn的子空间
+%detab=deta detb a不可逆则为0 a可逆~I_n划归E
+%证明是向量空间的方法 1定义 2证明其是\col A或\nul A
+%写成A=PDP^{-1}的形式没有默认D已对角
+
+%实值连续函数构成的空间

@@ -1,0 +1,112 @@
+\section{无穷级数}
+\subsection{基本性质}
+\begin{definition}[无穷级数]
+$\{u_n\}$为数列，称形式和
+\[\ssum{u_n}=\lim_{n\to\infty}\sum_{k=1}^n u_k=\lim_{n\to\infty}S_n=S\]
+为级数$\ssum{u_n}$的和，称其收敛到$S$.
+\end{definition}
+可由极限直接推导出来的定理在此不再赘述.
+\begin{example}
+$\ssum{r^n\sin nx},|r|<1$
+\end{example}
+\begin{analysis}
+用三角函数的复数形式，即$\sin x=\dfrac{e^{ix}-e^{-ix}}{2}$求和，其中$i^2=-1$.
+\[\begin{aligned}
+LHS &= \dfrac{1}{2}\ssum{r^n(e^{inx}-e^{-inx})}\\
+&= \dfrac{1}{2}\lim_{n\to\infty}\left(re^{ix}\dfrac{1-(re^{ix})^n}{1-re^{ix}}-re^{-ix}\dfrac{1-(re^{-ix})^n}{1-re^{-ix}}\right)\qquad\mbox{等比数列求和}\\
+&\xlongequal{z=re^{ix}} \dfrac{1}{2}\left(\dfrac{z}{1-z}-\dfrac{\bar{z}}{1-\bar{z}}\right)\qquad\mbox{因$|z|<1$故$\displaystyle\lim_{n\to\infty}z^n=0$}\\
+&= \dfrac{1}{2}\dfrac{z-\bar{z}}{1-(z+\bar{z})+r^2}\qquad\mbox{$z\bar{z}=r^2$，通分}\\
+&= \dfrac{r\sin x}{1-2r\cos x+r^2}
+\end{aligned}\]
+\end{analysis}
+
+\subsection{正项级数}
+\begin{definition}[正项级数]
+级数的每一项都\textbf{非负}，则称其为正项级数. 由此知正项级数一定为实级数.
+\end{definition}
+对于正项级数，有以下判定敛散性的方法：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\ssum{u_n}$收敛的充要条件是$\{S_n\}$有上界
+	\begin{analysis}
+		必要性：极限有界性；充分性：单调有界原理
+	\end{analysis}
+	\item 比较判别法
+	\begin{itemize}
+		\itemsep -3pt
+		\item 一般形式：$u_n\leq cu_n$
+		\begin{analysis}
+			大收敛小收敛，小发散大发散. 证明：收敛推有界，有界推收敛
+		\end{analysis}
+		\item 极限形式：$\displaystyle\lim_{n\to\infty}\dfrac{u_n}{v_n}=l$
+		\begin{analysis}
+			$l\in(0,+\infty)$敛散性相同，$l=0,l=+\infty$判定方法同比较判别法一般形式\\
+			常用$1/n$或$1/n^2$卡，多项式分式函数
+		\end{analysis}
+		\item 另一形式：$\dfrac{u_{n+1}}{u_n}\leq\dfrac{v_{n+1}}{v_n}$
+		\begin{analysis}
+			$\dfrac{u_n}{u_N}\leq\dfrac{v_n}{v_N}$裂项递推
+		\end{analysis}
+	\end{itemize}
+	\item 达朗贝尔(D'Alembert)判别法：$\displaystyle\lim_{n\to\infty}\dfrac{u_{n+1}}{u_n}=l$
+	\begin{analysis}
+		$l<1$收敛，$l>1$发散. 证明：$\dfrac{u_{n+1}}{u_n}<l+\varepsilon_0=r=\dfrac{r^{(n+1)}}{r_n}$. 幂级数、阶乘
+	\end{analysis}
+	\item 柯西(Cauchy)判别法：$\displaystyle\lim_{n\to\infty}\sqrt[n]{u_n}=l$
+	\begin{analysis}
+		$l<1$收敛，$l>1$发散. 实质是等比数列
+	\end{analysis}
+	\item 拉阿比(Raabe)判别法：$\displaystyle\lim_{n\to\infty}n\left(\dfrac{u_n}{u_{n+1}}-1\right)=S$
+	\begin{analysis}
+		$S>1$收敛，$S<1$发散. 注意符号反. 引理：$\forall r>p>1,\exists N, n>N, 1+\dfrac{r}{n}>\left(1+\dfrac{1}{n}\right)^p$
+	\end{analysis}
+	\item 柯西积分判别法：$f(x)$在$[0,+\infty)$连续且单调下降，$u_n=f(n)$，则$\ssum{u_n}$收敛充要条件是$\displaystyle\lim_{x\to+\infty}\int_1^xf(t)dt$存在
+\end{enumerate}
+方法总结：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 用\textbf{收敛必要条件}判断$u_n\to 0$是否成立，即是否发散\footnote{注：不是充分条件}
+	\item 尝试用数列求和方法，如裂项、错位相消等对数列求部分和
+	\item 按照上面给出的判定敛散性的方法，依次判定
+\end{enumerate}
+
+\subsection{一般项级数}
+交错级数莱布尼茨判别法
+
+\subsection{代数运算}
+\begin{enumerate}
+	\item 结合律：\textbf{条件/绝对收敛}级数任意加括号，和不变；但不能随意去括号
+	\item 交换律：\textbf{绝对收敛}成立；条件收敛适当重排，可使新级数发散或收敛到某一特定值(Riemman)
+	\item 分配律：\textbf{绝对收敛}成立(Cauchy)
+\end{enumerate}
+
+
+\section{函数项级数}
+\subsection{一致收敛}
+
+\subsection{判别法之比较总结}
+\begin{table}
+\centering
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+判别法 & 数项级数 & 广义积分 & 函数项级数\\\hline
+比较判别法 & & & \\\hline
+达朗贝尔判别法 & & & \\\hline
+柯西判别法 & $\ssum u_n$收敛等价于$\forall \varepsilon>0,\exists N:n>N,\forall p\in\zz^+$有$|u_{n+1}+\cdots+u_{n+p}|<\varepsilon$ & & \\\hline
+拉阿比判别法 & & & \\\hline
+狄利克雷判别法 & & & \\\hline
+阿贝尔判别法 & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+%\begin{example}[实数十进制表示法]
+%实数可表示成十进制形式
+%\[b_mb_{m-1}\cdots b_0.a_1a_2\cdots a_n\cdots,\]
+%其中$0\leq a_j,b_j\leq 9,a_j,b_j\in\mathbb{Z}$，其有何意义\footnote{南大秦理真《微积分》5.2节}
+%\end{example}
+%\begin{analysis}
+%考虑$[0,1]$中的实数，设
+%\[x=0.a_1a_2\cdots a_n\cdots=\ssum\dfrac{a_n}{10^n}\]
+%已知
+%\end{analysis}

@@ -1,0 +1,30 @@
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}%\because\therefore
+\usepackage{mathtools}%underset
+\usepackage{cancel}
+\usepackage{extarrows}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage[unicode=true,%本行非常重要 支持中文目录hyperref CJKbookmarks对二级目录没用
+	colorlinks,
+	linkcolor=black,
+	anchorcolor=black,
+	citecolor=black,
+	CJKbookmarks=false]{hyperref}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem{example}{例}%*去除编号
+\newtheorem*{analysis}{分析}
+\newtheorem{corollary}{推论}
+\newtheorem*{corollary_convex}{推论}
+\newtheorem{exercise}{练习}
+\geometry{top=20mm,bottom=20mm,left=20mm,right=20mm}
+\pagestyle{plain}%删除页眉
+
+\def\zz{\mathbb{Z}}
+\newcommand{\ssum}[1]{\displaystyle\sum_{n=1}^{\infty}#1}

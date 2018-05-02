@@ -1,0 +1,379 @@
+\section{不定积分}
+\subsection{三种基本积分方法}
+\begin{enumerate}
+	\item 凑微分法
+	\item 第二换元法（记得换元时$dx$也要换）
+	\item 分部积分法
+	\begin{itemize}
+		\item 先写成$\displaystyle\int u(x)dv(x)$的形式，然后直接交换$u(x),v(x)$即可
+		\item 选取$u(x)$顺序：\textbf{对反幂三指}，如求$\displaystyle\int x^2\cos x\,dx$，取$u(x)=x^2$，化为$\displaystyle\int x^2\,d\sin x$
+	\end{itemize}
+\end{enumerate}
+
+\subsection{常见公式}
+比较基础的公式在此不再列举，以下积分是在题目中比较常见，均需熟练掌握推导
+\begin{enumerate}
+\item 对数
+\[\int \ln x\,dx=x(\ln x-1)+C\qquad\mbox{分部积分}\]
+\item （反）三角函数
+\[\int \tan x\,dx=-ln|\cos x|+C\qquad\mbox{分部积分,小心}-\mbox{号}\]
+\[\int \cot x\,dx=ln|\sin x|+C\qquad\mbox{分部积分}\]
+\[\int \sec x\,dx=ln|\sec x+\tan x|+C\qquad\mbox{乘}\frac{\sec x+\tan x}{\sec x+\tan x}\]
+\[\int \csc x\,dx=ln|\csc x-\cot x|+C\qquad\mbox{乘}\frac{\csc x+\cot x}{\csc x+\cot x}\]
+\[\int \arcsin x\,dx=x\arcsin x+\sqrt{1-x^2}+C\qquad\mbox{分部积分}\]
+\[\int \sec^3 x \, dx=\frac{1}{2} (\tan x \sec x+\ln |\tan x+\sec x|)+C\qquad\mbox{分部积分}\]
+\item 根式/分式
+\[\int \frac{dx}{a^2+x^2}=\frac{1}{a} \arctan\frac{x}{a}+C\qquad\mbox{分子分母除以}a^2\]
+\[\int \frac{dx}{\pm(x^2-a^2)}=\pm\frac{1}{2a} \ln|\frac{x-a}{x+a}|+C\qquad\mbox{裂项可得}\]
+\[\int \frac{dx}{\sqrt{a^2-x^2}}=\arcsin\frac{x}{a}+C\qquad\mbox{将}a^2\mbox{提出来}\]
+\[\int \frac{dx}{\sqrt{x^2\pm a^2}}=\ln|x+\sqrt{x^2\pm a^2}|+C\qquad\mbox{三角换元}\]
+\[\int \sqrt{a^2-x^2}\,dx=\frac{a^2}{2}\arcsin\frac{x}{a}+\frac{x}{2}\sqrt{a^2-x^2}+C\qquad\mbox{分子有理化$+$分部积分}\]
+\[\int \sqrt{x^2\pm a^2}\,dx=\pm\frac{a^2}{2} \ln\Big|x+\sqrt{x^2\pm a^2}\Big|+\frac{x}{2}\sqrt{x^2\pm a^2}+C\qquad\mbox{分子有理化$+$分部积分}\]
+\end{enumerate}
+注意：
+\begin{enumerate}
+\item 不要忘记加$C$
+\item 对$\displaystyle \frac{1}{x}$求积分出来是$\ln |x|+C$，有绝对值
+%\item $\displaystyle f(x)f'(x),\frac{f(x)}{f'(x)}$均由链式法则得来
+\end{enumerate}
+
+\subsection{不同类型积分的常见思路}
+\begin{enumerate}
+	\item 有理分式
+	\begin{itemize}
+		\item 假分式先除下来变为真分式，然后用部分分式
+		\item 若非纯有理分式（如各种基本初等函数的组合，见例\ref{egfrac2}），或分母次数太高（见例\ref{egfrac3}），则将分子配凑成分母形式或分母导数形式以便分拆相加（这两种方式都十分常用）
+		\item 分母一定要先分解为一次乘二次的形式（虚数的情况请看例\ref{egfrac1}），也即分解为
+			\[\prod_{i=1}^k(x-a_i)^{j_i}\prod_{i=1}^s(x^2+p_ix+q_i)^{l_i}\]
+			结合分子，也就有部分分式的两种基本形式
+			\[\frac{A}{(x-a)^n},\quad\frac{Bx+C}{(x^2+px+q)^n}\]
+		\item 前者直接积，后者配平方（见例\ref{egfrac4}）
+		\item 小技巧：通过倒代换$\displaystyle x=\frac{1}{t}$降低分母次数（见例\ref{egsqrt1}法二），有$\displaystyle\frac{1}{x},\frac{1}{x^2}$等部分的可以考虑，如$\displaystyle\int\frac{dx}{x^{100}+x}$也可使用
+	\end{itemize}
+	\begin{example}
+		\label{egfrac1}
+		$\displaystyle\int\frac{dx}{1+x^4}$
+	\end{example}
+	\begin{analysis}
+		先对分母进行分解，$1+x^4=(x+\sqrt{i})(x-\sqrt{i})(x+\sqrt{-i})(x-\sqrt{-i})$\\
+		之所以是这$4$个根，是因为我们知道$1+(x^2)^2=0$的解为$x^2=\pm i$，故上式也就理所当然了\footnote{实际上这样写是不严谨的，具体有关复数根的细节等之后有空再讲吧}\\
+		由于复根不好看，所以合并一下就变成$1+x^4=(x^2+\sqrt{2}x+1)(x^2-\sqrt{2}x+1)$，然后就可以用部分分式那一套去算了
+	\end{analysis}
+	\begin{example}
+		\label{egfrac2}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{xe^x}{(x+1)^2}dx &= \int \frac{(x+1-1)e^x}{(x+1)^2}dx\qquad\mbox{分子配凑为分母形式}\\
+			&= \int \frac{e^x}{x+1}dx - \int \frac{e^x}{(x+1)^2}dx\qquad\mbox{分拆}\\
+			&= \frac{e^x}{x+1}-\int e^xd\frac{1}{x+1} - \int \frac{e^x}{(x+1)^2}dx\qquad\mbox{分部积分}\\
+			&= \frac{e^x}{x+1}+\int \frac{e^x}{(x+1)^2}dx - \int \frac{e^x}{(x+1)^2}dx\qquad\mbox{刚好消掉}\\
+			&= \frac{e^x}{x+1}+C
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\begin{example}
+		\label{egfrac3}
+		\begin{equation*}
+		\begin{aligned}
+			\int\frac{x^2+2}{(x+1)^3}dx &= \int \frac{(x+1)^2-2(x+1)+3}{(x+1)^3}dx\qquad\mbox{分子几次就配几次式}\\
+			&= \int \frac{d(x+1)}{x+1} - 2\int \frac{d(x+1)}{(x+1)^2} + 3\int \frac{d(x+1)}{(x+1)^3}\qquad\mbox{分拆}\\
+			&= \ln|x+1|+\frac{2}{x+1}-\frac{3}{2}\frac{1}{(x+1)^2}+C
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\begin{example}
+		\label{egfrac4}
+		\begin{equation*}
+		\begin{aligned}
+			\int\frac{x+1}{x^2+x+1}dx &= \frac{1}{2}\int \frac{(2x+1)+1}{x^2+x+1}dx\qquad\mbox{分子配凑为分母导数形式}\\
+			&= \frac{1}{2}\int \frac{2x+1}{x^2+x+1} - \frac{1}{2}\int \frac{d(x+\frac{1}{2})}{(x+\frac{1}{2})^2+(\frac{\sqrt{3}}{2})^2}\qquad\mbox{分拆}\\
+			&= \frac{1}{2}\ln|x^2+x+1|+\frac{1}{\sqrt{3}}\arctan\frac{2x+1}{\sqrt{3}}+C
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\item 三角函数
+	\begin{itemize}
+		\item 可以三角恒等变换的要先变换，熟悉半角、倍角（降幂升角）、积化和差和差化积（不同角）、辅助角（相同角）等等的使用，对以下公式的正用反用要相当敏感，懂得灵活转换
+		\begin{itemize}
+			\item[*] $\displaystyle 1+\sin kx=(\sin\frac{kx}{2}+\cos\frac{kx}{2})^2$，$1+\cos x=2\cos^2 x$
+			\item[*] $\tan^2 x+1=\sec^2 x$，$(\tan x)'=\sec^2 x$，$(\sec x)'=\tan x\sec x$
+		\end{itemize}
+		\item 第一步最终目的是结合凑微分法努力化为同名函数（见例\ref{eg1}），或是有一定关系的式子（见例\ref{eg2}）
+		\item 没有好方法，最后才采用万能公式（见例\ref{eg3}），别一上来就太暴力
+		\item 最终很大几率会化为分式型积分
+		\item 小技巧1：通过分子分母同乘的方法强行凑平方，如求$\sec x$积分，分子分母同乘$\cos x$
+		\item 小技巧2：配对偶式，如$\displaystyle\int\frac{\sin x}{a\sin x+b\cos x}dx$
+	\end{itemize}
+	\begin{example}
+		\label{eg1}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{\sin^3 x}{1+\cos^2 x}dx &= \int \frac{(1-\cos^2)\sin x}{1+\cos^2 x}dx\qquad\mbox{恒等变换}\\
+			&= \int \frac{1-\cos^2 x}{1+\cos^2 x}d\cos x\qquad\mbox{凑微分，化同名}\\
+			&\xlongequal{t=\cos x} \int (-1+\frac{2}{1+t^2})dt\qquad\mbox{化为分式型}\\
+			&= \cdots
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\begin{example}
+		\label{eg2}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{dx}{\sin^2 x\cos x} &= \int \sec x\,d\cot x\qquad\mbox{凑微分，熟悉偏门三角函导数}\\
+			&= \sec x\cot x-\int\cot x\sec x\tan x\,dx\qquad\mbox{分部积分会将}\cot x\mbox{消去，故才有上一步的凑微分}\\
+			&= \sec x\cot x-\int\sec x\,dx\\
+			&= \sec x\cot x-\ln|\sec x+\tan x|+C
+		\end{aligned}
+		\end{equation*}
+		注；本题也可分子分母同乘$\cos x$，化为分式解决，但较为麻烦
+	\end{example}
+	\begin{example}
+		\label{eg3}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{dx}{2+\sin^2 x} &= \int \frac{dx}{2+\frac{1-\cos 2x}{2}}\qquad\mbox{降幂升角}\\
+			&= 2\int \frac{dx}{5-\cos 2x}\\
+			&= 2\int \frac{1+\tan^2 x}{5(1+\tan^2 x)-(1-\tan^2 x)}\,dx\qquad\mbox{万能公式}\\
+			&\xlongequal{t=\tan x} 2\int \frac{1+t^2}{6t^2+4}\frac{1}{1+t^2}\,dt\qquad\mbox{换元，记得微分也要变}\\
+			&= \int \frac{dt}{3t^2+2}\qquad\mbox{化为分式型}\\
+			&= \cdots
+		\end{aligned}
+		\end{equation*}
+		注；本题分母若变为$3-\cos^2 x$没什么作用，故应先考虑倍角公式，实现降幂
+	\end{example}
+	\begin{example}
+		\label{eg4}
+		三角函数相乘怎么玩，请见此题分解
+		\begin{equation*}
+		\begin{aligned}
+			\int \tan(x+a)\tan(x+b)dx&= \int \frac{\sin(x+a)\sin(x+b)}{\cos(x+a)\cos(x+b)}dx\qquad\mbox{切化弦}\\
+			&= \int (\frac{\sin(x+a)\sin(x+b)+\cos(x+a)\cos(x+b)}{\cos(x+a)\cos(x+b)}-1)dx\\
+			&\qquad\mbox{加一项减一项，目标消}x\\
+			&= \int (\frac{\cos(a-b)}{\cos(x+a)\cos(x+b)}-1)dx\qquad\mbox{用和差角公式进行合并}\\
+			&= -x+\cos(a-b)\int \frac{\sin((a+x)-(b+x))dx}{\sin(a-b)\cos(x+a)\cos(x+b)}\qquad\mbox{同乘}\sin(a-b)\\
+			&= -x+\cot(a-b)\int \frac{\sin(x+a)\cos(x+b)-\cos(x+a)\sin(x+b)dx}{\cos(x+a)\cos(x+b)}\qquad\mbox{拆开}\\
+			&= -x+\cot(a-b)-\int (\tan(x+a)-\tan(x+b))dx\\
+			&= -x+\cot(a-b)-\ln\left|\frac{\cos(x+a)}{\cos(x+b)}\right|+C
+		\end{aligned}
+		\end{equation*}
+		注：同乘的部分我们采用了$\sin(a-b)$而不是$\cos(a-b)$，因$\sin (x+y)$拆分后有交叉的$\sin x\cos y$项，可以与分母相消. 同样的方法可计算$\displaystyle\int\frac{dx}{\sin(x+a)\sin(x+b)}$，$\displaystyle\int\frac{dx}{\cos(x+a)\cos(x+b)}$等等，留给读者做练习
+	\end{example}
+	\item 根式
+	\begin{itemize}
+		\item 对于二次根式，采用整块换元（见例\ref{egsqrt1}法一）；也可根式内配方后三角代换或直接用常用公式（见例\ref{egsqrt1}法二）
+		\begin{itemize}
+			\item[*] 整块换元的形式
+			\[\int R\left(x,\sqrt[n]{\frac{ax+b}{cx+d}}\right)dx,\mbox{其中}n>1,ad-bc\ne 0\]
+			\item[*] 配方的形式
+			\[\int R\left(x,\sqrt{ax^2+bx+c}\right)dx,\mbox{其中}a>0,b^2-4ac\ne 0,\mbox{或}a<0,b^2-4ac>0\]
+		\end{itemize}
+		\item 对于简单高次根式的加减，用最小公倍数法消根号，如$\sqrt{x}$与$\sqrt[3]{x}$同时存在，令$x=t^{\,lcm(2,3)}=t^6$
+		\item 对于复杂高次根式，凑微分不断换元使根式内多项式次数降至一次，再进行整块换元转化成有理分式（见例\ref{egsqrt3}）
+		\item 当然以上的讨论都是针对化简至没法再化简的根式而言，如$\displaystyle\frac{x}{\sqrt[4]{x^3(1-x)}}$就不算最简根式
+		\item 分式与根式结合，先用分式的配凑拆分等化简（见例\ref{egsqrt2}）
+	\end{itemize}
+	\begin{example}
+		\label{egsqrt1}
+		法一：
+		\begin{equation*}
+		\begin{aligned}
+			\int\sqrt{\frac{1-x}{1+x}}\frac{dx}{x^2} &\xlongequal{t^2=\frac{1-x}{1+x}} \int t\frac{-4t}{(1+t^2)^2}\frac{(1+t^2)^2}{(1-t^2)^2}dt\qquad x=\frac{1-t^2}{1+t^2},\mbox{直接将整块根式换掉}\\
+			&= -4\int \frac{t^2}{(1-t^2)^2}dt\\
+			&= -4(\frac{1}{2})\int td\frac{1}{1-t^2}\qquad\mbox{很有技巧的凑微分}\\
+			&= -2(\frac{t}{1-t^2}-\int\frac{dt}{1-t^2})\qquad\mbox{分部积分}\\
+			&= -2\frac{t}{1-t^2}-\ln\left|\frac{x-1}{x+1}\right|+C\\
+			&= -\frac{\sqrt{(1-x) (1+x)}}{x}-\ln \left|\frac{\sqrt{1+x}-\sqrt{1-x}}{\sqrt{1-x}+\sqrt{1+x}}\right|+C\qquad\mbox{将}t\mbox{回代}
+		\end{aligned}
+		\end{equation*}
+		法二：
+		\begin{equation*}
+		\begin{aligned}
+			\int\sqrt{\frac{1-x}{1+x}}\frac{dx}{x^2} &=\int\frac{1-x}{\sqrt{1-x^2}}\frac{dx}{x^2}\qquad\mbox{分子有理化}\\
+			&= \int\frac{dx}{x^2\sqrt{1-x^2}}-\int\frac{dx}{x\sqrt{1-x^2}}\qquad\mbox{分拆}\\
+			&\xlongequal{x=\frac{1}{t}} -\frac{1}{2}\int\frac{dt^2}{\sqrt{t^2-1}}+\int\frac{dt}{\sqrt{t^2-1}}\qquad\mbox{倒代换}\\
+			&= -\sqrt{t^2-1}+\ln|t+\sqrt{t^2-1}|+C\\
+			&= -\sqrt{\frac{1}{x^2}-1}+\ln|\frac{1}{x}+\sqrt{\frac{1}{x^2}-1}|+C\qquad\mbox{将}t\mbox{回代}
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\begin{example}
+		\label{egsqrt2}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{dx}{(x^2+a^2)^{\frac{3}{2}}}&= \frac{1}{a^2}\int\frac{x^2+a^2-x^2}{(x^2+a^2)^{\frac{3}{2}}}dx\qquad\mbox{分子配凑分母形式，小技巧：留下常数}a^2\\
+			&= \frac{1}{a^2}\int\frac{dx}{(x^2+a^2)^{\frac{1}{2}}}+\frac{1}{a^2}\int xd\frac{1}{(x^2+a^2)^{\frac{1}{2}}}\\
+			&\quad\mbox{技巧是直接把后面那一项放入微分中，求导看差什么再补}\\%改了符号
+			&= \frac{1}{a^2}\frac{x}{(x^2+a^2)^{\frac{1}{2}}}+C\qquad\mbox{分部积分，刚好消去}
+		\end{aligned}
+		\end{equation*}
+	\end{example}
+	\begin{example}
+		\label{egsqrt3}
+		\begin{equation*}
+		\begin{aligned}
+			\int \frac{dx}{x\sqrt[4]{1+x^4}}&= \int\frac{xdx}{x^2\sqrt[4]{1+x^4}}\qquad\mbox{分子分母同乘}x\mbox{凑微分}\\
+			&\xlongequal{t=x^2} \frac{1}{2}\int\frac{dt}{t\sqrt[4]{1+t^2}}\qquad\mbox{换元降次}\\
+			&= \frac{1}{2}\int\frac{tdt}{t^2\sqrt[4]{1+t^2}}\qquad\mbox{分子分母同乘}t\mbox{凑微分，与第一步相同}\\
+			&\xlongequal{u=t^2} \frac{1}{4}\int\frac{du}{u\sqrt[4]{1+u}}\qquad\mbox{换元降次}\\
+			&\xlongequal{v^4=1+u} \int\frac{v^2dv}{v^4-1}\qquad\mbox{整块换元}\\
+			&= \frac{1}{2}\int\frac{dv}{v^2+1}+\frac{1}{4}\int\frac{dv}{v-1}-\frac{1}{4}\int\frac{dv}{v+1}\qquad\mbox{部分分式}\\
+			&= \frac{1}{2}\arctan{\sqrt[4]{1+x^4}}+\frac{1}{4}\ln\left|\frac{\sqrt[4]{1+x^4}-1}{\sqrt[4]{1+x^4}+1}\right|+C\qquad\mbox{回代}
+		\end{aligned}
+		\end{equation*}
+		这题如果用倒代换$\displaystyle t=\frac{1}{x}$变成求$\displaystyle -\int\frac{dt}{\sqrt[4]{1+t^4}}$反而不这么好做，因为这题与之前的题刚好相反，得先升幂，凑微分后才可以进行降幂；否则直接降幂会把根式前的$x$消掉，次数反而不齐了，请读者自行体会这其中的区别. 
+	\end{example}
+\end{enumerate}
+
+\subsection{例题}
+\begin{enumerate}
+	\item $\displaystyle\int \frac{3x^2}{1+x^2}dx$
+	\item $\displaystyle\int \tan^3 x\,dx\qquad\qquad\qquad$ 凑微分
+	\item $\displaystyle\int \frac{dx}{A\sin^2 x+B\cos^2 x}dx\qquad\qquad\qquad$ 配对偶
+	\item $\displaystyle\int \cos^5dx\qquad\qquad\qquad$ 不用分部积分
+	\item $\displaystyle\int \sin 3x \cos 2x\,dx\qquad\qquad\qquad$ 积化和差
+	\item $\displaystyle\int \frac{\sec x}{(1+\sec x)^2}\,dx\qquad\qquad\qquad$ 恒等变换
+	\item $I_n=\displaystyle\int \tan^n x\,dx\qquad\qquad\qquad$ 用$I_{n-2}$递推
+	\item $\displaystyle\int \frac{dx}{x\sqrt{x^2+2x+2}}\qquad\qquad\qquad$ 倒代换
+	\item $\displaystyle\int x\sqrt{x^2-2x+2}\qquad\qquad\qquad$ 配方配凑
+	\item $\displaystyle\int \frac{x^2}{\sqrt{1+x-x^2}}\,dx\qquad\qquad\qquad$ 配分母形式
+\end{enumerate}
+
+
+\section{定积分}
+\begin{definition}[Riemann积分]
+$f(x)$在区间$[a,b]$上有定义，用分点
+\[a=x_0<x_1<x_2<\cdots<x_n=b\]
+将区间任意分成$n$个小区间，每个小区间的长度为
+\[\Delta x_i=x_i-x_{i-1},i=1,2,\cdots,n\]
+记$\lambda = \underset{1\leq i\leq n}{\max}\{\Delta x_i\}$，在每个小区间上任取一点$\xi\in[x_{i-1},x_i]$，作和式
+\[\sigma = \sum_{i=1}^{n}f(\xi_i)\Delta x_i\]
+若$f(x)$在$[a,b]$可积
+\[I=\lim_{\lambda\to 0}\sigma=\int_a^bf(x)\,dx\]
+\end{definition}
+\par\textbf{积分基本性质}
+\begin{enumerate}
+	\item 有界性：可积函数必有界
+	\item 线性性：相同积分区间两函数
+	\item 可加性：同一函数连续积分区间
+	\item 单调性：$f(x),g(x)$在$[a,b]$可积，$f(x)\leq g(x),x\in[a,b]$，则$\displaystyle\int_{a}^{b}f(x)dx\leq\int_{a}^{b}g(x)dx$
+	\item 绝对值不等式：$f(x)$在$[a,b]$可积，则$\displaystyle\left|\int_{a}^{b}f(x)dx\right|\leq\int_{a}^{b}|f(x)|dx$
+\end{enumerate}
+\begin{theorem}[闭区间连续函数可积定理]
+若$f(x)$在$[a,b]$连续，则$f(x)$在$[a,b]$可积
+\end{theorem}
+\begin{theorem}[积分第一中值定理]
+若$f(x),g(x)$在$[a,b]$连续，且$g(x)$在$[a,b]$不变号，则在$[a,b]$中存在一点$\xi$使得
+\[\int_a^bf(x)g(x)dx=f(\xi)\int_a^bg(x)dx\]
+特别地，$g(x)\equiv 1$时，有
+\[\int_a^bf(x)dx=f(\xi)(b-a)\]
+\end{theorem}
+\begin{theorem}
+若$f(x)$在$[a,b]$可积，则变上限定积分$\displaystyle F(x)=\int_a^x f(t)dt$是$[a,b]$上的连续函数
+\end{theorem}
+\begin{theorem}[微积分基本定理]
+$f(x)$在$[a,b]$可积，$F(x)$是$f(x)$在$[a,b]$上的任一原函数，$F'(x)=f(x)$，则$\displaystyle\int_{a}^{b}f(x)dx=F(b)-F(a)$
+\end{theorem}
+\begin{theorem}[柯西不等式(积分形式)]
+$f(x),g(x)$在$[a,b]$连续，则
+\[\int_a^bf^2(x)dx\dot \int_a^bg^2(x)dx\geq\left(\int_a^bf(x)g(x)dx\right)^2\]
+等号成立当且仅当$f(x),g(x)$线性相关
+\end{theorem}
+\begin{analysis}
+可通过构造二次函数，令$\Delta\geq0$证明；\\
+也可利用线性代数的知识，定义内积\footnote{线性代数没学好的请自行翻书}$\displaystyle	\langle u,v\rangle=\int_a^bu(x)v(x)dx$，通过$\|u\|\|v\|\geq|\langle u,v\rangle|$得证
+\end{analysis}
+\begin{theorem}[三角不等式(积分形式)]
+$f(x),g(x)$在$[a,b]$连续，则
+\[\sqrt{\int_a^bf^2(x)dx} + \sqrt{\int_a^bg^2(x)dx}\geq\sqrt{\int_a^b[f(x)+g(x)]^2dx}\]
+等号成立当且仅当$g(x)=\lambda f(x),\lambda\geq 0$
+\end{theorem}
+\begin{analysis}
+对应线性代数中$\|u\|+\|v\|\geq\|u+v\|$
+\end{analysis}
+\begin{example}
+$f(x)$在$[a,b]$上可积，其积分为$I$，改变$[a,b]$内有限个点的$f(x)$值，使其变成另一函数$f^*(x)$，证明$f^*(x)$也在$[a,b]$上可积，且积分仍为$I$
+\end{example}
+\begin{analysis}
+设改变了$k$个点的函数值，这些点为$c_1,c_2,\cdots,c_k$\\
+构造
+\[F(x)=f(x)-f^*(x)=\begin{cases}
+0,x\notin\{c_1,c_2,\cdots,c_k\}\\
+f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
+\end{cases}\]
+用分点$a=x_0<x_1<x_2<\cdots<x_n=b$将区间任意分成$n$个小区间，每个小区间的长度为$\Delta x_i=x_i-x_{i-1},i=1,2,\cdots,n$，记$\lambda = \underset{1\leq i\leq n}{\max}\{\Delta x_i\}$\\
+在每个小区间上任取一点$\xi\in[x_{i-1},x_i]$，作和式$\displaystyle\sigma = \sum_{i=1}^{n}f(\xi_i)\Delta x_i$
+则
+\[k\lambda\underset{x\in[a,b]}{\min}F(x)\leq\sigma\leq k\lambda\underset{x\in[a,b]}{\max}F(x)\]
+当$\lambda\to 0$，由极限的夹迫性知$\displaystyle\lim_{\lambda\to 0}\sigma=0$\\
+故$F(x)$在$[a,b]$上可积，
+\[\int_a^b F(x)\,dx=\int_a^b[f(x)-f^*(x)]\,dx=0\]
+由定积分的线性性，
+\[\int_a^b f^*(x)\,dx=\int_a^b f(x)\,dx-\int_a^b F(x)\,dx=I-0=I\]
+因此$f^*(x)$在$[a,b]$上可积，且积分仍为$I$.
+\end{analysis}
+\par 学完微分积分后会涌现出很多不等式证明题，但其实很多时候不需要太多的代数技巧，直接求导即可解决（对于单变量函数）.见例\ref{intinequality}法一其实就是高考题做法.
+\begin{example}
+\label{intinequality}
+设$f'(x)$在$[a,b]$连续，且$f(a)=0$，证明
+\[\left|\int_a^bf(x)dx\right|\leq\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|\]
+\end{example}
+\begin{analysis}法一：\\
+为方便计算，不妨将$f(x)$平移至$[0,t],t>0$，则$f(0)=0$，即证
+\[\left|\int_0^tf(x)dx\right|\leq\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|\]
+构造
+\[g(t)=\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|-\left|\int_0^tf(x)dx\right|\quad\mbox{（注意是关于}t\mbox{的函数）}\]
+则$g(0)=0$，$g'(t)=\displaystyle t\underset{0\leq x\leq t}{\max}|f'(x)|$\\
+要令$g'(t)\geq 0$，即令$\displaystyle\underset{0\leq x\leq t}{\max}|f'(x)|\geq\left|\frac{f(t)}{t}\right|\quad(*)$\\
+由拉格朗日中值定理，在$(0,t)$上必$\displaystyle\exists\xi>0\,s.t.\,f'(\xi)=\frac{f(t)-0}{t-0}$\\
+故最大值必然大于等于区间内某一点的值$|f'(\xi)|$，即$(*)$式成立\\
+进而$g'(t)\geq 0,g(t)\geq 0$，原不等式成立.
+\end{analysis}
+\begin{analysis}法二：\\
+先证明
+\[\int_a^bf(x)dx=-\int_a^bf'(x)(x-b)dx\quad(*)\]
+因为
+\[\begin{aligned}
+-\int_a^bf'(x)(x-b)dx &= -\int_a^b(x-b)df(x)\\
+&=-\left[f(x)(x-b)\Big|_a^b-\int_a^bf(x)dx\right]\qquad\mbox{分部积分}\\
+&=\int_a^bf(x)dx
+\end{aligned}\]
+即证得$(*)$式.则原式\\
+\[\begin{aligned}
+\left|\int_a^bf(x)dx\right|&=\left|\int_a^bf'(x)(x-b)dx\right|\\
+&\leq\underset{a\leq x\leq b}{\max}|f'(x)|\left|\int_a^b(x-b)dx\right|\\
+&=\underset{a\leq x\leq b}{\max}|f'(x)|\frac{(x-b)^2}{2}\Big|_a^b\\
+&=\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|
+\end{aligned}\]
+\end{analysis}
+同理可证
+\begin{exercise}
+设$f''(x)$在$[a,b]$连续，且$f(a)=f(b)=0$，证明：
+\begin{enumerate}[(1)]
+	\item $\displaystyle\int_a^bf(x)dx=\frac{1}{2}\int_a^bf''(x)(x-a)(x-b)dx$
+	\item $\displaystyle\left|\int_a^bf(x)dx\right|\leq\frac{(b-a)^3}{12}\underset{a\leq x\leq b}{\max}|f''(x)|$
+\end{enumerate}
+\end{exercise}
+
+\subsection{定积分的计算}
+关键掌握不定积分的求法，定积分就能迎刃而解了，最大不同只在于定积分换元时需要把上下限一起改变（出现上限小于下限的情况也是正常的）.
+\par 用定义计算的题则要懂得配凑出黎曼和的形式
+\begin{exercise}
+\label{limitrimsum}
+$\displaystyle\lim_{n\to\infty}\left(\frac{1}{n+1}+\frac{1}{n+2}+\cdots+\frac{1}{2n}\right)$
+\end{exercise}
+
+\subsection{定积分的近似计算}
+\begin{definition}[定积分梯形公式]
+\[\int_a^bf(x)dx\thickapprox\sum_{i=1}^n\frac{y_{i-1}+y_i}{2}\frac{b-a}{n}=\frac{b-a}{n}\left(\frac{y_0+y_n}{2}+y_1+y_2+\cdots+y_{n-1}\right)\]
+若$f''(x)$在$[a,b]$上连续，且$|f''(x)|\leq M,x\in[a,b]$，则梯形公式误差可作如下估计
+\[|R_n|\leq\frac{(b-a)^3}{12n^2}M\]
+\end{definition}
+\begin{definition}[抛物线公式/辛普森(Simpson)公式]
+\[\begin{aligned}
+\int_a^bf(x)dx &\thickapprox\frac{b-a}{6n}[(y_0+4y_1+y_2)+(y_2+4y_3+y_4)+\cdots+(y_{2n-2}+4y_{2n-1}+y_{2n})]\\
+&=\frac{b-a}{6n}[(y_0+y_{2n})+2(y_2+y_4+\cdots+y_{2n-2})+4(y_1+y_3+\cdots+y_{2n-1})]\end{aligned}\]
+若$f^{(4)}(x)$在$[a,b]$上连续，且$|f^{(4)}(x)|\leq M,x\in[a,b]$，则
+\[|R_{2n}|\leq\frac{(b-a)^5}{180(2n)^4}M\]
+\end{definition}
+
+%\sin(x+a)\sin(x+b)

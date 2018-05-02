@@ -1,0 +1,165 @@
+\section{函数的一切}
+\begin{definition}[(基本)初等函数]
+\textbf{常函数}加上\textbf{反对幂三指}称为基本初等函数. 基本初等函数经过\textbf{有限次}四则运算或复合的函数称为初等函数. 
+\end{definition}
+\par要关注：反三角函数的值域及图像
+\subsection{函数的基本性质}
+\begin{enumerate}
+	\itemsep -3pt
+	\item 定义域$D$、值域$V$
+	\item 奇偶性
+	\item 周期性
+	\item 有界性：注意是\textbf{有上界且有下界}，如二次函数就不能算有界
+	\item 连续性：见定义\ref{continuous}，以下是间断点的分类
+	\begin{enumerate}
+		\itemsep -3pt
+		\item 可去间断点：可通过修改定义使其连续
+		\item 第一类间断点：左右极限都存在但不相等（跳跃间断点）
+		\item 第二类间断点：左右极限至少有一不存在
+	\end{enumerate}
+	\item 单调性：若有一阶导，用一阶导判断；否则，用定义
+	\item 凹凸性：详见章节\ref{convexfun}
+	\item 零点：代数基本定理
+	\item 极值点：稳定点或不可导点，通过$f'(x)$的变化情况或$f''(x_0)$的正负性判断
+	\item 拐点\footnote{注意：稳定点是使$f'(x)=0$的$x=x_0$，而拐点是函数凹凸性发生改变的点$(x_0,f(x_0))$}：凹凸分界点
+	\item 渐近线：水平、垂直、斜
+\end{enumerate}
+以下是两组比较有用的函数表示方法，可以记住
+\begin{enumerate}
+	\item 最大值最小值函数
+		\[\max(a,b)=\frac{a+b}{2}+\frac{|a-b|}{2}\]
+		\[\min(a,b)=\frac{a+b}{2}-\frac{|a-b|}{2}\]
+	\item 定义域为$\mathbb{R}$的函数$f(x)$表示为奇偶函数之和
+		\[g(x)=\frac{f(x)-f(-x)}{2}\qquad\mbox{奇函数}\]
+		\[h(x)=\frac{f(x)+f(-x)}{2}\qquad\mbox{偶函数}\]
+\end{enumerate}
+
+\subsection{凸函数}
+\label{convexfun}
+由于凸函数在计算机科学和数学领域都应用广泛，所以这里单独开一小节讲述几条关于凸函数的性质. 在本节中全部采用数学界常用的说法，即凸(convex)函数指课本上的下凸函数，凹(concave)函数指上凸函数.
+\begin{definition}[凸函数]
+$f(x)$在$(a,b)$有定义，
+\[\forall x_1,x_2\in (a,b),\lambda\in(0,1),f(\lambda x_1+(1-\lambda)x_2)\leq\lambda f(x_1)+(1-\lambda)f(x_2)\]
+则称$f(x)$在$(a,b)$上是凸函数
+\end{definition}
+注意到这个定义中，凸函数并不是用二阶导大于$0$来定义的，甚至于连一阶导都没有用到，也就是说这个定义的适用范围更广了，无论函数是否可导，都可以说它是凸函数或者凹函数. 由定义可直接推出定理\ref{jensen}
+\begin{theorem}[琴生(Jensen)不等式]
+\label{jensen}
+$f(x)$在$[a,b]$为凸函数，则$\forall x_1,x_2\in[a,b]$
+\[\frac{f(x_1)+f(x_2)}{2}\geq f\left(\frac{x_1+x_2}{2}\right)\]
+\end{theorem}
+\begin{analysis}
+令凸函数定义中$\displaystyle\lambda=\frac{1}{2}$即得证，端点情况用极限考虑
+\end{analysis}
+\begin{theorem}
+\label{convex2}
+$f(x)$在$(a,b)$为凸函数，当且仅当
+\[\forall x_1,x_2,x_3\in(a,b),x_1<x_2<x_3:\:\frac{f(x_2)-f(x_1)}{x_2-x_1}\leq\frac{f(x_3)-f(x_2)}{x_3-x_2}\]
+\end{theorem}
+\begin{analysis}
+不等式两边乘开化简即得定义式
+\end{analysis}
+\begin{theorem}
+\label{diff_and_convex}
+$f(x)$在$(a,b)$可微，则$f(x)$在$(a,b)$为凸函数，当且仅当$f'(x)$在$(a,b)$单调上升. 进而$f(x)$在$(a,b)$上连续可微. 
+\end{theorem}
+\begin{analysis}
+前者结合拉格朗日中值定理和定理\ref{convex2}可得，后者由定理\ref{mono_and_conti}可知.
+\end{analysis}
+\begin{corollary_convex}
+$f(x)$在$(a,b)$二阶可导，则当$f''(x)\geq 0$时，$f(x)$在$(a,b)$为凸函数
+\end{corollary_convex}
+\begin{theorem}
+\label{convex_and_tangent}
+$f(x)$在$(a,b)$可微，则$f(x)$在$(a,b)$为凸函数，当且仅当$f(x)$在所有点的切线上，即
+\[f(x)\geq f(y)+f'(y)(x-y)\]
+\end{theorem}
+\begin{analysis}
+不妨设$x_1<y<x$，则由定理\ref{convex2}有
+\[\frac{f(y)-f(x_1)}{y-x_1}\leq\frac{f(x)-f(y)}{x-y}\]
+左侧令$x_1\to y$，得$f'(y)$，展开即得.
+\end{analysis}
+\begin{theorem}
+$f(x)$在$(a,b)$为严格凸函数，若$c\in(a,b)$为$f(x)$的极小值点，则$x=c$是$f(x)$在$(a,b)$的唯一极小值点
+\end{theorem}
+\begin{analysis}
+反证法，假设存在另一极小值点$c'$，不妨设$c<c'$.\\
+由函数极值的定义，$\displaystyle\exists\,0<\delta<\frac{c'-c}{2}$，当$x\in U(c,\delta),f(x)\geq f(c)$；当$x\in U(c',\delta),f(x)\geq f(c')$\\
+现任取$x_1\in U^+(c,\delta),x_2\in U^-(c',\delta)$，则$f(x_1)\geq f(c),f(x_2)\geq f(c')$，进而
+\[\frac{f(x_1)-f(c)}{x_1-c}\geq 0,\frac{f(c')-f(x_2)}{c'-x_2}\leq 0\]
+注意到$c<x_1<x_2<c'$，由定理\ref{convex2}，有
+\[0\leq\frac{f(x_1)-f(c)}{x_1-c}<\frac{x_2-x_1}{x_2-x_1}<\frac{f(c')-f(x_2)}{c'-x_2}\leq 0\quad\text{（严格凸，原不等式不能取等）}\]
+产生矛盾.
+\end{analysis}
+
+\subsection{反函数}
+\begin{theorem}
+	若$f(x)$在$[a,b]$连续且严格单调增，$\alpha=f(a),\beta=f(b)$，则反函数$f^{-1}(x)$在$[\alpha,\beta]$连续且严格单调增
+\end{theorem}
+\begin{theorem}
+若函数$y=f(x)$在$x_0$附近连续且严格单调，又$f'(x_0)\ne 0$，则其反函数$x=\varphi(y)$在点$y_0=f(x_0)$可导，且$\displaystyle\varphi'(y_0)=\frac{1}{f'(x_0)}$
+\end{theorem}
+\par 其实反函数只是变换了一下视角，将函数沿着$y=x$做了个对称，因此在题目中将视角变换回来反函数也就没什么特别的了. 练习\ref{reverseinte}有一定难度，但是直观图像是很漂亮的.
+\begin{exercise}
+\label{reverseinte}
+设$y=\varphi(x),x\geq 0$是严格单调增的连续函数，$\varphi(0)=0$，$x=\psi(y)$是它的反函数，证明
+\begin{enumerate}[(a)]
+	\item $\displaystyle\int_0^a\varphi(x)dx+\int_0^{\varphi(a)}\psi(y)dy=a\varphi(a)$
+	\item $\displaystyle\int_0^a\varphi(x)dx+\int_0^b\psi(y)dy\geq ab\qquad(a\geq 0,b\geq 0)$
+\end{enumerate}
+\end{exercise}
+
+
+\subsection{复合函数极限法则与函数连续性的关系}
+\footnote{本部分来自zzd@hkust的笔记}已知$\displaystyle\lim_{u\to u_0}f(u)=A,\lim_{x\to x_0}g(x)=u_0$，欲得$\displaystyle\lim_{x\to x_0}f(g(x))=A$
+\[\text{考察定义}
+\begin{cases}
+\romannumeral1 .& u\to u_0,u\ne u_0 \quad\implies\quad f(u)\to A\\
+\romannumeral2 .& x\to x_0,x\ne x_0 \quad\implies\quad u=g(x)\to u_0
+\end{cases}\quad\implies\quad x\to x_0,x\ne x_0\quad\implies f(g(x))=A\quad\]
+知有以下两种途径，
+\begin{enumerate}
+	\item 通过“强化”条件，增加条件$u\ne u_0$以实现，对应海涅定理及复合函数极限法则\\
+	$x\to x_0,x\ne x_0 \quad\implies\quad u\to u_0,\boxed{u\ne u_0} \quad\implies\quad f(u)\to A$
+	\item 通过“弱化”条件，忽视条件$u\ne u_0$以实现，对应函数的连续性\\
+	$x\to x_0,x\ne x_0 \quad\implies\quad u\to u_0,\cancel{u\ne u_0} \quad\implies\quad f(u)\to A$
+\end{enumerate}
+进而有以下定理.
+\begin{theorem}[复合函数极限法则]\mbox{}
+\par $u=g(x)$在$\mathring{U}(x_0)$有定义，$\displaystyle\lim_{x\to x_0}g(x)=u_0$，而$f(u)$在$\mathring{U}(u_0)$有定义，$\displaystyle\lim_{u\to u_0}f(u)=A$，且$g(x)\ne u_0$，则$\displaystyle\lim_{x\to x_0}f(g(x))=A$
+\end{theorem}
+\begin{definition}[函数连续性]
+\label{continuous}
+若$f(x)$在$x_0$的邻域内（包含$x_0$）有定义，且$\displaystyle\lim_{x\to x_0}f(x)=f(x_0)$，则称$f(x)$在$x_0$连续
+\end{definition}
+\begin{theorem}[函数连续性推论]\mbox{}
+\par $u=g(x)$在$\mathring{U}(x_0)$有定义，$\displaystyle\lim_{x\to x_0}g(x)=u_0$，而$f(u)$在$\mathring{U}(u_0)$有定义，$\displaystyle\lim_{u\to u_0}f(u)=A$，且$f(u)$在$u=u_0$连续，则$\displaystyle\lim_{x\to x_0}f(g(x))=f(\lim_{x\to x_0}g(x))=A$
+\end{theorem}
+\par总结来说，要么$u=g(x)$恒不为$u_0$，要么$f(u)$在$u=u_0$连续，二者任选其一可以推得以上结论.\footnote{当然也可以自己构造不满足这两者的函数，请读者自己尝试}
+\par 通过以上分析也就不难理解为什么在证明复合函数求导法则时不能直接用复合函数极限法则了.
+
+\subsection{关于函数的其他基本定理}
+\begin{theorem}[连续函数介值定理]
+\par $f(x)$在$[a,b]$连续，记$m=\min(f(a),f(b)),M=\max(f(a),f(b))$，则$\forall c\in[m,M],\exists \xi\in[a,b],s.t.\,f(\xi)=c$
+\end{theorem}
+\begin{theorem}[闭区间连续函数最值定理]
+若$f(x)$在$[a,b]$连续，则$f(x)$在$[a,b]$上有最大值和最小值
+\end{theorem}
+\begin{definition}[一致连续]
+$f(x)$在$D$（开、闭或半开半闭）有定义，$\forall \varepsilon>0,s.t./,\forall x_1,x_2\in D$，只要$|x_1-x_2|<\delta$，就有$|f(x_1)-f(x_2)|<\varepsilon$，则称$f(x)$在$D$上一致连续
+\end{definition}
+连续性只需考虑区间的每一点是否有适合连续定义的$\delta$，这是函数的\textbf{局部性质}；而一致连续性要考虑$f(x)$在整个区间的情形，在整个区间内来找适合一致连续定义的$\delta$，这是函数的\textbf{整体性质}.
+\begin{theorem}[康托(Cantor)定理]
+$f(x)$为闭区间$[a,b]$上的连续函数，则$f(x)$一定在$[a,b]$上一致连续
+\end{theorem}
+\begin{example}
+\label{conti1}
+证明：设$f(x)$为区间$(a,b)$上的单调函数，若$x_0\in(a,b)$为$f(x)$的间断点，则$x_0$必为$f(x)$的第一类间断点
+\end{example}
+\begin{analysis}
+不妨设$f(x)$在$(a,b)$上单调上升，否则取$-f(x)$即可\\
+由单调有界原理知，$f(x)$在区间$(a,x_0)$上单调上升有上界$f(x_0)$，必有$\displaystyle\lim_{x\to x_0^-}f(x)=\alpha$；\\
+$f(x)$在区间$(x_0,b)$上单调上升有下界$f(x_0)$，必有$\displaystyle\lim_{x\to x_0^+}f(x)=\beta$\\
+进而$\alpha\leq f(x_0)\leq\beta$，但$\alpha\ne\beta$，否则由夹迫性，$f(x)$在$x=x_0$连续\\
+因此$x_0$必为$f(x)$的第一类间断点.
+\end{analysis}

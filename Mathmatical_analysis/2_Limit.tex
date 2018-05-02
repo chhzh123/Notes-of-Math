@@ -1,0 +1,283 @@
+\section{极限}
+\subsection{数列极限与函数极限对比}
+\begin{definition}[数列极限]
+数列$\{x_n\}$满足
+\[\forall\varepsilon>0,\exists N\in\mathbb{Z}^+,s.t.\,n>N:|x_n-A|<\varepsilon,\]
+则记为$\displaystyle\lim_{n\to\infty}x_n=A$
+\end{definition}
+\begin{definition}[函数极限]
+设$f(x)$在$x_0$的去心邻域$\mathring{U}(x_0,\delta)=\{x\vert0<|x-x_0|<\delta\}$上有定义，满足
+\[\forall\varepsilon>0,\exists\delta>0,s.t.\,x\in\mathring{U}(x_0,\delta):|f(x)-A|<\varepsilon,\]
+则记为$\displaystyle\lim_{x\to x_0}f(x)=A$
+\end{definition}
+\textbf{数列极限的基本性质}
+\begin{enumerate}
+	\item 有界性：有极限必有界
+	\item 保号性：必存在与极限同号的值，即$\displaystyle\exists N,s.t.\,n>N:|x_n|>\frac{|A|}{2}>0$
+	\item 保序性：$\displaystyle\lim_{n\to\infty}x_n=a>\lim_{n\to\infty}y_n=b\implies\exists N,s.t\,n>N:x_n>y_n$
+	\item 唯一性：极限存在必唯一
+	\item 夹迫性：夹逼定理
+	\item 极限不等式：$\displaystyle\exists n,s.t.\,n>N,\in\mathbb{Z}^+,x_n\geq y_n\implies \lim_{n\to\infty}x_n=a\geq\lim_{n\to\infty}y_n=b$
+\end{enumerate}
+\par\textbf{函数极限的基本性质}
+\begin{enumerate}
+	\item 局部有界性：在$\mathring{U}(x_0,\delta)$上有界
+	\item 局部保号性：必存在与极限同号的值，即$\displaystyle\exists \delta>0,s.t.\,x\in\mathring{U}(x_0,\delta):|f(x)|>\frac{|A|}{2}>0$
+	\item 局部保序性：$\displaystyle\lim_{x\to x_0}f(x)=a>\lim_{x\to x_0}g(x)=b\implies\exists \delta>0,s.t.\,x\in\mathring{U}(x_0,\delta):f(x)>g(x)$
+	\item 唯一性：极限存在必唯一
+	\item 夹迫性：夹逼定理
+	\item 极限不等式：$\displaystyle\exists \delta>0,s.t.\,x\in\mathring{U}(x_0,\delta),f(x)\geq g(x)\implies \lim_{x\to x_0}f(x)=a\geq\lim_{x\to x_0}g(x)=b$
+\end{enumerate}
+极限的这些基本性质在各类证明题中应用相当广泛（常用于放缩），需要引起足够重视.
+\begin{theorem}[单调有界原理]\mbox{}\par%换行
+\begin{enumerate}
+	\item 单调上升（下降）有上（下）界的数列必有极限存在
+	\item 单调上升（下降）有上（下）界的函数必有右端点的左极限存在
+	\item 单调上升（下降）有下（上）界的函数必有左端点的右极限存在
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[海涅(Heine)定理]
+\[\lim_{x\to x_0}f(x)=A\iff\forall\{x_n\},\lim_{n\to\infty}x_n=x_0,x_n\ne x_0(n=1,2,\cdots)\text{都有}\lim_{n\to \infty}f(x_n)=A\]
+注：常用来证明函数极限不存在或作逼近用（见例\ref{heine1}）
+\end{theorem}
+\begin{example}
+\label{heine1}
+若连续函数$f(x)$在有理点的函数值为$0$，则$f(x)\equiv 0$
+\end{example}
+\begin{analysis}
+用反证法，若不然，至少存在一个无理点$x_0$使得$f(x_0)\ne 0$，设
+\[x_0=a_0.a_1a_2\cdots a_n\cdots\quad\text{（十分经典的用小数表示无理数，同Dedekind分割）}\]
+取数列$x_n=a_0.a_1a_2\cdots a_n$，由此构造知$\displaystyle\lim_{n\to\infty}x_n=x_0$，但$\displaystyle\lim_{n\to\infty}f(x_n)=0\ne f(x_0)$，由海涅定理的逆否命题知$\displaystyle\lim_{x\to x_0}f(x)\ne f(x_0)$，与$f(x)$在$x=x_0$连续矛盾，因此$f(x)\equiv 0$
+\end{analysis}
+
+\subsection{极限的四则运算}
+需要注意：
+\begin{enumerate}
+	\item 极限的四则运算仅对\textbf{有限项}且\textbf{项数固定}的数列适用，如
+	\[\displaystyle\lim_{n\to\infty}\sum_{i=1}^\infty\frac{1}{n}=\infty\ne \sum_{i=1}^\infty\lim_{n\to\infty}\frac{1}{n}=0\]
+	\item \textbf{加减有限量}对\textbf{趋于无穷}的量没有影响，如
+	\[\lim_{x\to\infty}(1+\frac{1}{x})^x=\lim_{x\to\infty}(1+\frac{1}{x+3})^{x+1}=e\]
+\end{enumerate}
+
+\subsection{几个重要极限}
+\begin{enumerate}
+	\item $\displaystyle\lim_{n\to\infty}\sqrt[n]{n}=1\qquad$令$n=(1+h_n)^n$展开至二次项
+	\item $\displaystyle\lim_{x\to 0}\frac{\sin x}{x}=1\qquad\sin x<x<\tan x$
+	\item $\displaystyle\lim_{x\to\infty}\left(1+\frac{1}{x}\right)^x=e\qquad$由离散推连续
+\end{enumerate}
+
+\subsection{用定义证明极限}
+\begin{enumerate}
+	\item 最后一步不等式$|g(n)-A|<\varepsilon$，小心左侧变负
+	\item 几种常见类型
+	\begin{enumerate}
+		\item 幂函数：$\displaystyle\frac{x^m}{x^n}(x\to\infty)=\frac{1}{x^{n-m}}\to 0$
+		\item 幂指型：$\displaystyle\frac{x^k}{a^x}(a>1,x\to\infty)=\frac{x^k}{(1+b)^x}<\frac{x^k}{C_x^{k+1}x^{k+1}}\to 0$
+		\item 指阶型：$\displaystyle\frac{a^n}{n!}(n\to\infty)=\frac{a}{n}\underbrace{\frac{a}{n-1}\cdots\frac{a}{a+1}}_{<1}\frac{a^a}{a!}<\frac{a}{n}\frac{a^n}{a!}\to 0$
+		\item 阶炸型：$\displaystyle\frac{n!}{n^n}(n\to\infty)=\frac{n}{n}\underbrace{\frac{n-1}{n}\cdots\frac{2}{n}}_{<1}\frac{1}{n}<\frac{1}{n}\to 0$
+	\end{enumerate}
+	\item 常用放缩
+	\begin{enumerate}
+		\item $x^a(a>0)<a^x(a>1)<x!$
+		\item $\displaystyle n<(\frac{n}{2})^{\frac{n}{2}}<n!<n^n\qquad$取对数可证
+		\item $\displaystyle \frac{x}{x+1}\leq\ln(x+1)\leq x$
+		\item $\displaystyle (1+x)^n>1+nx\qquad$伯努利(Bernoulli)不等式
+		\item $\Big||a|-|b|\Big|\leq|a\pm b|\leq|a|+|b|\quad$绝对值三角不等式
+		\item $\displaystyle \frac{2}{\frac{1}{a}+\frac{1}{b}}\leq\sqrt{ab}\leq\frac{a+b}{2}\leq\sqrt{\frac{a^2+b^2}{2}}$
+		\item $[x]\leq x<[x]+1\qquad$高斯函数性质
+	\end{enumerate}
+	\item 有界量直接取界，如$\sin x,(-1)^n$均直接取$\pm 1$
+	\item 分子有理化，如证$\displaystyle\lim_{x\to 2}\sqrt{x^2+5}=3$
+	\item 上一点常结合因式分解，如求$\displaystyle\lim_{x\to 4}\frac{\sqrt{1+2x}-3}{\sqrt{x}-2}$（当然用洛必达也是可以的）\\
+		常用$a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+\cdots+ab^{n-2}+b^{n-1})$
+	\item 通过配凑（加一项减一项）凑出题设形式，后用绝对值三角不等式（常见于证明题）
+	\item 拆分为有穷项和无穷项部分讨论（见例\ref{lim1}）
+	\item 用定义证函数极限时经常要先限制变量范围，常令$0<|x-x_0|<1$
+\end{enumerate}
+\begin{example}
+\label{lim1}
+已知$\displaystyle\lim_{n\to\infty}a_n=a$，证明
+\begin{enumerate}
+	\item $\displaystyle\lim_{n\to\infty}\frac{a_1+a_2+\cdots+a_n}{n}=a$
+	\item 若$a_n>0$，则$\displaystyle\lim_{n\to\infty}\sqrt[n]{a_1a_2\cdots a_n}=a$
+\end{enumerate}
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+\item $\displaystyle\because \lim_{n\to\infty}a_n=a\qquad\therefore\forall\varepsilon_1,\exists N_1\in\mathbb{Z}^+,s.t.\,n>N_1:|a_n-a|<\varepsilon_1$\\
+要证$\displaystyle\lim_{n\to\infty}\frac{a_1+a_2+\cdots+a_n}{n}=a$，即证$\displaystyle\forall\varepsilon,\exists N\in\mathbb{Z}^+,s.t.\,n>N:\left|\frac{a_1+a_2+\cdots+a_n}{n}-a\right|<\varepsilon$\\
+又
+\begin{equation*}
+\begin{aligned}
+\left|\frac{a_1+a_2+\cdots+a_n}{n}-a\right|& =\left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_n-a)}{n}\right|\\
+&\leq \left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_{N_1}-a)}{n}\right|+\left|\frac{(a_{N_1+1}-a)}{n}\right|\\
+&+\left|\frac{(a_{N_1+2}-a)}{n}\right|+\cdots+\left|\frac{(a_{n}-a)}{n}\right|\quad\mbox{拆分有穷项与无穷项}\\
+&< \left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_{N_1}-a)}{n}\right|+\frac{\varepsilon_1(n-N_1)}{n}\\
+&< \left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_{N_1}-a)}{n}\right|+\varepsilon_1\qquad(*)
+\end{aligned}
+\end{equation*}
+注意到$\displaystyle\lim_{n\to\infty}\left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_{N_1}-a)}{n}\right|=0$\\
+即$\displaystyle\exists N_2\in\mathbb{Z}^+,s.t.\,n>N_2:\left|\frac{(a_1-a)+(a_2-a)+\cdots+(a_{N_1}-a)}{n}\right|<\varepsilon_1$\\
+因此$(*)$式$<\varepsilon_1+\varepsilon_1=2\varepsilon_1=\varepsilon$，取$\varepsilon_1=\frac{\varepsilon}{2},N=max(N_1,N_2)$即可
+\item 当$a=0$单独讨论\\
+当$a>0$时，由均值不等式
+\[\frac{n}{\frac{1}{a_1}+\cdots+\frac{1}{a_n}}\leq\sqrt[n]{a_1a_2\cdots a_n}\leq\frac{a_1+a_2+\cdots+a_n}{n}\]
+$\displaystyle\because\lim_{n\to\infty}\frac{1}{a_n}=\frac{1}{a}$\\
+$\displaystyle\therefore\text{由}(1)\text{有}\lim_{n\to\infty}\frac{\frac{1}{a_1}+\cdots+\frac{1}{a_n}}{n}=\frac{1}{a}$
+\end{enumerate}
+注：本题的结论还是有一定用处的，可以记住
+\end{analysis}
+\begin{exercise}
+$\displaystyle x_n>0,\lim_{n\to\infty}\frac{x_{n+1}}{x_n}=a$，则$\displaystyle\lim_{n\to\infty}\sqrt[n]{x_n}=a$%T141
+\end{exercise}
+\begin{exercise}
+证明$\displaystyle\lim_{n\to\infty}\frac{n}{\sqrt[n]{n!}}=e$%T142
+\end{exercise}
+
+\subsection{用其他方法证明极限}
+\begin{enumerate}
+	\item 化归重要极限证明
+	\item 根式型升指数：如$\displaystyle \lim_{n\to\infty}\sqrt[n]{n}=\lim_{n\to\infty} e^{\frac{1}{n}\ln n}=e^{\lim_{n\to\infty}\frac{1}{n}\ln n}(\text{函数连续性})=1$
+	\item 数列的单调有界原理：用于根式递推、分式递推
+	\begin{example}
+	$\displaystyle x_0=1,x_n=1+\frac{x_{n-1}}{1+x_{n-1}},n=1,2,\cdots$，求$\displaystyle\lim_{n\to\infty}x_n$
+	\end{example}
+	\begin{analysis}
+	先证明$\{x_n\}$单调增，即证$x_{n+1}>x_n$，由$1+x_n>0$知显然成立\\
+	再证明其有界，观察猜想$x_n<2$（写多几项就可以估计出大致的界），用第一数学归纳法易证\\
+	进而由单调有界原理知$\{x_n\}$有极限，不妨设为$A$\\
+	对$\displaystyle x_n=1+\frac{x_{n-1}}{1+x_{n-1}}$两侧求极限$(n\to\infty)$\\
+	得$\displaystyle A=1+\frac{A}{1+A}$，故$\displaystyle\lim_{n\to\infty}x_n=A=\frac{1+\sqrt{5}}{2}$（已舍去负根）
+	\end{analysis}
+	\begin{exercise}
+	设$\displaystyle x_n=1+\frac{1}{2}+\cdots+\frac{1}{n}-\ln n$，证明$\{x_n\}$收敛.\\
+	另，本题的结论可用来求练习\ref{limitrimsum}.
+	\end{exercise}
+	\item 夹逼
+	\begin{enumerate}
+		\item 取两头，全部换成同一项（例\ref{jb1}）或者就只剩下一项（例\ref{jb2}）
+		\begin{example}
+		\label{jb1}
+		$\displaystyle S=\sum _{k=n^2}^{(n+1)^2} \frac{1}{\sqrt{k}}$，求$\displaystyle\lim_{n\to\infty}S$
+		\end{example}
+		\begin{analysis}\[\frac{2n+1}{n+1}=\sum _{k=n^2}^{(n+1)^2}\frac{1}{\sqrt{(n+1)^2}}<S<\sum _{k=n^2}^{(n+1)^2}\frac{1}{\sqrt{n^2}}=\frac{2n+1}{n}\quad\to 2(n\to\infty)\]
+		\end{analysis}
+		\begin{example}
+		\label{jb2}
+		$\displaystyle S=\sqrt[n]{\sum_{k=1}^{n}\cos^2 k}$，求$\displaystyle\lim_{n\to\infty}S$
+		\end{example}
+		\begin{analysis}
+		\[\sqrt[n]{\cos^2 1}<S<\sqrt[n]{\sum_{k=1}^{n}1}\quad\to 1(n\to\infty)\]
+		\end{analysis}
+		类似地，可证明下面习题
+		\begin{exercise}
+		$\displaystyle \lim_{n\to\infty}\sqrt[n]{\sum_{i=1}^{m}a_i^n}=\max_{1\leq i\leq m}a_i$
+		\end{exercise}
+		\item 不等式放缩
+		\begin{example}
+		$\displaystyle S=\prod_{k=1}^{n}\frac{2k-1}{2k}$，求$\displaystyle\lim_{n\to\infty}S$
+		\end{example}
+		\begin{analysis}
+		\[2k=\frac{2k-1+2k+1}{2}\ge\sqrt{(2k-1)(2k+1)}\]
+		均值放缩以得到相同项，达到相消目的
+		\[0<S\leq\prod_{k=1}^{n}\frac{2k-1}{\sqrt{(2k-1)(2k+1)}}=\prod_{k=1}^{n}\sqrt{\frac{2k-1}{2k+1}}=\frac{1}{2n+1}\quad\to 0(n\to\infty)\]
+		\end{analysis}
+		\begin{exercise}
+		$\displaystyle\lim_{n\to\infty}\sqrt[n]{\prod_{i=1}^{n}\frac{2i-1}{2i}}$
+		\end{exercise}
+	\end{enumerate}
+	\item 洛必达(L'Hospital)法则
+	\begin{enumerate}
+		\item 一定要先判断是否是未定型$\displaystyle\frac{0}{0},\frac{\infty}{\infty},0\cdot\infty,\infty-\infty,1^\infty$
+		\item 求导后极限不存在不能说原极限不存在，如
+		\[\lim_{x\to\infty}\frac{\sin x+x}{x}=1\ne\lim_{x\to\infty}\frac{\cos x+1}{1}\]
+		\item 函数摆在分子还是分母需要考虑
+		\item 一些奇怪的东西只要符合未定型也是可以用洛必达的，如下面的练习\ref{lhos}
+	\end{enumerate}
+	\begin{exercise}
+	\label{lhos}
+	设$f(x)$在任一有限区间上可以积分，且$\displaystyle\lim_{x\to+\infty}f(x)=l$，证明
+	\[\lim_{x\to+\infty}\frac{1}{x}\int_0^xf(t)dt=l\]
+	\end{exercise}
+	\item 证明极限不存在：通过找两种不同的趋近方式，得出结果不同
+	\begin{exercise}
+	证明狄利克雷(Dirichlet)函数
+	\[D(x)=\begin{cases}
+	1,\qquad x\mbox{为有理数}\\
+	0,\qquad x\mbox{为无理数}\end{cases}\]
+	在$[0,1]$不可积.
+	\end{exercise}
+\end{enumerate}
+%网页链接有%始终不行
+\begin{theorem}[O'Stolz定理\protect\footnote{本定理可跳过，详细内容请见$https://en.wikipedia.org/wiki/Stolz\%E2\%80\%93Ces\%C3\%A0ro\_theorem$}]%T143
+若\begin{enumerate}[(a)]
+	\item $y_{n+1}>y_n,n=1,2,\cdots$
+	\item $\displaystyle\lim_{n\to\infty}y_n=+\infty$
+	\item $\displaystyle\lim_{n\to\infty}\frac{x_{n+1}-x_n}{y_{n+1}-y_n}$存在
+\end{enumerate}
+则$\displaystyle\lim_{n\to\infty}\frac{x_n}{y_n}=\lim_{n\to\infty}\frac{x_{n+1}-x_n}{y_{n+1}-y_n}$\\
+注：本定理算是洛必达法则的离散版本.
+\end{theorem}
+\begin{exercise}
+用O'Stolz定理证明极限
+\begin{enumerate}
+	\item $\displaystyle\lim_{n\to\infty}\frac{\lg n}{n}=0$
+	\item 例\ref{lim1}的题1
+	\item $\displaystyle\lim_{n\to\infty}\frac{1!+2!+\cdots+n!}{n!}=1$
+	\item $\displaystyle\lim_{n\to\infty}\frac{1+\frac{1}{2}+\cdots+\frac{1}{n}}{\ln n}=1$
+	\item $\displaystyle\lim_{n\to\infty}\frac{1^p+2^p+\cdots+n^p}{n^p+1}=\frac{1}{p+1}$
+\end{enumerate}
+\end{exercise}
+\begin{exercise}
+求下列极限，不限方法
+\begin{enumerate}
+	\item $\displaystyle\lim_{n\to\infty}\frac{\sqrt[3]{n^2}\sin n!}{n+1}$
+	\item $\displaystyle\lim_{n\to\infty}\sum_{i=1}^n\frac{(-1)^{n-1}i}{n}$
+	\item $\displaystyle\lim_{n\to\infty}(n!)^{\frac{1}{n^2}}$
+\end{enumerate}
+\end{exercise}
+
+\subsection{无穷小量与无穷大量}
+\subsubsection{渐近符号定义\protect\footnote{摘自《算法导论》，可跳过}}
+\begin{enumerate}
+	\item $f(n)=O(g(n))\quad$类似于$\quad a\leq b$
+	\[O(g(n))=\{f(n)\,|\,\exists c,n_0,s.t.\,0\leq f(n)\leq cg(n),\forall n\geq n_0\}\]
+	\item $f(n)=\Omega(g(n))\quad$类似于$\quad a\geq b$
+	\[\Omega(g(n))=\{f(n)\,|\,\exists c,n_0,s.t.\,0\leq cg(n)\leq f(n),\forall n\geq n_0\}\]
+	\item $f(n)=\Theta(g(n))\quad$类似于$\quad a=b$
+	\[\Theta(g(n))=\{f(n)\,|\,\exists c_1,c_2,n_0>0,s.t.\,0\leq c_1g(n)\leq f(n)\leq c_2g(n),\forall n\geq n_0\}\]
+	\item $f(n)=o(g(n))\quad$类似于$\quad a<b\quad$可推出$\quad f(n)=O(g(n))$
+	\[o(g(n))=\{f(n)\,|\,\forall c>0,\exists n_0,s.t.\,0\leq f(n)< cg(n),\forall n\geq n_0\}\quad\implies\lim_{n\to\infty}\frac{f(n)}{g(n)}=0\]
+	\item $f(n)=\omega(g(n))\quad$类似于$\quad a>b\quad$可推出$\quad f(n)=\Omega(g(n))$
+	\[\omega(g(n))=\{f(n)\,|\,\forall c>0,\exists n_0,s.t.\,0\leq cg(n)< f(n),\forall n\geq n_0\}\quad\implies\lim_{n\to\infty}\frac{f(n)}{g(n)}=\infty\]
+\end{enumerate}
+
+\subsubsection{无穷小量定义}
+\begin{enumerate}
+	\item 同阶无穷小：$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=c\ne 0$
+	\item $k$阶无穷小：$\displaystyle\lim_{x\to a}\frac{f(x)}{g^k(x)}=c\ne 0,k>0$
+	\item 等价无穷小：$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=1$，也可记为$f(x)\thicksim g(x)$
+\end{enumerate}
+注意：无穷小量不是一个数
+
+\subsubsection{等价无穷小量}
+以下列举的是比较常用的等价无穷小量$(x\to 0)$\footnote{实际上是一阶麦克劳林公式}，在极限乘除运算\footnote{求极限什么情况下可以在加减式中使用等价（无穷小）替换？-@撒欢猪宝的回答\url{https://zhihu.com/question/49541771/answer/118408666}}中可以相互替代
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\arcsin x\thicksim\sin x\thicksim x$
+	\item $\arctan x\thicksim\tan x\thicksim x$
+	\item $\ln(1+x)\thicksim x$
+	\item $\displaystyle 1-\cos x\thicksim\frac{x^2}{2}$
+	\item $e^x-1\thicksim x$
+	\item $\displaystyle \sqrt[n]{1+x}-1\thicksim\frac{x}{n}$
+\end{enumerate}
+\begin{exercise}
+求下列极限（尝试用等价无穷小量代换）
+\begin{enumerate}
+	\item $\displaystyle\lim_{x\to 0}\frac{\tan x-\sin x}{x}$
+	\item $\displaystyle\lim_{x\to 0}\frac{\tan x\ln(1+x)}{\sin x^2}$
+\end{enumerate}
+\end{exercise}
+
+% $x_n\to a$，$a\ne 0,\displaystyle\lim_{n\to\infty}\frac{x_{n+1}}{x_n}=1;a=0$可能存在也可能不存在，存在时必属于$[-1,1]$%T92
+%T143

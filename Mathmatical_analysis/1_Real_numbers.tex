@@ -1,0 +1,25 @@
+\section{实数系基本定理}
+\begin{definition}[戴德金(Dedekind)连续性准则]
+有大小顺序稠密的数系$S$，对于其任一分划$A|B$，$\exists$唯一$c\in S:\forall a\in A,b\in B:a\leq c\leq b$（即要么$A$有最大值，要么$B$有最小值)，则称$S$连续. 
+\end{definition}
+由此准则可以推出$\mathbb{Q}$不是连续的. 需要注意：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 分划的断点$c$不一定属于$S$（正因$c\notin S$，$\mathbb{Q}$不连续）
+	\item 分划要保证\textbf{不空、不漏、不乱}
+\end{enumerate}
+\begin{theorem}[实数基本定理]
+对$\mathbb{R}$的任一分划$A|B$，$\exists$唯一$r\in S:\forall a\in A,b\in B:a\leq r\leq b$
+\end{theorem}
+\begin{definition}[区间套]
+一组实数的\textbf{闭}区间序列$[a_n,b_n],n=1,2,\cdots$，满足
+\begin{enumerate}[a.]
+	\item $[a_{n+1},b_{n+1}]\subset[a_n,b_n],n=1,2,\cdots$
+	\item $\displaystyle\lim_{n\to\infty}(b_n-a_n)=0$
+\end{enumerate}
+则称$\{[a_n,b_n]\}$构成一个区间套
+\end{definition}
+\begin{theorem}[区间套定理]
+$\{[a_n,b_n]\}$是一个区间套，则存在唯一$\displaystyle r\in\mathbb{R},s.t.\,r\in\bigcap_{n=1}^{\infty}[a_n,b_n]$
+\end{theorem}
+\par连续函数介值定理、最值定理、康托定理均用到区间套定理来证明.
