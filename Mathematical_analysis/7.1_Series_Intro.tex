@@ -1,0 +1,330 @@
+% !TEX root = main.tex
+
+\section{无穷级数与广义积分}
+本章中会将正项级数、一般项级数、广义积分（无穷限积分、瑕积分）、函数项级数放在一起进行比较，当然也会涉及各类级数各自的特性. 由于将内容进行整合，故最重要的各类判别法总结在~\ref{summary_conver}节才进行讲述.
+
+\subsection{级数的基本性质}
+\begin{definition}[无穷级数]
+$\{u_n\}$为数列，称形式和
+\[\ssum{u_n}=\lim_{n\to\infty}\sum_{k=1}^n u_k=\lim_{n\to\infty}S_n=S\]
+为级数$\ssum{u_n}$的和，称其收敛到$S$.
+\end{definition}
+\par 可由数列极限性质直接推导出来的定理在此不再赘述.
+\begin{theorem}[数项级数收敛的必要条件]
+\label{series_conver}
+若$\ssum{u_n}$收敛，则$\displaystyle\lim_{n\to\infty}u_n=0$
+\end{theorem}
+\par 注意此定理并非充分条件，如$\ssum{\ln\lrp{1+\dfrac{1}{n}}}=\ln(n+1)$发散，但其一般项趋于$0$. 并且，此定理也只适用于数项级数，广义积分并不具有这样的性质.
+\par 在进行数项级数收敛性判断时，第一步就得先判定其一般项是否趋于$0$，然后再考虑其他判别方法. 如果遇到比较简单的数列，可以直接求和的，那就先求和再讨论，如下面的例~\ref{eg_series_conver1}.
+\begin{example}
+$\ssum{r^n\sin nx},|r|<1$
+\label{eg_series_conver1}
+\end{example}
+\begin{analysis}
+用三角函数的复数形式. 由棣莫弗公式$e^{ix}=\cos x+i\sin x$，得到$\sin x=\dfrac{e^{ix}-e^{-ix}}{2}$，其中$i^2=-1$.
+\[\begin{aligned}
+LHS &= \dfrac{1}{2}\ssum{r^n(e^{inx}-e^{-inx})}\\
+&= \dfrac{1}{2}\lim_{n\to\infty}\left(re^{ix}\dfrac{1-(re^{ix})^n}{1-re^{ix}}-re^{-ix}\dfrac{1-(re^{-ix})^n}{1-re^{-ix}}\right)\qquad\mbox{等比数列求和}\\
+&\xlongequal{z=re^{ix}} \dfrac{1}{2}\left(\dfrac{z}{1-z}-\dfrac{\bar{z}}{1-\bar{z}}\right)\qquad\mbox{因$|z|<1$故$\displaystyle\lim_{n\to\infty}z^n=0$}\\
+&= \dfrac{1}{2}\dfrac{z-\bar{z}}{1-(z+\bar{z})+r^2}\qquad\mbox{$z\bar{z}=r^2$，通分}\\
+&= \dfrac{r\sin x}{1-2r\cos x+r^2}
+\end{aligned}\]
+\par 注：当然也可以用三角函数积化和差和差化积去做，但相比起复数法会复杂很多
+\end{analysis}
+关于数列求和的各种技巧，如裂项求和、错位相消、分子有理化、三角恒等变形等均要熟悉.
+
+
+\subsubsection{正项级数}
+\begin{definition}[正项级数]
+级数的每一项都\textbf{非负}，则称其为正项级数. 由此知正项级数一定为实级数.
+\end{definition}
+\begin{theorem}[正项级数收敛的充要条件]
+正项级数$\ssum{u_n}$收敛的充要条件是$\{S_n\}$有上界
+\end{theorem}
+\begin{analysis}
+	必要性：极限有界性；充分性：单调有界原理
+\end{analysis}
+\begin{example}p级数
+\[\ssum{\dfrac{1}{n^p}}\]
+当$p\leq 1$时发散，$p>1$时收敛（$p=1$时也称为调和级数）
+\end{example}
+\par 下面的柯西积分判别法是用连续量来研究离散量很好的例子，遇到$\ln n,\dfrac{1}{n^p}$等可考虑
+\begin{theorem}[柯西积分判别法]
+$f(x)$在$[0,+\infty)$连续且单调下降，$u_n=f(n)$，则$\ssum{u_n}$收敛充要条件是
+\[\displaystyle\lim_{x\to+\infty}\int_1^xf(t)\diff t\]
+存在
+\end{theorem}
+\begin{example}
+\[\sum_{n=2}^{\infty}{\dfrac{1}{n^p\ln n}},p\in\rr\]
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item 当$p=1$时，$f(x)=\dfrac{1}{x\ln x}$在$[2,+\infty)$单调递减
+	\[\limtoinf\intab{2}{n}{\dfrac{1}{x\ln x}}=\ln\ln x\Big|_2^{+\infty}=+\infty\]
+	由柯西积分判别法，原级数发散
+	\item 当$p\leq 1$时，$\dfrac{1}{n^p\ln n}\geq\dfrac{1}{n\ln n}$，由比较判别法，原级数发散
+	\item 当$p>1$时，$\dfrac{1}{n^p\ln n}<\dfrac{1}{n^p}$，由比较判别法，原级数收敛
+\end{enumerate}
+\end{analysis}
+
+\subsubsection{一般项级数}
+\begin{definition}[交错级数]
+$\ssum{(-1)^{n-1}u_n},u_n>0$
+\end{definition}
+\par 下面的莱布尼茨判别法是判断交错级数收敛简便而有效的方法.
+\begin{theorem}[莱布尼茨(Leibniz)判别法]
+交错级数$\ssum{(-1)^{n-1}u_n}$的一般项$\{u_n\}$单调下降趋于$0$，则交错级数收敛
+\end{theorem}
+\par 注意莱布尼茨判别法是判断收敛性，而不是判断绝对收敛性的，后面多种判别法一起运用时经常会搞混. 由于前面的有限项对最终的极限没有影响，因此交错级数的一般项只要从某个$n$开始单调下降趋于$0$就可以使用莱布尼茨判别法了.
+\par 当然不是所有交错级数都能让你一眼望穿，直接使用判别法，如下面这个例子就需要进行拆分，再分别判断.
+\begin{example}
+\[\sum_{n=2}^{\infty}\dfrac{(-1)^n}{\sqrt{n}+(-1)^n}\]
+\end{example}
+\begin{analysis}泰勒展开
+\[\dfrac{(-1)^n}{\sqrt{n}+(-1)^n}=\dfrac{(-1)^n}{\sqrt{n}}\lrp{1+\dfrac{(-1)^n}{\sqrt{n}}}^{-1}
+=\dfrac{(-1)^n}{\sqrt{n}}\left[1-\dfrac{(-1)^n}{\sqrt{n}}+\mathcal{O}\lrp{\dfrac{1}{n}}\right]
+=\dfrac{(-1)^n}{\sqrt{n}}-\dfrac{1}{n}+\mathcal{O}\lrp{\dfrac{1}{n^{\frac{3}{2}}}}\]
+因$\nums{\dfrac{1}{\sqrt{n}}}$单调下降趋于$0$，由莱布尼茨判别法，$\displaystyle\sum_{n=2}^{\infty}\dfrac{(-1)^n}{\sqrt{n}}$收敛\\
+又由$p$级数的性质知$\displaystyle\sum_{n=2}^{\infty}\dfrac{1}{n^{\frac{3}{2}}}$收敛.\\
+但$\displaystyle\sum_{n=2}^\infty\dfrac{1}{n}$发散，故原级数发散.
+\end{analysis}
+\par 下面的阿贝尔变换和阿贝尔引理均为阿贝尔判定法的铺垫，证明均不难，记住几何意义可以现推.
+\begin{theorem}[阿贝尔(Abel)变换]
+两组数列$\{a_n\},\{b_n\}$，设$\{b_n\}$的部分和数列为$\{B_n\}$，则
+\[\begin{aligned}
+\sum_{i=1}^na_ib_i&=\sum_{i=1}^na_i(B_i-B_{i+1})\\
+&=\sum_{i=1}^{n-1}(a_i-a_{i+1})B_i+a_nB_n
+\end{aligned}\]
+\end{theorem}
+\begin{theorem}[阿贝尔引理]
+设$\{a_n\}$单调，$\{B_n\}$为$\{b_n\}$的部分和有界$M$，则
+\[\left|\sum_{i=1}^na_ib_i\right|\leq M(|a_1|+2|a_n|)\]
+\end{theorem}
+
+\subsubsection{代数运算}
+\begin{enumerate}
+	\item 结合律：\textbf{条件/绝对收敛}级数任意加括号，和不变；但不能随意去括号
+	\item 交换律：\textbf{绝对收敛}成立；条件收敛适当重排，可使新级数发散或收敛到某一特定值(Riemman)
+	\item 分配律：\textbf{绝对收敛}成立(Cauchy)
+\end{enumerate}
+
+
+\subsection{广义积分}
+\begin{definition}[无穷限积分]
+设$f(x)$在$[a,+\infty)$有定义，并且在任意有限区间$[a,A]$上可积，定义
+\[\int_a^{+\infty}f(x)\diff x:=\lim_{A\to+\infty}\int_a^Af(x)\diff x=I\]
+为$[a,+\infty)$的无穷限积分
+\end{definition}
+\begin{definition}[瑕积分]
+设$f(x)$在$(a,b]$有定义，并且在任意区间$[a+\eta,b]$上可积($\eta>0$)，在$(a,a+\eta]$无界，定义
+\[\intab{a}{b}{f(x)}:=\lim_{\eta\to0^+}\intab{a+\eta}{b}{f(x)}\]
+为$[a,+\infty)$的瑕积分
+\end{definition}
+\par 注意在无穷项积分中$\intab{a}{+\infty}{f(x)}$收敛并不能推出$f(x)\to0(x\to+\infty)$，这与数项级数不同，如例~\ref{countereg_conver_integ}说明了这一点.
+\par 下面的积分第二中值定理类似于数列的阿贝尔变换，用于证明广义积分的阿贝尔判定法.
+\begin{theorem}[积分第二中值定理]
+设$f(x)$在$[a,b]$上可积，而$g(x)$在$[a,b]$上单调，则在$[a,b]$中存在$\xi$使得
+\[\intab{a}{b}{f(x)g(x)}=g(a)\intab{a}{\xi}{f(x)}+g(b)\intab{\xi}{b}{f(x)}\]
+\end{theorem}
+\par 在进行广义积分的收敛性判定时，一般先尝试其是否可以进行正常的积分，即求不定积分（详细方法见第~\ref{section_integration}章），之后才考虑用各类判别法. 并且在实际运算过程中要记得分段，最好每一个区间只含一个瑕点，在端点或者内点都可.
+\begin{example}
+\[\intab{0}{+\infty}{\dfrac{\sqrt{x}}{1+x^2}}\]
+\end{example}
+\begin{analysis}
+如果只是判断收敛性，则用比较判别法
+\[\lim_{x\to\infty}\dfrac{\sqrt{x}}{1+x^2}\Big/\dfrac{1}{x^{\frac{3}{2}}}=\lim_{x\to\infty}\dfrac{x^2}{1+x^2}=1\]
+而$\intab{0^+}{+\infty}{\dfrac{1}{x^{\frac{3}{2}}}}$收敛（注意瑕点），故原积分收敛.\\
+如果要求值，则变得相当麻烦
+\[\begin{aligned}
+  \intab{0}{+\infty}{\dfrac{\sqrt{x}}{1+x^2}}
+  &=\intabu{0}{+\infty}{\dfrac{2u^2}{1+u^4}{u}}\\
+  &=\intabu{0}{+\infty}{\left(-\dfrac{\sqrt{2}/2u}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}/2u}{u^2-\sqrt{2}u+1}\right)}{u}\\
+  &=\dfrac{\sqrt{2}}{2}\Bigg(\dfrac{1}{2}\int_0^{+\infty}\dfrac{\diff(u^2-\sqrt{2}u+1)}{u^2-\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\int_0^{+\infty}\dfrac{\diff\left(u-\dfrac{\sqrt{2}}{2}\right)}{\left(u-\dfrac{\sqrt{2}}{2}\right)^2+\left(\dfrac{\sqrt{2}}{2}\right)^2}\\
+  &\quad-\dfrac{1}{2}\int_0^{+\infty}\dfrac{\diff(u^2+\sqrt{2}u+1)}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\int_0^{+\infty}\dfrac{\diff\left(u+\dfrac{\sqrt{2}}{2}\right)}{\left(u+\dfrac{\sqrt{2}}{2}\right)^2+\left(\dfrac{\sqrt{2}}{2}\right)^2}\Bigg)\\
+  &=\dfrac{\sqrt{2}}{2}\left(\dfrac{1}{2}\ln\dfrac{u^2-\sqrt{2}u+1}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\arctan(\sqrt{2}u-1)+\dfrac{\sqrt{2}}{2}\arctan(\sqrt{2}u+1)\right)\Bigg|_0^{+\infty}\\
+  &=\dfrac{\sqrt{2}}{2}\pi                   
+\end{aligned}\]
+\end{analysis}
+
+\subsection{函数项级数}
+\subsubsection{函数列}
+对于函数列$\{f_n(x)\}$可以将其看为二元函数$f(n,x)$，但实际上我们在研究它的性质的时候往往是针对某个点$x=x_0$（确定的$x$），令$n\to\infty$. 这样看的话，函数项级数与数项级数没有太大差别.
+\begin{definition}[极限函数]
+\[f(x):=\lim_{n\to\infty}f_n(x),\forall x\in X\]
+称为函数列$\{f_n(x)\}$的极限函数
+\end{definition}
+由于在不同点函数值构成的数列收敛的快慢不一致，在快慢发生急剧变化的地方，极限函数可能会变成间断，因此引入\textbf{一致收敛}的概念，以描述函数各处收敛速度差不多的性质.
+\begin{definition}[一致收敛]
+$\forall \varepsilon>0,\exists N=N(\varepsilon),\forall n>N, x\in X$，有
+\[|f_n(x)-f(x)|<\varepsilon\]
+则称函数列$\{f_n(x)\}$在$X$一致收敛到$f(x)$. 或记
+\[\rho_n=\sup_{a\leq x\leq b}|f_n(x)-f(x)|\]
+$\{f_n(x)\}$在$X$一致收敛到$f(x)$当且仅当$\rho_n\to0(n\to\infty)$.
+\end{definition}
+\par 函数列的一致收敛性一般按照定义证明，与极限定义证明方法类似，在此不再赘述，关键在于把$x$看成常数，$n$看成变量.
+\par 注意不一致收敛的定义与平时的定义改写有较大区别，在此说明.
+\begin{definition}[不一致收敛]
+$\exists \varepsilon_0>0,\forall N\in\zz^+,\exists n>N$与$x_n\in[a,b]$，使得
+\[|f_n(x)-f(x)|\geq\varepsilon_0\]
+则称函数列$\{f_n(x)\}$在$X$不一致收敛到$f(x)$
+\end{definition}
+\par 下面是一个关于一致收敛性很有趣的例子.
+\begin{example}
+\[f_n(x)=\dfrac{x^n}{1+x^n}\]
+讨论在以下区间的一致收敛性
+\begin{enumerate}
+	\itemsep -3pt
+	\item $x\in[0,b],b<1$
+	\item $x\in[0,1)$
+\end{enumerate}
+\end{example}
+\begin{analysis}易得极限函数
+\[f(x)=\begin{cases}
+0&x\in[0,1)\\
+\dfrac{1}{2}&x=1\\
+1&x>1
+\end{cases}\]
+\begin{enumerate}
+	\item $\forall\varepsilon>0,|f_n(x)-f(x)|=\dfrac{x^n}{1+x^n}\leq x^n\leq b^n,x\in[0,b],b<1$\\
+	则取$N=\floor{\log_b\varepsilon}+1$，当$n>N$时，$|f_n(x)-f(x)|\leq \varepsilon$，故一致收敛
+	\item $\exists\varepsilon_0=\dfrac{1}{3},\forall N,\exists n=N+1>N$，取$x_n=\dfrac{1}{\sqrt[n]{2}}\in[0,1)$，则
+	\[|f_n(x_n)-f(x_n)|=\dfrac{1/2}{1+1/2}=\dfrac{1}{3}\geq\eps_0=\dfrac{1}{3}\]
+	故不一致收敛
+\end{enumerate}
+初看会感觉这两者很矛盾，但细想是有区别的. 前者的上确界小于$1$，而后者的上确界等于$1$，其中的极限过程已经超出了人脑能脑补的程度了.
+\end{analysis}
+\begin{definition}[一致有界]
+\[\exists M>0, s.t. \forall x\in X,n:\;|f_n(x)|\leq M\]
+则称函数列$\{f_n(x)\}$在$X$一致有界
+\end{definition}
+\begin{theorem}
+\begin{enumerate}
+	\item $f_n(x)$在$[a,b]$上有界，并且$\nums{f_n(x)}$在$[a,b]$上一致收敛到$f(x)$，则$f_n(x)$在$[a,b]$上一致有界
+	\item $f_n(x)$在$[a,b]$上一致连续，并且$\nums{f_n(x)}$在$[a,b]$上一致收敛到$f(x)$，则$f(x)$在$[a,b]$上一致连续
+	\item $f_n(x)$在$[a,b]$上黎曼可积，并且$\nums{f_n(x)}$在$[a,b]$上一致收敛到$f(x)$，则$f(x)$在$[a,b]$上黎曼可积
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+\begin{enumerate}
+	\item 因$f_n(x)$在$[a,b]$有界，设$|f_n(x)|<M_n$\\
+	因$f_n(x)\to f(x)$，取$\eps=1$，则当$n>N$时，$|f_n(x)-f(x)|<1$，故$|f(x)|<|f_{N+1}(x)|+1<M_{N+1}+1$\\
+	进而$\forall n>N:|f_n(x)|<|f(x)|+1<M_{N+1}+2$，取$M=\max(M_1,M_2,\ldots,M_N,M_{N+1}+2)>0$，则$\forall n:|f_n(x)|<M$，$f_n(x)$在$[a,b]$上一致有界
+	\item 最后要证$|f(x_1)-f_{N+1}(x_1)+f_{N+1}(x_1)-f_{N+1}(x_2)+f_{N+1}(x_2)-f(x_2)|<\eps$，拆分一下分别用定义即可
+	\item 用定积分定义证，比较麻烦
+\end{enumerate}
+\end{analysis}
+\begin{theorem}[函数列的分析性质]
+\begin{enumerate}
+	\itemsep -3pt
+	\item (连续)若函数列$\{f_n(x)\}$每一项都在$[a,b]$连续，且$\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，则$f(x)$连续
+	\[\displaystyle\lim_{x\to x_0}\lim_{n\to\infty}f_n(x)=f(x_0)=\lim_{n\to\infty}\lim_{x\to x_0}f_n(x)\]
+	\item (可积)若函数列$\{f_n(x)\}$每一项都在$[a,b]$连续，且$\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，则$f(x)$可积
+	\[\intab{a}{b}{f(x)}=\displaystyle\lim_{n\to+\infty}\intab{a}{b}{f_n(x)}\]
+	\item (可微)若函数列$\{f_n(x)\}$每一项都在$[a,b]$有连续微商$f_n'(x)$，$\{f_n(x)\}$在$[a,b]$\textbf{逐点}收敛到$f(x)$，\\
+	且$\{f_n'(x)\}$在$[a,b]$\textbf{一致}收敛到$\sigma(x)$，则$f(x)$可微，且
+	\[\displaystyle f'(x)=(\lim_{n\to+\infty}f_n(x))'=\lim_{n\to+\infty}f_n'(x)=\sigma(x)\]
+\end{enumerate}
+\end{theorem}
+\begin{example}
+\begin{enumerate}
+	\item 若函数列$\{f_n(x)\}$每一项都在$[a,b]$连续，且$\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，$x_n\in[a,b]$，且$\limtoinf{x_n}=x_0$，则$\limtoinf{f_n(x_n)}=f(x_0)$
+	\item $\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，$x_0\in(a,b)$且$\disp\lim_{x\to x_0}f_n(x)=a_n$，则$\disp\limtoinf\lim_{x\to x_0}f_n(x)=\lim_{x\to x_0}\limtoinf{f_n(x)}$
+\end{enumerate}
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item 证$|f_n(x_n)-f(x_0)|=|f_n(x_n)-f(x_n)+f(x_n)-f(x_0)|<\eps$
+	\item 证$|f(x)-a|=|f(x)-f_{N+1}(x)+f_{N+1}(x)-a_{N+1}+a_{N+1}-a|<\eps$，其中会用到柯西列
+\end{enumerate}
+\end{analysis}
+
+\subsubsection{和函数}
+\begin{definition}[和函数]
+对于函数列$\nums{u_n(x)}$，定义和函数
+\[\begin{aligned}
+S(x):&=\lim_{n\to\infty}S_n(x)=\lim_{n\to\infty}\sum_{k=1}^nu_k(x)\\
+&=\ssumk{u_k(x)},\forall x\in X
+\end{aligned}\]
+\end{definition}
+\par 当函数项级数可以求和时，要先把和求出来. 把$x$看成常数，函数项级数会往往变成一个等比数列，这样就可以求和了.
+\begin{example}按定义讨论下面级数的一致收敛性
+\[\ssum{\dfrac{(-1)^{n-1}x^2}{(1+x^2)^n}},x\in(-\infty,+\infty)\]
+\end{example}
+\begin{analysis}
+设部分和数列为$S_n(x)$，和函数（若存在的话）为$S(x)$，则$\forall\eps>0,\exists N=N(\eps)$使得$\forall n>N$有
+\[|S_n(x)-S(x)|<\eps\]
+注意到
+\[S_n(x)=\ssumkn{\dfrac{(-1)^{k-1}x^2}{(1+x^2)^k}}=-x^2\ssumkn{\lrp{-\dfrac{1}{1+x^2}}^k}=\dfrac{x^2}{2+x^2}\lrp{1-\lrp{-\dfrac{1}{1+x^2}}^n}\]
+故
+\[\limtoinf{S_n(x)}=S(x)=\dfrac{x^2}{2+x^2}\]
+因此
+\[\begin{aligned}
+|S_n(x)-S(x)|
+&=\lra{\dfrac{x^2}{2+x^2}\dfrac{(-1)^{n-1}}{(1+x^2)^n}}\\
+&=\dfrac{x^2}{(1+x^2)^n(2+x^2)}\\
+&\leq\dfrac{1}{2}\dfrac{x^2}{1+nx^2}\qquad\mbox{伯努利不等式}\\
+&\leq\dfrac{1}{2}\dfrac{x^2}{nx^2}\\
+&=\dfrac{1}{2n}<\eps
+\end{aligned}\]
+取$N=\floor{\dfrac{1}{2\eps}}+1$，则当$n>N$时上式成立，故一致收敛
+\end{analysis}
+\par 其实函数项级数就和普通的数项级数没有太大差别，用在数项级数的判别法，在函数项级数这里照样可以用，需要改动的地方不过是在一些地方加上“一致”罢了. 下面这条定理就是定理~\ref{series_conver}的函数项级数版本.
+\begin{theorem}[函数项级数一致收敛必要条件]
+函数项级数$X$一致收敛的必要条件是一般项构成的函数序列$\{u_n(x)\}$在$X$一致收敛于$0$
+\end{theorem}
+\par 而下面这个判别法则是数项级数没有的判别法，非常强大，屡用不爽.
+\begin{theorem}[M判别法(Weierstrass)]
+若对函数项级数$\ssumk{u_k(x)}$，存在$M_k$使得
+\[|u_k(x)|\leq M_k,\forall x\in X\]
+而正项级数$\ssumk{M_k}$收敛，则$\ssumk{u_k(x)}$在$X$一致收敛
+\end{theorem}
+\par 技巧在于，把一般项里含$x$的项都放缩去掉，只留下关于$n$的项
+\begin{example}
+若函数列$\{u_n(x)\}$的每一项都是$[a,b]$的单调函数，$\ssum{u_n(x)}$在$[a,b]$的端点处绝对收敛，则该级数在$[a,b]$上一致收敛
+\end{example}
+\begin{analysis}由函数的单调性，及M判别法
+\[u_n(x)<\max(|u_n(a)|,|u_n(b)|)\]
+故$\{u_n(x)\}$在$[a,b]$上一致收敛
+\end{analysis}
+\par 当$x$实在消不掉时，可采用一些“巧妙”的方法，如下.
+\begin{example}
+\[\ssum{\dfrac{nx}{1+n^4x^2}},|x|>0\]
+\end{example}
+\begin{analysis}
+因直接对分母用均值不等式，得到$\dfrac{1}{n}$并无法判断收敛性，故换种方式\\
+$\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，有
+\[\lra{\dfrac{nx}{1+n^4x^2}}\leq\dfrac{n|x|}{n^4x^2}=\dfrac{n^3|x|}\leq\dfrac{1}{n^3\delta}\]
+而$\ssum{\dfrac{1}{n^3\delta}}$收敛，由M判别法，原级数在$|x|\geq\delta$一致收敛\\
+又$x_0$的任意性，知原级数在$|x|>0$一致收敛
+\end{analysis}
+\begin{theorem}[迪尼(Dini)]
+若函数列$\{u_n(x)\}$在$[a,b]$连续，$u_n(x)\geq 0$，函数项级数$\ssum{u_n(x)}$在$[a,b]$\textbf{逐点}收敛到$S(x)$，$S(x)$在$[a,b]$连续，则$\ssum{u_n(x)}$在$[a,b]$一致收敛
+\end{theorem}
+\begin{theorem}[和函数的分析性质]
+与一般函数列的分析性质非常类似
+\begin{enumerate}
+	\item (连续)若函数列$\{u_n(x)\}$在$[a,b]$连续，且函数项级数$\ssum{u_n(x)}$在$[a,b]$一致收敛到$S(x)$，则$S(x)$在$[a,b]$连续
+	\item (逐项积分)若函数列$\{u_n(x)\}$在$[a,b]$连续，且函数项级数$\ssum{u_n(x)}$在$[a,b]$一致收敛到$S(x)$，则$S(x)$可积
+	\[\intab{a}{b}{S(x)}=\ssum{\intab{a}{b}{u_n(x)}}\]
+	\item (逐项微分)若函数列$\{u_n(x)\}$在$[a,b]$有连续微商$u_n'(x)$，$\ssum{u_n(x)}$在$[a,b]$\textbf{逐点}收敛到$S(x)$，\\
+	且$\ssum{f_n'(x)}$在$[a,b]$\textbf{一致}收敛到$\sigma(x)$，则$S(x)$可微，且
+	\[\displaystyle S'(x)=\left(\ssum{u_n(x)}\right)'=\ssum{u_n'(x)}=\sigma(x)\]
+\end{enumerate}
+\end{theorem}
+\begin{example}
+若函数列$\{u_n(x)\}$在$[a,b]$连续，且函数项级数$\ssum{u_n(x)}$在$(a,b)$一致收敛，则$\ssum{u_n(x)}$在$[a,b]$一致收敛
+\end{example}
+\begin{analysis}
+取一个小于$\eps$的值，对$\ssum{u_n(x)}$用柯西收敛原理后，两侧取极限$x\to a^+,x\to b^-$，即得证. （因连续性取极限会导致取等，故要取小于$\eps$的值）
+\end{analysis}
+\par 关于和函数分析性质的运用，可以见下例.
+\begin{example}
+\[\intab{-\pi}{\pi}{\dfrac{1-r^2}{1-2r\cos x+r^2}}=2\pi,|r|<1\]
+\end{example}
+\begin{analysis}
+由例~\ref{eg_series_conver1}知
+\[\dfrac{1-r^2}{1-2r\cos x+r^2}=1+2\ssum{r^n\cos nx},|r|<1\]
+当$|r|<1$时，$|2r^n\cos nx|\leq 2|r|^n$，而$\ssum{2|r|^n}$收敛，由M判别法知$\ssum{r^n\cos nx}$一致收敛\\
+又级数的每一项$\{r^n\cos nx\}$都在$(-\infty,+\infty)$连续，故可逐项积分，得
+\[\intab{-\pi}{\pi}{\dfrac{1-r^2}{1-2r\cos x+r^2}}=\intab{-\pi}{\pi}{}+2\ssum{\intab{-\pi}{\pi}{r^n\cos nx}}=2\pi\]
+\end{analysis}
