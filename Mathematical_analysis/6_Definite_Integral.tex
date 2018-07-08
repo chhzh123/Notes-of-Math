@@ -9,43 +9,43 @@ $f(x)$在区间$[a,b]$上有定义，用分点
 记$\lambda = \underset{1\leq i\leq n}{\max}\{\Delta x_i\}$，在每个小区间上任取一点$\xi\in[x_{i-1},x_i]$，作和式
 \[\sigma = \sum_{i=1}^{n}f(\xi_i)\Delta x_i\]
 若$f(x)$在$[a,b]$可积
-\[I=\lim_{\lambda\to 0}\sigma=\int_a^bf(x)\,dx\]
+\[I=\lim_{\lambda\to 0}\sigma=\int_a^bf(x)\diff x\]
 \end{definition}
 \par\textbf{积分基本性质}
 \begin{enumerate}
 	\item 有界性：可积函数必有界
 	\item 线性性：相同积分区间两函数
 	\item 可加性：同一函数连续积分区间
-	\item 单调性：$f(x),g(x)$在$[a,b]$可积，$f(x)\leq g(x),x\in[a,b]$，则$\displaystyle\int_{a}^{b}f(x)dx\leq\int_{a}^{b}g(x)dx$
-	\item 绝对值不等式：$f(x)$在$[a,b]$可积，则$\displaystyle\left|\int_{a}^{b}f(x)dx\right|\leq\int_{a}^{b}|f(x)|dx$
+	\item 单调性：$f(x),g(x)$在$[a,b]$可积，$f(x)\leq g(x),x\in[a,b]$，则$\displaystyle\int_{a}^{b}f(x)\diff x\leq\int_{a}^{b}g(x)\diff x$
+	\item 绝对值不等式：$f(x)$在$[a,b]$可积，则$\displaystyle\left|\int_{a}^{b}f(x)\diff x\right|\leq\int_{a}^{b}|f(x)|\diff x$
 \end{enumerate}
 \begin{theorem}[闭区间连续函数可积定理]
 若$f(x)$在$[a,b]$连续，则$f(x)$在$[a,b]$可积
 \end{theorem}
 \begin{theorem}[积分第一中值定理]
 若$f(x),g(x)$在$[a,b]$连续，且$g(x)$在$[a,b]$不变号，则在$[a,b]$中存在一点$\xi$使得
-\[\int_a^bf(x)g(x)dx=f(\xi)\int_a^bg(x)dx\]
+\[\int_a^bf(x)g(x)\diff x=f(\xi)\int_a^bg(x)\diff x\]
 特别地，$g(x)\equiv 1$时，有
-\[\int_a^bf(x)dx=f(\xi)(b-a)\]
+\[\int_a^bf(x)\diff x=f(\xi)(b-a)\]
 \end{theorem}
 \begin{theorem}
 若$f(x)$在$[a,b]$可积，则变上限定积分$\displaystyle F(x)=\int_a^x f(t)dt$是$[a,b]$上的连续函数
 \end{theorem}
 \begin{theorem}[微积分基本定理]
-$f(x)$在$[a,b]$可积，$F(x)$是$f(x)$在$[a,b]$上的任一原函数，$F'(x)=f(x)$，则$\displaystyle\int_{a}^{b}f(x)dx=F(b)-F(a)$
+$f(x)$在$[a,b]$可积，$F(x)$是$f(x)$在$[a,b]$上的任一原函数，$F'(x)=f(x)$，则$\displaystyle\int_{a}^{b}f(x)\diff x=F(b)-F(a)$
 \end{theorem}
 \begin{theorem}[柯西不等式(积分形式)]
 $f(x),g(x)$在$[a,b]$连续，则
-\[\int_a^bf^2(x)dx\dot \int_a^bg^2(x)dx\geq\left(\int_a^bf(x)g(x)dx\right)^2\]
+\[\int_a^bf^2(x)\diff x\dot \int_a^bg^2(x)\diff x\geq\left(\int_a^bf(x)g(x)\diff x\right)^2\]
 等号成立当且仅当$f(x),g(x)$线性相关
 \end{theorem}
 \begin{analysis}
 可通过构造二次函数，令$\Delta\geq0$证明；\\
-也可利用线性代数的知识，定义内积\footnote{线性代数没学好的请自行翻书}$\displaystyle	\langle u,v\rangle=\int_a^bu(x)v(x)dx$，通过$\|u\|\|v\|\geq|\langle u,v\rangle|$得证
+也可利用线性代数的知识，定义内积\footnote{线性代数没学好的请自行翻书}$\displaystyle	\langle u,v\rangle=\int_a^bu(x)v(x)\diff x$，通过$\|u\|\|v\|\geq|\langle u,v\rangle|$得证
 \end{analysis}
 \begin{theorem}[三角不等式(积分形式)]
 $f(x),g(x)$在$[a,b]$连续，则
-\[\sqrt{\int_a^bf^2(x)dx} + \sqrt{\int_a^bg^2(x)dx}\geq\sqrt{\int_a^b[f(x)+g(x)]^2dx}\]
+\[\sqrt{\int_a^bf^2(x)\diff x} + \sqrt{\int_a^bg^2(x)\diff x}\geq\sqrt{\int_a^b[f(x)+g(x)]^2\diff x}\]
 等号成立当且仅当$g(x)=\lambda f(x),\lambda\geq 0$
 \end{theorem}
 \begin{analysis}
@@ -67,22 +67,22 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \[k\lambda\underset{x\in[a,b]}{\min}F(x)\leq\sigma\leq k\lambda\underset{x\in[a,b]}{\max}F(x)\]
 当$\lambda\to 0$，由极限的夹迫性知$\displaystyle\lim_{\lambda\to 0}\sigma=0$\\
 故$F(x)$在$[a,b]$上可积，
-\[\int_a^b F(x)\,dx=\int_a^b[f(x)-f^*(x)]\,dx=0\]
+\[\int_a^b F(x)\diff x=\int_a^b[f(x)-f^*(x)]\diff x=0\]
 由定积分的线性性，
-\[\int_a^b f^*(x)\,dx=\int_a^b f(x)\,dx-\int_a^b F(x)\,dx=I-0=I\]
+\[\int_a^b f^*(x)\diff x=\int_a^b f(x)\diff x-\int_a^b F(x)\diff x=I-0=I\]
 因此$f^*(x)$在$[a,b]$上可积，且积分仍为$I$.
 \end{analysis}
 \par 学完微分积分后会涌现出很多不等式证明题，但其实很多时候不需要太多的代数技巧，直接求导即可解决（对于单变量函数）.见例\ref{intinequality}法一其实就是高考题做法.
 \begin{example}
 \label{intinequality}
 设$f'(x)$在$[a,b]$连续，且$f(a)=0$，证明
-\[\left|\int_a^bf(x)dx\right|\leq\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|\]
+\[\left|\int_a^bf(x)\diff x\right|\leq\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|\]
 \end{example}
 \begin{analysis}法一：\\
 为方便计算，不妨将$f(x)$平移至$[0,t],t>0$，则$f(0)=0$，即证
-\[\left|\int_0^tf(x)dx\right|\leq\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|\]
+\[\left|\int_0^tf(x)\diff x\right|\leq\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|\]
 构造
-\[g(t)=\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|-\left|\int_0^tf(x)dx\right|\quad\mbox{（注意是关于}t\mbox{的函数）}\]
+\[g(t)=\frac{t^2}{2}\,\underset{0\leq x\leq t}{\max}|f'(x)|-\left|\int_0^tf(x)\diff x\right|\quad\mbox{（注意是关于}t\mbox{的函数）}\]
 则$g(0)=0$，$g'(t)=\displaystyle t\underset{0\leq x\leq t}{\max}|f'(x)|$\\
 要令$g'(t)\geq 0$，即令$\displaystyle\underset{0\leq x\leq t}{\max}|f'(x)|\geq\left|\frac{f(t)}{t}\right|\quad(*)$\\
 由拉格朗日中值定理，在$(0,t)$上必$\displaystyle\exists\xi>0\,s.t.\,f'(\xi)=\frac{f(t)-0}{t-0}$\\
@@ -91,17 +91,17 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \end{analysis}
 \begin{analysis}法二：\\
 先证明
-\[\int_a^bf(x)dx=-\int_a^bf'(x)(x-b)dx\quad(*)\]
+\[\int_a^bf(x)\diff x=-\int_a^bf'(x)(x-b)\diff x\quad(*)\]
 因为
 \[\begin{aligned}
--\int_a^bf'(x)(x-b)dx &= -\int_a^b(x-b)df(x)\\
-&=-\left[f(x)(x-b)\Big|_a^b-\int_a^bf(x)dx\right]\qquad\mbox{分部积分}\\
-&=\int_a^bf(x)dx
+-\int_a^bf'(x)(x-b)\diff x &= -\int_a^b(x-b)df(x)\\
+&=-\left[f(x)(x-b)\Big|_a^b-\int_a^bf(x)\diff x\right]\qquad\mbox{分部积分}\\
+&=\int_a^bf(x)\diff x
 \end{aligned}\]
 即证得$(*)$式.则原式\\
 \[\begin{aligned}
-\left|\int_a^bf(x)dx\right|&=\left|\int_a^bf'(x)(x-b)dx\right|\\
-&\leq\underset{a\leq x\leq b}{\max}|f'(x)|\left|\int_a^b(x-b)dx\right|\\
+\left|\int_a^bf(x)\diff x\right|&=\left|\int_a^bf'(x)(x-b)\diff x\right|\\
+&\leq\underset{a\leq x\leq b}{\max}|f'(x)|\left|\int_a^b(x-b)\diff x\right|\\
 &=\underset{a\leq x\leq b}{\max}|f'(x)|\frac{(x-b)^2}{2}\Big|_a^b\\
 &=\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|
 \end{aligned}\]
@@ -110,8 +110,8 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \begin{exercise}
 设$f''(x)$在$[a,b]$连续，且$f(a)=f(b)=0$，证明：
 \begin{enumerate}[(1)]
-	\item $\displaystyle\int_a^bf(x)dx=\frac{1}{2}\int_a^bf''(x)(x-a)(x-b)dx$
-	\item $\displaystyle\left|\int_a^bf(x)dx\right|\leq\frac{(b-a)^3}{12}\underset{a\leq x\leq b}{\max}|f''(x)|$
+	\item $\displaystyle\int_a^bf(x)\diff x=\frac{1}{2}\int_a^bf''(x)(x-a)(x-b)\diff x$
+	\item $\displaystyle\left|\int_a^bf(x)\diff x\right|\leq\frac{(b-a)^3}{12}\underset{a\leq x\leq b}{\max}|f''(x)|$
 \end{enumerate}
 \end{exercise}
 
@@ -125,13 +125,13 @@ $\displaystyle\lim_{n\to\infty}\left(\frac{1}{n+1}+\frac{1}{n+2}+\cdots+\frac{1}
 
 \subsection{定积分的近似计算}
 \begin{definition}[定积分梯形公式]
-\[\int_a^bf(x)dx\thickapprox\sum_{i=1}^n\frac{y_{i-1}+y_i}{2}\frac{b-a}{n}=\frac{b-a}{n}\left(\frac{y_0+y_n}{2}+y_1+y_2+\cdots+y_{n-1}\right)\]
+\[\int_a^bf(x)\diff x\thickapprox\sum_{i=1}^n\frac{y_{i-1}+y_i}{2}\frac{b-a}{n}=\frac{b-a}{n}\left(\frac{y_0+y_n}{2}+y_1+y_2+\cdots+y_{n-1}\right)\]
 若$f''(x)$在$[a,b]$上连续，且$|f''(x)|\leq M,x\in[a,b]$，则梯形公式误差可作如下估计
 \[|R_n|\leq\frac{(b-a)^3}{12n^2}M\]
 \end{definition}
 \begin{definition}[抛物线公式/辛普森(Simpson)公式]
 \[\begin{aligned}
-\int_a^bf(x)dx &\thickapprox\frac{b-a}{6n}[(y_0+4y_1+y_2)+(y_2+4y_3+y_4)+\cdots+(y_{2n-2}+4y_{2n-1}+y_{2n})]\\
+\int_a^bf(x)\diff x &\thickapprox\frac{b-a}{6n}[(y_0+4y_1+y_2)+(y_2+4y_3+y_4)+\cdots+(y_{2n-2}+4y_{2n-1}+y_{2n})]\\
 &=\frac{b-a}{6n}[(y_0+y_{2n})+2(y_2+y_4+\cdots+y_{2n-2})+4(y_1+y_3+\cdots+y_{2n-1})]\end{aligned}\]
 若$f^{(4)}(x)$在$[a,b]$上连续，且$|f^{(4)}(x)|\leq M,x\in[a,b]$，则
 \[|R_{2n}|\leq\frac{(b-a)^5}{180(2n)^4}M\]
