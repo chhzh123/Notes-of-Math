@@ -116,6 +116,48 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \end{enumerate}
 \end{exercise}
 
+\subsection{可积性}
+\begin{definition}[达布(Darboux)和]
+设$f(x)$在$[a,b]$有界，对$[a,b]$的任意分法
+\[a=x_0<x_1<\cdots<x_n=b\]
+记
+\[M_i=\sup_{x_{i-1}\leq x\leq x_i}f(x),\,m_i=\inf_{x_{i-1}\leq x\leq x_i}f(x)\]
+分别称
+\[S=\sum_{i=1}^nM_i\Delta x_i,\,s=\sum_{i=1}^nm_i\Delta x_i\]
+为$f(x)$对应这一分法的达布上和与达布下和
+\end{definition}
+\par 有以下几个定理.
+\begin{theorem}\mbox{}\par
+\begin{enumerate}
+	\itemsep-3pt
+	\item 达布上和是黎曼和的上确界，达布下和是黎曼和的下确界
+	\item 若添加新的分点，达布上和不增大，达布下和不减小
+	\item 任一个达布下和总不超过任一个达布上和
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[达布定理]
+当$\lambda\to 0$时，达布上和的极限为上积分，达布下和的极限为下积分
+\[\lim_{\lambda\to 0}S=\overline{I},\,\lim_{\lambda\to 0}s=\underline{I}\]
+且$s\leq\overline{I}\leq\underline{I}\leq S$，其中，下积分$\underline{I}$为全体下和的上确界，上积分为$\overline{I}$为全体上和的下确界.
+\end{theorem}
+\begin{theorem}[可积的充要条件]
+$f(x)$在$[a,b]$上黎曼可积的充要条件是上积分$\overline{I}$等于下积分$\underline{I}$.
+充要条件可另外表述为
+\[\lim_{\lambda\to 0}(S-s)=0\,.\]
+或者记
+\[\omega_i=M_i-m_i=\sup_{x_{i-1}\leq x\leq x_i}f(x)-\inf_{x_{i-1}\leq x\leq x_i}f(x)=\sup_{x',x''\in[x_{i-1},x_i]}|f(x')-f(x'')|\]
+则
+\[\lim_{\lambda\to 0}\sum_{i=1}^n\omega_i\Delta x_i=0\]
+\end{theorem}
+\par 以下几类函数是可积的充分条件.
+\begin{enumerate}
+	\itemsep -3pt
+	\item 在$[a,b]$连续
+	\item 在$[a,b]$单调
+	\item 在$[a,b]$上有界且仅有有限个间断点的函数
+\end{enumerate}
+\par 注意：存在单调但有无穷个间断点且可积的函数
+
 \subsection{定积分的计算}
 关键掌握不定积分的求法，定积分就能迎刃而解了，最大不同只在于定积分换元时需要把上下限一起改变（出现上限小于下限的情况也是正常的）.
 \par 用定义计算的题则要懂得配凑出黎曼和的形式
