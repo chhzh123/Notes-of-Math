@@ -1,0 +1,83 @@
+% !TEX root = main.tex
+
+\section{幂级数}
+\subsection{基本概念}
+\begin{definition}[幂级数]
+$\ssumz{a_nx^n}$称为幂级数，注意它的各个项严格按照升序排列
+\end{definition}
+\begin{theorem}
+对于任意给定的幂级数，比存在唯一的$r\in[0,+\infty]$，使得幂级数在$|x|<r$绝对收敛，在$|x|>r$发散，其中$r$称为收敛半径. 注意对于区间的两个端点$\pm r$要单独讨论
+\end{theorem}
+
+\subsection{泰勒公式}
+\label{sec:sub:taylor}
+\subsubsection{基本概念}
+泰勒(Taylor)公式在函数拟合方面有着举足轻重的作用，推导的方式也多种多样，通常通过一阶阶逼近的方式得到，关于其通俗易懂的解释可见\footnote{怎样更好地理解并记忆泰勒展开式？ - 陈二喜的回答 - 知乎 \url{http://zhihu.com/question/25627482/answer/313088784}}.
+\begin{theorem}[带余项的泰勒公式]
+$f(x)$在$x=a$有$n$阶微商，即$f^{(n)}(a)$存在，则
+\[f(x)=f(a)+f'(a)(x-a)+\cdots+\dfrac{\dnf{n}(a)}{n!}(x-a)^n+R_n(x)\,,\]
+其中，佩亚诺(Peano)余项为
+\[R_n(x)=o((x-a)^n)(x\to a)\]
+其仅仅表示了$x\to a$时误差的变化，更加精确的误差估计可用以下几种余项公式. 积分余项
+%微积分基本定理+积分中值定理+分部积分
+\[R_n(x)=\dfrac{1}{n!}\intabu{a}{x}{(x-t)^n\dnf{n+1}(t)}{t}\]
+拉格朗日余项%积分第二中值
+\[R_n(x)=\dfrac{\dnf{n+1}(\xi)}{(n+1)!}(x-a)^{n+1}\]
+柯西余项%积分第一中值
+\[R_n(x)=\dfrac{(x-a)^{n+1}}{n!}(1-\theta)^n\dnf{n+1}(a+\theta(x-a)),\theta\in(0,1),\xi\in(a,x)\]
+\end{theorem}
+当$a=0$时，泰勒公式即为麦克劳林(Maclaurin)公式.
+\par 用泰勒公式可以求解一些复杂的极限，如下面的例子所示.
+\begin{example}
+$\displaystyle\lim_{x\to 0}\dfrac{1-\cos\sin x}{2\ln(1+x^2)}$
+\end{example}
+\begin{analysis}
+由带佩亚诺余项的泰勒公式有
+\[\cos\sin x=1-\dfrac{1}{2}\sin^2 x+o(\sin^2 x)=1-\dfrac{1}{2}\sin^2x+o(x^2)(x\to 0)\]
+\[\ln(1+x^2)=x^2+o(x^2)\]
+因而
+\[\text{原式}=\lim_{x\to 0}\dfrac{\frac{1}{2}\sin^2x}{2x^2}=\dfrac{1}{4}\]
+\end{analysis}
+\par 当然，洛必达法则也是求解的. 但对于一些特殊的极限，只有通过等价无穷小量代换，极限才容易求得，否则易陷入求导无穷无尽的套子里.
+\par 关于泰勒公式应该展开至几阶，一般遵循“分式上下同阶，加减幂次最低”原则\footnote{利用泰勒公式求极限时，如何确定泰勒公式展开到第几阶？ - 摆渡人宝刀君的回答 - 知乎 \url{https://www.zhihu.com/question/52636834/answer/195479110}}.
+只要保证相关级数的项齐全即可，如求
+\[\lim_{x\to \infty}\lrp{x+\dfrac{1}{2}}\ln\lrp{1+\dfrac{1}{x}}\]
+不能只将$\ln(1+1/x)$展开至一阶，因为乘开后会有$1/(2x)$项，但这并不涵盖所有的$x^{-1}$项，故展开至二阶才可以确保结果的准确性.
+\par 下面是加减法的例子.
+\begin{example}
+$\disp\lim_{x\to+\infty}(\sqrt[3]{x^3+3x}-\sqrt{x^2-2x})$
+\end{example}
+\begin{analysis}
+\[\begin{aligned}
+\sqrt[3]{x^3+3x}-\sqrt{x^2-2x}&= x\lrp{\lrp{1+\dfrac{3}{x^2}}^\frac{1}{3}-\lrp{1+\dfrac{-2}{x}}^\frac{1}{2}}\\
+&\thicksim x\lrp{\lrp{1+\dfrac{1}{3}\dfrac{3}{x^2}+o\lrp{\dfrac{1}{x^2}}}-\lrp{1+\dfrac{1}{2}\dfrac{-2}{x}-\dfrac{1}{8}\lrp{\dfrac{-2}{x}}^2+o\lrp{\dfrac{1}{x^2}}}}
+\to 1(x\to+\infty)
+\end{aligned}\]
+\end{analysis}
+\begin{example}
+$f(x)$在$[a,b]$上有二阶连续导数，且$f'(a)=f'(b)=0$，则存在$c\in(a,b)$，使得
+\[|f''(c)|\geq\dfrac{4}{(b-a)^2}|f(b)-f(a)|\]
+\end{example}
+\begin{analysis}
+将$f(x)$在$x=a$处展开，则$f(x)=f(a)+\dfrac{f''(c_1)}{2}(x-a)^2,c_1\in(a,x)$\\
+将$f(x)$在$x=b$处展开，则$f(x)=f(b)+\dfrac{f''(c_2)}{2}(x-b)^2,c_2\in(x,b)$\\
+分别取$x=\dfrac{a+b}{2}$代入上面两式得
+\[f\lrp{\dfrac{a+b}{2}}=f(a)+\dfrac{f''(c_1)}{2}\lrp{\dfrac{a-b}{2}}^2=f(b)+\dfrac{f''(c_2)}{2}\lrp{\dfrac{a-b}{2}}^2\]
+进而
+\[\dfrac{4}{(b-a)^2}|f(a)-f(b)|=\dfrac{1}{2}|f''(c_2)-f''(c_1)|\leq\dfrac{1}{2}(|f''(c_2)|+|f''(c_1)|)\]
+因为$f''(x)$连续，故
+\[\min\{|f''(c_1)|,|f''(c_2)|\}\leq\dfrac{|f''(c_1)|+|f''(c_2)|}{2}\leq\max\{|f''(c_1)|,|f''(c_2)|\}\]
+所以由连续函数介值定理，
+\[\exists c\in[c_1,c_2]:\;|f''(c)|=\dfrac{|f''(c_1)|+|f''(c_2)|}{2}\]
+综上，
+\[\exists c\in(a,b):\;|f''(c)|\geq\dfrac{4}{(b-a)^2}|f(b)-f(a)|\]
+\end{analysis}
+
+\subsubsection{常见公式}
+\[\begin{aligned}
+e^x&=1+x+\dfrac{1}{2}x^2+\cdots+\dfrac{x^n}{n!}+\cdots\\
+\sin x&=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}-\cdots+(-1)^n\dfrac{x^{2n+1}}{(2n+1)!}+\cdots\\
+\cos x&=1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-\cdots+(-1)^n\dfrac{x^{2n}}{(2n)!}+\cdots\\
+(1+x)^\alpha&=1+\alpha x+\binom{\alpha}{2}x^2+\cdots+\binom{\alpha}{n}x^n+\cdots\\
+\ln(1+x)&=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\cdots+(-1)^n\dfrac{x^n}{n}+\cdots
+\end{aligned}\]

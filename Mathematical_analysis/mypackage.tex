@@ -2,6 +2,7 @@
 \usepackage{setspace}
 \usepackage{amsthm,amsmath,amsfonts,amssymb}%\because\therefore
 \usepackage{mathtools}%underset
+\usepackage{tikz}
 \usepackage{gensymb}
 \usepackage{cancel}
 \usepackage{extarrows}
@@ -13,6 +14,9 @@
 	anchorcolor=black,
 	citecolor=black,
 	CJKbookmarks=false]{hyperref}
+\usepackage{datetime}
+\newdateformat{builddatemonth}{\THEYEAR.\twodigit{\THEMONTH}}
+\newdateformat{builddate}{\THEYEAR\twodigit{\THEMONTH}\twodigit{\THEDAY}}
 
 \newtheorem{theorem}{定理}
 \newtheorem{definition}{定义}
@@ -30,6 +34,8 @@
 \def\mmid{\enspace\Big|\enspace}
 \def\eps{\varepsilon}
 \def\disp{\displaystyle}
+\newcommand{\ddx}[1][]{\dfrac{\diff #1}{\diff x}}
+\newcommand{\ddxs}[1][]{\dfrac{\diff^2 #1}{\diff x^2}}
 \newcommand{\ssum}[1]{\displaystyle\sum_{n=1}^{\infty}#1}
 \newcommand{\ssumz}[1]{\displaystyle\sum_{n=0}^{\infty}#1}
 \newcommand{\ssumk}[1]{\displaystyle\sum_{k=1}^{\infty}#1}
@@ -42,3 +48,4 @@
 \newcommand{\lra}[1]{\left|#1\right|}
 \newcommand{\nums}[1]{\{#1\}}
 \newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\dnf}[1]{f^{(#1)}}

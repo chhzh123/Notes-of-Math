@@ -1,6 +1,7 @@
 % !TEX root = main.tex
 
 \section{实数系基本定理}
+\subsection{实数连续性}
 \begin{definition}[戴德金(Dedekind)连续性准则]
 有大小顺序稠密的数系$S$，对于其任一分划$A|B$，$\exists$唯一$c\in S:\forall a\in A,b\in B:a\leq c\leq b$（即要么$A$有最大值，要么$B$有最小值)，则称$S$连续. 
 \end{definition}
@@ -13,6 +14,29 @@
 \begin{theorem}[实数基本定理]
 对$\mathbb{R}$的任一分划$A|B$，$\exists$唯一$r\in S:\forall a\in A,b\in B:a\leq r\leq b$
 \end{theorem}
+\begin{definition}[确界]
+$\sup A$为上确界，$\inf A$为下确界
+\begin{enumerate}
+	\item $\forall x\in A:\,x\leq\beta$
+	\item $\forall\varepsilon>0,\exists x_\varepsilon\in A:\,x_\varepsilon >\beta-\varepsilon$
+\end{enumerate}
+\end{definition}
+\begin{theorem}[确界定理]
+实数集内，非空有上（下）界的数集必有上（下）确界存在
+\end{theorem}
+实数连续性的等价表述
+\begin{enumerate}
+	\item 戴德金分割
+	\item 确界定理
+	\item 单调有界定理（单调上升有上界实数列必有极限存在）
+\end{enumerate}
+
+\subsection{实数闭区间紧致性}
+\begin{definition}[覆盖]
+$E$为实数开区间构成的集合，$S$为实数子集，若$\forall x\in S$，有$(a,b)\in E$使得$x\in(a,b)$，则$E$为$S$的一个覆盖，记为
+\[S\subset\bigcup_{E_\alpha\in E}E_\alpha\]
+若$E$为有限区间组成，则为有限覆盖
+\end{definition}
 \begin{definition}[区间套]
 一组实数的\textbf{闭}区间序列$[a_n,b_n],n=1,2,\cdots$，满足
 \begin{enumerate}[a.]
@@ -25,3 +49,5 @@
 $\{[a_n,b_n]\}$是一个区间套，则存在唯一$\displaystyle r\in\mathbb{R},s.t.\,r\in\bigcap_{n=1}^{\infty}[a_n,b_n]$
 \end{theorem}
 \par连续函数介值定理、最值定理、康托定理均用到区间套定理来证明.
+
+\subsection{实数完备性}
