@@ -1,18 +1,62 @@
 % !TEX root = main.tex
 
 \section{幂级数}
-\subsection{基本概念}
+幂级数不过是特殊的函数项级数，因此判定定理的使用方法与无穷级数的完全一致，而本章的很多定理都是第\ref{sec:series}章定理的直接推论.
+\subsection{收敛半径与收敛域}
 \begin{definition}[幂级数]
 $\ssumz{a_nx^n}$称为幂级数，注意它的各个项严格按照升序排列
 \end{definition}
-\begin{theorem}
-对于任意给定的幂级数，比存在唯一的$r\in[0,+\infty]$，使得幂级数在$|x|<r$绝对收敛，在$|x|>r$发散，其中$r$称为收敛半径. 注意对于区间的两个端点$\pm r$要单独讨论
+\begin{theorem}[阿贝尔(Abel)第一定理]
+若幂级数在$x_1\neq 0$处收敛，则在$|x|<|x_1|$上都\textbf{绝对}收敛；若在$x_2\neq 0$处发散，则在$|x|>|x_2|$都发散.
 \end{theorem}
+\par 注意对于幂级数区间的两个端点$x=\pm r$要单独讨论其敛散性.
+\begin{definition}
+对于任意给定的幂级数，存在唯一的$r\in[0,+\infty]$，使得幂级数在$|x|<r$绝对收敛，在$|x|>r$发散，其中$r$称为收敛半径. 用达朗贝尔判别法可给出幂级数的收敛半径$r=\dfrac{1}{\rho}$，其中
+\[\rho=\lim_{n\to+\infty}\dfrac{|a_{n+1}|}{|a_n|}\]
+\end{definition}
+\begin{theorem}[阿贝尔第二定理]
+若幂级数收敛半径为$r>0$，
+\begin{enumerate}
+	\itemsep -3pt
+	\item 则$\forall b\in(0,r)$，幂级数在$[-b,b]$\textbf{一致}收敛
+	\item 且幂级数在$r$收敛，则幂级数在$[0,r]$一致收敛
+	\item 且幂级数在$-r$收敛，则幂级数在$[-r,0]$一致收敛
+\end{enumerate}
+注意：不能说明$(-r,r)$一致收敛，如$\ssumz{x^n}$（同例\ref{ex:interesting_uniform_convergence}解释）
+\end{theorem}
+\par 由阿贝尔第二定理与定理\ref{thm:sum_function_analysis_properties}可直接得到以下推论.
+\begin{corollary2}[幂级数和函数的分析性质]
+若幂级数的收敛半径为$r>0$，则其和函数
+\begin{enumerate}
+	\itemsep -3pt
+	\item 在$(-r,r)$连续
+	\item 在收敛区间内部可以逐项微分与逐项积分，且新的幂级数收敛半径仍为$r$
+	\item 在$(-r,r)$任意次可微，且$S^{(k)}$等于$\ssumz{a_nx^n}$逐项微商$k$次后得到的幂级数
+\end{enumerate}
+\end{corollary2}
+\begin{analysis}
+和函数的连续性看似与定理\ref{thm:sum_function_analysis_properties}矛盾，实则不然，下面的证明短小而意味深长，值得慢慢体会.\\
+$\forall x_0\in(-r,r)$，令$b=\dfrac{r+|x_0|}{2}$，则$|x_0|<b<r$\\
+由阿贝尔第二定理，幂级数在$[-b,b]$一致收敛，而$a_nx^n$在$(-\infty,+\infty)$连续，故由定理\ref{thm:sum_function_analysis_properties}知，和函数在$[-b,b]$连续，特别地在$x_0$连续.\\
+由$x_0\in(-r,r)$的\textbf{任意性}，和函数在$(-r,r)$连续.
+\end{analysis}
+\par 运用逐项微分和逐项积分的方法，可以求得一些复杂级数的和. 关键在于如何经过变换使得新的函数可以求和.
+\begin{example}
+\[\begin{aligned}
+&\quad\ssum{\dfrac{(-1)^{n-1}}{n(2n-1)}x^{2n}}\qquad\mbox{收敛域$[-1,1]$}\\
+&=\int\lrp{\ssum{2\dfrac{(-1)^{(n-1)}}{(2n-1)}x^{2n-1}}}\diff x\\
+&=\int\int\lrp{\ssum{2(-1)^{n-1}x^{2n-2}}}\diff x\diff x\\
+&=2\int\int\lrp{\ssum{(-x^2)^{n-1}}}\diff x\diff x\\
+&=2\int\int\dfrac{1}{1+x^2}\diff x\diff x\\
+&=2\int\arctan x\diff x\qquad\mbox{分部积分}\\
+&=2x\arctan x-\ln(1+x^2)
+\end{aligned}\]
+\end{example}
 
 \subsection{泰勒公式}
 \label{sec:sub:taylor}
-\subsubsection{基本概念}
-泰勒(Taylor)公式在函数拟合方面有着举足轻重的作用，推导的方式也多种多样，通常通过一阶阶逼近的方式得到，关于其通俗易懂的解释可见\footnote{怎样更好地理解并记忆泰勒展开式？ - 陈二喜的回答 - 知乎 \url{http://zhihu.com/question/25627482/answer/313088784}}.
+\subsubsection{基本性质}
+泰勒(Taylor)公式在函数拟合方面有着举足轻重的作用，推导的方式也多种多样，通常通过一阶一阶逐渐逼近的方式得到，关于其通俗易懂的解释可见\footnote{怎样更好地理解并记忆泰勒展开式？ - 陈二喜的回答 - 知乎 \url{http://zhihu.com/question/25627482/answer/313088784}}.
 \begin{theorem}[带余项的泰勒公式]
 $f(x)$在$x=a$有$n$阶微商，即$f^{(n)}(a)$存在，则
 \[f(x)=f(a)+f'(a)(x-a)+\cdots+\dfrac{\dnf{n}(a)}{n!}(x-a)^n+R_n(x)\,,\]
@@ -54,6 +98,7 @@ $\disp\lim_{x\to+\infty}(\sqrt[3]{x^3+3x}-\sqrt{x^2-2x})$
 \to 1(x\to+\infty)
 \end{aligned}\]
 \end{analysis}
+\par 泰勒级数也可用来证明一些函数不等式，一般展开至二阶即可.
 \begin{example}
 $f(x)$在$[a,b]$上有二阶连续导数，且$f'(a)=f'(b)=0$，则存在$c\in(a,b)$，使得
 \[|f''(c)|\geq\dfrac{4}{(b-a)^2}|f(b)-f(a)|\]
@@ -72,12 +117,31 @@ $f(x)$在$[a,b]$上有二阶连续导数，且$f'(a)=f'(b)=0$，则存在$c\in(a
 综上，
 \[\exists c\in(a,b):\;|f''(c)|\geq\dfrac{4}{(b-a)^2}|f(b)-f(a)|\]
 \end{analysis}
+\par 下面定理表明若函数可以展开成幂级数，则一定为泰勒级数
+\begin{theorem}[唯一性]
+若$f(x)$在$(x_0-r,x_0+r)$可展开为关于$x-x_0$的幂级数，则必为$f(x)$在$x_0$的泰勒级数
+\end{theorem}
+\par 函数无穷次可微并不是可展开成幂级数的充分条件，如$\disp f(x)=\begin{cases}e^{-\frac{1}{x^2}}&x\ne 0\\0 & x=0\end{cases}$.
+\begin{theorem}[充要条件]
+$f(x)$在$(-r,r)$能够展开为幂级数，当且仅当$\forall x\in(-r,r)$
+\[\lim_{n\to\infty}R_n(x)=0\]
+\end{theorem}
+\begin{corollary2}[充分条件]
+若$f(x)$的各阶微商在$(-r,r)$\textbf{一致有界}，则$f(x)$在$(-r,r)$可以展开成泰勒级数
+% 拉格朗日余项可证
+\end{corollary2}
 
 \subsubsection{常见公式}
 \[\begin{aligned}
 e^x&=1+x+\dfrac{1}{2}x^2+\cdots+\dfrac{x^n}{n!}+\cdots\\
 \sin x&=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}-\cdots+(-1)^n\dfrac{x^{2n+1}}{(2n+1)!}+\cdots\\
 \cos x&=1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-\cdots+(-1)^n\dfrac{x^{2n}}{(2n)!}+\cdots\\
-(1+x)^\alpha&=1+\alpha x+\binom{\alpha}{2}x^2+\cdots+\binom{\alpha}{n}x^n+\cdots\\
-\ln(1+x)&=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\cdots+(-1)^n\dfrac{x^n}{n}+\cdots
+(1+x)^\alpha&=1+\alpha x+\binom{\alpha}{2}x^2+\cdots+\binom{\alpha}{n}x^n+\cdots,\,x\in(-1,1)\\
+\ln(1+x)&=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\cdots+(-1)^n\dfrac{x^n}{n}+\cdots,\,x\in(-1,1]
 \end{aligned}\]
+\par 由这些常见的公式，我们可以得到一些级数的和.
+\begin{example}
+$\ssum{\dfrac{1}{n^2}}$
+\end{example}
+\begin{analysis}
+\end{analysis}

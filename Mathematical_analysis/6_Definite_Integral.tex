@@ -136,7 +136,7 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \end{enumerate}
 \end{theorem}
 \begin{theorem}[达布定理]
-当$\lambda\to 0$时，达布上和的极限为上积分，达布下和的极限为下积分
+当$\disp\lambda=\max_{1\leq i\leq n}\{\Delta x_i\}\to 0$时，达布上和的极限为上积分，达布下和的极限为下积分
 \[\lim_{\lambda\to 0}S=\overline{I},\,\lim_{\lambda\to 0}s=\underline{I}\]
 且$s\leq\overline{I}\leq\underline{I}\leq S$，其中，下积分$\underline{I}$为全体下和的上确界，上积分为$\overline{I}$为全体上和的下确界.
 \end{theorem}
@@ -157,6 +157,81 @@ $f(x)$在$[a,b]$上黎曼可积的充要条件是上积分$\overline{I}$等于�
 	\item 在$[a,b]$上有界且仅有有限个间断点的函数
 \end{enumerate}
 \par 注意：存在单调但有无穷个间断点且可积的函数
+\begin{example}
+\label{ex:f_f2_absf_relation_lemma}
+若$|f(x)|$可积，则$|f(x)^\alpha|,\alpha>0$可积
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item[$1\degree$] 若$\alpha\in\zz^+$，有
+\[\omega_i'\leq M_i^\alpha-m_i^\alpha=(M_i-m_i)(\cdots)\]
+其余证明与例\ref{ex:f_f2_absf_relation}中$2\degree$的方法相同，故成立
+	\item[$2\degree$] 若$\alpha\notin\zz^+$，且$\alpha\in(0,1)$，则设$\alpha=\dfrac{1}{p},p>1$\\
+因为$|f(x)|$可积，所以
+\[\forall\eps>0,\exists\delta>0,\lambda<\delta:\,\sum_{i=1}^m\omega_i\Delta x_i<\eps\]
+设$\dfrac{1}{p}+\dfrac{1}{q}=1$，则对于$|f(x)|^\frac{1}{p}$，由赫尔德(H\"{o}lder)不等式，有
+\[\begin{aligned}
+\sum_{i=1}^m\omega'_i\Delta x_i&\leq\sum_{i=1}^m(M_i^{\frac{1}{p}}-m_i^{\frac{1}{p}})\Delta x_i\qquad\mbox{类似例\ref{ex:f_f2_absf_relation}中$2\degree$的方法}\\
+&=\sum_{i=1}^m(M_i^{\frac{1}{p}}-m_i^{\frac{1}{p}})(\Delta x_i)^{\frac{1}{p}}(\Delta x_i)^{\frac{1}{q}}\\
+&\leq\lrp{\sum_{i=1}^m(M_i^{\frac{1}{p}}-m_i^{\frac{1}{p}})^p\Delta x_i}^{\frac{1}{p}}\lrp{\sum_{i=1}^m\Delta x_i}^{\frac{1}{q}}\\
+&\leq\lrp{\sum_{i=1}^m(M_i-m_i)\Delta x_i}^{\frac{1}{p}}\lrp{\sum_{i=1}^m\Delta x_i}^{\frac{1}{q}}\qquad(*)\\
+&=\eps^\frac{1}{p}(x_n)^\frac{1}{q}\to 0
+\end{aligned}\]
+故$|f(x)|^\frac{1}{p}$可积
+	\item[$3\degree$] 若$\alpha\notin\zz^+$，且$\alpha>1$
+设$\alpha=[\alpha]+\dfrac{1}{p}$，因为$[\alpha]\in\zz^+$，由$1\degree$知$|g(x)|^{[\alpha]}$可积，由$2\degree$知$|g(x)|^{\frac{1}{p}}$可积，进而$|g(x)|^\alpha=|g(x)|^{[\alpha]}|g(x)|^{\frac{1}{p}}$可积\\
+（因为$(a+b)^2=a^2+b^2+2ab$，由平方可积可推得乘法可积）\\
+$(*)$式补充证明：即证$(M_i^\frac{1}{p}-m_i^\frac{1}{p})^p\leq M_i-m_i$\\
+由于$M_i,m_i$为$|g(x)|$在某个区间上得上确界、下确界，所以$M_i,m_i>0$\\
+原式等价于
+\[\lrp{\dfrac{m_i}{M_i}}^\frac{1}{p}+\lrp{1-\dfrac{m_i}{M_i}}^\frac{1}{p}\geq 1,\;0\leq\dfrac{m_i}{M_i}\leq 1\]
+构造$h(x)=x^\frac{1}{p}+(1-x)^\frac{1}{p}$，求导易知当$x=\dfrac{1}{2}$时有最大值，$x=0$或$1$时有最小值$h(0)=h(1)=1$，故$(*)$式成立.
+\end{enumerate}
+\end{analysis}
+\begin{example}
+\label{ex:f_f2_absf_relation}
+讨论$f(x),f^2(x),|f(x)|$可积性的关系
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item[$1\degree$] 若$f(x)$可积，$|f(x)|$必可积\\
+若$M_i,m_i>0$，则$M_i'-m_i'=M_i-m_i$\\
+若$M_i,m_i<0$，则$M_i'-m_i'=M_i-m_i$\\
+若$M_i>0,m_i<0$，则$M_i'-m_i'\leq M_i-m_i$\\
+用$2\degree$同样的方法可证得$\disp\lim_{\lambda\to 0}\sum_{i=1}^m\omega'_i\Delta x_i=0$，故$|f(x)|$可积
+	\item[$2\degree$] 若$f(x)$可积，$f^2(x)$必可积\\
+若$f(x)$可积，则$f(x)$有界，即$\exists M>0:\,|f(x)|<M$\\
+且$\disp\lim_{\lambda\to 0}\sum_{i=1}^m\omega_i\Delta x_i=0$\\
+由极限的定义有
+\[\forall\eps>0,\exists\delta>0,\lambda<\delta:\,\lra{\sum_{i=1}^m\omega_i\Delta x_i}<\dfrac{\eps}{2M}\]
+对于$f^2(x)$，由例\ref{ex:inf_sup_inequality}可得
+\[\begin{aligned}
+\omega_i'&=\sup_{x_{i-1}\leq x\leq x_i}f(x)-\inf_{x_{i-1}\leq x\leq x_i}f(x)\\
+&\leq \sup_{x_{i-1}\leq x\leq x_i}f(x)\cdot\sup_{x_{i-1}\leq x\leq x_i}f(x)-
+\inf_{x_{i-1}\leq x\leq x_i}f(x)\cdot\inf_{x_{i-1}\leq x\leq x_i}f(x)\\
+&=M_i^2-m_i^2
+\end{aligned}\]
+所以，$\forall\eps>0,\exists\delta>0$，当$\lambda<\delta$时有
+\[\begin{aligned}
+\lra{\sum_{i=1}^m\omega_i\Delta x_i}&\leq\lra{\sum_{i=1}^m(M_i^2-m_i^2)\Delta x_i}\\
+&=\lra{\sum_{i=1}^m(M_i+m_i)(M_i-m_i)\Delta x_i}\\
+&\leq\lra{\sum_{i=1}^m2M\omega_i\Delta x_i}\\
+&<2M\dfrac{\eps}{2M}=\eps
+\end{aligned}\]
+故$\disp\lim_{\lambda\to 0}\sum_{i=1}^m\omega'_i\Delta x_i=0$，$f^2(x)$可积
+	\item[$3\degree$] 若$|f(x)|$可积，$f(x)$不一定可积\\
+狄利克雷函数的平移$f(x)=\begin{cases}\dfrac{1}{2}&x\in\mathbb{Q}\\
+-\dfrac{1}{2}&x\in\rr/\mathbb{Q}\end{cases}$
+	\item[$4\degree$] 若$|f(x)|$可积，$f^2(x)$必可积\\
+同$2\degree$，将证明中所有$f(x)$替换成$|f(x)|$即可
+	\item[$5\degree$] 若$f^2(x)$可积，$f(x)$不一定可积\\
+同$3\degree$构造反例
+	\item[$6\degree$] 若$f^2(x)$可积，$f|x|$必可积\\
+令$g(x)=f^2(x)$，则$\sqrt{g(x)}=|f(x)|$.\\
+由例\ref{ex:f_f2_absf_relation_lemma}，令$\alpha=\dfrac{1}{2}$即可成立.
+\end{enumerate}
+\par 综上，除了$|f(x)|$或$f^2(x)$可积无法推出$f(x)$可积，其他都可以相互推导.
+\end{analysis}
 
 \subsection{定积分的计算}
 关键掌握不定积分的求法，定积分就能迎刃而解了，最大不同只在于定积分换元时需要把上下限一起改变（出现上限小于下限的情况也是正常的）.

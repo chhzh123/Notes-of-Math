@@ -1,3 +1,26 @@
 % !TEX root = main.tex
 
 \section{傅里叶级数}
+\subsection{基本概念}
+\begin{theorem}[三角函数系]
+三角函数系
+\[\{1,\cos x,\sin x,\cos 2x,\sin 2x,\cdots,\cos nx,\sin nx,\cdots\}\]
+中任意两个不同函数都正交，即在$[-\pi,\pi]$上的内积为$0$\footnote{其实任意长度为$2\pi$的区间都满足}.
+\end{theorem}
+\begin{definition}[绝对可积]
+设$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$黎曼可积，且$f(x)$在$[-\pi,\pi]$的积分绝对收敛
+\[\intab{-\pi}{\pi}{|f(x)|}<+\infty\]
+则$f(x)$在$[-\pi,\pi]$绝对可积.
+\end{definition}
+\begin{definition}[傅里叶系数]
+\[\begin{cases}
+a_n=\dfrac{1}{\pi}\intab{-\pi}{\pi}{f(x)\cos nx} & n=0,1,2,\ldots\\
+b_n=\dfrac{1}{\pi}\intab{-\pi}{\pi}{f(x)\sin nx} & n=1,2,\ldots
+\end{cases}\]
+则$f(x)$的傅里叶级数为
+\[f(x)\thicksim\dfrac{a_0}{2}+\sum_{n=1}^{+\infty}(a_n\cos nx+b_n\sin nx)\]
+\end{definition}
+
+\subsection{收敛性}
+
+\subsection{任意区间的傅里叶级数}

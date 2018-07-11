@@ -1,6 +1,7 @@
 % !TEX root = main.tex
 
 \section{无穷级数与广义积分}
+\label{sec:series}
 本章中会将正项级数、一般项级数、广义积分（无穷限积分、瑕积分）、函数项级数放在一起进行比较，当然也会涉及各类级数各自的特性. 由于将内容进行整合，故最重要的各类判别法总结在~\ref{summary_conver}节才进行讲述.
 
 \subsection{级数的基本性质}
@@ -165,11 +166,12 @@ $\{f_n(x)\}$在$X$一致收敛到$f(x)$当且仅当$\rho_n\to0(n\to\infty)$.
 \par 注意不一致收敛的定义与平时的定义改写有较大区别，在此说明.
 \begin{definition}[不一致收敛]
 $\exists \varepsilon_0>0,\forall N\in\zz^+,\exists n>N$与$x_n\in[a,b]$，使得
-\[|f_n(x)-f(x)|\geq\varepsilon_0\]
+\[|f_n(x_n)-f(x)|\geq\varepsilon_0\]
 则称函数列$\{f_n(x)\}$在$X$不一致收敛到$f(x)$
 \end{definition}
 \par 下面是一个关于一致收敛性很有趣的例子.
 \begin{example}
+\label{ex:interesting_uniform_convergence}
 \[f_n(x)=\dfrac{x^n}{1+x^n}\]
 讨论在以下区间的一致收敛性
 \begin{enumerate}
@@ -293,7 +295,7 @@ S(x):&=\lim_{n\to\infty}S_n(x)=\lim_{n\to\infty}\sum_{k=1}^nu_k(x)\\
 \begin{analysis}
 因直接对分母用均值不等式，得到$\dfrac{1}{n}$并无法判断收敛性，故换种方式\\
 $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，有
-\[\lra{\dfrac{nx}{1+n^4x^2}}\leq\dfrac{n|x|}{n^4x^2}=\dfrac{n^3|x|}\leq\dfrac{1}{n^3\delta}\]
+\[\lra{\dfrac{nx}{1+n^4x^2}}\leq\dfrac{n|x|}{n^4x^2}=\dfrac{1}{n^3|x|}\leq\dfrac{1}{n^3\delta}\]
 而$\ssum{\dfrac{1}{n^3\delta}}$收敛，由M判别法，原级数在$|x|\geq\delta$一致收敛\\
 又$x_0$的任意性，知原级数在$|x|>0$一致收敛
 \end{analysis}
@@ -301,6 +303,7 @@ $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，
 若函数列$\{u_n(x)\}$在$[a,b]$连续，$u_n(x)\geq 0$，函数项级数$\ssum{u_n(x)}$在$[a,b]$\textbf{逐点}收敛到$S(x)$，$S(x)$在$[a,b]$连续，则$\ssum{u_n(x)}$在$[a,b]$一致收敛
 \end{theorem}
 \begin{theorem}[和函数的分析性质]
+\label{thm:sum_function_analysis_properties}
 与一般函数列的分析性质非常类似
 \begin{enumerate}
 	\item (连续)若函数列$\{u_n(x)\}$在$[a,b]$连续，且函数项级数$\ssum{u_n(x)}$在$[a,b]$一致收敛到$S(x)$，则$S(x)$在$[a,b]$连续

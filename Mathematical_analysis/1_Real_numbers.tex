@@ -22,7 +22,35 @@
 	\item $\forall x\in A:\,x\leq\beta$
 	\item $\forall\varepsilon>0,\exists x_\varepsilon\in A:\,x_\varepsilon >\beta-\varepsilon$
 \end{enumerate}
-类似地也有下确界的充要条件.
+\par 类似地也有下确界的充要条件.
+\begin{example}
+若$f(x)$在$[a,b]$上有界，定义其振幅为
+\[\omega_f[a,b]=\sup_{x\in[a,b]}f(x)-\inf_{x\in[a,b]}f(x)\]
+则
+\[\omega_f[a,b]=\sup_{x',x''\in[a,b]}|f(x')-f(x'')|\]
+\end{example}
+\begin{analysis}
+设$\disp\sup_{x\in[a,b]}f(x)=M,\inf_{x\in[a,b]}f(x)=m$，由确界的定义有
+\[\forall x',x''\in[a,b]:\,f(x')\leq M,f(x'')\geq m\]
+故$f(x')-f(x'')\leq M-m$. 又
+\[\forall\varepsilon_0>0,\exists x_1,x_2:\,f(x_1)\geq M-\varepsilon_0,f(x_2)\leq m+\varepsilon_0\]
+故
+\[\forall\varepsilon=2\varepsilon_0>0,\exists x_1,x_2:\,f(x_1)-f(x_2)\geq M-m-\varepsilon\]
+符合上确界定义，原命题得证.
+\end{analysis}
+\begin{example}
+\label{ex:inf_sup_inequality}
+设$f(x)$与$g(x)$在$D$上有界，且大于$0$，则
+\[\inf_{x\in D}f(x)\cdot\inf_{x\in D}g(x)\leq\inf_{x\in D}\{f(x)g(x)\}\leq\inf_{x\in D}f(x)\cdot\sup_{x\in D}g(x)\leq\sup_{x\in D}\{f(x)g(x)\}\leq\sup_{x\in D}f(x)\cdot\sup_{x\in D}g(x)\]
+\end{example}
+\begin{analysis}
+左右两式是显然的，下面证明中间式.\\
+反证，如果$\disp\inf_{x\in D}\{f(x)g(x)\}>\inf_{x\in D}f(x)\cdot\sup_{x\in D}g(x)$，则
+\[f(x)g(x)\geq\inf_{x\in D}\{f(x)g(x)\}>\inf_{x\in D}f(x)\cdot\sup_{x\in D}g(x)\]
+欲导致矛盾，即证$\disp\exists x_0:\,f(x_0)g(x_0)\leq \inf_{x\in D}f(x)\cdot\sup_{x\in D}g(x)$\\
+取$\disp x_0=\arg\inf_{x\in D}f(x)$，即可满足上式，故矛盾.\\
+另外一条式子同理，故得证.
+\end{analysis}
 \end{definition}
 \begin{theorem}[确界定理]
 实数集内，非空有上（下）界的数集必有上（下）确界存在.
@@ -70,6 +98,7 @@ $\{[a_n,b_n]\}$是一个区间套，则存在唯一$\displaystyle r\in\mathbb{R}
 
 \subsection{实数完备性}
 \begin{theorem}[柯西(Cauchy)收敛原理]
+\label{thm:cauchy_convergence}
 在实数系$\rr$中，数列$\{x_n\}$有极限存在的充分必要条件是
 \[\forall\varepsilon>0,\exists N,n>N,m>N:\,|x_n-x_m|<\varepsilon\]
 $\{x_n\}$称为$\rr$的基本列，或柯西列.
