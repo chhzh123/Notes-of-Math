@@ -5,22 +5,120 @@
 \begin{theorem}[三角函数系]
 三角函数系
 \[\{1,\cos x,\sin x,\cos 2x,\sin 2x,\cdots,\cos nx,\sin nx,\cdots\}\]
-中任意两个不同函数都正交，即在$[-\pi,\pi]$上的内积为$0$\footnote{其实任意长度为$2\pi$的区间都满足}.
+中任意两个不同函数都正交，即在$[-\pi,\pi]$\footnote{其实任意长度为$2\pi$的区间都满足}上的内积为$0$.
 \end{theorem}
 \begin{definition}[绝对可积]
-设$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$黎曼可积，且$f(x)$在$[-\pi,\pi]$的积分绝对收敛
+设$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$黎曼可积或者是瑕积分，且$f(x)$在$[-\pi,\pi]$的积分绝对收敛
 \[\intab{-\pi}{\pi}{|f(x)|}<+\infty\]
 则$f(x)$在$[-\pi,\pi]$绝对可积.
 \end{definition}
-\begin{definition}[傅里叶系数]
+\begin{definition}[傅里叶级数]
+设$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$绝对可积，则
 \[\begin{cases}
 a_n=\dfrac{1}{\pi}\intab{-\pi}{\pi}{f(x)\cos nx} & n=0,1,2,\ldots\\
 b_n=\dfrac{1}{\pi}\intab{-\pi}{\pi}{f(x)\sin nx} & n=1,2,\ldots
 \end{cases}\]
-则$f(x)$的傅里叶级数为
+为$f(x)$的傅里叶系数，由此得到$f(x)$的傅里叶级数为
 \[f(x)\thicksim\dfrac{a_0}{2}+\sum_{n=1}^{+\infty}(a_n\cos nx+b_n\sin nx)\]
 \end{definition}
+\par 一般要单独求出$a_0$，同时注意\textcolor{red}{$a_0$前面要乘$\dfrac{1}{2}$，$a_n$和$b_n$前面要乘$\dfrac{1}{\pi}$}.
+\par 先判断$f(x)\sin nx$和$f(x)\cos nx$是否奇函数或偶函数，奇函数对称区间求积分则为$0$，偶函数变两倍.
+\par 下面给出一些常见函数的傅里叶展开，区间均为$(-\pi,\pi)$.
+\begin{itemize}
+	\item $f(x)=x$：
+	\[f(x)\thicksim 2\ssum{\dfrac{(-1)^{n-1}}{n}\sin nx}\]
+	\item $f(x)=x^2$：对$x$的展开式逐项积分+例\ref{ex:square_reciprocal_sum2}的结论
+	\[f(x)\thicksim \dfrac{\pi^2}{3}+4\ssum{\dfrac{(-1)^{n}}{n^2}\cos nx}\]
+	\item $f(x)=|\sin x|$：积化和差
+	\[f(x)\thicksim \dfrac{2}{\pi}-\dfrac{2}{\pi}\sum_{n=2}^\infty\dfrac{(-1)^n+1}{n^2-1}\cos nx\]
+	\item $f(x)=|\cos x|$
+	\[f(x)\thicksim -\frac{4}{\pi}\ssum{\dfrac{\cos\frac{n\pi}{2}}{n^2-1}\sin nx}\]
+	\item $f(x)=e^x$z：分部积分移项求和，可以用双曲函数$\sinh x=\dfrac{e^x-e^{-x}}{2}$表示
+	\[f(x)\thicksim \dfrac{e^\pi-e^{-\pi}}{2\pi}+\dfrac{1}{\pi}\ssum{\lrp{(-1)^n\dfrac{(e^\pi-e^{-\pi})}{n^2+1}\cos nx+(-1)^{n+1}\dfrac{n(e^\pi-e^{-\pi})}{n^2+1}\sin nx}}\]
+	\item $f(x)=|x|$
+	\[f(x)\thicksim \dfrac{\pi}{2}+\ssum{\dfrac{2((-1)^n-1)}{n^2\pi}\cos nx}\]
+	\item $f(x)=\sgn x$
+	\[f(x)\thicksim \dfrac{1}{\pi}\ssum{\dfrac{2}{n}(1-(-1)^n)\sin nx}\]
+\end{itemize}
+\par 下面考虑任意区间的傅里叶级数.
+\begin{definition}[任意区间的傅里叶级数]
+设$f(x)$以$2l$为周期，在$[-l,l]$绝对可积，则做变换$x=\dfrac{l}{\pi}t$可得傅里叶系数为
+\[\begin{cases}
+a_n=\dfrac{1}{l}\intab{-l}{l}{f(x)\cos \dfrac{n\pi}{l}x} & n=0,1,2,\ldots\\
+b_n=\dfrac{1}{l}\intab{-l}{l}{f(x)\sin \dfrac{n\pi}{l}x} & n=1,2,\ldots
+\end{cases}\]
+\end{definition}
+\par 如果$f(x)$定义在$[a,b]$上，则做将平移$a$个单位，转移到$[0,l](l=b-a)$区间上，再考虑以下两种延拓方法，拓展至整条数轴.
+\begin{itemize}
+	\item 奇延拓：$F_o(x)=\ssum{b_n\sin\dfrac{n\pi}{l}x}$
+	\item 偶延拓：$F_e(x)=\dfrac{a_0}{2}+\ssum{a_n\cos\dfrac{n\pi}{l}x}$
+\end{itemize}
 
 \subsection{收敛性}
-
-\subsection{任意区间的傅里叶级数}
+\begin{theorem}[黎曼局部化定理]
+若$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$绝对可积，则$f(x)$在$x_0$的收敛或发散，只与$f(x)$在$x_0$附近的性质有关.
+\end{theorem}
+\begin{theorem}[利普希茨(Lipschitz)判别法]
+若$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$绝对可积，且在$x_0$满足$\alpha>0$阶利普希茨条件，即存在$\delta>0$与常数$M$使得
+\[|f(x_0\pm t)-f(x_0)|\leq Mt^\alpha,\,0<t\leq\delta\]
+\end{theorem}
+\begin{corollary2}
+若$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$绝对可积，且在$x_0$有左右微商$f'_+(x_0),f'_-(x_0)$存在，则$f(x)$的傅里叶级数在$x_0$收敛到$f(x_0)$
+\end{corollary2}
+\begin{definition}[逐段可微]
+若$[a,b]$\textbf{可以}分为有限个区间
+\[a=x_0<x_1<\cdots<x_n=b\]
+使得$f(x)$在每个开区间$(x_{i-1},x_i)$都可导，而在区间的端点有左右极限$f(x_i^\pm)$存在，且对$i=0,1,\cdots,n$，有
+\[\lim_{t\to 0^+}\dfrac{f(x_i+t)-f(x_i^+)}{t},\,\lim_{t\to 0^-}\dfrac{f(x_i+t)-f(x_i^-)}{t}\]
+存在，则$f(x)$在$[a,b]$逐段可微.
+\end{definition}
+\begin{theorem}[收敛的充分条件]
+若$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$\textbf{逐段可微}，则$f(x)$的傅里叶级数在$f(x)$的连续点收敛到$f(x)$，在$f(x)$的不连续点（第一类间断点或可去间断点）收敛到$\dfrac{f(x^+)+f(x^-)}{2}$
+\end{theorem}
+\begin{theorem}[逐项积分定理]
+设$f(x)$以$2\pi$为周期，在$[-\pi,\pi]$内除有限个可去间断点或第一类间断点外是连续的，则
+\begin{enumerate}
+	\itemsep -2pt
+	\item $\ssum{\dfrac{b_n}{n}}$收敛
+	\item $\disp\intabu{0}{x}{f(t)}{t}-\dfrac{a_0}{2}=\ssum{\dfrac{a_n\sin nx-b_n(1-\cos nx)}{n}}$
+\end{enumerate}
+\end{theorem}
+\par 下面用傅里叶级数的方法再求一次例\ref{ex:square_reciprocal_sum}的级数和.
+\begin{example}
+\label{ex:square_reciprocal_sum2}
+$\ssum{\dfrac{1}{n^2}},\,\ssum{\dfrac{(-1)^{n-1}}{n^2}}$
+\end{example}
+\begin{analysis}
+法一：用$f(x)=x^2,x\in[-\pi,\pi]$构造.\\
+因为$f(x)$为偶函数，所以$b_n=0$.\\
+\[a_0=\dfrac{1}{\pi}\intab{-\pi}{\pi}{x^2}=\dfrac{2}{3}\pi^2\]
+\[a_n=\dfrac{1}{\pi}\intab{-\pi}{\pi}{x^2\cos nx}=(-1)^n\dfrac{4}{n^2}\]
+因为$f(x)$处处连续，在$x\ne (2k+1)\pi$均可微，而在$x=(2k+1)\pi$有左右微商存在，故
+\[f(x)=x^2=\dfrac{1}{3}\pi^2+4\ssum{(-1)^n\dfrac{\cos nx}{n^2}}\]
+处处成立. 分别令$x=\pi$，$x=0$，得
+\[\dfrac{\pi^2}{6}=\ssum{\dfrac{1}{n^2}},\qquad\dfrac{\pi^2}{12}=\ssum{\dfrac{(-1)^{n-1}}{n^2}}\]
+法二：用傅里叶展式
+\[\dfrac{\pi-x}{2}=\ssum{\dfrac{\sin nx}{n}},\,0<x<2\pi\]
+结合逐项积分定理可求.
+\end{analysis}
+\begin{theorem}[费耶(Fejer)]
+若$f(x)$是以$2\pi$为周期的连续函数，设傅里叶级数的部分和为
+\[S_n(x)=\dfrac{a_0}{2}+\sum_{k=1}^n(a_k\cos kx+b_k\sin kx)\]
+则部分和的算术平均
+\[\sigma_n(x)=\dfrac{S_0(x)+S_1(x)+\cdots+S_n(x)}{n+1}=\dfrac{1}{n+1}\sum_{k=0}^nS_k(x)\]
+当$n\to\infty$时在$[-\pi,\pi]$一致收敛于$f(x)$.
+\end{theorem}
+\begin{corollary2}
+若$f(x)$是以$2\pi$为周期，在$[-\pi,\pi]$有界可积，且$f(x)$在$x_0$连续，则$\sigma_n(x_0)\to f(x_0)(n\to\infty)$.
+\end{corollary2}
+\begin{example}
+若$f(x)$以$2\pi$为周期且连续，其傅里叶系数全为$0$，则$f(x)\equiv 0$
+\end{example}
+\begin{analysis}
+因为$f(x)$以$2\pi$为周期且连续，故在$x_0$收敛，设其傅里叶级数在$x_0$收敛于$S$，即
+\[\lim_{n\to\infty}S_n(x_0)=S\]
+进而由费耶定理
+\[\lim_{n\to\infty}\sigma_n(x_0)=\lim_{n\to\infty}\dfrac{1}{n+1}\sum_{k=0}^nS_k(x_0)=S=f(x_0)\]
+故$\disp\lim_{n\to\infty}S_n(x_0)=f(x_0)=0$，即$f(x)$在$x_0$收敛于$0$\\
+由$x_0\in(-\infty,+\infty)$的任意性，知$f(x)=0$.
+\end{analysis}

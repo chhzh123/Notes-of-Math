@@ -41,14 +41,15 @@ $\forall x_0\in(-r,r)$，令$b=\dfrac{r+|x_0|}{2}$，则$|x_0|<b<r$\\
 由$x_0\in(-r,r)$的\textbf{任意性}，和函数在$(-r,r)$连续.
 \end{analysis}
 \par 运用逐项微分和逐项积分的方法，可以求得一些复杂级数的和. 关键在于如何经过变换使得新的函数可以求和.
+注意逐项积分求的是定积分，而不是不定积分.
 \begin{example}
 \[\begin{aligned}
 &\quad\ssum{\dfrac{(-1)^{n-1}}{n(2n-1)}x^{2n}}\qquad\mbox{收敛域$[-1,1]$}\\
-&=\int\lrp{\ssum{2\dfrac{(-1)^{(n-1)}}{(2n-1)}x^{2n-1}}}\diff x\\
-&=\int\int\lrp{\ssum{2(-1)^{n-1}x^{2n-2}}}\diff x\diff x\\
-&=2\int\int\lrp{\ssum{(-x^2)^{n-1}}}\diff x\diff x\\
-&=2\int\int\dfrac{1}{1+x^2}\diff x\diff x\\
-&=2\int\arctan x\diff x\qquad\mbox{分部积分}\\
+&=\ssum{\int_0^x2\dfrac{(-1)^{(n-1)}}{(2n-1)}x^{2n-1}\diff x}\\
+&=\int_0^x\lrp{\ssum{\int_0^x2(-1)^{n-1}x^{2n-2}\diff x}}\diff x\\
+&=2\int_0^x\int_0^x\lrp{\ssum{(-x^2)^{n-1}}}\diff x\diff x\\
+&=2\int_0^x\int_0^x\dfrac{1}{1+x^2}\diff x\diff x\\
+&=2\int_0^x\arctan x\diff x\qquad\mbox{分部积分}\\
 &=2x\arctan x-\ln(1+x^2)
 \end{aligned}\]
 \end{example}
@@ -139,9 +140,42 @@ e^x&=1+x+\dfrac{1}{2}x^2+\cdots+\dfrac{x^n}{n!}+\cdots\\
 (1+x)^\alpha&=1+\alpha x+\binom{\alpha}{2}x^2+\cdots+\binom{\alpha}{n}x^n+\cdots,\,x\in(-1,1)\\
 \ln(1+x)&=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\cdots+(-1)^n\dfrac{x^n}{n}+\cdots,\,x\in(-1,1]
 \end{aligned}\]
-\par 由这些常见的公式，我们可以得到一些级数的和.
+\par 由这些常见的公式，我们可以快速写出一些函数的泰勒级数展开. 关键在于如何将原函数通过变换，变成我们熟悉的函数.
 \begin{example}
+下面是一些例子，最终的展开式不作赘述，只阐述前面变换的部分.
+\begin{enumerate}
+	\itemsep -1pt
+	\item $\sin^3 x=\dfrac{3\sin x-\sin 3x}{4}$
+	\item $\dfrac{x}{\sqrt{1-3x}}=x(1+(3x))^{\frac{1}{2}}$
+	\item $\disp\ln(x+\sqrt{1+x^2})=\int (1+x^2)^{-\frac{1}{2}}\diff x$
+	\item $\dfrac{1}{1-3x+2x^2}=\dfrac{2}{1-2x}-\dfrac{1}{1-x}$
+	\item $\ln(1+x+x^2)=\ln(1-x^3)-\ln(1-x)$
+\end{enumerate}
+\end{example}
+\par 用\ref{sec:subsub:series_operation}节柯西乘积的方式，可求得更多级数的泰勒展开式.
+\begin{example}
+\[\begin{aligned}
+(\arctan x)^2&=\lrp{\int_0^x\dfrac{1}{1+x^2}\diff x}^2\\
+&=\lrp{\int_0^x\ssumz{(-1)^nx^{2n}}\diff x}^2\\
+&=\lrp{\ssumz{\dfrac{(-1)^n x^{2 n+1}}{2 n+1}}}^2\\
+&=\ssumz{\sum_{k=0}^n\dfrac{(-1)^n x^{2 n+1}}{2 n+1}\dfrac{(-1)^{n-k} x^{2 (n-k)+1}}{2 (n-k)+1}}\\
+&=\ssumz{\lrp{(-1)^n\sum_{k=0}^n\dfrac{1}{(2k+1)(2(n-k)+1)}}x^{2(n+1)}},\,|x|\leq 1
+\end{aligned}\]
+\end{example}
+\par 不仅如此，我们也可以得到一些特殊级数的和.
+\begin{example}
+\label{ex:square_reciprocal_sum}
 $\ssum{\dfrac{1}{n^2}}$
 \end{example}
 \begin{analysis}
+本题是著名的巴塞尔(Basel)问题\footnote{Basel Problem, \url{https://en.wikipedia.org/wiki/Basel_problem}}，最先由欧拉用下面的方法解决.\\
+由$\sin x$的泰勒级数展开有
+\[{\displaystyle {\frac {\sin x}{x}}=1-{\frac {x^{2}}{3!}}+{\frac {x^{4}}{5!}}-{\frac {x^{6}}{7!}}+\cdots }\]
+可以看出左侧的根为$x=\pm n\pi,n\in\zz^+$，由魏尔斯特拉斯分解定理\footnote{Weierstrass Factorization Theorem, \url{https://en.wikipedia.org/wiki/Weierstrass_factorization_theorem}，最初欧拉没有用本定理，因而并不严谨.}，可将左式写成如下形式
+\[{\displaystyle {\begin{aligned}{\frac {\sin x}{x}}&=\left(1-{\frac {x}{\pi }}\right)\left(1+{\frac {x}{\pi }}\right)\left(1-{\frac {x}{2\pi }}\right)\left(1+{\frac {x}{2\pi }}\right)\left(1-{\frac {x}{3\pi }}\right)\left(1+{\frac {x}{3\pi }}\right)\cdots \\&=\left(1-{\frac {x^{2}}{\pi ^{2}}}\right)\left(1-{\frac {x^{2}}{4\pi ^{2}}}\right)\left(1-{\frac {x^{2}}{9\pi ^{2}}}\right)\cdots \end{aligned}}}\]
+提取二次项得
+\[{\displaystyle -\left({\frac {1}{\pi ^{2}}}+{\frac {1}{4\pi ^{2}}}+{\frac {1}{9\pi ^{2}}}+\cdots \right)=-{\frac {1}{\pi ^{2}}}\sum _{n=1}^{\infty }{\frac {1}{n^{2}}}}\]
+对$\sin x/x$展开式左右两侧对比系数有
+\[-{\frac {1}{\pi ^{2}}}\sum _{n=1}^{\infty }{\frac {1}{n^{2}}}=-{\frac {1}{3!}}\]
+移项即得证.
 \end{analysis}

@@ -103,11 +103,51 @@ $\ssum{(-1)^{n-1}u_n},u_n>0$
 \end{theorem}
 
 \subsubsection{代数运算}
+\label{sec:subsub:series_operation}
 \begin{enumerate}
 	\item 结合律：\textbf{条件/绝对收敛}级数任意加括号，和不变；但不能随意去括号
 	\item 交换律：\textbf{绝对收敛}成立；条件收敛适当重排，可使新级数发散或收敛到某一特定值(Riemman)
 	\item 分配律：\textbf{绝对收敛}成立(Cauchy)
 \end{enumerate}
+\par 下面对级数的乘法再做深入讨论.
+\par 设$\ssum{a_n}=A,\ssum{b_n}=B$，考虑乘积$\lrp{\ssum{a_n}}\lrp{\ssum{b_n}}$，可以发现有多种不同的求和顺序，如
+\begin{itemize}
+	\item 对角线法（柯西乘积）
+\begin{center}
+\begin{tikzcd}
+a_1b_1 & a_1b_2\arrow{ld} & a_1b_3\arrow{ld} & \cdots\arrow{ld} & a_1b_m\\
+a_2b_1 & a_2b_2\arrow{ld} & a_2b_3\arrow{ld} & \cdots & a_2b_m\\
+a_3b_1 & a_3b_2\arrow{ld} & a_3b_3 & \cdots & a_3b_m\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+a_nb_1 & a_nb_2 & a_nb_3 & \cdots & a_nb_m
+\end{tikzcd}
+\end{center}
+\[S=a_1b_1+(a_1b_2+a_2b_1)+(a_1b_3+a_2b_2+a_3b_1)+\cdots=\sum_{k=2}^\infty\sum_{i=1}^{k-1}a_ib_{k-i}\lrp{=\sum_{k=0}^\infty\sum_{i=0}^ka_ib_{k-i}\quad\mbox{(从$0$开始)}}\]
+	\item 矩形法
+\begin{center}
+\begin{tikzcd}
+a_1b_1 & a_1b_2\arrow{d} & a_1b_3\arrow{d} & \cdots & a_1b_m\\
+a_2b_1 & a_2b_2\arrow{l} & a_2b_3\arrow{d} & \cdots & a_2b_m\\
+a_3b_1 & a_3b_2\arrow{l} & a_3b_3\arrow{l} & \cdots & a_3b_m\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+a_nb_1 & a_nb_2\arrow{l} & a_nb_3\arrow{l} & \cdots & a_nb_m
+\end{tikzcd}
+\end{center}
+\[\begin{aligned}
+S&=a_1b_1+(a_1b_2+a_2b_2+a_2b_1)+(a_1b_3+a_2b_3+a_3b_3+a_3b_2+a_3b_1)+\cdots\\
+&=\sum_{k=1}^\infty\lrp{\sum_{i=1}^{k}a_ib_k+\sum_{i=1}^{k-1}{a_kb_{k-i}}}
+\end{aligned}\]
+\end{itemize}
+\par 关于相乘的结果，有以下结论.
+\begin{theorem}[级数相乘]
+分以下三种情况讨论
+\begin{enumerate}
+	\itemsep -3pt
+	\item (Cauchy) 若$A$和$B$都绝对收敛，则以任意方式相乘，结果都为$AB$
+	\item (Mertens) 若$A$或$B$中有一者条件收敛，另外一者绝对收敛，则柯西乘积为$AB$
+	\item 若$A$和$B$都条件收敛，则最终结果不一定收敛
+\end{enumerate}
+\end{theorem}
 
 
 \subsection{广义积分}
