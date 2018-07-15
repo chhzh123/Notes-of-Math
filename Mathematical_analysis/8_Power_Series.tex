@@ -42,14 +42,15 @@ $\forall x_0\in(-r,r)$，令$b=\dfrac{r+|x_0|}{2}$，则$|x_0|<b<r$\\
 \end{analysis}
 \par 运用逐项微分和逐项积分的方法，可以求得一些复杂级数的和. 关键在于如何经过变换使得新的函数可以求和.
 注意逐项积分求的是定积分，而不是不定积分.
+也就是说$x=0$的项必须要考虑进去，因为不一定为$0$.
 \begin{example}
 \[\begin{aligned}
 &\quad\ssum{\dfrac{(-1)^{n-1}}{n(2n-1)}x^{2n}}\qquad\mbox{收敛域$[-1,1]$}\\
-&=\ssum{\int_0^x2\dfrac{(-1)^{(n-1)}}{(2n-1)}x^{2n-1}\diff x}\\
-&=\int_0^x\lrp{\ssum{\int_0^x2(-1)^{n-1}x^{2n-2}\diff x}}\diff x\\
-&=2\int_0^x\int_0^x\lrp{\ssum{(-x^2)^{n-1}}}\diff x\diff x\\
-&=2\int_0^x\int_0^x\dfrac{1}{1+x^2}\diff x\diff x\\
-&=2\int_0^x\arctan x\diff x\qquad\mbox{分部积分}\\
+&=\ssum{\int_0^x2\dfrac{(-1)^{(n-1)}}{(2n-1)}t^{2n-1}\diff t}\\
+&=\int_0^x\lrp{\ssum{\int_0^x2(-1)^{n-1}t^{2n-2}\diff t}}\diff t\\
+&=2\int_0^x\int_0^u\lrp{\ssum{(-t^2)^{n-1}}}\diff t\diff u\\
+&=2\int_0^x\int_0^u\dfrac{1}{1+t^2}\diff t\diff u\\
+&=2\int_0^x\arctan u\diff u\qquad\mbox{分部积分}\\
 &=2x\arctan x-\ln(1+x^2)
 \end{aligned}\]
 \end{example}
@@ -144,7 +145,6 @@ e^x&=1+x+\dfrac{1}{2}x^2+\cdots+\dfrac{x^n}{n!}+\cdots\\
 \begin{example}
 下面是一些例子，最终的展开式不作赘述，只阐述前面变换的部分.
 \begin{enumerate}
-	\itemsep -1pt
 	\item $\sin^3 x=\dfrac{3\sin x-\sin 3x}{4}$
 	\item $\dfrac{x}{\sqrt{1-3x}}=x(1+(3x))^{\frac{1}{2}}$
 	\item $\disp\ln(x+\sqrt{1+x^2})=\int (1+x^2)^{-\frac{1}{2}}\diff x$
@@ -152,11 +152,11 @@ e^x&=1+x+\dfrac{1}{2}x^2+\cdots+\dfrac{x^n}{n!}+\cdots\\
 	\item $\ln(1+x+x^2)=\ln(1-x^3)-\ln(1-x)$
 \end{enumerate}
 \end{example}
-\par 用\ref{sec:subsub:series_operation}节柯西乘积的方式，可求得更多级数的泰勒展开式.
+\par 用柯西乘积（\ref{sec:subsub:series_operation}节）的方式，可求得更多级数的泰勒展开式.
 \begin{example}
 \[\begin{aligned}
-(\arctan x)^2&=\lrp{\int_0^x\dfrac{1}{1+x^2}\diff x}^2\\
-&=\lrp{\int_0^x\ssumz{(-1)^nx^{2n}}\diff x}^2\\
+(\arctan x)^2&=\lrp{\int_0^x\dfrac{1}{1+t^2}\diff t}^2\\
+&=\lrp{\int_0^x\ssumz{(-1)^nt^{2n}}\diff t}^2\\
 &=\lrp{\ssumz{\dfrac{(-1)^n x^{2 n+1}}{2 n+1}}}^2\\
 &=\ssumz{\sum_{k=0}^n\dfrac{(-1)^n x^{2 n+1}}{2 n+1}\dfrac{(-1)^{n-k} x^{2 (n-k)+1}}{2 (n-k)+1}}\\
 &=\ssumz{\lrp{(-1)^n\sum_{k=0}^n\dfrac{1}{(2k+1)(2(n-k)+1)}}x^{2(n+1)}},\,|x|\leq 1

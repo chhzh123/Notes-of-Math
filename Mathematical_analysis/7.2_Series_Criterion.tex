@@ -21,7 +21,7 @@
 	\item 极限形式：
 		\[\mbox{$\displaystyle\lim_{n\to\infty}\dfrac{T_1}{T_2}=l$，$l\in[0,+\infty)$，$U_2$收敛则$U_1$收敛；$l\in(0,+\infty],U_2$发散则$U_1$发散}\]
 \end{itemize}
-\par 一般形式的比较判别法需要熟悉常见的放缩技巧（见~\ref{sec:2.3def_pf_limit}节），如有界量($\sin x,(-1)^n$)直接取界、均值不等式、估计等.
+\par 一般形式的比较判别法需要熟悉常见的放缩技巧（见\ref{sec:2.3def_pf_limit}节），如有界量($\sin x,(-1)^n$)直接取界、均值不等式、估计等.
 % 2^\ln n=n^\ln 2 3^\sqrt{n}<n^3
 \par 极限形式的比较判别法常常与重要极限/无穷小量代换牵连在一起，需要懂得构造.
 \begin{example}
@@ -226,7 +226,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 	由柯西收敛原理知$\ssum{a_nb_n}$收敛
 \end{enumerate}
 \end{analysis}
-\par 下面的例~\ref{cauchy_s1}、例~\ref{cauchy_s2}是一些小结论.
+\par 下面的例\ref{cauchy_s1}、例\ref{cauchy_s2}是一些小结论.
 \begin{example}
 \label{cauchy_s1}
 \begin{enumerate}
@@ -266,7 +266,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \end{enumerate}
 \end{analysis}
 \end{example}
-\par 下面例~\ref{egdirconv1}无论是方法还是结论都相当重要，类似地可以证明$\ssum{\dfrac{\cos nx}{n}}$在$x\neq k\pi,k\in\zz$时收敛.
+\par 下面例\ref{egdirconv1}无论是方法还是结论都相当重要，类似地可以证明$\ssum{\dfrac{\cos nx}{n}}$在$x\neq k\pi,k\in\zz$时收敛.
 \begin{example}
 \[\ssum{\dfrac{\sin nx}{n}}\]
 \label{egdirconv1}
@@ -286,7 +286,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \begin{analysis}
 \begin{enumerate}
 	\item 当$p>1$时，$\lra{\dfrac{\cos nx}{n^p}}\leq\dfrac{1}{n^p}$，而$\ssum{\dfrac{1}{n^p}}$收敛，由比较判别法，原级数绝对收敛\par
-	\item 当$0<p\leq 1$时，由例~\ref{egdirconv1}类似的方法知$\ssum{\cos nx}$有界，而$\{\dfrac{1}{n^p}\}$单调下降趋于$0$，故由狄利克雷函数判别法，原级数收敛\par
+	\item 当$0<p\leq 1$时，由例\ref{egdirconv1}类似的方法知$\ssum{\cos nx}$有界，而$\{\dfrac{1}{n^p}\}$单调下降趋于$0$，故由狄利克雷函数判别法，原级数收敛\par
 但由于（\textbf{相当关键的一步}）
 \[\lra{\dfrac{\cos nx}{n^p}}\geq\dfrac{\cos^2 nx}{n^p}=\dfrac{1}{2n^p}+\dfrac{\cos 2nx}{2n^p}\]
 $\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利克雷），故$\ssum\lra{\dfrac{\cos nx}{n^p}}$发散，即原级数条件收敛\par

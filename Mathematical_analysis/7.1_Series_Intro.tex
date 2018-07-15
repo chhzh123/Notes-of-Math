@@ -2,7 +2,7 @@
 
 \section{无穷级数与广义积分}
 \label{sec:series}
-本章中会将正项级数、一般项级数、广义积分（无穷限积分、瑕积分）、函数项级数放在一起进行比较，当然也会涉及各类级数各自的特性. 由于将内容进行整合，故最重要的各类判别法总结在~\ref{summary_conver}节才进行讲述.
+本章中会将正项级数、一般项级数、广义积分（无穷限积分、瑕积分）、函数项级数放在一起进行比较，当然也会涉及各类级数各自的特性. 由于将内容进行整合，故最重要的各类判别法总结在\ref{summary_conver}节才进行讲述.
 
 \subsection{级数的基本性质}
 \begin{definition}[无穷级数]
@@ -16,7 +16,7 @@ $\{u_n\}$为数列，称形式和
 若$\ssum{u_n}$收敛，则$\displaystyle\lim_{n\to\infty}u_n=0$
 \end{theorem}
 \par 注意此定理并非充分条件，如$\ssum{\ln\lrp{1+\dfrac{1}{n}}}=\ln(n+1)$发散，但其一般项趋于$0$. 并且，此定理也只适用于数项级数，广义积分并不具有这样的性质.
-\par 在进行数项级数收敛性判断时，第一步就得先判定其一般项是否趋于$0$，然后再考虑其他判别方法. 如果遇到比较简单的数列，可以直接求和的，那就先求和再讨论，如下面的例~\ref{eg_series_conver1}.
+\par 在进行数项级数收敛性判断时，第一步就得先判定其一般项是否趋于$0$，然后再考虑其他判别方法. 如果遇到比较简单的数列，可以直接求和的，那就先求和再讨论，如下面的例\ref{eg_series_conver1}.
 \begin{example}
 $\ssum{r^n\sin nx},|r|<1$
 \label{eg_series_conver1}
@@ -161,13 +161,13 @@ S&=a_1b_1+(a_1b_2+a_2b_2+a_2b_1)+(a_1b_3+a_2b_3+a_3b_3+a_3b_2+a_3b_1)+\cdots\\
 \[\intab{a}{b}{f(x)}:=\lim_{\eta\to0^+}\intab{a+\eta}{b}{f(x)}\]
 为$[a,+\infty)$的瑕积分
 \end{definition}
-\par 注意在无穷项积分中$\intab{a}{+\infty}{f(x)}$收敛并不能推出$f(x)\to0(x\to+\infty)$，这与数项级数不同，如例~\ref{countereg_conver_integ}说明了这一点.
+\par 注意在无穷项积分中$\intab{a}{+\infty}{f(x)}$收敛并不能推出$f(x)\to0(x\to+\infty)$，这与数项级数不同，如例\ref{countereg_conver_integ}说明了这一点.
 \par 下面的积分第二中值定理类似于数列的阿贝尔变换，用于证明广义积分的阿贝尔判定法.
 \begin{theorem}[积分第二中值定理]
 设$f(x)$在$[a,b]$上可积，而$g(x)$在$[a,b]$上单调，则在$[a,b]$中存在$\xi$使得
 \[\intab{a}{b}{f(x)g(x)}=g(a)\intab{a}{\xi}{f(x)}+g(b)\intab{\xi}{b}{f(x)}\]
 \end{theorem}
-\par 在进行广义积分的收敛性判定时，一般先尝试其是否可以进行正常的积分，即求不定积分（详细方法见第~\ref{sec:indefinite_integration}章），之后才考虑用各类判别法. 并且在实际运算过程中要记得分段，最好每一个区间只含一个瑕点，在端点或者内点都可.
+\par 在进行广义积分的收敛性判定时，一般先尝试其是否可以进行正常的积分，即求不定积分（详细方法见第\ref{sec:indefinite_integration}章），之后才考虑用各类判别法. 并且在实际运算过程中要记得分段，最好每一个区间只含一个瑕点，在端点或者内点都可.
 \begin{example}
 \[\intab{0}{+\infty}{\dfrac{\sqrt{x}}{1+x^2}}\]
 \end{example}
@@ -175,16 +175,17 @@ S&=a_1b_1+(a_1b_2+a_2b_2+a_2b_1)+(a_1b_3+a_2b_3+a_3b_3+a_3b_2+a_3b_1)+\cdots\\
 如果只是判断收敛性，则用比较判别法
 \[\lim_{x\to\infty}\dfrac{\sqrt{x}}{1+x^2}\Big/\dfrac{1}{x^{\frac{3}{2}}}=\lim_{x\to\infty}\dfrac{x^2}{1+x^2}=1\]
 而$\intab{0^+}{+\infty}{\dfrac{1}{x^{\frac{3}{2}}}}$收敛（注意瑕点），故原积分收敛.\\
-如果要求值，则变得相当麻烦
+如果要求值，则变得相当麻烦，法一：
 \[\begin{aligned}
   \intab{0}{+\infty}{\dfrac{\sqrt{x}}{1+x^2}}
-  &=\intabu{0}{+\infty}{\dfrac{2u^2}{1+u^4}{u}}\\
+  &=\intabu{0}{+\infty}{\dfrac{2u^2}{1+u^4}}{u}\\
   &=\intabu{0}{+\infty}{\left(-\dfrac{\sqrt{2}/2u}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}/2u}{u^2-\sqrt{2}u+1}\right)}{u}\\
   &=\dfrac{\sqrt{2}}{2}\Bigg(\dfrac{1}{2}\int_0^{+\infty}\dfrac{\diff(u^2-\sqrt{2}u+1)}{u^2-\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\int_0^{+\infty}\dfrac{\diff\left(u-\sqrt{2}/{2}\right)}{\left(u-\sqrt{2}/{2}\right)^2+\left(\sqrt{2}/{2}\right)^2}\\
   &\quad-\dfrac{1}{2}\int_0^{+\infty}\dfrac{\diff(u^2+\sqrt{2}u+1)}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\int_0^{+\infty}\dfrac{\diff\left(u+\sqrt{2}/{2}\right)}{\left(u+\sqrt{2}/{2}\right)^2+\left(\sqrt{2}/{2}\right)^2}\Bigg)\\
   &=\dfrac{\sqrt{2}}{2}\left(\dfrac{1}{2}\ln\dfrac{u^2-\sqrt{2}u+1}{u^2+\sqrt{2}u+1}+\dfrac{\sqrt{2}}{2}\arctan(\sqrt{2}u-1)+\dfrac{\sqrt{2}}{2}\arctan(\sqrt{2}u+1)\right)\Bigg|_0^{+\infty}\\
   &=\dfrac{\sqrt{2}}{2}\pi                   
 \end{aligned}\]
+法二：倒代换，令$u=\dfrac{1}{t}$，则原式变为$\disp -2\intabu{0}{+\infty}{\dfrac{1}{1+t^4}}{t}$，接下来步骤同例\ref{egfrac1}.
 \end{analysis}
 
 \subsection{函数项级数}
@@ -310,7 +311,7 @@ S(x):&=\lim_{n\to\infty}S_n(x)=\lim_{n\to\infty}\sum_{k=1}^nu_k(x)\\
 \end{aligned}\]
 取$N=\floor{\dfrac{1}{2\eps}}+1$，则当$n>N$时上式成立，故一致收敛
 \end{analysis}
-\par 其实函数项级数就和普通的数项级数没有太大差别，用在数项级数的判别法，在函数项级数这里照样可以用，需要改动的地方不过是在一些地方加上“一致”罢了. 下面这条定理就是定理~\ref{series_conver}的函数项级数版本.
+\par 其实函数项级数就和普通的数项级数没有太大差别，用在数项级数的判别法，在函数项级数这里照样可以用，需要改动的地方不过是在一些地方加上“一致”罢了. 下面这条定理就是定理\ref{series_conver}的函数项级数版本.
 \begin{theorem}[函数项级数一致收敛必要条件]
 函数项级数$X$一致收敛的必要条件是一般项构成的函数序列$\{u_n(x)\}$在$X$一致收敛于$0$
 \end{theorem}
@@ -365,7 +366,7 @@ $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，
 \[\intab{-\pi}{\pi}{\dfrac{1-r^2}{1-2r\cos x+r^2}}=2\pi,|r|<1\]
 \end{example}
 \begin{analysis}
-由例~\ref{eg_series_conver1}知
+由例\ref{eg_series_conver1}知
 \[\dfrac{1-r^2}{1-2r\cos x+r^2}=1+2\ssum{r^n\cos nx},|r|<1\]
 当$|r|<1$时，$|2r^n\cos nx|\leq 2|r|^n$，而$\ssum{2|r|^n}$收敛，由M判别法知$\ssum{r^n\cos nx}$一致收敛\\
 又级数的每一项$\{r^n\cos nx\}$都在$(-\infty,+\infty)$连续，故可逐项积分，得
