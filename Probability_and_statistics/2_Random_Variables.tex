@@ -1,0 +1,130 @@
+\section{随机变量及其分布}
+\begin{definition}[概率质量函数(PMF)]
+对于离散随机变量$X$，$f_X(k)=\pr{X=k}$
+\end{definition}
+\begin{definition}[概率密度函数(PDF)]
+对于连续随机变量$X$，$\displaystyle f_X(k)=\pr{X\in A}=\int_Af_X(x)dx$
+\end{definition}
+\begin{definition}[分布函数/累积密度函数(CDF)]
+$F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
+\end{definition}
+\begin{definition}[期望]
+\[\E{X}=\sum_k kf_X(k)\]
+\[\E{X}=\intab{-\infty}{+\infty}{xf_X(x)}\]
+\end{definition}
+\par 期望具有线性性，即
+\[\E{X+Y}=\E{X}+\E{Y},\,\E{cX}=c\E{X}\]
+\begin{definition}[方差]
+\[\Var{X}=\sigma^2=\E{(X-\E{X})^2}=\E{X^2}-\E{X}^2\geq 0\]
+\end{definition}
+由方差定义和期望的线性性有
+\[\Var{aX+b}=a^2\Var{X}\]
+注意方差并不线性
+\[\begin{aligned}
+\Var{X+Y}&=\E{(X+Y)^2}-(\E{X}+\E{Y})^2\\
+&=\E{X^2}-\E{X}^2+\E{Y^2}-\E{Y}^2+2(\E{XY}-\E{X}\E{Y})\\
+&=\Var{X}+\Var{Y}+2\Cov{X,Y}
+\end{aligned}\]
+若$X,Y$独立，则$\Cov{X,Y}=0$
+\begin{theorem}
+若$X_1,\ldots,X_n$独立，则
+\[\begin{aligned}
+\E{\prod_{i=1}^nX_i}&=\prod_{i=1}^n\E{X_i}\\
+\Var{\prod_{i=1}^nX_i}&=\sum_{i=1}^n\Var{X_i}\\
+\Cov{X_i,X_j}&=0,\,i\ne j
+\end{aligned}\]
+\end{theorem}
+
+\subsection{常见的离散分布}
+\begin{enumerate}
+	\item 伯努利分布 \textbf{Bernoulli(p)}（二项分布的特殊情形）
+		\[\begin{aligned}
+		f_{X}(k)&=\begin{cases}
+		1-p & k=0\\
+		p & k=1\\
+		\end{cases}\\
+		\mathbb{E}(X)&=p
+		\end{aligned}\]
+	\item 二项分布 \textbf{Binomial(n,p)}
+		\[\begin{aligned}
+		f_{X}(k)& =\binom{n}{k}p^k(1-p)^n-k,\,0\leq k\leq n\\
+		\mathbb{E}(X)& =n\cdot p
+		\end{aligned}\]
+		e.g. 扔$n$次硬币扔到$k$次正面（做实验$n$次，记录成功的次数）
+	\item 几何分布 \textbf{Geometric(p)}（负二项分布的特殊情形）
+		\[\begin{aligned}
+		f_{X}(k)& =(1-p)^k\cdot p,k\geq 0\\
+		\mathbb{E}(X)& =\frac{1-p}{p}
+		\end{aligned}\]
+		e.g. 扔$k$次反面直至扔到正面（做实验直到你成功，记录失败的次数）
+	\item 负二项分布 \textbf{NegetiveBinomial(t,p)}
+		\[\begin{aligned}
+		f_{X}(k)& =\binom{k+t-1}{t-1}p^t(1-p)^k,\,k\geq 0\\
+		\mathbb{E}(X)& =t\cdot\frac{1-p}{p}
+		\end{aligned}\]
+		e.g. 扔$k$次反面直到有$t$个正面（做实验直到你获得$t$次成功，记录失败次数）
+	\item 超几何分布 \textbf{HyperGeometric(N,n,M)}
+		\[\begin{aligned}
+		f_{X}(k)& =\frac{\binom{M}{k}\cdot \binom{N-M}{n-k}}{\binom{N}{n}}\\
+		\mathbb{E}(X)& =n\frac{M}{N}
+		\end{aligned}\]
+		e.g. $M$个产品中有$N$个次品，检查$n$次得到$k$个次品
+	\item 泊松分布 \textbf{Poisson($\lambda$)}
+		\[\begin{aligned}
+		f_{X}(k)& =e^{-\lambda}\cdot \frac{\lambda^k}{k!}\\
+		\mathbb{E}(X)& =\lambda
+		\end{aligned}\]
+		$X\thicksim B(n,p)$，若$p=\dfrac{\lambda}{n}$，且$n$非常大，则
+		\[\begin{aligned}
+		\pr{X=k} &= \binom{n}{k}\left(\frac{\lambda}{n}\right)^k\left(1-\frac{\lambda}{n}\right)^{n-k}\\
+		&= \frac{n(n-1)\cdots(n-k+1)}{k!}\frac{\lambda^k}{n^k}\left(1+\frac{-\lambda}{n}\right)^{n-k}\\
+		&\approx \frac{\lambda^k}{k!}\ee^{-\lambda}
+		\end{aligned}\]
+		注意泊松分布具有无记忆性(memoryless)，即
+		\[\prc{X\geq a}{X\geq b}=\pr{X\geq a-b}\]
+\end{enumerate}
+
+\subsection{常见的连续分布}
+\begin{enumerate}
+	\item 指数分布 \textbf{Exponential($\lambda$)}
+	\[\begin{aligned}
+	f_X(x)&=\lambda\ee^{-\lambda x},\,x\geq 0\\
+	\E(X)&=\dfrac{1}{\lambda}
+	\end{aligned}\]
+	\item 正态分布 \textbf{Normal($\mu,\sigma$)}
+	\[\begin{aligned}
+	f_X(x)&=\dfrac{1}{\sqrt{2\pi}\sigma}\ee^\frac{-(x-\mu)^2}{2\sigma^2}\\
+	\E{X}&=\mu
+	\end{aligned}\]
+	算平方
+	\[\begin{aligned}
+	&\quad\left(\intinf{\ee^\frac{-x^2}{2}}\right)^2\\
+	&=\intinf{\ee^\frac{-x^2}{2}}\intinf[y]{\ee^\frac{-x^2}{2}}\\
+	&=\intinf[y]{\intinf{\ee^\frac{-(x^2+y^2)}{2}}}\\
+	&=\intab[\theta]{0}{2\pi}{\intab[r]{0}{+\infty}{r\ee^\frac{-r^2}{2}}}\\
+	&=\intab[\theta]{0}{2\pi}{\intab[u]{0}{+\infty}{\ee^{-u}}}\\
+	&=\intab[\theta]{0}{2\pi}{1}\\
+	&=2\pi
+	\end{aligned}\]
+\end{enumerate}
+
+\section{大数定律}
+\begin{theorem}[切比雪夫(Chebyshev)不等式]
+\[\pr{|X-\E{X}|\geq\lambda}\leq\dfrac{\E{|X-\E{X}|}}{\lambda}\]
+\end{theorem}
+\begin{theorem}[弱大数定律]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
+\[\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}>\eps}=0,\,\forall\eps>0\]
+\end{theorem}
+\begin{theorem}[强大数定律]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
+\[\pr{\lim_{n\to\infty}\dfrac{1}{n}\sum_{i=1}^nX_i=\mu}=1\]
+\end{theorem}
+
+\section{统计}
+\begin{definition}[估计]
+$X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，对参数$\theta$的估计是函数$T(X_1,\ldots,X_n)$，称$T$是期望(expected)估计，若
+\[\E{T(X_1,\ldots,X_n)}=\theta\]
+合适(probable)的估计，若
+\[\pr{|T(X_1,\ldots,X_n)-\theta|>\eps}\to 0,\,n\to\infty\]
+\end{definition}
