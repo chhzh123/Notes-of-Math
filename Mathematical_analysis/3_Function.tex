@@ -4,7 +4,57 @@
 \begin{definition}[(基本)初等函数]
 \textbf{常函数}加上\textbf{反对幂三指}称为基本初等函数. 基本初等函数经过\textbf{有限次}四则运算或复合的函数称为初等函数. 
 \end{definition}
-\par要关注：反三角函数的值域及图像
+\par 注意关注反三角函数的值域及图像，如下图所示.
+\par\vspace{15pt}
+\begin{minipage}{0.33\linewidth}
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\begin{axis}[
+	domain=-1:1,
+	samples=500,
+	axis lines*=middle,
+	xtick={-1,1}, ytick={-1.57,1.57},
+	yticklabels={$-\pi/2$,$\pi/2$}
+	]
+\addplot[color = red]  {rad(asin(x))};
+\end{axis}
+\end{tikzpicture}
+$\arcsin x$
+\end{center}
+\end{minipage}
+\begin{minipage}{0.33\linewidth}
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\begin{axis}[
+	domain=-1:1,
+	samples=500,
+	axis lines*=middle,
+	xtick={-1,1}, ytick={0,3.14},
+	yticklabels={$0$,$\pi$}
+	]
+\addplot[color = orange]  {rad(acos(x))};
+\end{axis}
+\end{tikzpicture}
+$\arccos x$
+\end{center}
+\end{minipage}
+\begin{minipage}{0.33\linewidth}
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+\begin{axis}[
+	domain=-6:6,
+	samples=500,
+	axis lines*=middle,
+	xtick={-6,6}, ytick={-1.57,1.57},
+	yticklabels={$-\pi/2$,$\pi/2$}
+	]
+\addplot[color = green]  {rad(atan(x))};
+\end{axis}
+\end{tikzpicture}
+$\arctan x$
+\end{center}
+\end{minipage}
+
 \subsection{函数的基本性质}
 \begin{enumerate}
 	\itemsep -3pt
@@ -188,4 +238,42 @@ $f(x)$在区间$(x_0,b)$上单调上升有下界$f(x_0)$，必有$\displaystyle\
 \[\forall K,\exists X,\forall x>X:\,f'(x)>K\]
 令$\eps_0=1,x'=X,x''=X+\dfrac{1}{K}>X$，则
 \[|f(x')-f(x'')|=|f'(\xi)||x'-x''|>K\dfrac{1}{K}=1\]
+\end{analysis}
+\par 类似的拉格朗日中值定理分拆的方法，可以解决下面一题. 同时注意关注其对柯西收敛原理的应用（绝对值拆分，往条件靠）.
+\begin{example}
+设$f(x)$在$[a,b]$满足条件：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $|f(x)-f(y)|\leq k|x-y|,\forall x,y\in[a,b],0<k<1$
+	\item $f(x)$值域在$[a,b]$内
+\end{enumerate}
+则对任意$x_0\in[a,b]$，令$x_{n+1}=f(x_n)$，有
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\disp\lim_{n\to+\infty}x_n$存在
+	\item 方程$x=f(x)$的解在$[a,b]$上是唯一的，这个解就是上述极限值
+\end{enumerate}
+\end{example}
+\begin{analysis}
+由条件$1$结合拉格朗日中值定理，知$|f'(\xi)|\leq k,\xi\in[a,b]$，故
+\[\begin{aligned}
+|x_{n+1}-x_n|&=|f(x_n)-f(x_{n-1})|=|f'(\xi)||x_n-x_{n-1}|\\
+&\leq k|f(x_{n-1})-f(x_{n-2})|\\
+&\leq \cdots\\
+&\leq k^n|x_1-x_0|
+\end{aligned}\]
+用柯西收敛原理（柯西列）证明收敛
+\[\begin{aligned}
+|x_m-x_n|&=|x_m-x_{m-1}+x_{m-1}-x_{m-2}+\cdots+x_{n+1}-x_n|\\
+&\leq|x_m-x_{m-1}|+|x_{m-1}-x_{m-2}|+\cdots+|x_{n+1}-x_n|\\
+&\leq k^{m-1}|x_1-x_0|+k^{m-2}|x_1-x_0|+\cdots+k^{n}|x_1-x_0|\\
+&< \dfrac{k^n}{1-k}|x_1-x_0| < \eps
+\end{aligned}\]
+故$\disp\lim_{n\to+\infty}x_n$存在.\\
+因为$f(x)$可导，故$f(x)$连续
+\[\lim_{n\to+\infty}x_{n+1}=f(\lim_{n\to+\infty}x_n)\]
+故$\disp\lim_{n\to+\infty}x_n$是$x=f(x)$的根.\\
+下面证明唯一性. 若不然，存在$a,b(a\ne b)$，且$a=f(a)$，$b=f(b)$，则
+\[|a-b|=|f(a)-f(b)|=|f'(\xi)||a-b|\leq k|a-b|<|a-b|\]
+矛盾，故根唯一.
 \end{analysis}

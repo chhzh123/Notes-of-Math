@@ -54,6 +54,7 @@ b_n=\dfrac{1}{l}\intab{-l}{l}{f(x)\sin \dfrac{n\pi}{l}x} & n=1,2,\ldots
 	\item 奇延拓：$F_o(x)=\ssum{b_n\sin\dfrac{n\pi}{l}x}$
 	\item 偶延拓：$F_e(x)=\dfrac{a_0}{2}+\ssum{a_n\cos\dfrac{n\pi}{l}x}$
 \end{itemize}
+\par 注意延拓后积分要乘$2$.
 
 \subsection{收敛性}
 \begin{theorem}[黎曼局部化定理]
@@ -101,6 +102,9 @@ $\ssum{\dfrac{1}{n^2}},\,\ssum{\dfrac{(-1)^{n-1}}{n^2}}$
 法二：用傅里叶展式
 \[\dfrac{\pi-x}{2}=\ssum{\dfrac{\sin nx}{n}},\,0<x<2\pi\]
 结合逐项积分定理可求.
+法三：对$f(x)=(x-1)^2$在$(0,1)$上偶延拓，得到
+\[f(x)=(x-1)^2=\dfrac{1}{3}+\ssum{\dfrac{4}{n^2\pi^2}\cos n\pi x}\]
+令$x=0$即得
 \end{analysis}
 \begin{theorem}[费耶(Fejer)]
 若$f(x)$是以$2\pi$为周期的连续函数，设傅里叶级数的部分和为

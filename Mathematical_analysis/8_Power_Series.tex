@@ -15,6 +15,7 @@ $\ssumz{a_nx^n}$称为幂级数，注意它的各个项严格按照升序排列
 \[\rho=\lim_{n\to+\infty}\dfrac{|a_{n+1}|}{|a_n|}\]
 \end{definition}
 \begin{theorem}[阿贝尔第二定理]
+\label{thm:abel_second}
 若幂级数收敛半径为$r>0$，
 \begin{enumerate}
 	\itemsep -3pt
@@ -24,7 +25,7 @@ $\ssumz{a_nx^n}$称为幂级数，注意它的各个项严格按照升序排列
 \end{enumerate}
 注意：不能说明$(-r,r)$一致收敛，如$\ssumz{x^n}$（同例\ref{ex:interesting_uniform_convergence}解释）
 \end{theorem}
-\par 由阿贝尔第二定理与定理\ref{thm:sum_function_analysis_properties}可直接得到以下推论.
+\par 由定理\ref{thm:abel_second}与定理\ref{thm:sum_function_analysis_properties}可直接得到以下推论.
 \begin{corollary2}[幂级数和函数的分析性质]
 若幂级数的收敛半径为$r>0$，则其和函数
 \begin{enumerate}
@@ -35,7 +36,7 @@ $\ssumz{a_nx^n}$称为幂级数，注意它的各个项严格按照升序排列
 \end{enumerate}
 \end{corollary2}
 \begin{analysis}
-和函数的连续性看似与定理\ref{thm:sum_function_analysis_properties}矛盾，实则不然，下面的证明短小而意味深长，值得慢慢体会.\\
+结合定理\ref{thm:abel_second}的注意事项，和函数的连续性看似与定理\ref{thm:sum_function_analysis_properties}矛盾，实则不然，下面的证明短小而意味深长，值得慢慢体会.\\
 $\forall x_0\in(-r,r)$，令$b=\dfrac{r+|x_0|}{2}$，则$|x_0|<b<r$\\
 由阿贝尔第二定理，幂级数在$[-b,b]$一致收敛，而$a_nx^n$在$(-\infty,+\infty)$连续，故由定理\ref{thm:sum_function_analysis_properties}知，和函数在$[-b,b]$连续，特别地在$x_0$连续.\\
 由$x_0\in(-r,r)$的\textbf{任意性}，和函数在$(-r,r)$连续.

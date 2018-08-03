@@ -39,7 +39,7 @@ $f(x)$在$[a,b]$可积，$F(x)$是$f(x)$在$[a,b]$上的任一原函数，$F'(x)
 \end{theorem}
 \begin{theorem}[柯西不等式(积分形式)]
 $f(x),g(x)$在$[a,b]$连续，则
-\[\int_a^bf^2(x)\diff x\dot \int_a^bg^2(x)\diff x\geq\left(\int_a^bf(x)g(x)\diff x\right)^2\]
+\[\int_a^bf^2(x)\diff x\cdot \int_a^bg^2(x)\diff x\geq\left(\int_a^bf(x)g(x)\diff x\right)^2\]
 等号成立当且仅当$f(x),g(x)$线性相关
 \end{theorem}
 \begin{analysis}
@@ -109,7 +109,7 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 &=\frac{(b-a)^2}{2}\underset{a\leq x\leq b}{\max}|f'(x)|
 \end{aligned}\]
 \end{analysis}
-同理可证
+同理可证下面的练习.
 \begin{exercise}
 设$f''(x)$在$[a,b]$连续，且$f(a)=f(b)=0$，证明：
 \begin{enumerate}[(1)]
@@ -181,7 +181,8 @@ $f(x)$在$[0,1]$上有界，不连续点为$x=\dfrac{1}{n},n\in\zz^+$，则$f(x)
 （注意$[0,\delta)$部分并不关心分多少份，只关心$\delta$的值，故在$[\delta,1]$部分限制$\lambda$的最大值并不影响最终结果）
 进而得证.
 \end{analysis}
-\par 如果条件已经给出某些函数可积，则证明的时候努力往条件的形式靠即可，类似于极限的证明题.
+\par 证明可积性第一步通常是对振幅$\omega_i$进行放缩，放缩成关于上确界$M_i$和下确界$m_i$的表达式.
+如果条件已经给出某些函数可积，则证明的时候努力往条件的形式靠即可，类似于极限的证明题.
 \begin{example}
 \label{ex:f_f2_absf_relation_lemma}
 若$|f(x)|$可积，则$|f(x)^\alpha|,\alpha>0$可积
@@ -206,12 +207,12 @@ $f(x)$在$[0,1]$上有界，不连续点为$x=\dfrac{1}{n},n\in\zz^+$，则$f(x)
 	\item[$3\degree$] 若$\alpha\notin\zz^+$，且$\alpha>1$
 设$\alpha=[\alpha]+\dfrac{1}{p}$，因为$[\alpha]\in\zz^+$，由$1\degree$知$|g(x)|^{[\alpha]}$可积，由$2\degree$知$|g(x)|^{\frac{1}{p}}$可积，进而$|g(x)|^\alpha=|g(x)|^{[\alpha]}|g(x)|^{\frac{1}{p}}$可积\\
 （因为$(a+b)^2=a^2+b^2+2ab$，由平方可积可推得乘法可积）\\
+\end{enumerate}
 $(*)$式补充证明：即证$(M_i^\frac{1}{p}-m_i^\frac{1}{p})^p\leq M_i-m_i$\\
 由于$M_i,m_i$为$|g(x)|$在某个区间上得上确界、下确界，所以$M_i,m_i>0$\\
 原式等价于
 \[\lrp{\dfrac{m_i}{M_i}}^\frac{1}{p}+\lrp{1-\dfrac{m_i}{M_i}}^\frac{1}{p}\geq 1,\;0\leq\dfrac{m_i}{M_i}\leq 1\]
 构造$h(x)=x^\frac{1}{p}+(1-x)^\frac{1}{p}$，求导易知当$x=\dfrac{1}{2}$时有最大值，$x=0$或$1$时有最小值$h(0)=h(1)=1$，故$(*)$式成立.
-\end{enumerate}
 \end{analysis}
 \begin{example}
 \label{ex:f_f2_absf_relation}
@@ -260,7 +261,7 @@ $(*)$式补充证明：即证$(M_i^\frac{1}{p}-m_i^\frac{1}{p})^p\leq M_i-m_i$\\
 
 \subsection{定积分的计算}
 关键掌握不定积分的求法，定积分就能迎刃而解了，最大不同只在于定积分换元时需要把上下限一起改变（出现上限小于下限的情况也是正常的）.
-\par 用定义计算的题则要懂得配凑出黎曼和的形式
+\par 用定义计算的题则要懂得配凑出黎曼和的形式，如下面的练习\ref{limitrimsum}.
 \begin{exercise}
 \label{limitrimsum}
 $\displaystyle\lim_{n\to\infty}\left(\frac{1}{n+1}+\frac{1}{n+2}+\cdots+\frac{1}{2n}\right)$
