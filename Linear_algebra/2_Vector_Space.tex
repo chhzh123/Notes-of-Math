@@ -1,0 +1,355 @@
+% !TEX root = main.tex
+
+\section{向量空间}
+\subsection{基本定义}
+\begin{definition}[向量空间/线性空间]
+给定一个域$F$\footnote{参见\url{https://en.wikipedia.org/wiki/Field_(mathematics)}}，若对一个非空集合$V$满足以下十条公理，则称$V$为$F$上的向量空间：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 定义两种运算 $+$ 和 $\cdot$
+		$ \langle V , +, \cdot \rangle$
+		加法是$V\times V$到$V$的一个映射，数乘是$F\times V$到$V$的一个映射\\
+		注：在说明一个集合构成一个向量空间时，一定要指出域是什么，向量加法是怎么定义的，数乘是怎么定义的，否则一切都只是空中楼阁.
+	\item 封闭性(对两种运算封闭)
+	\item $V$的基本性质，设$u,v,w\in V$，$c,d$为常数
+		\begin{enumerate}
+			\itemsep -3pt
+			\item 零元 $u+0=u$
+			\item 单位元 $1\cdot u=u$
+			\item 逆元 $u+(-u)=0$
+			\item 加法交换律 $u+v=v+u$ （暂不定义两向量相乘）
+			\item 结合律 $(u+v)+w=u+(v+w),(cd)u=c(du)$
+			\item 左右分配律 $c(u+v)=cu+cv,(c+d)u=cu+du$
+		\end{enumerate}
+\end{enumerate}
+\end{definition}
+要注意，这里的向量空间实际上是很抽象的，$F,V$可以是一些很奇怪的东西.
+\par如度为$n$的多项式所构成的集合$\mathbb{P}_n$，有
+\[\mathbf{p}(t)=a_0+a_1t+a_2t+\cdots+a_nt^n\]
+的形式（这里的$t$虽然可以取任意值，但在$\{1,t,\dots,t^n\}$这组标准基下区别不同多项式的是前面的系数，也即坐标向量. 故考虑其线性性时，不是考虑$\vb{p}(u+v)$，而是考虑$\vb{p}(t)+\vb{q}(t)$），这个集合满足以上所有公理，也被称为向量空间.
+\par甚至于不用显式地表示出来的也可以算是向量空间，如定义在$[a,b]$上实值函数$f$的集合，同样是一个向量空间.
+
+\subsection{四个基本子空间}
+\begin{definition}[子空间]
+称$H$是$V$的子空间，当$\vu,\vv\in H$，有：
+\begin{enumerate}
+	\itemsep -5pt
+	\item $\mathbf{0}\in H$
+	\item $\vu+\vv\in H$
+	\item $c\vu\in H$
+\end{enumerate}
+注意：$\mathbb{R}^2$并不是$\mathbb{R}^3$的子空间，向量元素数目都不同，但可以通过补$0$来达到目的.
+\end{definition}
+\begin{definition}[基本子空间]
+$A$为$m\times n$的矩阵，则列空间$\col A$、行空间$\row A$、零空间$\nul A$、左零空间$\nul A^T$称为$A$的基本子空间
+\end{definition}
+\label{nul_and_col}
+我们先来探究$A$的零空间与列空间：
+\renewcommand\arraystretch{1.2}
+\begin{table}[!htbp]%摆放位置
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$\nul A$ & $\col A$ \\ \hline
+$\{\mathbf{x}:\mathbf{x}\in\mathbb{R}^n,A\mathbf{x}=\mathbf{0}\}$ & $\{\mathbf{b}:\exists\,\mathbf{x}\in\mathbb{R}^n,A\mathbf{x}=\mathbf{b}\}$\\ \hline
+隐性(implicit)定义 & 显性(explicit)定义 \\ \hline
+$\mathbb{R}^n$的子空间 & $\mathbb{R}^m$的子空间\\ \hline
+考虑有$n$个变量 & 考虑有$m$个方程\\ \hline
+$\mathrm{dim}=$方程自由变量个数 & $\mathrm{dim}=$主元列数 \\ \hline
+基得解出来才知道 & 基为\textbf{原矩阵}的主元列\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\renewcommand\arraystretch{1}
+\par 同时我们发现：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\mathrm{Nul}\, A=\{\mathbf{0}\}$（$A$的列线性无关）当且仅当$\mathbf{x}\mapsto A\mathbf{x}$是一一映射/单射\\
+		也说明$A$的每一列都为主元列($n$个)，并且$m\geq n$，无自由变元.
+	\item $\mathrm{Col}\, A=\mathbb{R}^m$当且仅当$\mathbf{x}\mapsto A\mathbf{x}$将$\mathbb{R}^n$映上/满射到$\mathbb{R}^m$\\
+		也说明$A$的每一行都有主元位置($m$个)，并且$m\leq n$，\textbf{可能}存在自由变元.
+\end{enumerate}
+需要注意：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 当$A$不是方阵时，$\mathrm{Nul}\, A$与$\mathrm{Col}\, A$是两个完全不同的空间；$A$是方阵，则有可能存在非零向量同时属于这两个空间
+	\item 基本行变换不会影响列之间的相关关系，但\textbf{会改变}其列空间
+	\item 基本行变换\textbf{不会改变}其行空间，阶梯形的\textbf{非零行}形成其行空间的一组基，也是原矩阵行空间的一组基
+\begin{analysis}
+$B$是由$A$经过行变换得来的矩阵，则$B$的行是$A$的行的线性组合，因此$B$的行的线性组合也一定是$A$的行的线性组合，进而$\row B\subset\row A$；而行操作又是可逆的，相反的操作可以说明$\row A\subset\row B$，因此$\row A=\row B$.\\
+若$B$是阶梯形，它的非零行一定线性无关，因为没有一个非零行是它下面非零行的线性组合（定理\ref{linear_relationship}$(c)$的逆否命题），证毕.
+\end{analysis}
+\end{enumerate}
+\begin{theorem}
+\[(\row A)^{\perp}=\nul A,(\col A)^{\perp}=\nul A^T\]
+\end{theorem}
+\begin{analysis}
+若$\vx\in\nul A$，由矩阵乘法，$A$每一行与$\vx$都正交，而$A$的行张成$\row A$，因此$\nul A\subset(\row A)^{\perp}$.\\
+若$\vx\in(\row A)^\perp$，则$\vx$与$A$的每一行都正交，进而$\vx\in\nul A$，因此$(\row A)^{\perp}\subset\nul A$.\\
+故$(\row A)^{\perp}=\nul A$. 最后令$A\gets A^T$代入即可得第二个结论.
+\end{analysis}
+\par 关于四个基本子空间维度之间的关系，见定理\ref{rank_theo}.
+
+\subsection{线性变换}
+\begin{definition}[线性变换\protect\footnote{有些地方说线性映射(linear mapping)是从一个向量空间$V$到另一个向量空间$W$的映射且保持加法运算和数量乘法运算，而线性变换(linear transformation)是线性空间$V$到其自身的线性映射. 但从国外的课本上看，这两者并没有区分得特别清楚.}]
+若$T:V\to W$ 满足
+\begin{enumerate}
+	\itemsep -3pt
+	\item $T(\vb{u}+\vb{v})=T(\vb{u})+T(\vb{v})$
+	\item $T(c\vb{u})=cT(\vb{u})$
+\end{enumerate}
+则称$T$为线性变换.\\
+注意：这里并不需要零元的定义，即$T(\mathbf{0})=\mathbf{0}\,(*)$，因线性变换保持数乘不变性，这已经可以推出 $(*)$式
+\end{definition}
+\par 线性变换研究的是两个向量空间，则更加抽象. 如对一个实值连续函数求导，也可以算是一个线性变换.
+\begin{theorem}[标准(standard)矩阵]
+对于线性变换$T:\rn\to\mathbb{R}^m$，存在唯一矩阵$A$使得
+\[T(\vx)=A\vx,\forall\vx\in\rn\]
+其中$A$是一个$m\times n$的矩阵，且
+\[A=\Big[T(\vb{e}_1)\quad\cdots\quad T(\vb{e}_n)\Big]\]
+称$A$为$T$的标准矩阵.
+\end{theorem}
+\begin{analysis}
+$1\degree\;$存在性：
+\[\begin{aligned}T(\vx) &= T(x_1\vb{e}_1+\cdots+x_n\vb{e}_n)\\
+&= x_1T(\vb{e}_1)+\cdots+x_nT(\vb{e}_n)\\
+&= \Big[T(\vb{e}_1)\quad\cdots\quad T(\vb{e}_n)\Big]\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
+&= A\vx
+\end{aligned}\]
+$2\degree\;$唯一性：
+设存在另一矩阵$B$使得$T(\vx)=B\vx,\forall\vx\in\rn$，故$A\vx=B\vx,\forall\vx\in\rn$，令$\vx=\vb{e}_i$即得$A=B$
+\end{analysis}
+这里需要注意几点：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 由矩阵乘向量的线性性知，所有的矩阵变换都是线性变换.
+	\item 线性变换着重于映射的性质，而矩阵变换则描述了该映射是怎么实施的.
+	\item 标准矩阵的唯一性是在确定了基的情况下才说的，如上面的定理是标准基，非标准基的情况请见定理\ref{linear_trans_tot}.
+\end{enumerate}
+\begin{definition}[单射与满射]
+线性变换$T:V\to W$满足：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\forall\vb{b}\in W$\textbf{至多}可以在$V$中找到一个原像$\vx$，则称$T$单射（即$T(\vb{u})=T(\vb{v})\implies \vb{u}=\vb{v}$）
+	\item $\forall\vb{b}\in W$\textbf{至少}可以在$V$中找到一个原像$\vx$，则称$T$满射
+	\item $\forall\vb{b}\in W$在$V$中都\textbf{有且只有}一个原像$\vx$，则称$T$双射/一一映射，称$V$和$W$\textbf{同构}，记为$V\cong W$.
+\end{enumerate}
+\end{definition}
+\begin{definition}[核空间与值域空间]
+$T(\vx)=\vb{0}$的解为$T$的核空间，$T(\vx),\forall\vx$的所有可能值构成$T$的值域空间，分别对应着矩阵中的零空间和列空间.
+\end{definition}
+\begin{theorem}%4.3 T31 32
+\label{lt_theo}
+线性变换$T:V\to W$，$S=\{\vb{v}_1,\dots,\vb{v}_p\}\in V$，$S'=\{T(\vb{v}_1),\dots,T(\vb{v}_p)\}\in W$，$U$是$V$的子空间
+\begin{enumerate}
+	\itemsep -3pt
+	\item \label{l1}若$S$线性相关，则$S'$线性相关；若$S'$线性无关，则$S$线性无关
+	\item \label{l2}$T$是单射，若$S'$线性相关，则$S$线性相关；若$S$线性无关，则$S'$线性无关
+	\item \label{l3}若$S$为$U$的一组基，则$S'$张成$T(U)$
+	\item \label{l4}$V\cong W$，若$S$是$V$的线性无关组（生成集/基），则$S'$是$W$的线性无关组（生成集/基）
+	\item $V\cong W\iff\dim V=\dim W$
+	\item \label{subspace_range}$T(U)$是$W$的子空间
+	\item $\dim T(U)\leq\dim U$，当$T$为单射时取等
+	\item \textbf{核是定义域的子空间}，\textbf{值域空间是对映域的子空间}
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+\begin{enumerate}
+\itemsep-3pt
+\item 不妨设$\vv_p=c_1\vv_1+\cdots+c_{p-1}\vv_{p-1}$，则$T(\vv_p)=T(c_1\vv_1+\cdots+c_{p-1}\vv_{p-1})=c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})$，说明$S'$也线性相关. 后者为前者的逆否命题，易知成立.
+\item 不妨设$T(\vv_p)=c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})$，则$c_1T(\vv_1)+\cdots+c_{p-1}T(\vv_{p-1})=T(c_1\vv_1+\cdots+c_{p-1}\vv_{p-1})=T(\vv_p)$. 又因$T$是单射，故$\vv_p=c_1\vv_1+\cdots+c_{p-1}\vv_{p-1}$，$S$线性相关.
+\item $\vb{y}\in T(U),\,\exists\,T(\vx)=\vb{y}$，因$\vx\in U$，所以$\vx=c_1\vv_1+\cdots+c_p\vv_p$，因$T$为线性，故$\vb{y}=T(\vx)=c_1T(\vb{v}_1)+\cdots+c_pT(\vb{v}_p)$，即可说明.（注意这里只能说明$T(U)$的基在$S'$内，而不能说明$S'$就是基）
+\item 结合\ref{l1},\ref{l2},\ref{l3}即得证.
+\item 结合\ref{l4}，$S$为$V$的基，$S'$为$W$的基，都含有$p$个向量，故维度相同.
+\item \begin{enumerate}
+	\itemsep -3pt
+	\item $\vb{0}\in U,\,T(\vb{0})=\vb{0}\in T(U)$
+	\item $\forall\vv_1,\vv_2\in T(U),\,\exists\,\vu_1,\vu_2\in U\,s.t.\,\vv_1=T(\vu_1),\,\vv_2=T(\vu_2),\\
+	\because \vu_1+\vu_2\in U\quad\therefore T(\vu_1+\vu_2)=T(\vu_1)+T(\vu_2)=\vv_1+\vv_2 \in T(U)$
+	\item $\forall\vv\in T(U),\,\exists\,\vu\in U\,s.t.\,\vv=T(\vu),\\
+	\because c\vu\in U\quad\therefore T(c\vu)=cT(\vu)=c\vv\in T(U)$
+\end{enumerate}
+\item 由定理\ref{basis_theo}$(d)$知$\dim T(U)\leq\dim U$. 若$S$为$U$的一组基，则$S'$张成$T(U)$，又本题的题$2$证明了$S'$线性无关，故$S'$为$T(U)$的一组基，故$\dim T(U)=p=\dim U$
+\item 记$T$的核为$\ker T$，显然$\vb{0}\in\ker T$. 若$\vu,\vv\in \ker T$，即$T(\vu)=\vb{0},T(\vv)=\vb{0}$，则$T(\vu+\vv)=T(\vu)+T(\vv)=\vb{0}\implies \vu+\vv\in \ker T,T(c\vu)=cT(\vu)=\vb{0}\implies c\vu\in\ker T$，故核是定义域的子空间.\\
+上面\ref{subspace_range}中令$U\gets V$，即得值域空间是对映域的子空间.
+\end{enumerate}
+\end{analysis}
+
+\subsection{基、维度与秩}
+\begin{definition}[基]
+$H$是向量空间$V$的子空间，$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_p\}$满足以下两个条件：
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\mathcal{B}$为线性无关集
+	\item $\mathrm{Span}\{\vb{b}_1,\dots,\vb{b}_p\}=H$
+\end{enumerate}
+则称$\mathcal{B}$是$H$的基. 换言之，基是\textbf{极大线性无关组}，也是\textbf{极小生成集}.
+\end{definition}
+由条件2知$\vb{b}_1,\dots,\vb{b}_p$都得在$H$中，这个显然的结论看似没用，但却是$\mathcal{B}$成为基的重要条件（在后文证明施密特正交化（算法\ref{schmidt}）时也需要说明这一点）.
+\par如$\mathbf{v}_1=(1,0,1),\mathbf{v}_2=(0,1,1),\mathbf{v}_3=(0,1,0)$，令$H=\{(s,t,t):s,t\in \mathbb{R}\}$，有
+\[
+\begin{bmatrix}s \\t \\t\end{bmatrix}=s\begin{bmatrix}1 \\0 \\1\end{bmatrix}+(t-s)\begin{bmatrix}0 \\1 \\1 \end{bmatrix}+s\begin{bmatrix}0 \\1 \\0 \end{bmatrix}\]
+这里$\vv_1,\vv_3\notin H$，其实$H$只是$\mathrm{Span}\{\vv_1,\vv_2,\vv_3\}$的子集，故$\{\vv_1,\vv_2,\vv_3\}$不能称为一组基.
+\begin{theorem}[生成集(Spanning set)]
+$S=\{\vb{v}_1,\dots,\vb{v}_p\}$是$V$中的集合，令$H=\span\{\vb{v}_1,\dots,\vb{v}_p\}$，
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item 若$\vb{v}_k$是$S$中其余向量的线性组合，则将$\vb{v}_k$移除，$S$仍然张成$H$
+	\item 若$H\ne\{\vb{0}\}$，则$S$的某个子集是$H$的基
+\end{enumerate}
+\end{theorem}
+\begin{analysis}不妨设$\vb{v}_p$可以被其他向量线性表示，则
+\[\vb{v}_p=a_1\vv_1+\cdots+a_{p-1}\vv_{p-1}\]
+将上式代入下式，可知将$\vb{v}_p$移除后，$H$中的向量$\vx$依然可以被其余$p-1$个向量线性表示，即$S$仍然张成$H$
+\[\vx=c_1\vv_1+\cdots+c_p\vv_p=(c_1+a_1c_p)\vv_1+\cdots+(c_{p-1}+a_{p-1}c_p)\vv_{p-1}\]
+不断重复$(a)$的步骤，删除线性相关的向量，那么剩下的向量一定都线性无关，且可张成$H$，故形成一组基
+\end{analysis}
+\begin{definition}[维度]
+向量空间$V$的一组基中向量的个数定义为$V$的维度，记为$\dim V$
+\end{definition}
+\begin{definition}[秩]
+对于矩阵$A$，它的秩记为
+\[\mathrm{rank}\,A=\mathrm{dim}\,\mathrm{Col}\,A\]
+一般地，对于一组向量集合，它的秩是极大线性无关组中向量的数目
+\end{definition}
+\begin{theorem}以下是关于基和维度的一些结论. 设$S=\{\vv_1,\dots,\vv_n\}\in V,\,|S|\geq 1$，且$S$为$V$的基
+\label{basis_theo}
+\begin{enumerate}[(a)]
+	\itemsep -1pt
+	\item \label{b1}在$V$中任取$p(p>n)$个向量，一定线性相关 %P257
+	\item 在$V$中任取$p(p<n)$个向量，一定不能张成$V$%P261T25
+	\item $V$的所有基都包含$n$个向量
+	\begin{analysis}
+	由假设知$\dim V=n$，先将$S$与这$p$个向量改写成坐标向量后（见\ref{coordinate-system}节），构造$n\times p$矩阵$A$，$A$的每一列即为这$p$个向量. 由\ref{nul_and_col}节的讨论知，若$n<p$，则$A$一定存在自由变元，$A$的列一定线性相关；若$n>p$，则不能保证每一行都有主元位置，进而不能张成$\rn$，对应地也就不能张成$V$. 因此，$V$的所有基都包含$n$个向量.
+	直接推论是：每一个$\mathbb{R}^n$的基都必须包含$n$个向量.
+	\end{analysis}
+	\item \label{b4}$H$是$V$的一个子空间，则$H$内任一线性无关集都可以被拓展为$H$的一组基，且$\dim H\leq\dim V$（基的存在性）
+	\begin{analysis}
+	若$H=\{\vb{0}\}$，显然$\dim H=0\leq\dim V$；\\
+	否则，令$S'=\{\vu_1,\dots,\vu_k\}$是$H$的一个线性无关集. 若$S'$张成$H$，则$S'$是$H$的一组基；否则，$\exists\vu_{k+1}\in H-\span S'$，则$\{\vu_1,\dots,\vu_k,\vu_{k+1}\}$将线性无关. 继续这个过程，可以不断扩展$S'$直至其能张成$H$，也即成为$H$的一组基. 但由(\ref{b1})，$S'$中向量的数量不能超过$\dim V$. 综上，$\dim H\leq\dim V$.
+	\end{analysis}
+	\item \label{b5}任一$p$个元素的线性无关集或是可张成$V$的集合自动成为$V$的基
+	\begin{analysis}
+	由(\ref{b4})，有$p$个元素的线性无关集$S'$可以被拓展成$V$的基，但这组基一定得含$p$个元素，因为$\dim V=p$，因此$S'$已经是$V$的基. 假设$S''$有$p$个元素且可张成$V$，因为$V\ne\{\vb{0}\}$，生成集定理告诉我们$S''$的某一个子集$S^*$一定是$V$的基，又因$\dim V=p$，所以$S^*$一定包含$p$个向量，也即$S^*=S''$.
+	\end{analysis}
+	\item $H$是$V$的$n$维子空间，则$H=V$
+	\begin{analysis}
+	若$\dim V=\dim H=0$，则$V=H=\{\vb{0}\}$；\\
+	若$\dim V=\dim H>0$，则$H$存在一组基$S'$包含$n$个向量，那么由(\ref{b5})，$S'$也是$V$的基，因此$H=V=\span S'$.
+	\end{analysis}
+	\item $\mathbb{P}$是无限维空间，$C(\mathbb{R})$为所有实值连续函数构成的空间，也是无限维的
+	\begin{analysis}
+	反证法，假设$\dim\mathbb{P}=k<\infty$，$\mathbb{P}_n$是$\mathbb{P}$的子空间，$\dim\mathbb{P}_{k-1}=k$，因此$\dim\mathbb{P}_{k-1}=\dim\mathbb{P}$，进而$\mathbb{P}_{k-1}=\mathbb{P}$，这显然不对，如$\vb{p}(t)=t^k$在$\mathbb{P}$内，但不在$\mathbb{P}_{k-1}$内，矛盾.\\
+	因$\mathbb{P}$是$C(\mathbb{R})$的子空间，若$C(\mathbb{R})$为有限维，则由(\ref{b4})，$\mathbb{P}$也是有限维的，矛盾.
+	\end{analysis}
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[秩定理]
+\label{rank_theo}
+\[\mathrm{rank}\,A+\mathrm{dim}\,\mathrm{Nul}\,A=n\]
+\[\dim\row A+\dim \nul A^T=m\]
+\end{theorem}
+\begin{analysis}
+由前面\ref{nul_and_col}节的讨论知道，列空间的维度为主元列数，加上零空间的维度为自由变量个数就等于总的列数.
+\end{analysis}
+\begin{example}
+若一个非齐次线性方程组有$6$个方程$8$个未知数，已知其有一个有$2$个自由变元的解，则无论方程右侧的常数是什么，该方程组总有解.
+\end{example}
+\begin{analysis}
+$\dim\nul A=2,\rank=8-2=6,\col A\in\mathbb{R}^6\implies\col A=\mathbb{R}^6$
+\end{analysis}
+\begin{example}
+$A\vx=\vb{b},\forall\vb{b}\in\mathbb{R}^m$都有解$\iff A^T\vx=\vb{0}$只有平凡解
+\end{example}
+\begin{analysis}
+$\rank A=\dim\col A=\dim\row A=m\implies\dim\nul A^T=0$
+\end{analysis}
+\begin{theorem}[秩的进阶定理]%P300
+$A$是$m\times n$矩阵，$B$是$n\times p$矩阵，记$\rank A=r=r_1$，$\rank B=r_2$，有以下结论
+\begin{enumerate}[(a)]
+	\itemsep -3pt
+	\item $\rank AB\leq \rank A,\rank AB\leq \rank B$
+	\begin{analysis}
+	设$\vb{y}\in\col AB$，则$\exists\,\vx\,s.t.\,\vb{y}=AB\vx$，而$AB\vx=A(B\vx)=\vb{y}$，因此$\vb{y}\in\col A$，故$\col AB$为$\col A$的子空间，由定理\ref{basis_theo}(\ref{b4})知$\rank AB\leq \rank A$.\\
+	又由秩定理，$\rank AB=\rank(AB)^T=\rank B^TA^T\leq\rank B^T=\rank B$.
+	\end{analysis}
+	\item $P$是$m\times m$可逆矩阵，$Q$是$n\times n$可逆矩阵，则$\rank PA=\rank AQ=\rank A$
+	\begin{analysis}
+	由$(a)$有$\rank PA\leq\rank A=\rank(P^{-1}P)A=\rank P^{-1}(PA)\leq PA\implies \rank PA=\rank A$.\\
+	$\rank AQ=\rank (AQ)^T=\rank Q^TA^T=\rank A^T=\rank A$.
+	\end{analysis}
+	\item 若$AB=O$，则$\rank A+\rank B\leq n$
+	\begin{analysis}
+	由$AB=O$知，$B$的每一列都在$\nul A$中，故$\col B$是$\nul A$的子空间，故$\rank B\leq \dim\nul A$.\\
+	又由秩定理$n=\rank A+\dim \nul A\geq\rank A+\rank B$.
+	\end{analysis}
+	\item $\rank(A+B)\leq\rank A+\rank B$
+	\begin{analysis}
+	引理：一定存在秩分解$A=CR$，其中$C$是$m\times r$矩阵，$R$是$r\times n$矩阵.\\
+	将$A,B$秩分解得$A=C_1R_1,B=C_2R_2$，构造$m\times (r_1+r_2)$矩阵$C=\begin{bmatrix}C_1&C_2\end{bmatrix}$，则
+	\[A+B=C_1R_1+C_2R_2=\begin{bmatrix}C_1&C_2\end{bmatrix}\begin{bmatrix}R_1\\R_2\end{bmatrix}=CR\]
+	因$C$有$r_1+r_2$列，故$\rank C\leq r_1+r_2$，同理$R$有$r_1+r_2$行，故$\rank R\leq r_1+r_2$，进而$\rank (A+B)\leq r_1+r_2=\rank A+\rank B$.
+	\end{analysis}
+	\item $A$的秩为$r$当且仅当$A$包含一个$r\times r$的子矩阵，且没有更大的方阵是可逆的
+	\begin{analysis}
+	$1\degree$ 证明$A$一定有$m\times r$且秩为$r$的子矩阵$A_1$\\
+	令$A_1$包含$A$的$r$个主元列，因这些列线性无关，故$A_1$即为所求.\\
+	$2\degree$ 证明$A_1$一定有$r\times r$且可逆的子矩阵$A_2$\\
+	$\rank A_1=\dim\row A_1=r$，令$A_2$包含$A_1$的$r$个线性无关的行，则$A_2$即为所求，且为方阵故可逆.
+	\end{analysis}
+	\item 若$C=\begin{bmatrix}A&O\\O&B\end{bmatrix}$，则$\rank C=\rank A+\rank B$
+	\begin{analysis}
+	将$A,B$都写成阶梯形，因分块矩阵其余位置都为$0$，故$C$此时也为阶梯形，$C$的秩就等于$A,B$主元列之和.
+	\end{analysis}
+\end{enumerate}
+\end{theorem}
+
+\subsection{坐标系统}
+\label{coordinate-system}
+\begin{theorem}[向量唯一表示定理]
+$\mathcal{B}=\{b_1,\cdots,b_p\}$是向量空间$V$的基，则$\forall\vx\in V$，存在唯一$c_1,\dots,c_n$使得$\vx=c_1\vb{b}_1+\cdots+c_p\vb{b}_p$
+\end{theorem}
+\begin{analysis}
+\[0=\vx-\vx=(c_1-d_1)\vb{b}_1+\cdots+(c_p-d_p)\vb{b}_p\]
+由基线性无关，知上述方程只有平凡解.
+\end{analysis}
+\begin{definition}[坐标向量]
+$\mathcal{B}=\{b_1,\cdots,b_p\}$是$H$的基，$\forall\vx\in H,\;\vx=c_1\vb{b}_1+\cdots+c_p\vb{b}_p$，则$\vx$关于$\mathcal{B}$的坐标向量定义为
+\[[\vx]_{\mathcal{B}}:=\begin{bmatrix}c_1\\ \vdots \\ c_p\end{bmatrix}\]
+\end{definition}
+\par坐标系统最大的用处是可以将向量空间$V$中奇奇怪怪的东西转换成$\mathbb{R}^n$中我们熟悉的向量，求解坐标的过程实质上又是解线性方程组，进而有如下定理.
+\begin{theorem}[坐标变换矩阵]
+对于$V$的一组基$\mathcal{B}=\{\vb{b}_1,\cdots,\vb{b}_n\}$，存在唯一$n\times n$矩阵$P_\mathcal{B}$使得
+\[\mathbf{x}=P_\mathcal{B}[\mathbf{x}]_{\mathcal{B}},\,\forall \vx\in V\]
+其中$P_\mathcal{B}=\bmat{\vb{b}_1}{\vb{b}_n}$称为坐标变换矩阵. 移项即可解出坐标，
+\[[\mathbf{x}]_{\mathcal{B}}=P_\mathcal{B}^{-1} \mathbf{x}\]
+\end{theorem}
+\begin{theorem}[换基]
+$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\},\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_n\}$都是向量空间$V$的基，那么存在唯一的$n\times n$矩阵$\underset{\mathcal{C}\gets \mathcal{B}}{P}$，使得
+\[[\vx]_{\mathcal{C}}=\underset{\mathcal{C}\gets \mathcal{B}}{P}[\vx]_{\mathcal{B}}\]
+其中$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\begin{bmatrix}[\vb{b}_1]_{\mathcal{C}}&[\vb{b}_2]_{\mathcal{C}}&\cdots&[\vb{b}_n]_{\mathcal{C}}\end{bmatrix}$，称为过渡矩阵.
+\end{theorem}
+\begin{myalgorithm}[在$\rn$中换基]
+要求$\underset{\mathcal{C}\gets \mathcal{B}}{P}$，首先要将$\mathcal{B}$与$\mathcal{C}$之间的关系找到，即用$\mathcal{C}$中的向量表示$\mathcal{B}$中的向量.\\
+设坐标变换矩阵$P_\mathcal{C}=\bmat{\vb{c}_1}{\vb{c}_n}$，进而$\vb{b}_i=P_{\mathcal{C}}[\vb{b}_i]_{\mathcal{C}}$，故
+\[P_{\mathcal{B}}=P_{\mathcal{C}}\underset{\mathcal{C}\gets \mathcal{B}}{P}\]
+（注意矩阵下标）由命题\ref{row_redu_alg}，可得以下过程
+\[\begin{bmatrix}P_\mathcal{C}&P_\mathcal{B}\end{bmatrix}\thicksim\begin{bmatrix}I&\underset{\mathcal{C}\gets \mathcal{B}}{P}\end{bmatrix}\]
+或者$P_\mathcal{B}[\vx]_\mathcal{B}=\vx=P_\mathcal{C}[\vx]_\mathcal{C}\implies [\vx]_\mathcal{C}=P_\mathcal{C}^{-1}P_\mathcal{B}[\vx]_\mathcal{B}\implies \underset{\mathcal{C}\gets \mathcal{B}}{P}=P_{\mathcal{C}}^{-1}P_{\mathcal{B}}$.
+\end{myalgorithm}
+\begin{theorem}%P250 P254T23 24
+关于坐标变换$T:\vx\mapsto[\vx]_{\mathcal{B}}$，其中$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$，有如下结论.
+\begin{enumerate}
+	\itemsep -3pt
+	\item $T$是一个双射的线性变换，$\vx$所处的空间$V$与$[\vx]_\mathcal{B}$所处的空间$\rn$同构
+	\item $S=\{\vb{u}_1,\dots,\vb{u}_p\}$线性无关当且仅当$S'=\left\{[\vb{u}_1]_\mathcal{B},\dots,[\vb{u}_p]_\mathcal{B}\right\}$线性无关；$S$线性相关当且仅当$S'$线性相关
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$[\vu]_\mathcal{B}=[\vb{w}]_\mathcal{B}=\begin{bmatrix}c_1\\\vdots\\c_n\end{bmatrix}$，由坐标向量定义$\vb{u}=\vb{w}=c_1\vb{b}_1+\cdots+c_n\vb{b}_n$，而$\vb{u},\vb{w}$均为$V$中任意元素，故$T$为单射. 令$\vb{y}=\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}$，$\vb{u}=y_1\vb{b}_1+\cdots+y_n\vb{b}_n$，则由定义$[\vb{u}]_\mathcal{B}=\vb{y}$，因$\vb{y}$为$\rn$任意向量，故$T$为满射.
+	\item 由定理\ref{lt_theo}易知.
+\end{enumerate}
+\end{analysis}

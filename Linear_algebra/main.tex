@@ -1,0 +1,68 @@
+\documentclass[11pt,UTF8]{ctexart}
+\input{../mypackage}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\title{线性代数笔记整理V2.0}
+\author{陈鸿峥}
+\date{{\builddatemonth\today} \footnote{\text{Build \builddate\today}}}%加了build
+
+\begin{document}
+
+\maketitle
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{0}
+
+\setcounter{tocdepth}{2}%设置深度
+\tableofcontents
+
+\input{1_Matrix}
+\input{2_Vector_Space}
+\input{3_Inner_Product_Space}
+\input{4_Eigenvalues_and_Eigenvectors}
+\input{5_Quadratic_Forms}
+\input{6_Affine_Space}
+\input{7_Extensions}
+
+\end{document}
+
+
+\begin{comment}
+
+V:所有定义在[a,b]上可微且导函数连续的函数f
+W:所有定义在[a,b]上的连续函数
+D:V\to W  f\to f'
+D(f+g)=D(f)+D(g)
+D(cf)=cD(f)
+D为线性变换
+核：常值函数
+值域：W
+
+%P262T33
+\{\vb{v}_1,\dots,\vb{v}_k\}线性无关可被扩展成\rn的基A=[V  e_1  \cdots  e_n]
+\{\vb{v}_1,\dots,\vb{v}_k\}一定包含在Col A的基中，Col A=R^n
+
+%P270T31
+秩1矩阵当且仅当它是个外积，即A=uv^T
+
+\vx^TA\vx正定，同样\vx^TA^{-1}\vx
+\end{comment}
+%Jordan分解
+
+%行阶梯形的唯一性 P15
+%flop P23
+%三角函积分一次性降幂升角 P277/17
+%P318估计特征值QR算法
+%P393 refl_Ly=2proj_Ly-y
+%P408 T(x)=proj_W x线性变换
+
+%有自由变元不代表有无穷多个解，也可能无解
+%线性组合的权重可以都为0
+%内积u^Tv转置相同
+%外积uv^T
+%经过原点的子空间才是\rn的子空间
+%detab=deta detb a不可逆则为0 a可逆~I_n划归E
+%证明是向量空间的方法 1定义 2证明其是\col A或\nul A
+%写成A=PDP^{-1}的形式没有默认D已对角
+
+%实值连续函数构成的空间

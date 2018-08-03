@@ -1,0 +1,94 @@
+% !TEX root = main.tex
+
+\section{拓展}
+%4.8 微分/差分方程 5.7
+\subsection{线性模型与最小二乘}%6.6 在线性模型的应用
+\begin{theorem}[最小二乘]
+$A$为$m\times n$的矩阵，$\mathbf{b}\in\mathbb{R}^m$，$A\mathbf{x}=\mathbf{b}$的最小二乘解是$\hat{\mathbf{x}}\in\mathbb{R}^n$使得
+\[\|\vb{b}-A\hat{\vx}\|\leq\|\vb{b}-A\vx\|\]
+则$\disp\hat{\vb{b}}=\mathrm{proj}_{\mathrm{Col}\;A}\vb{b}$，解与$A^TA\vx=A^T\vb{b}$相同.\\
+若$A$可被$QR$分解（定理\ref{qr_fact}），则$\hat{\vx}=R^{-1}Q^T\vb{b}$.
+\end{theorem}
+%A^TA计算误差可能引起全局大误差，最好用QR分解，算R\vx=Q^T\vb{b}
+\begin{analysis}
+$\vb{a}_j\cdot(\vb{b}-A\hat{\vx})=\vb{a}_j^T(\vb{b}-A\hat{\vx})=0\implies A^T(\vb{b}-A\hat{\vx})=\vb{0}\implies A^TA\vx=A^T\vb{b}$
+\end{analysis}
+\begin{myalgorithm}[最小二乘估计]
+直接计算$A^TA\vx=A^T\vb{b}$即可.
+\end{myalgorithm}
+\begin{definition}[一般线性模型]
+$\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbb$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbb=\vy$的最小二乘解.
+\end{definition}
+以下是一些例子.
+\begin{enumerate}
+	\itemsep -3pt
+	\item 直线拟合
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+	\item 抛物线拟合
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&x_1&x_1^2\\1&x_2&x_2^2\\\vdots&\vdots&\vdots\\1&x_n&x_n^2\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\\\beta_2\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+	\item 多重回归
+	\[\begin{bmatrix}y_1\\y_2\\\vdots\\y_n\end{bmatrix}=\begin{bmatrix}1&u_1&v_1\\1&u_2&v_2\\\vdots&\vdots&\vdots\\1&u_n&v_n\end{bmatrix}\begin{bmatrix}\beta_0\\\beta_1\\\beta_2\end{bmatrix}+\begin{bmatrix}\varepsilon_1\\\varepsilon_2\\\vdots\\\varepsilon_n\end{bmatrix}\]
+\end{enumerate}
+
+\subsection{马尔可夫链}%4.9 马尔科夫链
+\begin{definition}[马尔可夫(Markov)链]
+具有非负分量的数值且相加等于$1$的向量$\vx_0,\vx_1,\dots$称为\textbf{概率向量}，各列向量均为概率向量的方阵$P$称为\textbf{随机矩阵}，则\textbf{马尔可夫链}为$\vx_{k+1}=P\vx_{k},k=0,1,2,\dots$，其中$\vx_k$称为\textbf{状态向量}.
+\end{definition}
+\begin{theorem}[马尔可夫链收敛定理\protect\footnote{具体情况比较复杂}]
+马尔可夫链$\{\vx_{k+1}\}$一定会收敛至\textbf{平衡向量}$\vb{q}$，其中$\vb{q}$满足$P\vb{q}=\vb{q}$.
+\end{theorem}
+
+\subsection{复数特征值}%5.5 复数特征值
+\begin{theorem}
+当$A$为实矩阵时，它的复特征值成对出现.
+\end{theorem}
+\begin{analysis}
+$A\bar{\vx}=\bar{A}\bar{\vx}=\overline{A\vx}=\overline{\lambda\vx}=\bar{\lambda}\bar{\vx}$
+\end{analysis}
+\begin{theorem}
+$A$为$2\times 2$实矩阵，有复特征值$\lambda=a-b\ii(b\ne 0)$及对应$\mathbb{C}^2$中的复特征向量$\vv$，则
+\[A=PCP^{-1}\,\text{，其中}\,P=\begin{bmatrix}\Re\vv&\Im\vv\end{bmatrix},C=\begin{bmatrix}a&-b\\b&a\end{bmatrix}\]
+\end{theorem}
+\begin{analysis}
+证明利用了结论：$A$是实矩阵，则$A(\Re\vx)=\Re A\vx$，$A(\Im\vx)=\Im A\vx$. $\Re\vx$与$\Im\vx$线性无关
+\end{analysis}
+
+\subsection{离散动力系统}%5.6 离散动力系统
+若$A$可对角化，有$n$个线性无关的特征向量$\vv_1,\dots,\vv_n$和对应的特征值$\lambda_1,\dots,\lambda_n$，且由大到小排列. 由于$\{\vv_1,\cdots,\vv_n\}$为$\rn$的基. 故任一初始向量可唯一表示为$\vx_0=c_1\vv_1+\cdots+c_n\vv_n$，则
+\[\vx_k=A^k\vx_0=c_1(\lambda_1)^k\vv_1+\cdots+c_n(\lambda_n)^k\vv_n\]
+线性动力系统中，只有原点才可能是吸引子($|\lambda|<1$)或者排斥子($|\lambda|>1$)，但非线性系统中可能存在多个吸引子或排斥子，其可用雅可比矩阵的特征值定义. 若特征值正负都有，则原点为鞍点.
+
+\subsection{估计特征值}%5.8 迭代估计特征值
+幂算法、逆幂法、QR算法
+\par 若$A$可对角化，特征向量$\vv_1,\dots,\vv_n$是$\rn$的基，且
+\[|\lambda_1|>|\lambda_2|\geq|\lambda_3|\geq\cdots\geq|\lambda_n|\]
+（注意第一个符号为严格大）其中$\lambda_1$称为主特征值
+\[\vx_k=A^k\vx_0=c_1(\lambda_1)^k\vv_1+\cdots+c_n(\lambda_n)^k\vv_n\]
+假设$c_1\ne 0$，左右同除$\lambda_1^k$，可知$(\lambda_1)^{-k}A^k\vx\to c_1\vv_1(k\to\infty)$
+
+\subsection{傅里叶级数}%6.8 加权最小二乘 傅里叶级数
+$\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt\}$，定义内积$\inp{f}{g}=\displaystyle\int_0^{2\pi} f(t)g(t)\diff t$，知这个集合为正交集
+\begin{theorem}[傅里叶(Fourier)级数]
+\[f(t)=\dfrac{a_0}{2}+\sum_{k=1}^\infty(a_k\cos kt+b_k\sin kt)\]
+当$k\geq 1$时，
+\[a_k=\dfrac{\inp{f}{\cos kt}}{\inp{\cos kt}{\cos kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\cos kt\diff t,\,b_k=\dfrac{\inp{f}{\sin kt}}{\inp{\sin kt}{\sin kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\sin kt\diff t\]
+常数项，
+\[\dfrac{\inp{f}{1}}{\inp{1}{1}}=\dfrac{a_0}{2}\]
+\end{theorem}
+
+\subsection{统计学应用}%7.5 图像处理及统计学应用
+\begin{definition}[平均值]
+$p\times N$的观测矩阵$A=\bmat{\vb{X}_1}{\vb{X}_N}$（即有$N$个样本，每个样本有$p$个维度的信息），则其样本均值为$\vb{M}=\dfrac{1}{N}(\vb{X}_1+\cdots+\vb{X}_N)$. 平均偏差形式为$B=\bmat{\vb{\hat{X}}_1}{\vb{\hat{X}}_N}$，其中$\vb{\hat{X}}_k=\vb{X}_k-\vb{M}$.
+\end{definition}
+\begin{definition}[方差]
+协方差矩阵为$S=\dfrac{1}{N-1}BB^T$（$BB^T$正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\tv B=\tr S$
+\end{definition}
+\begin{definition}[主成分分析]
+假设$A=\bmat{\vb{X}_1}{\vb{X}_N}$为平均偏差形式，找到$p\times p$正交矩阵$P=\bmat{\vu_1}{\vu_p}$使得$\vb{X}=P\vb{Y}$，其中$y_1,\dots,y_p$都线性无关且方差递减. $\vu_1,\dots,\vu_p$为数据的主成分，第一主成分是$S$最大的特征值对应的特征向量.\\
+注：主成分分析等同于正交回归
+\end{definition}
+\begin{analysis}
+$\vb{X}_k=P\vb{Y}_k\implies \vb{Y}_k=P^{-1}\vb{X}_k=P^T\vb{X}_k,k=1,\dots,N\implies S=PDP^T, P^TSP=D$\\
+可以验证对于任意正交矩阵$P$，$\vb{Y},\dots\vb{Y}_N$的协方差矩阵都是$P^TSP$
+\end{analysis}
+变量的正交变换$\vb{X}=P\vb{Y}$不改变数据的总方差，且$\tv \vb{X}=\tv \vb{Y}=\tr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\tr S$表明$y_j$的占比，用于降维

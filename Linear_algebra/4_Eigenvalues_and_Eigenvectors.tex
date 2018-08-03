@@ -1,0 +1,166 @@
+% !TEX root = main.tex
+
+\section{特征值与特征向量}
+\subsection{基本定义}
+\begin{definition}$A$为$n\times n$的矩阵，若$\exists\lambda,\,\mathbf{x}\ne\mathbf{0}\,s.t.\,A\mathbf{x}=\lambda\mathbf{x}$，则
+\begin{enumerate}
+	\itemsep -2pt
+	\item $\lambda$称为$A$的\textbf{特征值}，$\mathbf{x}$称为关于$\lambda$的\textbf{特征向量}
+	\item $\mathrm{Nul}\,(A-\lambda I)$称为$A$关于$\lambda$的\textbf{特征空间}
+	\item $\det\,(A-\lambda I)$称为$A$的\textbf{特征多项式}
+	\item $\lambda$的\textbf{代数重数}是它在特征多项式中作为根的重数，\textbf{几何重数}是它对应的特征空间的维度
+\end{enumerate}
+\end{definition}
+需要注意：
+\begin{enumerate}
+	\itemsep -3pt
+	\item 特征向量不能为$\mathbf{0}$，但特征值可以为$0$
+	\item $A$不可逆，则$0$是一个特征值（充要条件）；$A-\lambda I$不可逆，$A$才有特征值
+\end{enumerate}
+\begin{theorem}
+\label{distinct_lambda}
+$\lambda_1,\cdots,\lambda_r$是$n\times n$矩阵$A$不同的特征值，则其对应的特征向量$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性无关.
+\end{theorem}
+\begin{analysis}
+反证，假设$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性相关.令$p$是最小的下标使得$\vb{v}_{p+1}$是之前向量的线性组合，即
+\begin{equation}\label{eq1} c_1\vb{v}_1+\cdots+c_p\vb{v}_p=\vb{v}_{p+1}\quad\end{equation}
+左右同乘$A$，得
+\[c_1A\vb{v}_1+\cdots+c_pA\vb{v}_p=A\vb{v}_{p+1}\]
+进而
+\begin{equation}\label{eq2} c_1\lambda_1\vb{v}_1+\cdots+c_p\lambda_p\vb{v}_p=\lambda_{p+1}\vb{v}_{p+1}\end{equation}
+将(\ref{eq1})式同乘$\lambda_{p+1}$，并与(\ref{eq2})式相减得
+\[c_1(\lambda_1-\lambda_{p+1})\vb{v}_1+\cdots+c_p(\lambda_p-\lambda_{p+1})\vb{v}_p=\vb{0}\]
+由于$\{\mathbf{v}_1,\cdots,\mathbf{v}_p\}$线性无关，则它们的权重$c_i(\lambda_i-\lambda_{p+1})=0,\,i=1,\dots,p$.而$A$的特征值均不同，故$\lambda_i-\lambda_{p+1}\ne 0$，因而$c_i=0,\,i=1,\dots,p$.\\
+但由(\ref{eq1})又推出$\vb{v}_{p+1}=\vb{0}$，与特征向量的定义矛盾，故假设不成立.
+\end{analysis}
+\begin{proposition}特征值与矩阵运算
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\lambda$为可逆矩阵$A$的特征值，则$\lambda^{-1}$为$A^{-1}$的特征值
+	\item $\lambda$是$A$的特征值，当且仅当$\lambda$是$A^T$的特征值
+\end{enumerate}
+\begin{analysis}
+前者给$A\vx=\lambda\vx$左乘$A^{-1}$后显然. 后者$\det(A-\lambda I)=\det(A-\lambda I)^T=\det(A^T-\lambda I)$特征多项式相同\end{analysis}
+\end{proposition}
+\begin{definition}[相似性]
+矩阵$A,B$满足$A=P^{-1}BP$，则称$A,B$相似.\\
+注：相似性不同于行等价，行变换\textbf{会改变}矩阵的特征值，但相似性不会变
+\end{definition}
+
+\subsection{对角化}
+\begin{theorem}
+\label{diagonal_iff}
+$n\times n$矩阵$A$可对角化当且仅当$A$有$n$个线性无关的特征向量.
+\end{theorem}
+\begin{analysis}\mbox{}\\
+$1\degree\,$必要性：$A$可对角化，即$A=PDP^{-1}$，$D$为对角矩阵，也即$AP=PD$.设$P=\bmat{\vb{v}_1}{\vb{v}_n}$，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$（注意这里$\vb{v}_i$只是$P$的列，还不是特征向量；同样$\lambda_i$也还不是$A$的特征值）.则
+\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=PD=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}\]
+进而$A\vb{v}_i=\lambda_i\vb{v}_i$，$\lambda_i$为$A$的特征值，又$\vb{v}_i\ne 0$，$\vb{v}_i$为$\lambda_i$对应的特征向量.\\
+由于$P$可逆，故$P$的列，也即$A$的特征向量线性无关.\\
+$2\degree\,$充分性：令$P=\bmat{\vb{v}_1}{\vb{v}_n}$，其中$\vb{v}_i$为$\lambda_i$对应的特征向量，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$，其中$\lambda_i$为$A$的特征向量.那么\\
+\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}=PD\]
+因为$\vb{v}_i$线性无关，故$P$可逆，进而$A=PDP^{-1}$.\\
+注：从以上构造可以知道$\lambda$相同并不影响对角矩阵的构造，但是$\vb{v}$相同则无法保证线性无关.
+\end{analysis}
+\begin{theorem}
+若$n\times n$矩阵$A$有$n$个不同的特征值，则$A$可对角化.
+\end{theorem}
+\begin{analysis}
+从定理\ref{distinct_lambda}可知，$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性无关，进而由定理\ref{diagonal_iff}，$A$可对角化.
+\end{analysis}
+\begin{myalgorithm}[对角化]\mbox{}\par
+\begin{enumerate}
+	\itemsep -3pt
+	\item 找到$A$的特征值
+	\item 找到$A$的线性无关特征向量
+	\item 构造$P$，其中$P=\bmat{\mathbf{v}_1}{\mathbf{v}_n}$
+	\item 构造$D$，其中$D=\bmat{\lambda_1\mathbf{e}_1}{\lambda_n\mathbf{e}_n}$
+\end{enumerate}
+\end{myalgorithm}
+注：对角化不是唯一的，会随着特征值摆放位置、特征向量的不同而改变. 可逆与可对角化没有必然联系.
+\begin{theorem}
+$A$是$n\times n$矩阵，$\lambda_1,\cdots,\lambda_p$是$A$不同的特征值，则
+\begin{enumerate}
+	\itemsep -3pt
+	\item $\forall 1\leq k\leq p$，$\lambda_k$的几何重数$\leq\lambda_k$的代数重数
+	\item $A$可对角化，当且仅当不同特征值的几何重数之和为$n$，而这当且仅当对于每一个$\lambda_k$，其代数重数都等于几何重数
+	\item 若$A$可对角化，$\mathcal{B}_k$是$\lambda_k$对应的特征空间的基，那么$\mathcal{B}_1,\dots,\mathcal{B}_p$形成$\rn$的一组特征向量基
+\end{enumerate}
+\end{theorem}
+\begin{theorem}[线性变换矩阵]
+\label{linear_trans_tot}
+$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$为向量空间$V$的基，$\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_m\}$为向量空间$W$的基，线性变换$T:V\to W$，存在唯一$m\times n$矩阵$M$使得
+\[[T(\vx)]_\mathcal{C}=M[\vx]_\mathcal{B},\,\forall\vx\in V\]
+其中
+\[M=\begin{bmatrix}[T(\mathbf{b}_1)]_\mathcal{C}&[T(\mathbf{b}_2)]_\mathcal{C}&\cdots&[T(\mathbf{b}_n)]_\mathcal{C}\end{bmatrix}\]
+称为$T$关于基$\mathcal{B}$和$\mathcal{C}$的矩阵 (the matrix for $T$ relative to the bases $\mathcal{B}$ and $\mathcal{C}$).\\
+特别地，当线性空间和基取特殊值时，可以得到我们之前求得的一些矩阵.
+\begin{enumerate}
+	\itemsep -1pt
+	\item $T$的标准矩阵 (standard matrix for $T$)\\
+	$A=\bmat{T(\vb{e}_1)}{T(\vb{e}_n)}$，当$V=W=\rn,\mathcal{B}=\mathcal{C}=\mathcal{E}$（$\rn$中的标准基）
+	\item $T$的$\mathcal{B}$矩阵 (the matrix for $T$ relative to $\mathcal{B}$, or the $\mathcal{B}$-matrix for $T$)\\
+	$[T]_{\mathcal{B}}=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}$，当$V=W,\mathcal{B}=\mathcal{C}$
+	\item 坐标变换矩阵 (change-of-coordinates matrix)，右乘坐标可以将坐标变换成具体的$\vx$\\
+	$P_\mathcal{B}=\bmat{\vb{b}_1}{\vb{b}_n}$，当$V=W=\rn,\mathcal{C}=\mathcal{E}$，$T(\vx)=\vx$
+	\item 过渡矩阵/$\mathcal{B}$到$\mathcal{C}$的坐标变换矩阵 (change-of-coordinates matrix from $\mathcal{B}$ to $\mathcal{C}$)\\
+	$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\bmat{[\vb{b}_1]_{\mathcal{C}}}{[\vb{b}_n]_{\mathcal{C}}}$，当$V=W$，$T(\vx)=\vx$
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+$1\degree\;$存在性：
+\[\begin{aligned} [T(\vx)]_{\mathcal{C}}&= [T(x_1\vb{b}_1+\cdots+x_n\vb{b}_n)]_{\mathcal{C}}\\
+&= x_1[T(\vb{b}_1)]_{\mathcal{C}}+\cdots+x_n[T(\vb{b}_n)]_{\mathcal{C}}\\
+&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
+&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}[\vx]_{\mathcal{B}}\\
+&= M[\vx]_{\mathcal{B}}
+\end{aligned}\]
+$2\degree\;$唯一性：
+设存在另一矩阵$M'$使得$[T(\vx)]_{\mathcal{C}}=M'[\vx]_{\mathcal{B}}$，故$M[\vx]_{\mathcal{B}}=M'[\vx]_{\mathcal{B}}$，令$\vx=\vb{b}_i$即得$M=M'$
+\end{analysis}
+\begin{proposition}
+若$A=PDP^{-1}$，$D$是$n\times n$的对角矩阵，若$\mathcal{B}$是$\col P$的一组基，则$D$是线性变换$\vx\mapsto A\vx$的$\mathcal{B}$-矩阵.
+\end{proposition}
+\begin{analysis}
+\[\begin{aligned}
+[T]_{\mathcal{B}}&=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}\\
+&=\bmat{[A\vb{b}_1]_\mathcal{B}}{[A\vb{b}_n]_\mathcal{B}}\\
+&=\bmat{P^{-1}A\vb{b}_1}{P^{-1}A\vb{b}_n}\quad\mbox{坐标变换}\\
+&=P^{-1}A\bmat{\vb{b}_1}{\vb{b}_n}\\
+&=P^{-1}AP=D
+\end{aligned}\]
+求解方法$\begin{bmatrix}P&AP\end{bmatrix}\thicksim\begin{bmatrix}I&P^{-1}AP\end{bmatrix}$. 由上面分析知$D$不需是对角矩阵，只要$A$与$D$相似即可.
+\end{analysis}
+\par 
+如下图所示\footnote{图根据课本重绘，话摘自 线性变换的矩阵为什么要强调在这组基下? - 匡世珉的回答 - 知乎
+\url{https://www.zhihu.com/question/22218306/answer/88697757}}，一个线性变换$T$对于标准基（或其他基）的矩阵为$A$，为了更清楚地通过矩阵看出这个线性变换的效果，就将$A$对角化：$A=PDP^{-1}$.这其实相当于先把标准基换成由特征向量组成的基($P^{-1}$的意义)，于是每一个基向量在经过$T$变换后都只是乘了个常数($D$的意义)，最后再把由特征向量组成的基换回标准基($P$的意义). 因此对角化其实是用一组比标准基更好的基来描述线性变换，也就是由特征向量组成的基. 至于更好的基，由特征向量组成的规范正交基（谱定理）描述的则更好.%Jordan form
+\begin{table}[!htbp]%摆放位置
+\begin{center}
+\begin{tabular}{cp{1cm}<{\centering}p{1.4cm}<{\centering}}
+$\vx$ & $\xrightarrow{\quad\text{乘}A\quad}$ & $A\vx$\\
+$\xdownarrow{0.8cm}\mathllap{\scriptstyle\text{乘}P^{-1}\quad}$ &  & $\quad\mathrlap{\xuparrow{0.8cm}}{\scriptstyle\quad\text{乘}P}$\\
+$[\vb{x}]_{\mathcal{B}}$ & $\xrightarrow{\quad\text{乘}D\quad}$ & $[A\vb{x}]_{\mathcal{B}}$
+\end{tabular}
+\end{center}
+\end{table}
+\begin{definition}[迹(trace)]
+$A$为$n\times n$的方阵，$A$主对角线上元素之和称为$A$的迹，定义为
+\[\tr A=\sum_{i=1}^na_{ii}\]
+\end{definition}
+\begin{theorem}
+若$A,B$均为$n\times n$的方阵，则$\tr(AB)=\tr(BA)$
+\end{theorem}
+\begin{analysis}
+\[\tr(AB)=\sum_{i=1}^n\sum_{j=1}^na_{ij}b_{ji}=\sum_{j=1}^n\sum_{i=1}^na_{ji}b_{ij}=\sum_{i=1}^n\sum_{j=1}^nb_{ij}a_{ji}=\tr(BA)\]
+\end{analysis}
+\begin{theorem}[相似性一些定理]已知$A$与$B$相似，
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$A$可逆，则$A^{-1}$与$B^{-1}$相似
+	\item 则$A^k$与$B^k$相似
+	\item $A$与$C$相似，则$B$与$C$相似
+	\item $A$可对角化，则$B$也可对角化
+	\item $A=PBP^{-1}$，$\vx$是$A$关于$\lambda$的特征向量，则$P^{-1}\vx$是$B$关于$\lambda$的特征向量
+	\item $\rank A=\rank B$
+\end{enumerate}
+\end{theorem}
