@@ -3,7 +3,7 @@
 \usepackage{tikz,tikz-cd,pgfplots}
 \usepackage{mathtools,gensymb,extarrows,bm} %underset
 \usepackage{cancel}
-\usepackage{enumerate}
+\usepackage{enumerate}%,enumitem
 \usepackage{multicol,array}
 \usepackage{verbatim} %comment
 \usepackage{url}
@@ -48,7 +48,7 @@
 \def\rn{\mathbb{R}^n}
 \def\dim{\mathrm{dim}\,}
 \def\rank{\mathrm{rank}\,}
-\def\span{\mathrm{Span}\,}
+\def\Span{\mathrm{Span}\,} % 避免与表格的span冲突
 \def\col{\mathrm{Col}\,}
 \def\nul{\mathrm{Nul}\,}
 \def\row{\mathrm{Row}\,}
@@ -62,13 +62,16 @@
 
 \newcommand{\ddx}[1][]{\dfrac{\diff #1}{\diff x}}
 \newcommand{\ddxs}[1][]{\dfrac{\diff^2 #1}{\diff x^2}}
+\newcommand{\pdxpdy}[1]{\dfrac{\partial^2#1}{\partial x\partial y}}
 \newcommand{\ssum}[1]{\displaystyle\sum_{n=1}^{\infty}#1}
 \newcommand{\ssumz}[1]{\displaystyle\sum_{n=0}^{\infty}#1}
 \newcommand{\ssumk}[1]{\displaystyle\sum_{k=1}^{\infty}#1}
 \newcommand{\ssumkn}[1]{\displaystyle\sum_{k=1}^{n}#1}
 \newcommand{\limtoinf}[1]{\displaystyle\lim_{n\to\infty}#1}
-\newcommand{\intab}[4][x]{\displaystyle\int_{#1}^{#2}{#3}\,\diff #4}
+\newcommand{\limxy}[3]{\displaystyle\lim_{\substack{x\to #1\\y\to #2}}#3}
+\newcommand{\intab}[3]{\displaystyle\int_{#1}^{#2}{#3}\,\diff x}
 \newcommand{\intabu}[4]{\displaystyle\int_{#1}^{#2}{#3}\,\diff #4}
+\newcommand{\intint}[5]{\displaystyle\int_{-\infty}^{#1}\int_{-\infty}^{#2}#3\,\diff #4\,\diff #5}
 \newcommand{\intinf}[2][x]{\displaystyle\int_{-\infty}^{+\infty}#2\diff #1}
 \newcommand{\inpro}[1]{\langle #1\rangle}
 \newcommand{\lrp}[1]{\left(#1\right)}
@@ -98,3 +101,6 @@
 \newcommand{\E}[1]{\mathbb{E}\left(#1\right)}
 \newcommand{\Var}[1]{\mathrm{Var}\left(#1\right)}
 \newcommand{\Cov}[1]{\mathrm{Cov}\left(#1\right)}
+
+% \setenumerate[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+% \setitemize[1]{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}

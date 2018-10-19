@@ -1,0 +1,103 @@
+% !TEX root = main.tex
+
+\section{多元函数简介}
+\subsection{平面点集}
+\begin{definition}
+设$E$为平面点集，若$P_0$为
+\begin{enumerate}
+	\itemsep -3pt
+	\item 内点：存在邻域所有点都属于$E$，$\exists\delta>0:\,O(P_0,\delta)\subset E$
+	\item 外点：存在邻域所有点都不属于$E$，$\exists\delta>0:\,O(P_0,\delta)\cap E=\varnothing$
+	\item 边界点：任意邻域都含有属于$E$的点也有非$E$的点，$\forall\delta>0:\,O(P_0,\delta)\cap E\ne\varnothing \land O(P_0,\delta)\backslash E\ne\varnothing$
+	\item 聚点：任意\textbf{空心}邻域都含有$E$的点，$\forall\delta>0:\,O^*(P_0,\delta)\cap E\ne\varnothing$
+\end{enumerate}
+注：内点必为聚点，\textbf{一般}聚点集即为内点和边界点的并集
+\end{definition}
+上面的定义关注\textbf{点}的性质，下面的定义则关注这些点构成的\textbf{集合}的性质
+\begin{definition}
+几类重要的平面点集
+\begin{enumerate}
+	\itemsep -3pt
+	\item 开集：类比开区间，所有$E$中的点都是内点
+	\item 闭集：类比闭区间，所有聚点都属于$E$；或定义为\textbf{补集为开集}的集合
+	\item 连通集：$E$中任两点都可用曲线相连
+	\item 开区域：开集且连通
+	\item 闭区域：开区域与其边界构成的集合
+\end{enumerate}
+需要注意以下几点:
+\begin{enumerate}
+	\itemsep -3pt
+	\item[a.] 开集定义不是所有内点都属于$E$，因为内点必属于$E$. 开集换种说法应该是$E$中没有非内点的点
+	\item[b.] 闭区域不是定义为闭集且连通，考虑点集$E=\{(x,y)\mid x^2+y^2\leq 1\lor (x-2)^2+y^2\leq 1\}$是闭集且两个圆借助点$(1,0)$连通，但是去掉边界后，两个圆不再连通，即两个圆的内部不构成开区域，进而$E$不是闭集
+\end{enumerate}
+\end{definition}
+\begin{theorem}
+开集的并是开集，闭集的交是闭集，\textbf{有限个}开集的交是开集，\textbf{有限个}闭集的并是闭集
+\end{theorem}
+反例如下，无限个开集的交却为闭集
+\[\bigcap_{n=1}^\infty(-\frac{1}{n},\frac{1}{n})=0\]
+无限个闭集的并却为开集
+\[\bigcup_{n=1}^\infty[-1+\frac{1}{n},1-\frac{1}{n}]=(-1,1)\]
+\begin{definition}[对角线]
+$E\subset \rn$的对角线为
+\[d(E):=\sup_{x_1,x_2\in E}d(x_1,x_2)\]
+若$d(E)$是有限数，则称$E$有界
+\end{definition}
+\begin{definition}[紧集]
+设$E$为平面点集，若集合$E$的任一覆盖都有有限子覆盖，则称$E$为紧集.
+紧集具有以下性质
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$E$为$\rn$的紧集，则$E$为$\rn$的闭集
+	\item 任意含于$E$的闭集都为紧集
+	\item $E\subset\rn$是紧集当且仅当$E$是有界闭集
+\end{enumerate}
+\end{definition}
+
+
+\subsection{多元函数的极限}
+\begin{definition}[平面点列的极限]
+$\{P_n=(x_n,y_n)\}$为平面点列，若
+\[\forall \eps>0,\exists N\in\zz^+,s.t. n>N:r(P_n,P_0)<\eps,\]
+则记$\limtoinf P_n=P_0$
+\end{definition}
+\begin{definition}[有界]
+若存在$M>0$使得$r(P_n,O)\leq M$，则称$\{P_n\}$有界
+\end{definition}
+对于实数系的各种定理，拓展到二维依然可用
+\begin{theorem}
+\begin{enumerate}
+	\item 柯西收敛原理：$\{P_n\}$收敛充要条件为$r(P_n,P_m)<\eps$
+	\item 致密性定理：$\{P_n\}$有界，则$\{P_n\}$必有收敛子列
+	\item 矩形套定理：存在唯一点$P_0$含于所有矩形之中
+	\item 有限覆盖定理：$E$为平面上有界闭集，$\xi$为$E$的一个覆盖，则$\xi$中存在有限个开集$G_1,G_2,\ldots,G_n$使得$E\subset \bigcup_{i=1}^n G_i$
+	\item 海涅定理：$\lim_{P\to P_0}f(P)=A$的充要条件为对$O^*(P_0,\delta)$中任意满足$P_n\to P_0(n\to\infty)$的点列$\{P_n\}$，有$\limtoinf f(P_n)=A$
+\end{enumerate}
+\end{theorem}
+\begin{definition}[二元函数的（全面）极限]
+$f$在$P_0(x_0,y_0)$的某个空心邻域有定义，
+\[\forall \eps>0,\exists\delta>0,s.t.\,\forall P\in O^*(P_0,\delta)\text{或}K^*(P_0,\delta):f(P)\in O(A,\eps)\]
+则记$\limxy{x_0}{y_0}{f(x,y)}=A$
+\end{definition}
+从二元函数的极限中我们得知，要使$P$的极限为$P_0$，则$P$可以以不同方向不同路径趋近$P_0$，这是一个非常强的条件，因此也可以由此证明某些极限不存在。
+如$f(x,y)=\dfrac{xy}{x^2+y^2}$，令$y$沿$kx$趋近于0，可证明$\limxy{0}{0}{f(x,y)}$不存在。
+\begin{theorem}[全面极限与累次极限的关系]
+若$\limxy{x_0}{y_0}f(x,y)=A$（有限或无限），当$y\ne y_0$时，$\lim_{x\to x_0}f(x,y)=\phi(y)$，则
+\[\lim_{y\to y_0}\lim_{x\to x_0}f(x,y)=\lim_{y\to y_0}\phi(y)=A\]
+\end{theorem}
+若在某点函数的全面极限和两个累次极限都存在，则三者必相等；若两个累次极限都存在但不相等，则全面极限必不存在；注意两个累次极限是可以不相等的.
+
+\subsection{多元函数的连续性}
+\begin{definition}[连续性]
+若函数$f$在点$P_0$的邻域有定义，若$\lim_{P\to P_0}f(P)=f(P_0)$，则称$f(P)$在$P_0$连续
+\end{definition}
+有界闭区域连续函数的性质与一元连续函数在闭区间的性质类似（见\ref{sec:sub:continuous_function_properties}节）
+\begin{theorem}
+$f(P)$在有界闭集$E$上连续，则
+\begin{enumerate}
+	\item 有界性定理：$f(P)$在$E$上有界
+	\item 最值定理：$f(P)$在$E$上有最大值和最小值
+	\item 一致连续性定理：$f(P)$在$E$上一致连续
+	\item 介值定理：若$f(P)$在区域$G$连续，$P_1,P_2\in G,f(P_1)<f(P_2)$，则$\forall c\in (f(P_1),f(P_2)),\exists P_0\in G,\,s.t. f(P_0)=c$
+\end{enumerate}
+\end{theorem}
