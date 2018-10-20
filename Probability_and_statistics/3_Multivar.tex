@@ -1,0 +1,42 @@
+% !TEX root = main.tex
+
+\section{多维随机变量及其分布}
+\subsection{边缘分布}
+\begin{definition}
+二维随机变量$(X,Y)$的分布函数/联合(joint)分布函数定义如下
+\[F(x,y)=\pr{X\leq x,Y\leq y}=\disp\sum_{x_i\leq x}\sum_{y_i\leq y}p_{ij}=\intint{y}{x}{f(u,v)}{u}{v}\]
+其中，$f(x,y)$为$X,Y$的联合密度函数
+\end{definition}
+进而，对于离散型随机变量变量有，
+\[\pr{x_1<X\leq x_2,y_1<Y\leq y_2}=F(x_2,y_2)-F(x_2,y_1)+F(x_1,y_1)-F(x_1,y_2)\]
+离散型随机变量
+\[\pr{(X,Y)\in G}=\iint_G f(x,y)\,\diff x\,\diff y\]
+\par 若$f(x,y)$在$(x,y)$连续，则$\pdxpdy{F(x,y)}=f(x,y)$
+
+\begin{definition}[边缘(marginal)分布]
+\[\begin{aligned}
+F_X(x)&=\pr{X\leq x,Y<\infty}=\lim_{y\to\infty}F(x,y)=F(x,\infty)\\
+&=\intab{-\infty}{\infty}{\left[\intabu{-\infty}{\infty}{f(x,y)}{y}\right]}\\
+&=\intab{-\infty}{\infty}{f_X(x)}
+\end{aligned}\]
+\end{definition}
+注意积分区间不一定是从负无穷到正无穷，而是概率有$(0,1)$之间值的区域
+
+\begin{definition}[条件概率密度与分布函数]
+\[\begin{aligned}
+f_{X\mid Y}(x\mid y)&=\dfrac{f(x,y)}{f_Y(y)}\\
+F_{X\mid Y}(x\mid y)&=\pr{X\leq x\mid Y=y}=\intab{-\infty}{x}{\dfrac{f(x,y)}{f_Y(y)}}
+\end{aligned}\]
+\end{definition}
+\begin{definition}[相互独立]
+\[\begin{aligned}
+F(x,y)=F_X(x)F_Y(y)\\
+f(x,y)=f_X(x)f_Y(y)
+\end{aligned}\]
+\end{definition}
+
+\subsection{随机变量的函数的分布}
+\[f_{X+Y}(z)=\intabu{-\infty}{\infty}{f(z-y,y)}{y}=\intabu{-\infty}{\infty}{f(x,z-x)}{x}\]
+\[f_{Y/X}(z)=\intabu{-\infty}{\infty}{|x|f(x,xz)}{x}=f_{XY}(z)=\intinf{\dfrac{1}{|x|}f(x,\dfrac{z}{x})}\]
+\[F_{\max}(z)=F_{X_1}(z)F_{X_2}(z)\cdots F_{X_n}(z)\]
+\[F_{\min}(z)=1-[1-F_{X_1}(z)][1-F_{X_2}(z)]\cdots [1-F_{X_n}(z)]\]

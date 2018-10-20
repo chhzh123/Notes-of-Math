@@ -1,0 +1,14 @@
+% !TEX root = main.tex
+
+\section{大数定律}
+\begin{theorem}[切比雪夫(Chebyshev)不等式]
+\[\pr{|X-\E{X}|\geq\lambda}\leq\dfrac{\E{|X-\E{X}|}}{\lambda}\]
+\end{theorem}
+\begin{theorem}[弱大数定律]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
+\[\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}>\eps}=0,\,\forall\eps>0\]
+\end{theorem}
+\begin{theorem}[强大数定律]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
+\[\pr{\lim_{n\to\infty}\dfrac{1}{n}\sum_{i=1}^nX_i=\mu}=1\]
+\end{theorem}

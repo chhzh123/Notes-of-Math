@@ -1,16 +1,20 @@
+% !TEX root = main.tex
+
 \section{随机变量及其分布}
-\begin{definition}[概率质量函数(PMF)]
-对于离散随机变量$X$，$f_X(k)=\pr{X=k}$
+\begin{definition}
+对于离散随机变量$X$，其概率质量函数(PMF)为$f_X(k)=\pr{X=k}$，分布函数为$\disp F_X(x)=\pr{X\leq x}=\sum_{k\leq x}f_X(k)$
 \end{definition}
-\begin{definition}[概率密度函数(PDF)]
-对于连续随机变量$X$，$\displaystyle f_X(k)=\pr{X\in A}=\int_Af_X(x)dx$
+\begin{definition}
+对于连续随机变量$X$，其累积密度函数(CDF)为$F_X(x)=\pr{X\leq x}=\intabu{-\infty}{x}{f_X(z)}{z}$
+$\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度函数(PDF)，也即$f_X(x)=\dfrac{\diff F_X(x)}{\diff x}$.
+一定要注意，$f_X(x)\ne\pr{X=x}$！
 \end{definition}
-\begin{definition}[分布函数/累积密度函数(CDF)]
-$F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
-\end{definition}
+注意积分区间！
 \begin{definition}[期望]
-\[\E{X}=\sum_k kf_X(k)\]
-\[\E{X}=\intab{-\infty}{+\infty}{xf_X(x)}\]
+\[\begin{aligned}
+\E{X}&=\sum_x xf_X(x) \quad& \E{g(X)}&=\sum_x g(x)f_X(x)\\
+\E{X}&=\intab{-\infty}{+\infty}{xf_X(x)} \quad& \E{g(X)}&=\intab{-\infty}{+\infty}{g(x)f_X(x)}
+\end{aligned}\]
 \end{definition}
 \par 期望具有线性性，即
 \[\E{X+Y}=\E{X}+\E{Y},\,\E{cX}=c\E{X}\]
@@ -19,7 +23,7 @@ $F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
 \end{definition}
 由方差定义和期望的线性性有
 \[\Var{aX+b}=a^2\Var{X}\]
-注意方差并不线性
+注意方差并不是线性的
 \[\begin{aligned}
 \Var{X+Y}&=\E{(X+Y)^2}-(\E{X}+\E{Y})^2\\
 &=\E{X^2}-\E{X}^2+\E{Y^2}-\E{Y}^2+2(\E{XY}-\E{X}\E{Y})\\
@@ -34,6 +38,7 @@ $F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
 \Cov{X_i,X_j}&=0,\,i\ne j
 \end{aligned}\]
 \end{theorem}
+$Y=g(X)$的随机变量分布一般通过求分布函数后求导得到其概率密度函数
 
 \subsection{常见的离散分布}
 \begin{enumerate}
@@ -69,7 +74,7 @@ $F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
 		\mathbb{E}(X)& =n\frac{M}{N}
 		\end{aligned}\]
 		e.g. $M$个产品中有$N$个次品，检查$n$次得到$k$个次品
-	\item 泊松分布 \textbf{Poisson($\lambda$)}
+	\item 泊松分布 \textbf{Poisson($\lambda$),$\lambda>0$}
 		\[\begin{aligned}
 		f_{X}(k)& =e^{-\lambda}\cdot \frac{\lambda^k}{k!}\\
 		\mathbb{E}(X)& =\lambda
@@ -86,12 +91,19 @@ $F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
 
 \subsection{常见的连续分布}
 \begin{enumerate}
-	\item 指数分布 \textbf{Exponential($\lambda$)}
+	\item 均匀分布 \textbf{Uniform(a,b),$a<b$}
+	\[\begin{aligned}
+	f_X(x)&=\dfrac{1}{b-a},\,a\leq x\leq b\\
+	\E{X}&=\dfrac{a+b}{2}\\
+	\Var{X}&=\dfrac{(b-a)^2}{12}
+	\end{aligned}\]
+	\item 指数分布 \textbf{Exponential($\lambda$),$\lambda>0$}
 	\[\begin{aligned}
 	f_X(x)&=\lambda\ee^{-\lambda x},\,x\geq 0\\
-	\E(X)&=\dfrac{1}{\lambda}
+	\E{X}&=\dfrac{1}{\lambda}
 	\end{aligned}\]
-	\item 正态分布 \textbf{Normal($\mu,\sigma$)}
+	与泊松分布类似，同样具有无记忆性
+	\item 正态分布 \textbf{Normal($\mu,\sigma^2$)}
 	\[\begin{aligned}
 	f_X(x)&=\dfrac{1}{\sqrt{2\pi}\sigma}\ee^\frac{-(x-\mu)^2}{2\sigma^2}\\
 	\E{X}&=\mu
@@ -101,30 +113,11 @@ $F_X(x)=\pr{X\leq x}=\displaystyle \int_{-\infty}^xf_X(z)dz$
 	&\quad\left(\intinf{\ee^\frac{-x^2}{2}}\right)^2\\
 	&=\intinf{\ee^\frac{-x^2}{2}}\intinf[y]{\ee^\frac{-x^2}{2}}\\
 	&=\intinf[y]{\intinf{\ee^\frac{-(x^2+y^2)}{2}}}\\
-	&=\intab[\theta]{0}{2\pi}{\intab[r]{0}{+\infty}{r\ee^\frac{-r^2}{2}}}\\
-	&=\intab[\theta]{0}{2\pi}{\intab[u]{0}{+\infty}{\ee^{-u}}}\\
-	&=\intab[\theta]{0}{2\pi}{1}\\
+	&=\intabu{0}{2\pi}{\intabu{0}{+\infty}{r\ee^\frac{-r^2}{2}}{r}}{\theta}\\
+	&=\intabu{0}{2\pi}{\intabu{0}{+\infty}{\ee^{-u}}{u}}{\theta}\\
+	&=\intabu{0}{2\pi}{1}{\theta}\\
 	&=2\pi
 	\end{aligned}\]
+	若$X\thicksim N(\mu,\sigma^2)$，则$Z=\dfrac{X-\mu}{\sigma}\thicksim N(0,1)$标准正态分布
+	\item $\chi^2$分布
 \end{enumerate}
-
-\section{大数定律}
-\begin{theorem}[切比雪夫(Chebyshev)不等式]
-\[\pr{|X-\E{X}|\geq\lambda}\leq\dfrac{\E{|X-\E{X}|}}{\lambda}\]
-\end{theorem}
-\begin{theorem}[弱大数定律]
-若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
-\[\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}>\eps}=0,\,\forall\eps>0\]
-\end{theorem}
-\begin{theorem}[强大数定律]
-若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
-\[\pr{\lim_{n\to\infty}\dfrac{1}{n}\sum_{i=1}^nX_i=\mu}=1\]
-\end{theorem}
-
-\section{统计}
-\begin{definition}[估计]
-$X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，对参数$\theta$的估计是函数$T(X_1,\ldots,X_n)$，称$T$是期望(expected)估计，若
-\[\E{T(X_1,\ldots,X_n)}=\theta\]
-合适(probable)的估计，若
-\[\pr{|T(X_1,\ldots,X_n)-\theta|>\eps}\to 0,\,n\to\infty\]
-\end{definition}

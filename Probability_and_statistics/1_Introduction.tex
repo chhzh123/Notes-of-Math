@@ -11,12 +11,12 @@
 \end{proposition}
 注意概率是对一个集合的函数，有如下定义.
 \begin{definition}[概率]
-	$E$为随机试验，$S$是它的样本空间，称$\pr{A}$为$E$中某一事件$A$的概率，若集合函数$\pr{\cdot}$满足：
+	随机试验$E$的所有可能结果构成$E$的样本空间$\Omega$，$\Omega$的子集称为事件，$\Omega$的幂集构成$E$的事件空间$\mathcal{F}$，记概率函数$\pr{\cdot}:\mathcal{F}\mapsto\rr$满足：
 	\begin{enumerate}
 		\itemsep -3pt
-		\item 非负性：对每一个事件$A$，$\pr{A}\geq 0$
-		\item 规范性：必然事件$B$，$\pr{B}=1$
-		\item 可列可加性：$A_1,A_2,\ldots$两两不相容，$\displaystyle \pr{\bigcup_{i=1}^\infty A_i}=\sum_{i=1}^\infty \pr{A_i}$
+		\item 非负性：$\pr{A}\geq 0,\forall A\in\mathcal{F}$
+		\item 规范性：$\pr{\Omega}=1$
+		\item 可列可加性：$A_1,A_2,\ldots$为两两不相容的事件，$\displaystyle \pr{\bigcup_{i=1}^\infty A_i}=\sum_{i=1}^\infty \pr{A_i}$
 	\end{enumerate}
 \end{definition}
 由定义可得一些基本性质：
