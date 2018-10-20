@@ -45,6 +45,7 @@
 \def\vv{\mathbf{v}}
 \def\vu{\mathbf{u}}
 \def\vbb{\bm{\beta}}
+\def\T{\mathrm{T}}
 \def\rn{\mathbb{R}^n}
 \def\dim{\mathrm{dim}\,}
 \def\rank{\mathrm{rank}\,}
@@ -62,7 +63,10 @@
 
 \newcommand{\ddx}[1][]{\dfrac{\diff #1}{\diff x}}
 \newcommand{\ddxs}[1][]{\dfrac{\diff^2 #1}{\diff x^2}}
-\newcommand{\pdxpdy}[1]{\dfrac{\partial^2#1}{\partial x\partial y}}
+\newcommand{\pd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\dfrac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\pddxy}[3]{\dfrac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\pddd}[4]{\dfrac{\partial^#1 #2}{\partial #3\partial #4}}
 \newcommand{\ssum}[1]{\displaystyle\sum_{n=1}^{\infty}#1}
 \newcommand{\ssumz}[1]{\displaystyle\sum_{n=0}^{\infty}#1}
 \newcommand{\ssumk}[1]{\displaystyle\sum_{k=1}^{\infty}#1}
@@ -84,6 +88,7 @@
 \newcommand{\inp}[2]{\langle #1,#2 \rangle}
 \newcommand{\vb}[1]{\mathbf{#1}}
 \newcommand{\bmat}[2]{\begin{bmatrix}{#1}&\cdots&{#2}\end{bmatrix}}
+\newcommand{\vmat}[1]{\begin{vmatrix}#1\end{vmatrix}}
 \newcommand{\setenu}[2]{\{#1,\dots,#2\}}
 \newcommand{\underwrite}[3][]{% \underwrite[<thickness>]{<numerator>}{<denominator>}
   \genfrac{}{}{#1}{}{\textstyle #2}{\scriptstyle #3}
@@ -94,6 +99,7 @@
 \newcommand{\xuparrow}[1]{%
   {\left\uparrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
 }
+\newcommand{\Bigbr}[2]{\begin{cases}#1\\#2\end{cases}}
 
 \newcommand{\ol}[1]{\mathop{\overline{#1}}}
 \newcommand{\pr}[1]{\mathbb{P}\left(#1\right)}
