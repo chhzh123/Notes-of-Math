@@ -1,14 +1,40 @@
 % !TEX root = main.tex
 
 \section{大数定律}
+\subsection{大数定律}
 \begin{theorem}[切比雪夫(Chebyshev)不等式]
-\[\pr{|X-\E{X}|\geq\lambda}\leq\dfrac{\E{|X-\E{X}|}}{\lambda}\]
+设随机变量$X$的数学期望$\E{X}=\mu$，方差$\Var{X}=\sigma^2$
+\[\pr{|X-\mu|\geq\eps}\leq\dfrac{\sigma^2}{\eps}\]
 \end{theorem}
-\begin{theorem}[弱大数定律]
-若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
-\[\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}>\eps}=0,\,\forall\eps>0\]
+\begin{theorem}[弱大数定律(辛钦)]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布(iid)，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
+\[\lim_{n\to\infty}\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}>\eps}=0,\,\forall\eps>0\]
+或
+\[\lim_{n\to\infty}\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}<\eps}=1,\,\forall\eps>0\]
+可记成$\bar{X}\xrightarrow{P}\mu$
 \end{theorem}
 \begin{theorem}[强大数定律]
 若$X_1,X_2,\ldots$为独立随机变量且同等分布，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
 \[\pr{\lim_{n\to\infty}\dfrac{1}{n}\sum_{i=1}^nX_i=\mu}=1\]
+\end{theorem}
+
+\subsection{中心极限定理}
+\begin{theorem}[独立同分布的中心极限定理]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，且$\E{X_k}=\mu$，$\Var{X_k}=\sigma^2>0$，则随机变量之和的标准化变量
+\[Y_n=\frac{\sum_{k=1}^nX_k-\E{\sum_{k=1}^nX_k}}{\sqrt{\Var{\sum_{k=1}^nX_k}}}=\frac{\sum_{k=1}^nX_k-n\mu}{\sqrt{n\sigma^2}}\]
+的分布函数$F_n(x)$对任意$x$满足
+\[\lim_{n\to\infty}F_n(x)=\lim_{n\to\infty}\pr{Y_n\leq x}=\intabu{-\infty}{x}{\frac{1}{2\pi}\ee^{-t^2/2}}{t}=\Phi(x)\]
+也即，近似地
+\[\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\thicksim N(0,1)\]
+\end{theorem}
+\begin{theorem}[李雅普诺夫(Lyapunov)定理]
+若$X_1,X_2,\ldots$为独立随机变量且同等分布，且$\E{X_k}=\mu$，$\Var{X_k}=\sigma^2>0$，记$B_n^2=\sum_{k=1}^n\sigma_k^2$
+若存在$\delta>0$，使得
+\[\lim_{n\to\infty}\frac{1}{B_n^{2+\delta}}\sum_{k=1}^n\E{|X_k-\mu|^{2+\delta}}=0\]
+则随机变量之和的标准化变量
+\[Z_n=\frac{\sum_{k=1}^nX_k-\E{\sum_{k=1}^nX_k}}{\sqrt{\Var{\sum_{k=1}^nX_k}}}=\frac{\sum_{k=1}^nX_k-\sum_{k=1}^n\mu_k}{B_n}\]
+\end{theorem}
+\begin{theorem}[棣莫弗-拉普拉斯(De Moivre-Laplace)定理]
+设随机变量$\eta_1,\eta_2,\ldots$服从参数为$n,p(0<p<1)$的二项分布，则对于任意$x$，有
+\[\lim_{n\to\infty}\pr{\frac{\eta_n-np}{\sqrt{np(1-p)}}\leq x}=\Phi(x)\]
 \end{theorem}

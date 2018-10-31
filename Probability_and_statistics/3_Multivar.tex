@@ -11,7 +11,7 @@
 \[\pr{x_1<X\leq x_2,y_1<Y\leq y_2}=F(x_2,y_2)-F(x_2,y_1)+F(x_1,y_1)-F(x_1,y_2)\]
 离散型随机变量
 \[\pr{(X,Y)\in G}=\iint_G f(x,y)\,\diff x\,\diff y\]
-\par 若$f(x,y)$在$(x,y)$连续，则$\pdxpdy{F(x,y)}=f(x,y)$
+\par 若$f(x,y)$在$(x,y)$连续，则$\pddxy{F(x,y)}{x}{y}=f(x,y)$
 
 \begin{definition}[边缘(marginal)分布]
 \[\begin{aligned}
@@ -40,3 +40,41 @@ f(x,y)=f_X(x)f_Y(y)
 \[f_{Y/X}(z)=\intabu{-\infty}{\infty}{|x|f(x,xz)}{x}=f_{XY}(z)=\intinf{\dfrac{1}{|x|}f(x,\dfrac{z}{x})}\]
 \[F_{\max}(z)=F_{X_1}(z)F_{X_2}(z)\cdots F_{X_n}(z)\]
 \[F_{\min}(z)=1-[1-F_{X_1}(z)][1-F_{X_2}(z)]\cdots [1-F_{X_n}(z)]\]
+
+\subsection{数字特征}
+\begin{definition}[协方差]
+\[\Cov{X,Y}=\E{[X-\E{X}][Y-\E{Y}]}=\E{XY}-\E{X}\E{Y}\]
+\end{definition}
+协方差的性质：
+\[\begin{aligned}
+\Cov{aX,bY}&=ab\Cov{X,Y}\\
+\Cov{X_1+X_2,Y}&=\Cov{X_1,Y}+\Cov{X_2,Y}
+\end{aligned}\]
+\begin{definition}[相关系数]
+\[\rho_{XY}=\frac{\Cov{X,Y}}{\sqrt{\Var{X}}{\Var{Y}}}\]
+$\rho_{XY}\leq 1$，取等的充要条件为$\exists a,b$使得$\pr{Y=a+bX}=1$
+\end{definition}
+\begin{definition}[矩]
+设$X,Y$为随机变量，若$\E{X^k}$存在，则称它为$X$的$k$阶(原点)矩，称$\E{[X-\E{X}]^k}$为$k$阶中心矩，称$\E{X^kY^l}$为$k+l$阶混合矩，称$\E{[X-\E{X}]^k[Y-\E{Y}]^l}$为$k+l$阶混合中心矩
+\end{definition}
+\begin{definition}[协方差矩阵]
+设$n$维随机变量$(X_1,X_2,\ldots,X_n)$的二阶混合中心距
+\[c_{ij}=\Cov{X_i,X_j}=\E{[X_i-\E{X_i}][X_j-\E{X_j}]}\]
+都存在，则协方差矩阵
+\[\mC=\begin{bmatrix}
+c_{11}&c_{12}&\cdots&c_{1n}\\
+c_{21}&c_{22}&\cdots&c_{2n}\\
+\vdots&\vdots&\ddots&\vdots\\
+c_{n1}&c_{n2}&\cdots&c_{nn}
+\end{bmatrix}\]
+又$c_{ij}=c_{ji}$，故上述矩阵是个对称矩阵
+\end{definition}
+\begin{theorem}
+若$X_1,\ldots,X_n$独立，则
+\[\begin{aligned}
+\E{\prod_{i=1}^nX_i}&=\prod_{i=1}^n\E{X_i}\\
+\Var{\prod_{i=1}^nX_i}&=\sum_{i=1}^n\Var{X_i}\\
+\Cov{X_i,X_j}&=0,\,i\ne j
+\end{aligned}\]
+\end{theorem}
+$Y=g(X)$的随机变量分布一般通过求分布函数后求导得到其概率密度函数

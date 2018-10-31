@@ -1,6 +1,7 @@
 % !TEX root = main.tex
 
 \section{随机变量及其分布}
+\subsection{基本概念}
 \begin{definition}
 对于离散随机变量$X$，其概率质量函数(PMF)为$f_X(k)=\pr{X=k}$，分布函数为$\disp F_X(x)=\pr{X\leq x}=\sum_{k\leq x}f_X(k)$
 \end{definition}
@@ -29,16 +30,6 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 &=\E{X^2}-\E{X}^2+\E{Y^2}-\E{Y}^2+2(\E{XY}-\E{X}\E{Y})\\
 &=\Var{X}+\Var{Y}+2\Cov{X,Y}
 \end{aligned}\]
-若$X,Y$独立，则$\Cov{X,Y}=0$
-\begin{theorem}
-若$X_1,\ldots,X_n$独立，则
-\[\begin{aligned}
-\E{\prod_{i=1}^nX_i}&=\prod_{i=1}^n\E{X_i}\\
-\Var{\prod_{i=1}^nX_i}&=\sum_{i=1}^n\Var{X_i}\\
-\Cov{X_i,X_j}&=0,\,i\ne j
-\end{aligned}\]
-\end{theorem}
-$Y=g(X)$的随机变量分布一般通过求分布函数后求导得到其概率密度函数
 
 \subsection{常见的离散分布}
 \begin{enumerate}
@@ -119,5 +110,4 @@ $Y=g(X)$的随机变量分布一般通过求分布函数后求导得到其概率
 	&=2\pi
 	\end{aligned}\]
 	若$X\thicksim N(\mu,\sigma^2)$，则$Z=\dfrac{X-\mu}{\sigma}\thicksim N(0,1)$标准正态分布
-	\item $\chi^2$分布
 \end{enumerate}

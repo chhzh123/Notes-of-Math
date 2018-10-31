@@ -1,9 +1,78 @@
 % !TEX root = main.tex
 
 \section{统计}
+\subsection{样本与抽样}
+\begin{definition}[简单随机样本]
+在相同的条件下对总体$X$进行$n$次重复的、独立的观察，将$n$次观察结果按照实验的次序记为$X_1,X_2,\ldots,X_n$，则这些变量都相互独立且与$X$有相同分布
+\end{definition}
+
+\subsection{抽样分布}
+\subsubsection{基本概念}
+\begin{definition}[统计量]
+样本平均
+\[\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i\]
+样本方差
+\[S^2=\frac{1}{\textcolor{red}{n-1}}\sum_{i=1}^n(X_i-\bar{X})^2=\frac{1}{n-1}\lrp{\sum_{i=1}^nX_i^2-n\bar{X}^2}\]
+经验分布函数
+\[F_n(x)=\frac{1}{n}S(x)\]
+其中$S(x)$是$X_1,X_2,\ldots,X_n$中不大于$x$的随机变量的个数
+\end{definition}
+\begin{theorem}
+设总体$X$（不管服从什么分布），均值为$\mu$，方差为$\sigma^2$，$X_1,X_2,\ldots,X_n$为来自$X$的一个样本，$\bar{X}$为样本均值，$S^2$为样本方差，则
+\[\E{\bar{X}}=\mu,\,\Var{\bar{X}}=\sigma^2/n\]
+\end{theorem}
+\begin{theorem}
+设$X_1,X_2,\ldots,X_n$是来自正态总体$N(\mu,\sigma^2)$的样本，则
+\begin{enumerate}
+	\item $\bar{X}\thicksim N(\mu,\sigma^2/n)$
+	\item $\dfrac{(n-1)S^2}{\sigma^2}\thicksim \chi^2(n-1)$
+	\item $\bar{X}$与$S^2$相互独立
+\end{enumerate}
+\end{theorem}
+
+\subsubsection{常见的抽样分布}
+\begin{enumerate}
+	\item $\chi^2$分布\\
+	设$X_1,X_2,\ldots,X_n$是来自总体$N(0,1)$的样本，则统计量
+	\[\chi^2=X_1^2+X_2+\cdots+X_n^2\]
+	服从自由度为$n$的$\chi^2$分布，记为$\chi^2\thicksim\chi^2(n)$
+	\[\begin{aligned}
+	f(x)&=\frac{1}{2^{n/2}\Gamma(\frac{1}{2})}x^{n/2-1}\ee^{-x/2},\,x>0\\
+	\E{\chi^2}&=n\\
+	\Var{\chi^2}&=2n
+	\end{aligned}\]
+	$\chi^2$具有可加性，因Gamma分布有可加性
+	\[\chi_1^2(n_1)+\chi_2^2(n_2)\thicksim\chi^2(n_1+n_2)\]
+	\item $t$分布/Student分布\\
+	设$X\thicksim N(0,1)$，$Y\thicksim\chi^2(n)$，且$X,Y$相互独立，则
+	\[t=\frac{X}{\sqrt{Y/n}}\]
+	服从自由度为$n$的$t$分布，记为$t\thicksim t(n)$
+	\[\begin{aligned}
+	h(t)=\frac{\Gamma[(n+1)/2]}{\sqrt{\pi n}\,\Gamma(n/2)}(1+\frac{t^2}{n})^{-(n+1)/2}\,t\in(-\infty,+\infty)
+	\end{aligned}\]
+	\item $F$分布\\
+	设$U\thicksim\chi^2(n_1)$，$Y\thicksim\chi^2(n_2)$，且$U,V$相互独立，则
+	\[F=\frac{U/n_1}{V/n_2}\]
+	服从自由度$(n_1,n_2)$的$F$分布，记为$F\thicksim F(n_1,n_2)$
+	\[\begin{aligned}
+	\phi(x)=\frac{\Gamma[(n_1+n_2)/2](n_1/n_2)^{n_1/2}x^{(n_1/2)-1}}{\Gamma(n_1/2)\Gamma(n_2/2)[1+(n_1x/n_2)]^{(n_1+n_2)/2}\,,x>0}
+	\end{aligned}\]
+\end{enumerate}
+
+\subsection{参数估计}
 \begin{definition}[估计]
 $X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，对参数$\theta$的估计是函数$T(X_1,\ldots,X_n)$，称$T$是期望(expected)估计，若
 \[\E{T(X_1,\ldots,X_n)}=\theta\]
 合适(probable)的估计，若
 \[\pr{|T(X_1,\ldots,X_n)-\theta|>\eps}\to 0,\,n\to\infty\]
 \end{definition}
+
+\subsection{可视化}
+\begin{enumerate}
+	\item 直方图：矩形宽度$\dfrac{f_i}{n}\Big/\Delta$，$\Delta$为组距
+	\item 箱线图：最小值$\min$，第一四分位数$Q_1$，中位数$M$，第三四分位数$Q_2$，最大值$\max$
+	\[q\text{分位数}\quad x_p=\begin{cases}
+	x_{[np]+1} & np\notin\zz\\
+	\frac{1}{2}[x_{np}+x_{np+1}] & np\in\zz
+	\end{cases}\]
+\end{enumerate}
