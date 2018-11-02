@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\section{多元函数微积分}
+\section{多元函数的微分}
 \subsection{微分}
 偏导数的定义在此我们不再提及，在本节中我们主要采用下面两种记号
 \[f_x(x,y):=\pd{f(x,y)}{x}\qquad f_y(x,y):=\pd{f(x,y)}{y}\]
@@ -174,21 +174,36 @@ r_x&=\cos\theta\qquad&r_y&=\sin\theta\\
 \subsection{泰勒公式}
 \begin{theorem}[Taylor]
 设$f(x,y)$在$P_0(x_0,y_0)$的某邻域$O(P_0)$内有直到$n+1$阶连续偏导数，则对于$O(P_0)$内任一点$(x_0+\Delta x,y_0+\Delta y)$，存在$\theta\in(0,1)$使得
-\[f(x_0+\Delta x,y_0+\Delta y)=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^kf(x_0,y_0)+R_n\]
+\[\begin{aligned}
+f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^kf(x_0,y_0)+R_n\\
+&=f(x_0,y_0)+f_x(x_0,y_0)\Delta x+f_y(x_0,y_0)\Delta y\\
+&\quad+\frac{1}{2!}[f_{xx}(x_0,y_0)(\Delta x)^2+2f_{xy}(x_0,y_0)\Delta x\Delta y+f_{yy}(\Delta y)^2]+\cdots
+\end{aligned}\]
 其中，
 \[R_n=\frac{1}{(n+1)!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^{n+1}f(x_0+\theta\Delta x,y_0+\theta\Delta y)\]
+用更紧凑的矩阵表示法，设$\vx=(x_1,x_2,\ldots,x_n),\va=(a_1,a_2,\ldots,a_n)$（注意都是列向量形式），则
+\[f(\vx)=f(\va)+(\vx-\va)^\T\nabla f(\va)+\frac{1}{2!}(\vx-\va)^\T \mathbf{H}(\vx)(\vx-\va)+\cdots\]
+其中，$H$为$f$的二阶偏导数构成的矩阵，称为海森(Hessian)矩阵
+\[\mathbf{H}=\begin{bmatrix}\pdd{f}{x_1} & \pddxy{f}{x_1}{x_2} &\cdots &\pddxy{f}{x_1}{x_n}\\
+\pddxy{f}{x_2}{x_1}&\pdd{f}{x_2}&\cdots&\pddxy{f}{x_2}{x_n}\\
+\vdots&\vdots&\ddots&\vdots\\
+\pddxy{f}{x_n}{x_1}&\pddxy{f}{x_n}{x_2}&\cdots&\pdd{f}{x_n}\end{bmatrix}\]
+特别地，二元的情况有
+\[\mH(x,y)=\begin{bmatrix}f_{xx}(x,y) & f_{xy}(x,y)\\f_{yx}(x,y) & f_{yy}(x,y)\end{bmatrix}\]
 \end{theorem}
 
 \subsection{隐函数存在定理}
 \begin{theorem}
 设$F(x_1,x_2,\ldots,x_k,\ldots,x_n)$满足下列条件：
 \begin{enumerate}
+	\itemsep-3pt
 	\item $F_{x_i},i\in\{1,\ldots,n\}$在$D:|x_i-x_i^{(0)}|\leq a_i$上连续
 	\item $F(x_1^{(0)},x_2^{(0)},\ldots,x_k^{(0)},\ldots,x_n^{(0)})=0$（初始条件）
 	\item $F_{x_k}(x_1^{(0)},x_2^{(0)},\ldots,x_k^{(0)},\ldots,x_n^{(0)})\ne0$
 \end{enumerate}
 则
 \begin{enumerate}
+	\itemsep -3pt
 	\item $Q_0(x_1^{(0)},x_2^{(0)},\ldots,x_{k-1}^{(0)},\ldots,x_{k+1}^{(0)},\ldots,x_n^{(0)})$，存在函数\[x_k=f(x_1,x_2,\ldots,x_{k-1},x_{k+1},\ldots,x_n),(x_1,x_2,\ldots,x_{k-1},x_{k+1},\ldots,x_n)\in O(Q_0)\]
 	使得当$(x_1,x_2,\ldots,x_{k-1},x_{k+1},\ldots,x_n)\in O(Q_0)$时，
 	\[F(x_1^{(0)},x_2^{(0)},\ldots,x_{k-1}^{(0)},f(x_1,x_2,\ldots,x_{k-1},x_{k+1},\ldots,x_n),x_{k+1}^{(0)},\ldots,x_n^{(0)})\equiv 0\]
@@ -201,6 +216,7 @@ r_x&=\cos\theta\qquad&r_y&=\sin\theta\\
 \begin{theorem}[方程组]
 设函数$F(x,y,u,v)$和$G(x,y,u,v)$满足
 \begin{enumerate}
+	\itemsep -3pt
 	\item 在点$P_0(x_0,y_0,u_0,v_0)$的某个邻域内，$F,G$对各变元有一阶连续偏导数
 	\item $F(P_0)=0,G(P_0)=0$（初始条件）
 	\item $J|_{P_0}=\pd{(F,G)}{(u,v)}\Big|_{P_0}\ne 0$

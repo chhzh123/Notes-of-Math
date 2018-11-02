@@ -1,0 +1,97 @@
+% !TEX root = main.tex
+
+\subsection{多元函数的极值}
+一元函数一阶导数的零点称为驻点，多元函数一阶偏导数的零点称为稳定点(stationary point)，同样通过二阶导数判断是极小值还是极大值点
+\begin{theorem}
+如果$f(x,y)$在$P_0(x_0,y_0)$的某邻域内有二阶连续偏导数，$f_x(x_0,y_0)=0$, $f_y(x_0,y_0)=0$，$H$为$f$的Hessian矩阵，
+\begin{enumerate}
+	\item 若$\det \mH(x_0,y_0)>0$，则当$f_{xx}(x_0,y_0)>0$或$f_{yy}(x_0,y_0)>0$时，$f$在$P_0$取极小值；当$f_{xx}(x_0,y_0)<0$或$f_{yy}(x_0,y_0)<0$时，$f$在$P_0$取极大值
+	\item 若$\det \mH(x_0,y_0)<0$，则$P_0$不是$f$的极值点
+	\item 若$\det \mH(x_0,y_0)=0$，则不能判定$f$在$P_0$是否取极值
+\end{enumerate}
+\end{theorem}
+\begin{analysis}
+由于
+\[\diff^2 f(x_0,y_0)=\Delta\vx^\T\mH(\vx)\Delta\vx\]
+是关于$\Delta x,\Delta y$的二次型.
+由二次型理论，$\Delta\vx^\T\mH(\vx)\Delta\vx>0$的充要条件为$\mH$正定，而这又等价于$\mH$的顺序主子式\footnote{顺序主子式由$n$阶方针的$n$个行列式顺序排列而成，第$k$个行列式是由该方阵的前$k$行和前$k$列组成}全大于零，进而
+当$f_{xx}(x_0,y_0)>0$（或$f_{yy}(x_0,y_0)>0$）且$\det \mH(x_0,y_0)>0$时，$f$在$P_0$取极小值.\\
+其他情况同理.
+\end{analysis}
+考虑区间最值时，需要讨论稳定点和边界点
+
+\subsection{最小二乘法}
+确定$a,b$使得
+\[f(a,b)=\sum_{i=1}^n(ax_i+b-y_i)^2\]
+最小，分别对$a,b$求偏导数，令其为$0$，得
+\[\begin{cases}
+\pd{f}{a}=2\sum_{i=1}^n(ax_i+b-y_i)x_i=0 & \implies\inp{\vx}{\vx}a+\inp{\vx}{\ve}b=\inp{\vx}{\vy}\\
+\pd{f}{b}=2\sum_{i=1}^n(ax_i+b-y_i)=0 & \implies\inp{\vx}{\ve}a+\inp{\ve}{\ve}b=\inp{\vy}{\ve}
+\end{cases}\]
+进而由克莱姆法则求得
+\[\hat{a}=\frac{\vmat{\inp{\vx}{\vy} & \inp{\vx}{\ve}\\\inp{\vy}{\ve}&\inp{\ve}{\ve}}}
+{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\ve}\\\inp{\vx}{\ve}&\inp{\ve}{\ve}}}
+\qquad
+\hat{b}=\frac{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\vy}\\\inp{\vx}{\ve}&\inp{\vy}{\ve}}}
+{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\ve}\\\inp{\vx}{\ve}&\inp{\ve}{\ve}}}\]
+拟合的直线为
+\[y=\hat{a}x+\hat{b}\]
+
+\subsection{条件极值}
+用更紧凑的梯度表示来表达拉格朗日乘子法.\par
+考虑多元函数$f(\vx)=f(x_1,\ldots,x_n)$，及限制条件$g_k(\vx)=g(x_1,\ldots,x_n),k=1,2,\ldots,M$，构造拉格朗日函数
+\[\mathcal{L}(x_1,\ldots,x_n,\lambda_1,\ldots,\lambda_M)=f(\vx)-\sum_{k=1}^M\lambda_kg_k(\vx)\]
+则解
+\[\nabla_{x_1,\ldots,x_n,\lambda_1,\ldots,\lambda_M}\mathcal{L}(x_1,\ldots,x_n,\lambda_1,\ldots,\lambda_M)=\vzero\]
+即可得到稳定点
+\par 但注意稳定点并不一定是极值点，故还需运用隐函数定理、Hessian矩阵等方法判定
+\begin{example}
+求目标函数$f(x,y,z)=\ln x+2\ln y+3\ln z,x>0,y>0,z>0$在约束函数$g(x,y,z)=x^2+y^2+z^2-6r^2=0$下的最大值
+\end{example}
+\begin{analysis}
+分为以下四步走
+\begin{enumerate}
+\item 构造拉格朗日函数
+\[\mathcal{L}(x,y,z)=\ln x+2\ln y+3\ln z+\lambda(x^2+y^2+z^2-6r^2)\]
+求偏导有
+\[\begin{cases}
+\mathcal{L}_x=\dfrac{1}{x}+2\lambda x=0\\
+\mathcal{L}_y=\dfrac{2}{y}+2\lambda y=0\\
+\mathcal{L}_z=\dfrac{3}{z}+2\lambda z=0\\
+\mathcal{L}_\lambda=x^2+y^2+z^2-6r^2=0
+\end{cases}\]
+解得稳定点$P(r,\sqrt{2}r,\sqrt{3}r)$
+\item 确定隐函数存在，并求出相应偏导\\
+对限制条件求偏导有
+\[g_z|_{P}=2z|_{P}=2\sqrt{3}r\ne 0\]
+由隐函数定理知$g(x,y,z)=0$在$P$邻域内可确定唯一隐函数$z=z(x,y)$\\
+对$g(x,y,z(x,y))=0$左右求$x,y$偏导有
+\[\begin{cases}
+2x+2z\pd{z}{x}=0\\
+2y+2z\pd{z}{y}=0
+\end{cases}
+\implies
+\begin{cases}
+\pd{z}{x}=-\dfrac{x}{z}\\
+\pd{z}{y}=-\dfrac{y}{z}
+\end{cases}\]
+\item 对目标函数求二阶偏导，判定稳定点为极值点
+\[\begin{aligned}
+\pd{f}{x}&=\frac{1}{x}-\frac{3x}{z^2}\qquad&\\
+\pd{f}{y}&=\frac{2}{y}-\frac{3y}{z^2}\qquad&\\
+\pdd{f}{x}&=-\frac{1}{x^2}-3\frac{z^2+2x^2}{z^4}\qquad& \pdd{f}{x}\Big|_P=-\frac{8}{3r^2}\\
+\pdd{f}{y}&=-\frac{2}{y^2}-3\frac{z^2+2y^2}{z^4}\qquad& \pdd{f}{y}\Big|_P=-\frac{10}{3r^2}\\
+\pddxy{f}{x}{y}&=\frac{6xy}{z^4}\qquad& \pddxy{f}{x}{y}\Big|_P=-\frac{2\sqrt{2}}{3r}
+\end{aligned}\]
+$f$的一阶顺序主子式
+\[\pdd{f}{x}\Big|_P=-\frac{8}{3r^2}<0\]
+二阶顺序主子式，即Hessian矩阵的行列式
+\[\det\mH\Big|_P=\vmat{\pdd{f}{x} & \pddxy{f}{x}{y}\\\pddxy{f}{y}{x} & \pdd{f}{y}}\Big|_P=\frac{71}{9r^4}>0\]
+故$P$为$f$的极大值点，极大值为$\ln 6\sqrt{3}r^6$
+\item 判定极值点为最值点\\
+分析约束集
+\[\mathcal{D}=\{(x,y,z)\mid x^2+y^2+z^2=6r^2,x>0,y>0,z>0\}\]
+为一有界集，当$x\to 0^+$或$y\to 0^+$或$z\to 0^+$时，$f(x,y,z)\to -\infty$\\
+所以$P$为$f$的最大值点
+\end{enumerate}
+\end{analysis}
