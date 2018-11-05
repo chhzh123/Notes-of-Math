@@ -9,18 +9,27 @@
 \end{definition}
 进而，对于离散型随机变量变量有，
 \[\pr{x_1<X\leq x_2,y_1<Y\leq y_2}=F(x_2,y_2)-F(x_2,y_1)+F(x_1,y_1)-F(x_1,y_2)\]
-离散型随机变量
+连续型随机变量有，
 \[\pr{(X,Y)\in G}=\iint_G f(x,y)\,\diff x\,\diff y\]
 \par 若$f(x,y)$在$(x,y)$连续，则$\pddxy{F(x,y)}{x}{y}=f(x,y)$
 
 \begin{definition}[边缘(marginal)分布]
 \[\begin{aligned}
 F_X(x)&=\pr{X\leq x,Y<\infty}=\lim_{y\to\infty}F(x,y)=F(x,\infty)\\
-&=\intab{-\infty}{\infty}{\left[\intabu{-\infty}{\infty}{f(x,y)}{y}\right]}\\
-&=\intab{-\infty}{\infty}{f_X(x)}
+&=\intab{-\infty}{x}{\left[\intabu{-\infty}{\infty}{f(x,y)}{y}\right]}\\
+&=\intab{-\infty}{x}{f_X(x)}\\
+f_X(x)&=\intabu{-\infty}{\infty}{f(x,y)}{y}
 \end{aligned}\]
 \end{definition}
-注意积分区间不一定是从负无穷到正无穷，而是概率有$(0,1)$之间值的区域
+注意积分区间不一定是从负无穷到正无穷，而是概率有$(0,1)$之间值的区域\\
+对于二元随机变量的概率密度和概率分布函数有如下关系
+\begin{center}
+\begin{tikzcd}
+f(x,y)\arrow{r}{\text{Int}\;y}\arrow{d}{\text{Int}\;x}\arrow{rrdd}{\text{Int}\;x\; y} & f_X(x)\arrow{r}{\text{Int}\;x} & F_X(x)\\
+f_Y(y)\arrow{d}{\text{Int}\;y} &  & \\
+F_Y(y) & & F(x,y)\arrow[swap]{uu}{y\to\infty}\arrow[swap]{ll}{x\to\infty}
+\end{tikzcd}
+\end{center}
 
 \begin{definition}[条件概率密度与分布函数]
 \[\begin{aligned}
@@ -36,10 +45,23 @@ f(x,y)=f_X(x)f_Y(y)
 \end{definition}
 
 \subsection{随机变量的函数的分布}
+均通过求$F_Z(z)=\pr{z\leq Z}$交换积分次序得到
+\subsubsection{$Z=X+Y$}
 \[f_{X+Y}(z)=\intabu{-\infty}{\infty}{f(z-y,y)}{y}=\intabu{-\infty}{\infty}{f(x,z-x)}{x}\]
-\[f_{Y/X}(z)=\intabu{-\infty}{\infty}{|x|f(x,xz)}{x}=f_{XY}(z)=\intinf{\dfrac{1}{|x|}f(x,\dfrac{z}{x})}\]
+若$X$和$Y$相互独立，则有卷积公式
+\[f_X*f_Y=\intabu{-\infty}{\infty}{f_X(z-y,y)f_Y(y)}{y}\]
+\subsubsection{$Z=X/Y$}
+\[f_{Y/X}(z)=\intabu{-\infty}{\infty}{|x|f(x,xz)}{x}\]
+\subsubsection{$Z=XY$}
+\[f_{XY}(z)=\intinf{\dfrac{1}{|x|}f(x,\dfrac{z}{x})}\]
+\subsubsection{$Z=\max\{X_1,\ldots,X_n\}$}
 \[F_{\max}(z)=F_{X_1}(z)F_{X_2}(z)\cdots F_{X_n}(z)\]
+\subsubsection{$Z=\min\{X_1,\ldots,X_n\}$}
 \[F_{\min}(z)=1-[1-F_{X_1}(z)][1-F_{X_2}(z)]\cdots [1-F_{X_n}(z)]\]
+\subsubsection{函数分布}
+若$Z$是随机变量$X,Y$的连续函数$Z=g(X,Y)$，则
+\[\E{Z}=\E{g(x,y)}=\intabu{-\infty}{\infty}{\intab{-\infty}{\infty}{g(x,y)f(x,y)}}{y}\]
+根据这条式子，方差、协方差等等均可以直接通过积分计算
 
 \subsection{数字特征}
 \begin{definition}[协方差]
@@ -51,9 +73,12 @@ f(x,y)=f_X(x)f_Y(y)
 \Cov{X_1+X_2,Y}&=\Cov{X_1,Y}+\Cov{X_2,Y}
 \end{aligned}\]
 \begin{definition}[相关系数]
-\[\rho_{XY}=\frac{\Cov{X,Y}}{\sqrt{\Var{X}}{\Var{Y}}}\]
+用来表征$X,Y$线性关系的量
+\[\rho_{XY}=\frac{\Cov{X,Y}}{\sqrt{\Var{X}}\sqrt{\Var{Y}}}\]
+$|\rho_{XY}|$较大，均方误差小，线性关系强；
 $\rho_{XY}\leq 1$，取等的充要条件为$\exists a,b$使得$\pr{Y=a+bX}=1$
 \end{definition}
+相关性与独立性没有必然联系：相关性是对线性关系来说的，而独立性是对一般关系来说的
 \begin{definition}[矩]
 设$X,Y$为随机变量，若$\E{X^k}$存在，则称它为$X$的$k$阶(原点)矩，称$\E{[X-\E{X}]^k}$为$k$阶中心矩，称$\E{X^kY^l}$为$k+l$阶混合矩，称$\E{[X-\E{X}]^k[Y-\E{Y}]^l}$为$k+l$阶混合中心矩
 \end{definition}

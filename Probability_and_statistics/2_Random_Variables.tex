@@ -10,8 +10,9 @@
 $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度函数(PDF)，也即$f_X(x)=\dfrac{\diff F_X(x)}{\diff x}$.
 一定要注意，$f_X(x)\ne\pr{X=x}$！
 \end{definition}
-注意积分区间！
+注意\textcolor{red}{积分区间}！注意要写\textcolor{red}{变量范围}！
 \begin{definition}[期望]
+设$Y$是随机变量$X$的\textbf{连续}函数$Y=g(X)$
 \[\begin{aligned}
 \E{X}&=\sum_x xf_X(x) \quad& \E{g(X)}&=\sum_x g(x)f_X(x)\\
 \E{X}&=\intab{-\infty}{+\infty}{xf_X(x)} \quad& \E{g(X)}&=\intab{-\infty}{+\infty}{g(x)f_X(x)}
@@ -19,9 +20,18 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 \end{definition}
 \par 期望具有线性性，即
 \[\E{X+Y}=\E{X}+\E{Y},\,\E{cX}=c\E{X}\]
+\par 若$X,Y$相互独立，则
+\[\E{XY}=\E{X}\E{Y}\]
+但反过来不能推相互独立
 \begin{definition}[方差]
-\[\Var{X}=\sigma^2=\E{(X-\E{X})^2}=\E{X^2}-\E{X}^2\geq 0\]
+\[\begin{aligned}
+\Var{X}=\mathrm{Var}(X)&=\sigma^2=\E{(X-\E{X})^2}=\E{X^2}-\E{X}^2\geq 0\\
+&=\sum_{k=1}^\infty[x_k-\E{X}]^2p_k\\
+&=\intab{-\infty}{\infty}{[X-\E{X}]^2f(x)}
+\end{aligned}\]
+标准差或均方差则是$\sigma$
 \end{definition}
+一般通过求$\E{X}$和$\E{X^2}$来求方差\par
 由方差定义和期望的线性性有
 \[\Var{aX+b}=a^2\Var{X}\]
 注意方差并不是线性的
@@ -30,21 +40,35 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 &=\E{X^2}-\E{X}^2+\E{Y^2}-\E{Y}^2+2(\E{XY}-\E{X}\E{Y})\\
 &=\Var{X}+\Var{Y}+2\Cov{X,Y}
 \end{aligned}\]
+\begin{definition}[上$\alpha$分位点]
+\[\pr{X>z_\alpha}=\alpha,\,\alpha\in(0,1)\]
+\end{definition}
+
+\subsection{随机变量的函数的分布}
+\begin{theorem}
+若$X$为连续型随机变量，$g$为单调递增函数（反函数存在且单调递增），且$Y=g(X)$，那么
+\[f_Y(y)=f_X(g^{-1}(y))(g^{-1})'(y)\]
+\end{theorem}
+特别地，对于$Y=X^2$
+\[f_Y(y)=\frac{1}{2\sqrt{y}}[f_X(\sqrt{y})+f_X(-\sqrt{y})],\,y>0\]
+一般情况则先求$Y$的概率分布函数$F_Y(y)$，然后对$F_Y(y)$求导
 
 \subsection{常见的离散分布}
 \begin{enumerate}
-	\item 伯努利分布 \textbf{Bernoulli(p)}（二项分布的特殊情形）
+	\item 伯努利/两点/0-1分布 \textbf{Bernoulli(p)}（二项分布的特殊情形）
 		\[\begin{aligned}
 		f_{X}(k)&=\begin{cases}
 		1-p & k=0\\
 		p & k=1\\
 		\end{cases}\\
-		\mathbb{E}(X)&=p
+		\mathbb{E}(X)&=p\\
+		\Var{X}&=p(1-p)
 		\end{aligned}\]
 	\item 二项分布 \textbf{Binomial(n,p)}
 		\[\begin{aligned}
-		f_{X}(k)& =\binom{n}{k}p^k(1-p)^n-k,\,0\leq k\leq n\\
-		\mathbb{E}(X)& =n\cdot p
+		f_{X}(k)& =\binom{n}{k}p^k(1-p)^{n-k},\,0\leq k\leq n\\
+		\mathbb{E}(X)& =n\cdot p\\
+		\Var{X}&=np(1-p)
 		\end{aligned}\]
 		e.g. 扔$n$次硬币扔到$k$次正面（做实验$n$次，记录成功的次数）
 	\item 几何分布 \textbf{Geometric(p)}（负二项分布的特殊情形）
@@ -53,12 +77,31 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 		\mathbb{E}(X)& =\frac{1-p}{p}
 		\end{aligned}\]
 		e.g. 扔$k$次反面直至扔到正面（做实验直到你成功，记录失败的次数）
-	\item 负二项分布 \textbf{NegetiveBinomial(t,p)}
+	\item 负二项分布 \textbf{NegetiveBinomial(r,p)}
 		\[\begin{aligned}
-		f_{X}(k)& =\binom{k+t-1}{t-1}p^t(1-p)^k,\,k\geq 0\\
-		\mathbb{E}(X)& =t\cdot\frac{1-p}{p}
+		f_{X}(k)& =\binom{k+r-1}{r-1}p^r(1-p)^k,\,k\geq 0\\
+		\mathbb{E}(X)& =r\cdot\frac{1-p}{p}
 		\end{aligned}\]
-		e.g. 扔$k$次反面直到有$t$个正面（做实验直到你获得$t$次成功，记录失败次数）
+		\[\begin{aligned}
+		\E{X}&=\sum_{k=0}^\infty\binom{k+r-1}{r-1}p^r(1-p)^k\\
+		&=\sum_{k=0}^\infty r\lrp{\binom{k+r}{r}-\binom{k+r-1}{r-1}}p^r(1-p)^k\qquad k\binom{n}{k}=n\binom{n-1}{k-1}\mbox{的变形}\\
+		&=rp^r\lrp{\sum_{k=0}^\infty\binom{k+r}{r}(1-p)^k-\sum_{k=0}^\infty\binom{k+r-1}{r-1}(1-p)^k}\\
+		&=rp^r\lrp{\sum_{k=0}^\infty\binom{\textcolor{red}{k+r}}{k}(1-p)^k-\sum_{k=0}^\infty\binom{k+r-1}{k}(1-p)^k}\\
+		&=rp^r\lrp{\sum_{k=0}^\infty(-1)^k\binom{\textcolor{red}{-r-1}}{k}(1-p)^k-\sum_{k=0}^\infty(-1)^k\binom{-r}{k}(1-p)^k}\\
+		&\quad\mbox{这步是关键，将变化的$(k+r)$转成$(-r-1)$，使得可以正常使用二项式定理}\\
+		&=rp^r\lrp{\sum_{k=0}^\infty\binom{-r-1}{k}1^{-r-1-k}(p-1)^k-\sum_{k=0}^\infty\binom{-r}{k}1^{-r-k}(p-1)^k}\\
+		&=rp^r\lrp{(1+(p-1))^{-r-1}-(1+(p-1))^{-r}}\qquad\mbox{牛顿二项式}\\
+		&=r(p^{-1}-1)\\
+		&=r\frac{1-p}{p}
+		\end{aligned}\]
+		补充证明：
+		\[\begin{aligned}
+		\binom{k+r}{k}&=\frac{(k+r)(k+r-1)\cdots(r+1)}{k(k-1)\cdots 1}\\
+		&=(-1)^k\frac{(-k-r)(-k-r-1)\cdots(-r-1)}{k(k-1)\cdots 1}\\
+		&=(-1)^k\frac{(-r-1)(-r-2)\cdots(-r-1-k+1)}{k(k-1)\cdots 1}\qquad\mbox{把分子各项逆过来}\\
+		&=(-1)^k\binom{-r-1}{k}
+		\end{aligned}\]
+		e.g. 扔$k$次反面直到有$r$个正面（做实验直到你获得$r$次成功，记录失败次数）
 	\item 超几何分布 \textbf{HyperGeometric(N,n,M)}
 		\[\begin{aligned}
 		f_{X}(k)& =\frac{\binom{M}{k}\cdot \binom{N-M}{n-k}}{\binom{N}{n}}\\
@@ -67,7 +110,7 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 		e.g. $M$个产品中有$N$个次品，检查$n$次得到$k$个次品
 	\item 泊松分布 \textbf{Poisson($\lambda$),$\lambda>0$}
 		\[\begin{aligned}
-		f_{X}(k)& =e^{-\lambda}\cdot \frac{\lambda^k}{k!}\\
+		f_{X}(k)& =\frac{\lambda^k}{k!}\ee^{-\lambda},\,\lambda>0,k\geq0\\
 		\mathbb{E}(X)& =\lambda
 		\end{aligned}\]
 		$X\thicksim B(n,p)$，若$p=\dfrac{\lambda}{n}$，且$n$非常大，则
@@ -75,6 +118,12 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 		\pr{X=k} &= \binom{n}{k}\left(\frac{\lambda}{n}\right)^k\left(1-\frac{\lambda}{n}\right)^{n-k}\\
 		&= \frac{n(n-1)\cdots(n-k+1)}{k!}\frac{\lambda^k}{n^k}\left(1+\frac{-\lambda}{n}\right)^{n-k}\\
 		&\approx \frac{\lambda^k}{k!}\ee^{-\lambda}
+		\end{aligned}\]
+		一般$n\geq 20,p\leq 0.05$时，即可用近似
+		\[\begin{aligned}
+		\E{X}&=\sum_{k=0}^\infty k\frac{\lambda^k}{k!}\ee^{-\lambda}\\
+		&=\lambda\ee^{-\lambda}\sum_{k=1}^\infty\frac{\lambda^{k-1}}{(k-1)!}\\
+		&=\lambda\ee^{-\lambda}\ee^{\lambda}=\lambda
 		\end{aligned}\]
 		注意泊松分布具有无记忆性(memoryless)，即
 		\[\prc{X\geq a}{X\geq b}=\pr{X\geq a-b}\]
@@ -88,10 +137,10 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	\E{X}&=\dfrac{a+b}{2}\\
 	\Var{X}&=\dfrac{(b-a)^2}{12}
 	\end{aligned}\]
-	\item 指数分布 \textbf{Exponential($\lambda$),$\lambda>0$}
+	\item 指数分布 \textbf{Exponential($\theta$),$\theta>0$}
 	\[\begin{aligned}
-	f_X(x)&=\lambda\ee^{-\lambda x},\,x\geq 0\\
-	\E{X}&=\dfrac{1}{\lambda}
+	f_X(x)&=\frac{1}{\theta}\ee^{-\frac{x}{\theta}},\,x>0\\
+	\E{X}&=\theta=\dfrac{1}{\lambda}
 	\end{aligned}\]
 	与泊松分布类似，同样具有无记忆性
 	\item 正态分布 \textbf{Normal($\mu,\sigma^2$)}
@@ -99,15 +148,39 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	f_X(x)&=\dfrac{1}{\sqrt{2\pi}\sigma}\ee^\frac{-(x-\mu)^2}{2\sigma^2}\\
 	\E{X}&=\mu
 	\end{aligned}\]
+	标准正态分布$N(0,1)$
+	\[\begin{aligned}
+	\varphi(x)&=\frac{1}{\sqrt{2\pi}}\ee^{-x^2/2}\\
+	\Phi(x)&=\intabu{-\infty}{x}{\varphi(t)}{t}\\
+	\Phi(-x)=1-\Phi(x)
+	\end{aligned}\]
 	算平方
 	\[\begin{aligned}
-	&\quad\left(\intinf{\ee^\frac{-x^2}{2}}\right)^2\\
-	&=\intinf{\ee^\frac{-x^2}{2}}\intinf[y]{\ee^\frac{-x^2}{2}}\\
+	I^2&=\left(\intinf{\ee^\frac{-x^2}{2}}\right)^2\\
+	&=\intinf{\ee^\frac{-x^2}{2}}\intinf[y]{\ee^\frac{-y^2}{2}}\\
 	&=\intinf[y]{\intinf{\ee^\frac{-(x^2+y^2)}{2}}}\\
 	&=\intabu{0}{2\pi}{\intabu{0}{+\infty}{r\ee^\frac{-r^2}{2}}{r}}{\theta}\\
-	&=\intabu{0}{2\pi}{\intabu{0}{+\infty}{\ee^{-u}}{u}}{\theta}\\
-	&=\intabu{0}{2\pi}{1}{\theta}\\
-	&=2\pi
+	&\quad\mbox{重积分极坐标变量代换}\diff S=r\diff r\diff\theta\\
+	&=-\intabu{0}{2\pi}{\intabu{0}{+\infty}{}{\ee^\frac{-r^2}{2}}}{\theta}\\
+	&=-\intabu{0}{2\pi}{(0-1)}{\theta}\\
+	&=\intabu{0}{2\pi}{1}{\theta}=2\pi
 	\end{aligned}\]
-	若$X\thicksim N(\mu,\sigma^2)$，则$Z=\dfrac{X-\mu}{\sigma}\thicksim N(0,1)$标准正态分布
+	也即\textcolor{red}{概率积分$I=\sqrt{2\pi}$}\\
+	若$X\thicksim N(\mu,\sigma^2)$，则$Y=aX+b\thicksim N(a\mu+b,(a\sigma)^2)$，特别地，
+	\[Z=\dfrac{X-\mu}{\sigma}\thicksim N(0,1)\]
+	若$X_i\thicksim N(\mu_i,\sigma_i^2)$相互独立，则它们的和
+	\[Z=X_1+X_2+\cdots+X_n\thicksim N(\mu_1+\mu_2+\cdots+\mu_n,\sigma_1^2+\sigma_2^2+\cdots+\sigma_n^2)\]
+	若$X\thicksim N(0,1)$，且$Y=X^2$，则
+	\[f_Y(y)=\frac{1}{\sqrt{2\pi}}y^{-1/2}\ee^{-y/2}\implies Y\thicksim\Gamma(\frac{1}{2},2)\]
+	\item 伽马分布 \textbf{Gamma$(\mathbf{\alpha},\mathbf{\beta})\equiv\Gamma (\alpha ,\beta )\equiv\Gamma (k,\theta)\,,k=\alpha,\theta=1/\beta$}
+	\[\begin{aligned}
+	f_X(x;\alpha ,\beta )&=\frac {\beta ^{\alpha }}{\Gamma (\alpha )}x^{\alpha -1}\ee^{-\beta x},\,x,\alpha ,\beta >0\\
+	f_X(x;k,\theta)&=\frac {1}{\Gamma (k)\theta ^{k}}x^{k-1}\ee^{-{\frac {x}{\theta }}},\,x,k,\theta>0\\
+	F(x;k,\theta )&=\int _{0}^{x}f(u;k,\theta )\diff u={\frac {\gamma \left(k,{\frac {x}{\theta }}\right)}{\Gamma (k)}}\\
+	\E{X}&={\frac {\alpha }{\beta }}=k\theta\\
+	\Var{X}&=\frac{\alpha}{\beta^2}=k\theta^2
+	\end{aligned}\]	
+	若$X_i\thicksim \Gamma(k_i,\theta)$相互独立，则它们的和
+	\[Z=\sum_{i=1}^N X_i \thicksim\Gamma  \left( \sum_{i=1}^n k_i, \theta \right)\]
+	注：通过$B(\alpha,\beta)=\frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$证明
 \end{enumerate}

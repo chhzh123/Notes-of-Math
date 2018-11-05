@@ -3,7 +3,7 @@
 \section{统计}
 \subsection{样本与抽样}
 \begin{definition}[简单随机样本]
-在相同的条件下对总体$X$进行$n$次重复的、独立的观察，将$n$次观察结果按照实验的次序记为$X_1,X_2,\ldots,X_n$，则这些变量都相互独立且与$X$有相同分布
+在相同的条件下对总体$X$进行$n$次重复的、独立的观察，将$n$次观察结果按照实验的次序记为$X_1,X_2,\ldots,X_n$，则这些变量都\textbf{相互独立}且与$X$有\textbf{相同分布}
 \end{definition}
 
 \subsection{抽样分布}
@@ -11,8 +11,10 @@
 \begin{definition}[统计量]
 样本平均
 \[\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i\]
-样本方差
+样本方差（期望估计量$\E(S^2)=\sigma^2$）
 \[S^2=\frac{1}{\textcolor{red}{n-1}}\sum_{i=1}^n(X_i-\bar{X})^2=\frac{1}{n-1}\lrp{\sum_{i=1}^nX_i^2-n\bar{X}^2}\]
+样本$k$阶中心矩
+\[B_k=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^k\]
 经验分布函数
 \[F_n(x)=\frac{1}{n}S(x)\]
 其中$S(x)$是$X_1,X_2,\ldots,X_n$中不大于$x$的随机变量的个数
@@ -24,9 +26,10 @@
 \begin{theorem}
 设$X_1,X_2,\ldots,X_n$是来自正态总体$N(\mu,\sigma^2)$的样本，则
 \begin{enumerate}
-	\item $\bar{X}\thicksim N(\mu,\sigma^2/n)$
+	\item $\bar{X}\thicksim N(\mu,\sigma^2/n)$（注意$\Var{X}=(\sigma/\sqrt{n})^2$）
 	\item $\dfrac{(n-1)S^2}{\sigma^2}\thicksim \chi^2(n-1)$
 	\item $\bar{X}$与$S^2$相互独立
+	\item $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}\thicksim t(n-1)$
 \end{enumerate}
 \end{theorem}
 
@@ -34,10 +37,10 @@
 \begin{enumerate}
 	\item $\chi^2$分布\\
 	设$X_1,X_2,\ldots,X_n$是来自总体$N(0,1)$的样本，则统计量
-	\[\chi^2=X_1^2+X_2+\cdots+X_n^2\]
+	\[\chi^2=X_1^2+X_2+\cdots+X_n^2\thicksim\Gamma\lrp{\frac{n}{2},2}\]
 	服从自由度为$n$的$\chi^2$分布，记为$\chi^2\thicksim\chi^2(n)$
 	\[\begin{aligned}
-	f(x)&=\frac{1}{2^{n/2}\Gamma(\frac{1}{2})}x^{n/2-1}\ee^{-x/2},\,x>0\\
+	f(x)&=\frac{1}{2^{n/2}\Gamma(n/2)}x^{n/2-1}\ee^{-x/2},\,x>0\\
 	\E{\chi^2}&=n\\
 	\Var{\chi^2}&=2n
 	\end{aligned}\]
@@ -48,24 +51,41 @@
 	\[t=\frac{X}{\sqrt{Y/n}}\]
 	服从自由度为$n$的$t$分布，记为$t\thicksim t(n)$
 	\[\begin{aligned}
-	h(t)=\frac{\Gamma[(n+1)/2]}{\sqrt{\pi n}\,\Gamma(n/2)}(1+\frac{t^2}{n})^{-(n+1)/2}\,t\in(-\infty,+\infty)
+	h(t)=\frac{\Gamma[(n+1)/2]}{\sqrt{\pi n}\,\Gamma(n/2)}\lrp{1+\frac{t^2}{n}}^{-(n+1)/2}\,,t\in(-\infty,+\infty)
 	\end{aligned}\]
 	\item $F$分布\\
 	设$U\thicksim\chi^2(n_1)$，$Y\thicksim\chi^2(n_2)$，且$U,V$相互独立，则
 	\[F=\frac{U/n_1}{V/n_2}\]
 	服从自由度$(n_1,n_2)$的$F$分布，记为$F\thicksim F(n_1,n_2)$
 	\[\begin{aligned}
-	\phi(x)=\frac{\Gamma[(n_1+n_2)/2](n_1/n_2)^{n_1/2}x^{(n_1/2)-1}}{\Gamma(n_1/2)\Gamma(n_2/2)[1+(n_1x/n_2)]^{(n_1+n_2)/2}\,,x>0}
+	\psi(x)=\frac{\Gamma[(n_1+n_2)/2](n_1/n_2)^{n_1/2}x^{(n_1/2)-1}}{\Gamma(n_1/2)\Gamma(n_2/2)[1+(n_1x/n_2)]^{(n_1+n_2)/2}}\,,x>0
 	\end{aligned}\]
 \end{enumerate}
 
 \subsection{参数估计}
+\subsubsection{估计量}
 \begin{definition}[估计]
 $X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，对参数$\theta$的估计是函数$T(X_1,\ldots,X_n)$，称$T$是期望(expected)估计，若
 \[\E{T(X_1,\ldots,X_n)}=\theta\]
-合适(probable)的估计，若
+相合(probable)的估计，若
 \[\pr{|T(X_1,\ldots,X_n)-\theta|>\eps}\to 0,\,n\to\infty\]
 \end{definition}
+\[\begin{aligned}
+\E{S^2}&=\frac{1}{n-1}\E{\sum_{i=1}^n(X_i-\bar{X})^2}\\
+&=\frac{1}{n-1}\E{\sum_{i=1^n}X_i^2-n\bar{X}^2}\\
+&=\frac{1}{n-1}\sum_{i=1}^n\E{X_i^2}-n\E{\bar{X}^2}\qquad\mbox{由}\sigma^2=\E{X^2}-\mu^2\\
+&=\frac{1}{n-1}n(\sigma^2+\mu^2)-n\lrp{\frac{\sigma^2}{n}+\mu^2}\qquad\mbox{由}\Var{\bar{X}}=\frac{\sigma^2}{n}=\E{\bar{X}^2}-\mu^2\\
+&=\sigma^2=\Var{X}
+\end{aligned}\]
+
+\subsubsection{矩估计}
+设$X$为随机变量，概率密度为$f(x;\theta_1,\theta_2,\ldots,\theta_n)$，则$X$的前$k$阶矩
+\[\mu_l(\theta_1,\theta_2,\ldots,\theta_k)=\intabu{-\infty}{\infty}{x^lf(x;\theta_1,\theta_2,\ldots,\theta_k)}{x},\,l=1,2\ldots,k\]
+$k$个方程组便可解得$k$个估计量$\hat{\theta_l}$
+
+\subsubsection{最大似然估计法}
+\[L(\theta)=L(x_1,x_2,\ldots,x_n;\theta)=\prod_{i=1}^np(x_i;\theta),\,\theta\in\Theta\]
+
 
 \subsection{可视化}
 \begin{enumerate}

@@ -19,18 +19,17 @@
 		\item 可列可加性：$A_1,A_2,\ldots$为两两不相容的事件，$\displaystyle \pr{\bigcup_{i=1}^\infty A_i}=\sum_{i=1}^\infty \pr{A_i}$
 	\end{enumerate}
 \end{definition}
-由定义可得一些基本性质：
+由定义可得概率一些基本性质：
 \begin{enumerate}
 	\itemsep -3pt
 	\item $\pr{\varnothing}=0,\,\pr{A}\leq 1$
 	\item 有限可加性：$A_1,A_2,\ldots$两两不相容，$\displaystyle \pr{\bigcup_{i=1}^n A_i}=\sum_{i=1}^n \pr{A_i}$
 	\item 若$A\subset B$，则$\pr{B-A}=\pr{B}-\pr{A},\,\pr{B}\geq \pr{A}$
 	\item 逆事件概率：$\pr{\overline{A}}=1-\pr{A}$
-	\item 容斥原理：$\displaystyle \pr{\bigcup _{{i=1}}^{n}A_{i}}=\sum _{{k=1}}^{n}\left((-1)^{{k-1}}\sum _{{\scriptstyle I\subset \{1,\ldots ,n\} \atop \scriptstyle |I|=k}}\pr{\bigcap _{{i\in I}}A_{i}}\right)$
+	\item 容斥原理：
+	\[\pr{\bigcup _{{i=1}}^{n}A_{i}}=\sum _{{k=1}}^{n}\left((-1)^{{k-1}}\sum _{\substack{I\subset \{1,\ldots ,n\}\\|I|=k}}\pr{\bigcap _{{i\in I}}A_{i}}\right)\]
 \end{enumerate}
-\begin{theorem}[实际推断原理]
-概率很小的事件在一次试验中实际上几乎是不发生的
-\end{theorem}
+\par 本章的重点在于组合计数，正确计算事件数目并套用相应的公式即可.
 
 \subsection{条件概率}
 \begin{definition}[条件概率]
@@ -38,6 +37,8 @@
 \[\pr{B\mid A}=\dfrac{\pr{AB}}{\pr{A}}\]
 为在事件$A$发生的条件下事件$B$发生的条件概率
 \end{definition}
+进而有
+\[\prc{B}{A}\pr{A}=\pr{AB}=\prc{A}{B}\pr{B}\]
 \begin{theorem}[乘法公式]
 设$A_1,A_2,\ldots,A_n$为$n$个事件，$n\geq 2$，且$\pr{A_1A_2\cdots A_{n-1}}>0$，则
 \[\pr{A_1A_2\cdots A_{n-1}}=\pr{A_n\mid A_1A_2\cdots A_{n-1}}\pr{A_{n-1}\mid A_1A_2\cdots A_{n-2}}\cdots\pr{A_2\mid A_1}\pr{A_1}\]
@@ -55,6 +56,8 @@
 特别地，当$n=2$时有
 \[\prc{B}{A}=\dfrac{\prc{A}{B}\pr{B}}{\prc{A}{B}\pr{B}+\prc{A}{\ol{B}}\pr{\ol{B}}}\]
 \end{theorem}
+\par 注意贝叶斯公式是用\textbf{先验概率}推\textbf{后验概率}.
+\par 在计算条件概率时一定要注意前提条件是什么，并将题设进行转换.
 \begin{definition}[独立性]
 \rm 对于事件$A_1,\ldots,A_n$，
 \begin{itemize}
@@ -64,6 +67,6 @@
 \end{definition}
 \par 区分以下两个概念
 \begin{enumerate}
-	\item $A,B$对立(exclusive) $\Leftrightarrow \mathbb{P}(A\cap B)=0$，即不相交(disjoint)
+	\item $A,B$对立(exclusive)/不相容 $\Leftrightarrow \mathbb{P}(A\cap B)=0$，即不相交(disjoint)
 	\item $A,B$独立(independent) $\Leftrightarrow \mathbb{P}(A\cap B)=\mathbb{P}(A)\cdot\mathbb{P}(B)$，即不相关(unrelated)
 \end{enumerate}
