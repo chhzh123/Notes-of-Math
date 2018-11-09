@@ -1,6 +1,7 @@
 % !TEX root = main.tex
 
 \subsection{多元函数的极值}
+\subsubsection{无条件极值}
 一元函数一阶导数的零点称为驻点，多元函数一阶偏导数的零点称为稳定点(stationary point)，同样通过二阶导数判断是极小值还是极大值点
 \begin{theorem}
 如果$f(x,y)$在$P_0(x_0,y_0)$的某邻域内有二阶连续偏导数，$f_x(x_0,y_0)=0$, $f_y(x_0,y_0)=0$，$H$为$f$的Hessian矩阵，
@@ -20,7 +21,7 @@
 \end{analysis}
 考虑区间最值时，需要讨论稳定点和边界点
 
-\subsection{最小二乘法}
+\subsubsection{最小二乘法}
 确定$a,b$使得
 \[f(a,b)=\sum_{i=1}^n(ax_i+b-y_i)^2\]
 最小，分别对$a,b$求偏导数，令其为$0$，得
@@ -37,7 +38,7 @@
 拟合的直线为
 \[y=\hat{a}x+\hat{b}\]
 
-\subsection{条件极值}
+\subsubsection{拉格朗日乘子法}
 用更紧凑的梯度表示来表达拉格朗日乘子法.\par
 考虑多元函数$f(\vx)=f(x_1,\ldots,x_n)$，及限制条件$g_k(\vx)=g(x_1,\ldots,x_n),k=1,2,\ldots,M$，构造拉格朗日函数
 \[\mathcal{L}(x_1,\ldots,x_n,\lambda_1,\ldots,\lambda_M)=f(\vx)-\sum_{k=1}^M\lambda_kg_k(\vx)\]
@@ -61,8 +62,8 @@
 \mathcal{L}_\lambda=x^2+y^2+z^2-6r^2=0
 \end{cases}\]
 解得稳定点$P(r,\sqrt{2}r,\sqrt{3}r)$
-\item 确定隐函数存在，并求出相应偏导\\
-对限制条件求偏导有
+\item 确定隐函数存在，并求出相应偏导（随便选一个做主元即可）\\
+限制条件$g$的偏导数$g_x,g_y,g_z$均连续，且$g\mid_P=0$，
 \[g_z|_{P}=2z|_{P}=2\sqrt{3}r\ne 0\]
 由隐函数定理知$g(x,y,z)=0$在$P$邻域内可确定唯一隐函数$z=z(x,y)$\\
 对$g(x,y,z(x,y))=0$左右求$x,y$偏导有

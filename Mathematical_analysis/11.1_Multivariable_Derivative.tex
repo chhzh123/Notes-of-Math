@@ -39,6 +39,26 @@
 \begin{theorem}
 两个偏导数都连续$\implies$可微$\implies$连续
 \end{theorem}
+微分中值定理在多元微积分依然是利器，上述定理和下面的例题均可用其证明。
+\begin{example}
+设$u=f(x,y)$在矩形：$a<x<b$，$c<y<d$内可微，且全微分$\diff u$恒为$0$，证明$f(x,y)\equiv C$
+\end{example}
+\begin{analysis}
+由全微分定义有
+\[\diff u=f_x\diff x+f_y\diff y\equiv 0\]
+推得
+\[f_x=f_y\equiv 0\]
+由微分中值定理
+\[\begin{aligned}
+f(x,y)-f(x_0,y_0)&=f(x,y)-f(x_0,y)+f(x_0,y)-f(x_0,y_0)\qquad\mbox{加一项减一项}\\
+&=f_x(x_0+\theta_1(x-x_0),y)(x-x_0)+f_y(x,y_0+\theta_2(y-y_0))(y-y_0)\\
+&=0\qquad\theta_1,\theta_2\in(0,1)
+\end{aligned}\]
+\end{analysis}
+类似可证下例。
+\begin{example}
+设$f_x$在$(x_0,y_0)$存在，$f_y$在$(x_0,y_0)$存在，则$f(x,y)$在$(x_0,y_0)$连续
+\end{example}
 \begin{definition}[高阶偏导数]
 以二阶为例，有以下四个偏导数，其中中间两个称为混合偏导数. 注意要将新偏导内容放最后
 \[\begin{aligned}
@@ -95,6 +115,11 @@ $n$阶全微分是$(n-1)$阶全微分作为$x,y$函数的全微分
 \end{analysis}
 二阶全微分不再具有形式不变性
 \[\diff^2 u=\left[\pdd{f}{x}(\diff x)^2+2\pddxy{f}{x}{y}\diff x\diff y+\pdd{f}{y}(\diff y)^2\right]+\left[\pd{f}{x}\diff^2 x+\pd{f}{y}\diff^2 y\right]\]
+常用于变量代换解偏微分方程，也有很多有趣的应用
+\begin{example}
+$z=f(x,y)$可微，在坐标旋转变换$x=u\cos\theta-v\sin\theta,y=u\sin\theta+v\cos\theta$下（其中旋转角$\theta$为常数），有\textbf{形式不变量}
+\[\lrp{\pd{z}{x}}^2+\lrp{\pd{z}{y}}^2\]
+\end{example}
 
 \subsection{隐函数偏导数}
 与一元的时候一样，将谁视为谁的函数，则需要用链式法则进行求导；但需要分清是否是复合函数，不是复合则直接用导数运算法则即可
@@ -102,6 +127,7 @@ $n$阶全微分是$(n-1)$阶全微分作为$x,y$函数的全微分
 $u=f(x+ut,y-ut)$求$u$关于$t$的偏导数
 \end{example}
 \begin{analysis}
+法一：\\
 设隐函数$u=g(x,y,t)$，令$a=x+ut,b=y-ut$，则
 \[\textcolor{red}{f}\Bigbr{a=x+ut=x+g(x,y,t)t=\textcolor{red}{a}(x,y,t)\begin{cases}x\\y\\\textcolor{red}{t}\end{cases}}{b=y-ut=y-g(x,y,t)t=\textcolor{red}{b}(x,y,t)\begin{cases}x\\y\\\textcolor{red}{t}\end{cases}}\]
 一定要分清哪些是复合函数，哪些不是. 如上式$f$与$a,b$是复合函数关系，故要用链式法则；而$a,b$与$x,y,t$并不是复合，而仅仅是等式关系.
@@ -114,6 +140,13 @@ u_t&=(f(a,b))_t\\
 \end{aligned}\]
 移项整理可得
 \[u_t=\dfrac{(f_a-f_b)u}{1-t(f_b-f_a)}\]
+法二：由一阶微分形式不变性\\
+\[\begin{aligned}
+\diff u&=f_a\diff(x+ut)+f_b\diff(y-ut)\\
+&=f_a(\diff x+t\diff u+u\diff t)+f_b(\diff y-t\diff u-u\diff t)
+\end{aligned}\]
+进而
+\[\diff u=\frac{f_a\diff x+f_b\diff y+u(f_a-f_b)\diff t}{1+t(f_b-f_a)}\]
 \end{analysis}
 对于隐函数组的情况，则相当于解一个线性方程组
 \begin{example}
@@ -161,57 +194,6 @@ r_x&=\cos\theta\qquad&r_y&=\sin\theta\\
 \theta_x&=-\frac{\sin\theta}{r}&\theta_y&=\frac{\cos\theta}{r}
 \end{aligned}\]
 \end{analysis}
-
-\subsection{几何应用}
-\subsubsection{空间曲线的切线与法平面}
-曲线上一点$(x,y,z)$的切向量为
-\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
-\[\mathbf{\tau}(x_0,y_0,z_0)=(A,B,C)\]
-则该点的切线方程为
-\[\frac{x-x_0}{A}=\frac{y-y_0}{B}=\frac{z-z_0}{C}\]
-法平面方程为
-\[\mathbf{\tau}\cdot(\vv-P)^\T=0\]
-
-\subsubsection{空间曲线的切平面与法线}
-法向量为
-\[\mathbf{n}(x,y,z)=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
-\[\mathbf{n}(x_0,y_0,z_0)=(A',B',C')\]
-则该点的法线方程为
-\[\frac{x-x_0}{A'}=\frac{y-y_0}{B'}=\frac{z-z_0}{C'}\]
-切平面方程为
-\[\mathbf{n}\cdot(\vv-P)=0\]
-
-\subsubsection{方向导数}
-即在某一个方向$\mathbf{l}$上的变化率
-\begin{theorem}
-若$f(x,y,z)$在点$P_0(x_0,y_0,z_0)$可微，则$f(x,y,z)$在$P_0$沿任何方向$\mathbf{l}$的方向导数都存在，且有
-\[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma=\nabla f(P_0)\cdot\cos\theta\]
-其中，$\cos\alpha,\cos\beta,\cos\gamma$是$\mathbf{l}$的方向余弦，即$\mathbf{l}$与三个坐标轴的夹角
-\end{theorem}
-
-\subsection{泰勒公式}
-\begin{theorem}[Taylor]
-设$f(x,y)$在$P_0(x_0,y_0)$的某邻域$O(P_0)$内有直到$n+1$阶连续偏导数，则对于$O(P_0)$内任一点$(x_0+\Delta x,y_0+\Delta y)$，存在$\theta\in(0,1)$使得
-\[\begin{aligned}
-f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^kf(x_0,y_0)+R_n\\
-&=f(x_0,y_0)+f_x(x_0,y_0)\Delta x+f_y(x_0,y_0)\Delta y\\
-&\quad+\frac{1}{2!}[f_{xx}(x_0,y_0)(\Delta x)^2+2f_{xy}(x_0,y_0)\Delta x\Delta y+f_{yy}(\Delta y)^2]+\cdots
-\end{aligned}\]
-其中，
-\[R_n=\frac{1}{(n+1)!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^{n+1}f(x_0+\theta\Delta x,y_0+\theta\Delta y)\]
-注意偏导数一项仅仅为算子，并不代表对$\Delta x$或$\Delta y$微分，真正的微分函数是$f$.
-采用更紧凑的矩阵表示法，设$\vx=(x_1,x_2,\ldots,x_n),\va=(a_1,a_2,\ldots,a_n)$（注意都是列向量形式），则
-\[f(\vx)=f(\va)+(\vx-\va)^\T\nabla f(\va)+\frac{1}{2!}(\vx-\va)^\T \mathbf{H}(\vx)(\vx-\va)+\cdots\]
-其中，$H$为$f$的二阶偏导数构成的矩阵，称为海森(Hessian)矩阵
-\[\mathbf{H}=\begin{bmatrix}\pdd{f}{x_1} & \pddxy{f}{x_1}{x_2} &\cdots &\pddxy{f}{x_1}{x_n}\\
-\pddxy{f}{x_2}{x_1}&\pdd{f}{x_2}&\cdots&\pddxy{f}{x_2}{x_n}\\
-\vdots&\vdots&\ddots&\vdots\\
-\pddxy{f}{x_n}{x_1}&\pddxy{f}{x_n}{x_2}&\cdots&\pdd{f}{x_n}\end{bmatrix}\]
-特别地，二元的情况有
-\[\mH(x,y)=\begin{bmatrix}f_{xx}(x,y) & f_{xy}(x,y)\\f_{yx}(x,y) & f_{yy}(x,y)\end{bmatrix}\]
-\end{theorem}
 
 \subsection{隐函数存在定理}
 三个条件简记为\textbf{偏导连续、初值为零、主元偏导不为零}
@@ -277,4 +259,26 @@ f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{
 	\end{aligned}\]
 	其中$J=\pd{(u,v)}{(x,y)}$
 \end{enumerate}
+\end{theorem}
+
+\subsection{泰勒公式}
+\begin{theorem}[Taylor]
+设$f(x,y)$在$P_0(x_0,y_0)$的某邻域$O(P_0)$内有直到$n+1$阶连续偏导数，则对于$O(P_0)$内任一点$(x_0+\Delta x,y_0+\Delta y)$，存在$\theta\in(0,1)$使得
+\[\begin{aligned}
+f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^kf(x_0,y_0)+R_n\\
+&=f(x_0,y_0)+f_x(x_0,y_0)\Delta x+f_y(x_0,y_0)\Delta y\\
+&\quad+\frac{1}{2!}[f_{xx}(x_0,y_0)(\Delta x)^2+2f_{xy}(x_0,y_0)\Delta x\Delta y+f_{yy}(\Delta y)^2]+\cdots
+\end{aligned}\]
+其中，
+\[R_n=\frac{1}{(n+1)!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^{n+1}f(x_0+\theta\Delta x,y_0+\theta\Delta y)\]
+注意偏导数一项仅仅为算子，并不代表对$\Delta x$或$\Delta y$微分，真正的微分函数是$f$.
+采用更紧凑的矩阵表示法，设$\vx=(x_1,x_2,\ldots,x_n),\va=(a_1,a_2,\ldots,a_n)$（注意都是列向量形式），则
+\[f(\vx)=f(\va)+(\vx-\va)^\T\nabla f(\va)+\frac{1}{2!}(\vx-\va)^\T \mathbf{H}(\vx)(\vx-\va)+\cdots\]
+其中，$H$为$f$的二阶偏导数构成的矩阵，称为海森(Hessian)矩阵
+\[\mathbf{H}=\begin{bmatrix}\pdd{f}{x_1} & \pddxy{f}{x_1}{x_2} &\cdots &\pddxy{f}{x_1}{x_n}\\
+\pddxy{f}{x_2}{x_1}&\pdd{f}{x_2}&\cdots&\pddxy{f}{x_2}{x_n}\\
+\vdots&\vdots&\ddots&\vdots\\
+\pddxy{f}{x_n}{x_1}&\pddxy{f}{x_n}{x_2}&\cdots&\pdd{f}{x_n}\end{bmatrix}\]
+特别地，二元的情况有
+\[\mH(x,y)=\begin{bmatrix}f_{xx}(x,y) & f_{xy}(x,y)\\f_{yx}(x,y) & f_{yy}(x,y)\end{bmatrix}\]
 \end{theorem}

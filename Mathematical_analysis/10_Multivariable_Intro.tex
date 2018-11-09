@@ -7,7 +7,7 @@
 \begin{enumerate}
 	\itemsep -3pt
 	\item 内点：存在邻域所有点都属于$E$，$\exists\delta>0:\,O(P_0,\delta)\subset E$
-	\item 外点：存在邻域所有点都不属于$E$，$\exists\delta>0:\,O(P_0,\delta)\cap E=\varnothing$
+	\item 外点：存在邻域所有点都不属于$E$，$\exists\delta>0:\,O(P_0,\delta)\cap E=\varnothing$或者维持对称性$\exists\delta>0:\,O(P_0,\delta)\subset\bar{E}$
 	\item 边界点：任意邻域都含有属于$E$的点也有非$E$的点，$\forall\delta>0:\,O(P_0,\delta)\cap E\ne\varnothing \land O(P_0,\delta)\backslash E\ne\varnothing$
 	\item 聚点：任意\textbf{空心}邻域都含有$E$的点，$\forall\delta>0:\,O^*(P_0,\delta)\cap E\ne\varnothing$
 \end{enumerate}
@@ -19,7 +19,7 @@
 \begin{enumerate}
 	\itemsep -3pt
 	\item 开集：类比开区间，所有$E$中的点都是内点
-	\item 闭集：类比闭区间，所有聚点都属于$E$；或定义为\textbf{补集为开集}的集合
+	\item 闭集：类比闭区间，所有聚点都属于$E$；或定义为\textbf{补集为开集}的集合（可用反证法证明）
 	\item 连通集：$E$中任两点都可用曲线相连
 	\item 开区域：开集且连通
 	\item 闭区域：开区域与其边界构成的集合
@@ -28,7 +28,7 @@
 \begin{enumerate}
 	\itemsep -3pt
 	\item[a.] 开集定义不是所有内点都属于$E$，因为内点必属于$E$. 开集换种说法应该是$E$中没有非内点的点
-	\item[b.] 闭区域\textbf{不是}定义为闭集且连通，考虑点集$E=\{(x,y)\mid x^2+y^2\leq 1\lor (x-2)^2+y^2\leq 1\}$是闭集且两个圆借助点$(1,0)$连通，但是去掉边界后，两个圆不再连通，即两个圆的内部不构成开区域，进而$E$不是闭集
+	\item[b.] 闭区域\textbf{不是}定义为闭集且连通，考虑点集$E=\{(x,y)\mid x^2+y^2\leq 1\lor (x-2)^2+y^2\leq 1\}$是闭集且两个圆借助点$(1,0)$连通，但是去掉边界后，两个圆不再连通，即两个圆的内部不构成开区域，进而$E$不是闭区域。故闭区域首先要保证为连通开集，然后添加边界
 \end{enumerate}
 \end{definition}
 \begin{theorem}
@@ -38,24 +38,11 @@
 \[\bigcap_{n=1}^\infty(-\frac{1}{n},\frac{1}{n})=0\]
 无限个闭集的并却为开集
 \[\bigcup_{n=1}^\infty[-1+\frac{1}{n},1-\frac{1}{n}]=(-1,1)\]
-\begin{definition}[对角线]
-$E\subset \rn$的对角线为
-\[d(E):=\sup_{x_1,x_2\in E}d(x_1,x_2)\]
-若$d(E)$是有限数，则称$E$有界
-\end{definition}
-\begin{definition}[紧集]
-设$E$为平面点集，若集合$E$的任一覆盖都有有限子覆盖，则称$E$为紧集.
-紧集具有以下性质
-\begin{enumerate}
-	\itemsep -3pt
-	\item 若$E$为$\rn$的紧集，则$E$为$\rn$的闭集
-	\item 任意含于$E$的闭集都为紧集
-	\item $E\subset\rn$是紧集当且仅当$E$是有界闭集
-\end{enumerate}
-\end{definition}
+\begin{corollary2}
+$F$为闭集，$G$为开集，则$F\backslash G$为闭集，$G\backslash F$为开集
+\end{corollary2}
 
-
-\subsection{多元函数的极限}
+\subsection{平面点列的性质}
 \begin{definition}[平面点列的极限]
 $\{P_n=(x_n,y_n)\}$为平面点列，若
 \[\forall \eps>0,\exists N\in\zz^+,s.t. n>N:r(P_n,P_0)<\eps,\]
@@ -73,7 +60,58 @@ $\{P_n=(x_n,y_n)\}$为平面点列，若
 	\item 有限覆盖定理：$E$为平面上有界闭集，$\xi$为$E$的一个覆盖，则$\xi$中存在有限个开集$G_1,G_2,\ldots,G_n$使得$E\subset \bigcup_{i=1}^n G_i$
 	\item 海涅定理：$\lim_{P\to P_0}f(P)=A$的充要条件为对$O^*(P_0,\delta)$中任意满足$P_n\to P_0(n\to\infty)$的点列$\{P_n\}$，有$\limtoinf f(P_n)=A$
 \end{enumerate}
+有限覆盖定理的应用往往是对集合内的每一个点构造一个开集，然后将这些点并起来构成覆盖
 \end{theorem}
+\begin{definition}[对角线]
+$E\subset \rn$的对角线为
+\[d(E):=\sup_{x_1,x_2\in E}d(x_1,x_2)\]
+若$d(E)$是有限数，则称$E$有界
+\end{definition}
+\begin{definition}[紧集]
+设$E$为平面点集，若集合$E$的任一覆盖都有有限子覆盖，则称$E$为紧集.
+紧集具有以下性质
+\begin{enumerate}
+	\itemsep -3pt
+	\item 若$E$为$\rn$的紧集，则$E$为$\rn$的闭集
+	\item 任意含于$E$的闭集都为紧集
+	\item $E\subset\rn$是紧集当且仅当$E$是有界闭集
+	\item $\exists P_1,P_2\in E:\;d(E)=r(P_1,P_2)$
+\end{enumerate}
+\end{definition}
+\begin{analysis}
+\begin{enumerate}
+\item 有界闭集的证明：\\
+取一列圆覆盖，$G_n=\{P\mid r(P,O)<n\}$，由于$E$有有限子覆盖，故
+\[\exists N>0,\forall P\in E:\;P\in G_N\implies r(P,O)<r_n\]
+进而$E$有界\\
+下证$E$为闭集，即证$\bar{E}$为开集，
+\[\forall P_0\in\bar{E},\exists\delta>0:\;O(P_0,\delta)\subset\bar{E},\mbox{也即}O(P_0,\delta)\cap E=\varnothing\]
+对于$E$中每一个$x$都可找到$\eps(x)$使得
+\[D_x=\{x\mid O(x,\eps(x))\cap O(P_0,\delta)=\varnothing\}\]
+则$\bigcup_{x\in E}D_x$构成一个开覆盖，有有限子覆盖$\xi$，由$D_x$的定义有$O(P_0,\delta)\cap\xi=\varnothing$\\
+又$E\subset\xi$，所以$O(p_0,\delta)\cap E=\varnothing$，故$\bar{E}$为开集
+\item 直径的证明：\\
+由直径的定义有，存在$E$中的点列$\{x_n\}$和$\{y_n\}$使得
+\[d-\frac{1}{n}<r(x_n,y_n)\leq d\]
+因为$E$为有界推出$\{x_n\}$有界，故由致密性定理，$\{x_n\}$存在收敛子列$\{x_{n_k}\}$收敛于$E$中某点$a$\\
+由$n_k\geq k$有
+\[d-\frac{1}{k}\leq d-\frac{1}{n_k}<r(x_{n_k},y_{n_k})\leq d\]
+再次运用致密性定理，$\{y_{n_k}\}$存在收敛子列$\{y_{n_{k_i}}\}$收敛于$E$中某点$b$\\
+由$n_{k_i}\geq k_i\geq i$有
+\[d-\frac{1}{i}\leq d-\frac{1}{n_{k_i}}<r(x_{n_{k_i}},y_{n_{k_i}})\leq d\]
+令$i\to\infty$，有$r(x_{n_{k_i}},y_{n_{k_i}})\to d$\\
+又$x_{n_{k_i}}$为$x_{n_k}$子列，$x_{n_k}$收敛于$a$，有$r(x_{n_{k_i}},a)\to 0$\\
+又$y_{n_{k_i}}$为$y_{n_k}$子列，$y_{n_k}$收敛于$b$，有$r(b,y_{n_{k_i}})\to 0$\\
+由三角不等式
+\[r(x_{n_{k_i}},a)+r(a,b)+r(b,y_{n_{k_i}})\geq r(x_{n_{k_i}},y_{n_{k_i}})\]
+令$i\to\infty$，有$r(a,b)\geq d$\\
+而由上确界定义有$r(a,b)\leq d$，故$r(a,b)=d$，$a,b$即为所求
+\end{enumerate}
+\end{analysis}
+紧不紧是空间的内蕴性质，闭不闭是空间和子空间的关系
+
+
+\subsection{多元函数的极限}
 \begin{definition}[二元函数的（全面）极限]
 $f$在$P_0(x_0,y_0)$的某个空心邻域有定义，
 \[\forall \eps>0,\exists\delta>0,s.t.\,\forall P\in O^*(P_0,\delta)\text{或}K^*(P_0,\delta):f(P)\in O(A,\eps)\]
@@ -81,6 +119,7 @@ $f$在$P_0(x_0,y_0)$的某个空心邻域有定义，
 \end{definition}
 全面极限即\textbf{同时}将$x,y$的值代入极限式中运算，而下面要提到的累次极限则是分开每次将$x,y$代入运算。
 \par 若求极限时遇到未定型的情况，则需采用一元函数求极限的方法（见第\ref{sec:limit}章），常见的如结合放缩用定义、分子分母有理化、夹逼、等价无穷小量代换等。
+如果是用定义证，则往往变成$x^2+y^2$或者$x+y$的形式（分别对应圆邻域和方邻域）。
 这里给出常见一元无穷小量的推广，当$u(x,y)\to 0$时，有
 \[\begin{aligned}
 \sin u(x,y)&\thicksim u(x,y)\\
