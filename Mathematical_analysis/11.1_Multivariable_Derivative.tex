@@ -2,7 +2,7 @@
 
 \section{多元函数的微分}
 \subsection{微分}
-偏导数的定义在此我们不再提及，在本节中我们主要采用下面两种记号
+偏导数的定义在此我们不再提及（即只将一个变量视为变量，其他变量视为常量），在本节中我们主要采用下面两种记号
 \[f_x(x,y):=\pd{f(x,y)}{x}\qquad f_y(x,y):=\pd{f(x,y)}{y}\]
 关于其他变元的偏导数采用类似的记法，之后不再赘述.
 关于简单偏导数的求法在此也不再提及，关键选定主元，区别变量与常数.
@@ -18,7 +18,24 @@
 \[\diff z\mid_{P_0}=f_x(x_0,y_0)\diff x+f_y(x_0,y_0)\diff y\]
 类似可定义$n$元函数$u=f(x_1,x_2,\ldots,x_n)$的全微分，
 \[\diff u=\pd{u}{x_1}\diff x_1+\pd{u}{x_2}\diff x_2+\cdots+\pd{u}{x_n}\diff x_n\]
+又由定义~\ref{def:multi_derivative_intro}，
+\[\lim_{\mathbf{h}\to \mathbf{0}}\frac{\|f(\mathbf{x}+\mathbf{h})-(f(\mathbf{x_0})+\mathbf{J}(\mathbf{x_0})\cdot \mathbf{h})\|_{\mathbb{R}^n}}{\|\mathbf{h}\|_{\mathbb{R}^m}}=0\]
+其中$\mathbf{J}$为雅可比(Jacobian)矩阵
+\[\mathbf{J}=\frac{\partial (y_1,\ldots,y_m)}{\partial (x_1,\ldots,x_n)}=\begin{bmatrix}
+\pd{y_1}{x_1} & \cdots & \pd{y_1}{x_n}\\
+\vdots & \ddots & \vdots\\
+\pd{y_m}{x_1} & \cdots & \pd{y_m}{x_n}
+\end{bmatrix}\]
+特别地，对于二元函数
+\[\mathbf{J}=\nabla f\implies \diff u=\nabla f\cdot\diff \vx\]
 \end{definition}
+直观地展示全微分，即为各个坐标方向上的增量乘上$\tan$切线夹角之和，见图\ref{fig:total_diff}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{fig/total_diff.eps}
+\caption{全微分}
+\label{fig:total_diff}
+\end{figure}
 \begin{theorem}
 两个偏导数都连续$\implies$可微$\implies$连续
 \end{theorem}
@@ -36,6 +53,8 @@
 \[\pddd{n}{f}{x^k}{y^{n-k}}=\dfrac{\partial^n f}{\partial y\partial x^k\partial y^{n-k-1}}=\cdots=\pddd{n}{f}{y^{n-k}}{x^{k}}\]
 \end{theorem}
 $n$阶全微分是$(n-1)$阶全微分作为$x,y$函数的全微分
+\par 注意$\diff x$、$\diff y$是自变量的微分，故视为常数，即
+\[\diff(\diff x)=\diff(\diff y)=0\]
 \begin{theorem}[高阶全微分]
 当$n$阶偏导数连续时，
 \[\begin{aligned}
@@ -78,14 +97,15 @@ $n$阶全微分是$(n-1)$阶全微分作为$x,y$函数的全微分
 \[\diff^2 u=\left[\pdd{f}{x}(\diff x)^2+2\pddxy{f}{x}{y}\diff x\diff y+\pdd{f}{y}(\diff y)^2\right]+\left[\pd{f}{x}\diff^2 x+\pd{f}{y}\diff^2 y\right]\]
 
 \subsection{隐函数偏导数}
-与一元的时候一样，将谁视为谁的函数，则需要用链式法则进行求导
+与一元的时候一样，将谁视为谁的函数，则需要用链式法则进行求导；但需要分清是否是复合函数，不是复合则直接用导数运算法则即可
 \begin{example}
 $u=f(x+ut,y-ut)$求$u$关于$t$的偏导数
 \end{example}
 \begin{analysis}
-设$u=g(x,y,t)$，令$a=x+ut,b=y-ut$，则
+设隐函数$u=g(x,y,t)$，令$a=x+ut,b=y-ut$，则
 \[\textcolor{red}{f}\Bigbr{a=x+ut=x+g(x,y,t)t=\textcolor{red}{a}(x,y,t)\begin{cases}x\\y\\\textcolor{red}{t}\end{cases}}{b=y-ut=y-g(x,y,t)t=\textcolor{red}{b}(x,y,t)\begin{cases}x\\y\\\textcolor{red}{t}\end{cases}}\]
-一定要分清哪些是自变量，哪些是因变量，如上式的$u$是因变量，真正的自变量是$x,y,t$
+一定要分清哪些是复合函数，哪些不是. 如上式$f$与$a,b$是复合函数关系，故要用链式法则；而$a,b$与$x,y,t$并不是复合，而仅仅是等式关系.
+同时也要分清哪些是自变量，哪些是因变量，如上式的$u$是因变量，真正的自变量是$x,y,t$
 \[\begin{aligned}
 u_t&=(f(a,b))_t\\
 &=f_a a_t+f_b b_t\qquad\mbox{链式法则}\\
@@ -97,12 +117,12 @@ u_t&=(f(a,b))_t\\
 \end{analysis}
 对于隐函数组的情况，则相当于解一个线性方程组
 \begin{example}
-极坐标变换$x=r\cos\theta,y=r\sin\theta$，求$r,\theta$的一阶偏导数
+极坐标变换$x=r\cos\theta,y=r\sin\theta$，求$r,\theta$关于$x,y$的一阶偏导数
 \end{example}
 \begin{analysis}
 法一：
 \[\begin{cases}
-x=r\cos\theta
+x=r\cos\theta\\
 y=r\sin\theta
 \end{cases}\]
 对上式左右两边同时对$x$求偏导数，有
@@ -145,7 +165,7 @@ r_x&=\cos\theta\qquad&r_y&=\sin\theta\\
 \subsection{几何应用}
 \subsubsection{空间曲线的切线与法平面}
 曲线上一点$(x,y,z)$的切向量为
-\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0)+z'(t_0)=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
+\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
 若曲线在$P(x_0,y_0,z_0)$的切向量为
 \[\mathbf{\tau}(x_0,y_0,z_0)=(A,B,C)\]
 则该点的切线方程为
@@ -167,7 +187,7 @@ r_x&=\cos\theta\qquad&r_y&=\sin\theta\\
 即在某一个方向$\mathbf{l}$上的变化率
 \begin{theorem}
 若$f(x,y,z)$在点$P_0(x_0,y_0,z_0)$可微，则$f(x,y,z)$在$P_0$沿任何方向$\mathbf{l}$的方向导数都存在，且有
-\[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma\]
+\[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma=\nabla f(P_0)\cdot\cos\theta\]
 其中，$\cos\alpha,\cos\beta,\cos\gamma$是$\mathbf{l}$的方向余弦，即$\mathbf{l}$与三个坐标轴的夹角
 \end{theorem}
 
@@ -181,7 +201,8 @@ f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{
 \end{aligned}\]
 其中，
 \[R_n=\frac{1}{(n+1)!}\lrp{\pd{}{x}\Delta x+\pd{}{y}\Delta y}^{n+1}f(x_0+\theta\Delta x,y_0+\theta\Delta y)\]
-用更紧凑的矩阵表示法，设$\vx=(x_1,x_2,\ldots,x_n),\va=(a_1,a_2,\ldots,a_n)$（注意都是列向量形式），则
+注意偏导数一项仅仅为算子，并不代表对$\Delta x$或$\Delta y$微分，真正的微分函数是$f$.
+采用更紧凑的矩阵表示法，设$\vx=(x_1,x_2,\ldots,x_n),\va=(a_1,a_2,\ldots,a_n)$（注意都是列向量形式），则
 \[f(\vx)=f(\va)+(\vx-\va)^\T\nabla f(\va)+\frac{1}{2!}(\vx-\va)^\T \mathbf{H}(\vx)(\vx-\va)+\cdots\]
 其中，$H$为$f$的二阶偏导数构成的矩阵，称为海森(Hessian)矩阵
 \[\mathbf{H}=\begin{bmatrix}\pdd{f}{x_1} & \pddxy{f}{x_1}{x_2} &\cdots &\pddxy{f}{x_1}{x_n}\\
@@ -193,6 +214,7 @@ f(x_0+\Delta x,y_0+\Delta y)&=\sum_{k=0}^n\frac{1}{k!}\lrp{\pd{}{x}\Delta x+\pd{
 \end{theorem}
 
 \subsection{隐函数存在定理}
+三个条件简记为\textbf{偏导连续、初值为零、主元偏导不为零}
 \begin{theorem}
 设$F(x_1,x_2,\ldots,x_k,\ldots,x_n)$满足下列条件：
 \begin{enumerate}

@@ -28,7 +28,7 @@
 \begin{enumerate}
 	\itemsep -3pt
 	\item[a.] 开集定义不是所有内点都属于$E$，因为内点必属于$E$. 开集换种说法应该是$E$中没有非内点的点
-	\item[b.] 闭区域不是定义为闭集且连通，考虑点集$E=\{(x,y)\mid x^2+y^2\leq 1\lor (x-2)^2+y^2\leq 1\}$是闭集且两个圆借助点$(1,0)$连通，但是去掉边界后，两个圆不再连通，即两个圆的内部不构成开区域，进而$E$不是闭集
+	\item[b.] 闭区域\textbf{不是}定义为闭集且连通，考虑点集$E=\{(x,y)\mid x^2+y^2\leq 1\lor (x-2)^2+y^2\leq 1\}$是闭集且两个圆借助点$(1,0)$连通，但是去掉边界后，两个圆不再连通，即两个圆的内部不构成开区域，进而$E$不是闭集
 \end{enumerate}
 \end{definition}
 \begin{theorem}
@@ -64,7 +64,7 @@ $\{P_n=(x_n,y_n)\}$为平面点列，若
 \begin{definition}[有界]
 若存在$M>0$使得$r(P_n,O)\leq M$，则称$\{P_n\}$有界
 \end{definition}
-对于实数系的各种定理，拓展到二维依然可用
+对于实数系的各种定理，拓展到二维依然可用，具体应用方式类似于一维的情况，可见第\ref{sec:real_fundamental}章。
 \begin{theorem}
 \begin{enumerate}
 	\item 柯西收敛原理：$\{P_n\}$收敛充要条件为$r(P_n,P_m)<\eps$
@@ -79,6 +79,17 @@ $f$在$P_0(x_0,y_0)$的某个空心邻域有定义，
 \[\forall \eps>0,\exists\delta>0,s.t.\,\forall P\in O^*(P_0,\delta)\text{或}K^*(P_0,\delta):f(P)\in O(A,\eps)\]
 则记$\limxy{x_0}{y_0}{f(x,y)}=A$
 \end{definition}
+全面极限即\textbf{同时}将$x,y$的值代入极限式中运算，而下面要提到的累次极限则是分开每次将$x,y$代入运算。
+\par 若求极限时遇到未定型的情况，则需采用一元函数求极限的方法（见第\ref{sec:limit}章），常见的如结合放缩用定义、分子分母有理化、夹逼、等价无穷小量代换等。
+这里给出常见一元无穷小量的推广，当$u(x,y)\to 0$时，有
+\[\begin{aligned}
+\sin u(x,y)&\thicksim u(x,y)\\
+\ln(1+u(x,y))&\thicksim u(x,y)\\
+\sqrt[n]{1+u(x,y)}-1&\thicksim\frac{u(x,y)}{n}\\
+\frac{\sin u(x,y)}{u(x,y)}&\to 1\\
+[1+u(x,y)]^\frac{1}{u(x,y)}&\to\ee
+\end{aligned}\]
+
 从二元函数的极限中我们得知，要使$P$的极限为$P_0$，则$P$可以以不同方向不同路径趋近$P_0$，这是一个非常强的条件，因此也可以由此证明某些极限不存在。
 如$f(x,y)=\dfrac{xy}{x^2+y^2}$，令$y$沿$kx$趋近于0，可证明$\limxy{0}{0}{f(x,y)}$不存在。
 \begin{theorem}[全面极限与累次极限的关系]

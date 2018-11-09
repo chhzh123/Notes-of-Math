@@ -1,0 +1,41 @@
+% !TEX root = main.tex
+
+\section{含参变量积分}
+\subsection{欧拉积分}
+\subsubsection{第二欧拉积分}
+\[\Gamma(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}\ee^{-x}},\,\alpha>0\]
+分析性质：
+\begin{enumerate}
+	\item 在定义域$\alpha>0$内连续且有任意阶连续导数
+	\[\Gamma^{(n)}(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}(\ln x)^n\ee^{-x}}\]
+	\item 递推公式
+	\[\Gamma(\alpha+1)=\alpha\Gamma(\alpha)\]
+	\[\begin{aligned}
+	\Gamma(\alpha)&=\Gamma(n+p)\\
+	&=(n+p-1)\cdots(1+p)p\Gamma(p),\,\alpha=n+p,\,p\in(0,1]
+	\end{aligned}\]
+	\item 由概率积分可得$\Gamma(\frac{1}{2})=\sqrt{\pi}$
+\end{enumerate}
+上不完全伽马函数(upper incomplete)
+\[ \Gamma(s,x) = \int_x^{\infty} t^{s-1}\ee^{-t}\diff t\]
+下不完全伽马函数(lower incomplete)
+\[ \gamma(s,x) = \int_{0}^{x}t^{s-1}\ee^{-t}\diff t\]
+递推关系
+\[\Gamma(s,x)=(s-1)\Gamma(s-1,x) + x^{s-1} \ee^{-x}\]
+\[\gamma(s,x)=(s-1)\gamma(s-1,x) - x^{s-1} \ee^{-x}\]
+\[\Gamma(s) = \Gamma(s,0)\]
+\[\gamma (s,x)+\Gamma (s,x)=\Gamma (s)\]
+
+\subsubsection{第一欧拉积分}
+\[B(a,b)=\intab{0}{1}{x^{a-1}(1-x)^{b-1}},\,a,b>0\]
+分析性质：
+\begin{enumerate}
+	\item 对称性：$B(a,b)=B(b,a)$
+	\item 递推公式
+	\[\begin{aligned}
+	B(a,b)&=\frac{b-1}{a+b-1}B(a,b-1),\,a>0,b>1\\
+	&=\frac{a-1}{a+b-1}B(a-1,b),\,a>1,b>0
+	\end{aligned}\]
+	\item 狄利克雷公式
+	\[B(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}\]
+\end{enumerate}

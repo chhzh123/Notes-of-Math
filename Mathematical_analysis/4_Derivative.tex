@@ -22,13 +22,14 @@
 因为可导（存在线性/一阶逼近）是比连续（存在常数/$0$阶逼近）更加强的性质，故可导是蕴含着连续的.
 \par 更一般地，结合线性代数的知识，我们可以有以下定义
 \begin{definition}
-对于函数$f:\mathbb{R}^n\to\mathbb{R}^m$，如果存在线性变换$T(\mathbf{x_0}):\mathbb{R}^n\to\mathbb{R}^m$使得
-\[\lim_{\mathbf{x}\to \mathbf{x_0}}\frac{\|f(\mathbf{x})-(f(\mathbf{x_0})+T(\mathbf{x_0})(\mathbf{x}-\mathbf{x_0}))\|}{\|\mathbf{x}-\mathbf{x_0}\|}=0\]
+\label{def:multi_derivative_intro}
+对于函数$f:\mathbb{R}^n\to\mathbb{R}^m$，如果存在线性变换$J(\mathbf{x_0}):\mathbb{R}^n\to\mathbb{R}^m$使得
+\[\lim_{\mathbf{h}\to \mathbf{0}}\frac{\|f(\mathbf{x}+\mathbf{h})-(f(\mathbf{x_0})+\mathbf{J}(\mathbf{x_0})\cdot \mathbf{h})\|_{\mathbb{R}^n}}{\|\mathbf{h}\|_{\mathbb{R}^m}}=0\]
 则称$f(\mathbf{x})$在$\mathbf{x_0}$可微，线性变换$T(\mathbf{x_0})$称为$f$在$\mathbf{x_0}$处的导数.
 \par 特殊地，取$n=m=1$，$f(x)$为一元函数；取$m=1$，$f(x)$为多元函数.
 \end{definition}
-实际上这个定义也是采用逼近的思想，用一个$n$维的线性映射来逼近一个$n$元的函数.\footnote{多元函数中可微与可导的直观区别是什么？ - 冯白羽的回答 - 知乎 \url{https://www.zhihu.com/question/23468713/answer/26043048}}
-\par 结合定义\ref{differentiability}我们可以得到，对于一元函数，可微与可导等价，因为$f(x)$可微就存在一个线性逼近$L(x)=T(x_0)(x-x_0)+f(x_0)$，也就对应着这样一个线性变换$T(x_0)$，即其导数，故可导；反过来，$f(x)$可导，即存在一个线性变换$T(x_0)$，也就存在一个线性逼近$L(x)$同上定义符合逼近性质，进而推出$f(x)$可微.
+实际上这个定义也是采用逼近的思想，用一个$n$维的线性映射来逼近一个$n$元的函数.\footnote{多元函数中可微与可导的直观区别是什么？ - 余翔的回答 - 知乎 \url{https://www.zhihu.com/question/23468713/answer/35850882}}
+\par 结合定义\ref{differentiability}我们可以得到，对于一元函数，可微与可导等价，因为$f(x)$可微就存在一个线性逼近$L(x)=J(x_0)(x-x_0)+f(x_0)$，也就对应着这样一个线性变换$T(x_0)$，即其导数，故可导；反过来，$f(x)$可导，即存在一个线性变换$J(x_0)$，也就存在一个线性逼近$L(x)$同上定义符合逼近性质，进而推出$f(x)$可微.
 \par 但对于多元函数，可微（可以全微分）说明存在一个与曲面相切的（超）平面，那其各个方向的偏导数都应存在；而可导（可求偏导）只是存在某个方向的切线，不能推出可微.
 \par 至于高阶微分只需知道以下一些事实：
 \begin{enumerate}
