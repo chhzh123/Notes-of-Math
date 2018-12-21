@@ -1,0 +1,209 @@
+\documentclass[UTF8]{ctexbeamer}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb}
+\usepackage{color,xcolor}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{amsthm}
+
+\def\diff{\,\mathrm{d}}
+\newtheorem{exercise}[theorem]{练习} %*去除编号
+
+\usetheme{AnnArbor}
+\usefonttheme[onlymath]{serif}
+\usecolortheme{crane}
+
+\title{不定积分与定积分}
+\subtitle{Week 3}
+
+\author[chhzh123]{陈鸿峥}
+\institute[]{\small\url{https://github.com/chhzh123/Notes-of-Math/blob/master/Mathematical_analysis/main.pdf}}
+\date[Dec, 2018]{December, 2018}
+
+\keywords{}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\tableofcontents[subsectionstyle=show]
+\end{frame}
+
+\section{基础公式}
+\begin{frame}
+\sectionpage
+\end{frame}
+
+\begin{frame}{基础公式}
+\[\begin{aligned}
+&\int\frac{1}{x}\diff x=\ln|x|+C\\
+&\int\sec^2x\diff x=\tan x+C\\
+&\int\csc^2x\diff x=-\cot x+C\\
+&\int\frac{1}{\sqrt{1-x^2}}\diff x=\arcsin x+C\\
+&\int\frac{1}{1+x^2}\diff x=\arctan x+C
+\end{aligned}\]
+记得加C！
+\end{frame}
+
+\section{三种基本积分方法}
+\begin{frame}
+\sectionpage
+\end{frame}
+
+\begin{frame}{凑微分/第一换元法}
+从积分项中提取部分出来拉到微分项中
+\begin{example}
+\[\int\tan x\diff x\]
+\end{example}
+\begin{exercise}
+\[\int \tan^3 x\diff x\]
+\end{exercise}
+\end{frame}
+
+\begin{frame}{第二换元法}
+\begin{itemize}
+	\item 直接换元（令$x=g(u)$），注意$\diff x$也需要一起换.
+	\item 常见于三角还原或消根式
+\end{itemize}
+\begin{example}[\textsection 6.2/例12]
+\[\int\frac{\diff x}{x^2\sqrt{x^2-1}}\]
+\end{example}
+\end{frame}
+
+\begin{frame}{分部积分法}
+\begin{itemize}
+	\item 先写成$\displaystyle\int u(x)\diff v(x)$的形式，然后直接交换$u(x),v(x)$即可
+	\item 选取$u(x)$顺序：\textbf{对反幂三指}，如求$\displaystyle\int x^2\cos x\diff x$，取$u(x)=x^2$，化为$\displaystyle\int x^2\diff\sin x$
+\end{itemize}
+\begin{example}
+\[\int\ln x\diff x\]
+\end{example}
+\end{frame}
+
+\begin{frame}{常见公式}
+见笔记
+\end{frame}
+
+\section{不同类型积分常见思路}
+\begin{frame}
+\sectionpage
+\end{frame}
+
+\subsection{有理分式}
+\begin{frame}
+\subsectionpage
+\end{frame}
+
+\begin{frame}{假分式}
+同样，对于求积分来说，{\large\textcolor{red}{化简}}也是关键的，\textbf{假分式}先除下来变为真分式（长除法）！
+\begin{example}
+\[\int\frac{2x^3-4x^2-x-3}{x^2-2x-3}\diff x\]
+\end{example}
+\begin{exercise}[\textsection 6.1/1(5)]
+\[\int\frac{3x^2}{1+x^2}\diff x\]
+\end{exercise}
+\begin{exercise}[\textsection 6.1/1(6)]
+\[\int\frac{x+1}{\sqrt{x}}\diff x\]
+\end{exercise}
+\end{frame}
+
+\begin{frame}{部分分式}
+全部变为真分式后，用\textbf{部分分式}进行拆分（代数基本定理），分母全部分解为一次乘二次的形式
+\[\prod_{i=1}^k(x-a_i)^{j_i}\prod_{i=1}^s(x^2+p_ix+q_i)^{l_i}\]
+结合分子，即有部分分式的两种基本形式
+\[\frac{A}{(x-a)^n},\quad\frac{Bx+C}{(x^2+px+q)^n}\]
+如何积？
+\end{frame}
+
+\begin{frame}{部分分式}
+\begin{itemize}
+	\item 多项式的因式分解（首尾系数猜根）
+	\[x^3+5x^2+8x+4\]
+	\[x^5-x^4+2x^3-2x^2+x-1\]
+	\item 线性因子掩盖法
+	\item 补齐次数（对比系数解方程）
+\end{itemize}
+\end{frame}
+
+\begin{frame}{部分分式}
+\begin{example}
+\[\int\frac{\diff x}{1+x^4}\]
+\end{example}
+\end{frame}
+
+\begin{frame}{配凑}
+配凑为分母形式
+\begin{example}
+\[\int\frac{x\mathbb{e}^x}{(x+1)^2}\diff x\]
+\end{example}
+\begin{exercise}
+\[\int\frac{x^2+2}{(x+1)^3}\diff x\]
+\end{exercise}
+\end{frame}
+
+\begin{frame}{配凑}
+配凑为导数形式
+\begin{example}
+\[\int\frac{x+1}{x^2+x+1}\]
+\end{example}
+\end{frame}
+
+\begin{frame}{总结}
+\begin{itemize}
+	\item 假分式先除下来变为真分式，然后用部分分式
+	\item 若非纯有理分式（如各种基本初等函数的组合)或分母次数太高，则将分子配凑成分母形式或分母导数形式以便分拆相加（这两种方式都十分常用）
+	\item 分母一定要先分解为一次乘二次的形式（虚数也可），也即分解为
+		\[\prod_{i=1}^k(x-a_i)^{j_i}\prod_{i=1}^s(x^2+p_ix+q_i)^{l_i}\]
+		结合分子，也就有部分分式的两种基本形式
+		\[\frac{A}{(x-a)^n},\quad\frac{Bx+C}{(x^2+px+q)^n}\]
+	\item 前者直接积，后者配平方
+	\item 小技巧：通过倒代换$\displaystyle x=\frac{1}{t}$降低分母次数，有$\displaystyle\frac{1}{x},\frac{1}{x^2}$等部分的可以考虑，如$\displaystyle\int\frac{\diff x}{x^{100}+x}$也可使用
+\end{itemize}
+\end{frame}
+
+\subsection{三角函数}
+\begin{frame}
+\subsectionpage
+\end{frame}
+
+\begin{frame}{恒等变换}
+\begin{itemize}
+	\item 半角
+	\item 倍角（降幂升角）
+	\item 积化和差
+	\item 和差化积（不同角）
+	\item 万能公式
+	\item 辅助角（相同角）
+\end{itemize}
+\end{frame}
+
+\begin{frame}{恒等变换}
+\begin{exercise}[\textsection 6.1/1(9)]
+\[\int(\tan^2 x+3)\diff x\]
+\end{exercise}
+\end{frame}
+
+\begin{frame}{恒等变换}
+结合凑微分法努力化为同名函数
+\begin{example}
+\[\int\frac{\sin^3x}{1+\cos^2 x}\diff x\]
+\end{example}
+化为有关系的式子
+\begin{example}
+\[\int\frac{\diff x}{\sin^2 x\cos x}\]
+\end{example}
+\end{frame}
+
+\subsection{根式}
+\begin{frame}
+\subsectionpage
+\end{frame}
+
+\begin{frame}{根式}
+见笔记
+\end{frame}
+
+\end{document}
