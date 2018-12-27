@@ -17,10 +17,10 @@
 比较基础的公式在此不再列举，以下积分是在题目中比较常见，均需熟练掌握推导
 \begin{enumerate}
 \item 对数
-\[\int \ln x\diff x=x(\ln x-1)+C\qquad\mbox{凑微分法}\]
+\[\int \ln x\diff x=x(\ln x-1)+C\qquad\mbox{分部积法}\]
 \item （反）三角函数
 \[\int \tan x\diff x=-ln|\cos x|+C\qquad\mbox{凑微分法,小心}-\mbox{号}\]
-\[\int \cot x\diff x=ln|\sin x|+C\qquad\mbox{分部积分}\]
+\[\int \cot x\diff x=ln|\sin x|+C\qquad\mbox{凑微分}\]
 \[\int \sec x\diff x=ln|\sec x+\tan x|+C\qquad\mbox{乘}\frac{\sec x+\tan x}{\sec x+\tan x}\]
 \[\int \csc x\diff x=ln|\csc x-\cot x|+C\qquad\mbox{乘}\frac{\csc x+\cot x}{\csc x+\cot x}\]
 \[\int \arcsin x\diff x=x\arcsin x+\sqrt{1-x^2}+C\qquad\mbox{分部积分}\]
@@ -30,8 +30,8 @@
 \[\int \frac{\diff x}{\pm(x^2-a^2)}=\pm\frac{1}{2a} \ln\left|\frac{x-a}{x+a}\right|+C\qquad\mbox{裂项可得}\]
 \[\int \frac{\diff x}{\sqrt{a^2-x^2}}=\arcsin\frac{x}{a}+C\qquad\mbox{将}a^2\mbox{提出来}\]
 \[\int \frac{\diff x}{\sqrt{x^2\pm a^2}}=\ln|x+\sqrt{x^2\pm a^2}|+C\qquad\mbox{三角换元，注意会有$1/a$，但为常数}\]
-\[\int \sqrt{a^2-x^2}\diff x=\frac{a^2}{2}\arcsin\frac{x}{a}+\frac{x}{2}\sqrt{a^2-x^2}+C\qquad\mbox{分子有理化$+$分部积分}\]
-\[\int \sqrt{x^2\pm a^2}\diff x=\pm\frac{a^2}{2} \ln\Big|x+\sqrt{x^2\pm a^2}\Big|+\frac{x}{2}\sqrt{x^2\pm a^2}+C\qquad\mbox{分子有理化$+$分部积分}\]
+\[\int \sqrt{a^2-x^2}\diff x=\frac{a^2}{2}\arcsin\frac{x}{a}+\frac{x}{2}\sqrt{a^2-x^2}+C\qquad\mbox{三角换元}\]
+\[\int \sqrt{x^2\pm a^2}\diff x=\pm\frac{a^2}{2} \ln\Big|x+\sqrt{x^2\pm a^2}\Big|+\frac{x}{2}\sqrt{x^2\pm a^2}+C\qquad\mbox{三角换元}\]
 \end{enumerate}
 注意：
 \begin{enumerate}
@@ -44,7 +44,7 @@
 \begin{enumerate}
 	\item 有理分式
 	\begin{itemize}
-		\item 假分式先除下来变为真分式，然后用部分分式
+		\item 假分式先除下来变为真分式，然后用部分分式（线性因子Heaviside掩盖法）
 		\item 若非纯有理分式（如各种基本初等函数的组合，见例\ref{egfrac2}），或分母次数太高（见例\ref{egfrac3}），则将分子配凑成分母形式或分母导数形式以便分拆相加（这两种方式都十分常用）
 		\item 分母一定要先分解为一次乘二次的形式（虚数的情况请看例\ref{egfrac1}），也即分解为
 			\[\prod_{i=1}^k(x-a_i)^{j_i}\prod_{i=1}^s(x^2+p_ix+q_i)^{l_i}\]
