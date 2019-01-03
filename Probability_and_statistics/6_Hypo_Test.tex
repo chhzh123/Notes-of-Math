@@ -1,0 +1,36 @@
+% !TEX root = main.tex
+
+\section{假设检验}
+\subsection{假设检验}
+\begin{definition}[显著性检验]
+在显著性水平$\alpha$下，检验假设
+\[H_0:\mu=\mu_0,\;H_1:\mu\ne\mu_0\]
+其中$H_0$称为原假设或零假设，$H_1$称为备择假设
+\end{definition}
+正态总体的假设检验与区间估计类似
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+原假设$H_0$ & 检验统计量 & 拒绝域\\\hline
+\begin{tabular}{c}$\mu\leq\mu_0$\\$\mu\geq\mu_0$\\$\mu=\mu_0$\\($\sigma^2$已知)\end{tabular} & $Z=\dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$ & \begin{tabular}{c}$z\geq z_{\alpha}$\\$z\leq-z_{\alpha}$\\$|z|\geq z_{\alpha/2}$\end{tabular}\\\hline
+\begin{tabular}{c}$\mu\leq\mu_0$\\$\mu\geq\mu_0$\\$\mu=\mu_0$\\($\sigma^2$未知)\end{tabular} & $t=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ & \begin{tabular}{c}$t\geq t_\alpha(n-1)$\\$t\leq-t_\alpha(n-1)$\\$|t|\geq t_{\alpha/2}(n-1)$\end{tabular}\\\hline
+\end{tabular}
+\end{center}
+成对数据的假设检验即作差，检验均值是否为$0$
+\begin{definition}[p值]
+假设检验问题的p值(probability value)是由检验统计量的样本观察值得出的原假设可被拒绝的最小显著性水平
+\end{definition}
+
+\subsection{分布拟合检验}
+\begin{theorem}[分布拟合检验]
+设总体$X$分布未知，假设检验
+\[\begin{aligned}
+H_0&:\;\text{总体$X$的分布函数为}F(x)\\
+H_1&:\;\text{总体$X$的分布函数不是}F(x)
+\end{aligned}\]
+\[\chi^2=\sum_{i=1}^k\frac{n}{p_i}\lrp{\frac{f_i}{n}-p_i}^2=\sum_{i=1}^k\dfrac{f_i^2}{np_i}-n\thicksim\chi^2(k-1)\]
+需满足$H_0$为真，$n\geq 50$，$np_i\geq 5$，否则进行并组
+\end{theorem}
+\begin{theorem}[分布族的拟合检验]
+\[H_0:\;\text{总体$X$的分布函数为}F(x;\theta_1,\ldots,\theta_r)\]
+\[\chi^2=\sum_{i=1}^k\dfrac{f_i^2}{n\hat{p_i}}-n\thicksim\chi^2(k-r-1)\]
+\end{theorem}

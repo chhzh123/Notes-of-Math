@@ -1,10 +1,10 @@
 \usepackage{geometry,setspace}
 \usepackage{amsthm,amsmath,amsfonts,amssymb} %\because\therefore
 \usepackage{tikz,tikz-cd,pgfplots}
-\usepackage{mathtools,gensymb,extarrows,bm} %underset
+\usepackage{mathtools,gensymb,extarrows,bm,yhmath,esint} %underset, oiint
 \usepackage{cancel}
 \usepackage{enumerate}%,enumitem
-\usepackage{multicol,array}
+\usepackage{multicol,array,multirow,bigstrut}
 \usepackage{verbatim} %comment
 \usepackage{float}
 \usepackage{url}
@@ -41,9 +41,9 @@
 \def\eps{\varepsilon}
 \def\ee{\mathrm{e}}
 \def\exp{\mathrm{exp}}
-\def\div{\mathrm{div}}
-\def\grad{\mathrm{grad}}
-\def\rot{\mathrm{rot}}
+\def\div{\mathrm{div}\,}
+\def\grad{\mathrm{grad}\,}
+\def\rot{\mathrm{rot}\,}
 
 % vector
 \def\va{\mathbf{a}}
@@ -55,11 +55,16 @@
 \def\vi{\mathbf{i}}
 \def\vj{\mathbf{j}}
 \def\vk{\mathbf{k}}
+\def\vr{\mathbf{r}}
+\def\vs{\mathbf{s}}
 \def\vx{\mathbf{x}}
 \def\vy{\mathbf{y}}
 \def\vv{\mathbf{v}}
 \def\vu{\mathbf{u}}
 \def\vzero{\mathbf{0}}
+\def\vF{\mathbf{F}}
+\def\vS{\mathbf{S}}
+\def\vtau{\bm{\tau}}
 
 % matrix
 % \def\+#1{\mathbf{#1}}
@@ -105,6 +110,7 @@
 \newcommand{\nums}[1]{\{#1\}}
 \newcommand{\floor}[1]{\lfloor#1\rfloor}
 \newcommand{\dnf}[1]{f^{(#1)}}
+\newcommand{\arc}[1]{\wideparen{#1}}
 
 \newcommand{\proj}[1]{\mathrm{proj}_{#1}}
 \newcommand{\inp}[2]{\langle #1,#2 \rangle}

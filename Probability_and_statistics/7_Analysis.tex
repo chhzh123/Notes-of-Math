@@ -1,0 +1,34 @@
+% !TEX root = main.tex
+
+\section{方差分析及回归分析}
+\subsection{单因素方差分析}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}\hline
+方差来源 & 平方和 & 自由度 & 均方 & F比\\\hline
+因素A & $\displaystyle S_A=\sum_{j=1}^s\sum_{i=1}^{n_j}(\bar{X}_{\cdot j}-\bar{X})^2$ & $s-1$ & $\bar{S}_A=\dfrac{S_A}{s-1}$ & $F=\dfrac{\bar{S}_A}{\bar{S}_B}$\\\hline
+误差 & $\displaystyle S_E=\sum_{j=1}^s\sum_{i=1}^{n_j}(X_{ij}-\bar{X}_{\cdot j})^2$ & $n-s$ & $\bar{S}_E=\dfrac{S_E}{n-s}$ &\\\hline
+总和 & $\displaystyle S_T=S_E+S_A=\sum_{j=1}^s\sum_{i=1}^{n_j}(X_{\cdot j}-\bar{X})^2$ & $n-1$ & & \\\hline
+\end{tabular}
+\end{center}
+
+\subsection{一元线性回归}
+$\hat{y}=\hat{b}x+\hat{a}$
+\[\begin{aligned}
+S_{xx}&=\sum_{i=1}^n(x_i-\bar{x})^2=\sum_{i=1}^nx_i^2-\frac{1}{n}\lrp{\sum_{i=1}^nx_i}^2\\
+S_{yy}&=\sum_{i=1}^n(y_i-\bar{y})^2=\sum_{i=1}^ny_i^2-\frac{1}{n}\lrp{\sum_{i=1}^ny_i}^2\\
+S_{xy}&=\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})=\sum_{i=1}^nx_iy_i-\frac{1}{n}\lrp{\sum_{i=1}^nx_i}\lrp{\sum_{i=1}^ny_i}
+\end{aligned}\]
+\begin{enumerate}
+	\item $\displaystyle\hat{b}=\dfrac{\displaystyle n\sum_{i=1}^nx_iy_i-\lrp{\sum_{i=1}^nx_i}\lrp{\sum_{i=1}^ny_i}}{\displaystyle n\sum_{i=1}^nx_i^2-\lrp{\sum_{i=1}^nx_i}^2}=\frac{S_{xy}}{S_{xx}}\qquad\hat{a}=\bar{y}-\hat{b}\bar{x}$
+	\item 误差$\varepsilon$的方差$D(\eps)=\sigma^2$的无偏估计
+	\[\widehat{\sigma^2}=\frac{Q_e}{n-2}=\frac{\sum_{i=1}^n(y_i-\hat{a}-\hat{b}x_i)^2}{n-2}=\frac{S_{yy}-\hat{b}S_{xy}}{n-2}\]
+	\item 线性假设：$H_0:b=0,H_1:b\ne 0$的显著性检验，$H_0$的拒绝域为
+	\[|t|=\frac{|\hat{b}|}{\hat{\sigma}}\sqrt{S_{xx}}\geq t_{\alpha/2}(n-2)\]
+	若拒绝$H_0$则回归效果显著
+	\item 回归系数$b$的置信水平为$1-\alpha$的置信区间
+	\[\lrp{\hat{b}\pm t_{\alpha/2}(n-2)\frac{\hat{\sigma}}{\sqrt{S_{xx}}}}\]
+	\item 回归函数$\mu(x)$在点$x=x_0$处函数值置信水平为$1-\alpha$的置信区间
+	\[(\hat{a}+\hat{b}x_0\pm t_{\alpha/2}(n-2)\hat{\sigma}\sqrt{1/n+(x_0-\bar{x})^2/S_{xx}})\]
+	\item 以$x_0$处的回归值$\hat{y}_0=\hat{a}+\hat{b}x_0$作为$Y$在$x_0$处观察值$Y_0=a+bx_0+\eps_0$的预测值，则$Y_0$的置信水平为$1-\alpha$的预测区间为
+	\[(\hat{a}+\hat{b}x_0\pm t_{\alpha/2}(n-2)\hat{\sigma}\sqrt{1+1/n+(x_0-\bar{x})^2/S_{xx}})\]
+\end{enumerate}

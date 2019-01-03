@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\section{统计}
+\section{参数估计}
 \subsection{样本与抽样}
 \begin{definition}[简单随机样本]
 在相同的条件下对总体$X$进行$n$次重复的、独立的观察，将$n$次观察结果按照实验的次序记为$X_1,X_2,\ldots,X_n$，则这些变量都\textbf{相互独立}且与$X$有\textbf{相同分布}
@@ -30,6 +30,16 @@
 	\item $\dfrac{(n-1)S^2}{\sigma^2}\thicksim \chi^2(n-1)$
 	\item $\bar{X}$与$S^2$相互独立
 	\item $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}\thicksim t(n-1)$
+\end{enumerate}
+\end{theorem}
+\begin{theorem}
+对于两个正态总体的样本$X$和$Y$有
+\begin{enumerate}
+	\item $\displaystyle \frac{S_1^2/S_2^2}{\sigma_1^2/\sigma_2^2}\thicksim F(n_1-1,n_2-1)$
+	\item 当$\sigma_1^2=\sigma_2^2=\sigma^2$时
+	\[\frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_w\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\thicksim t(n_1+n_2-2)\]
+	其中，
+	\[S_w^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2},\;S_w=\sqrt{S_w^2}\]
 \end{enumerate}
 \end{theorem}
 
@@ -85,6 +95,29 @@ $k$个方程组便可解得$k$个估计量$\hat{\theta_l}$
 
 \subsubsection{最大似然估计法}
 \[L(\theta)=L(x_1,x_2,\ldots,x_n;\theta)=\prod_{i=1}^np(x_i;\theta),\,\theta\in\Theta\]
+
+\subsubsection{区间估计}
+\begin{definition}[置信区间]
+\[\pr{\underline{\theta}<\theta<\bar{\theta}}\geq 1-\alpha\]
+\end{definition}
+正态总体的区间估计
+\begin{center}
+\small
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+          待估参数 & 其他参数 & 枢轴量 & 置信区间 \bigstrut\\
+    \hline
+   $\mu$    & $\sigma^2$已知      & $Z=\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}\thicksim N(0,1)$      &  $\lrp{\bar{X}\pm\dfrac{\sigma}{\sqrt{n}}z_{\alpha/2}}$ \bigstrut\\\hline
+   $\mu$    &  $\sigma^2$未知     &    $t=\dfrac{\bar{X}-\mu}{S/\sqrt{n}}\thicksim t(n-1)$   & $\lrp{\bar{X}\pm\dfrac{S}{\sqrt{n}}t_{\alpha/2}(n-1)}$ \bigstrut\\\hline
+   $\sigma^2$    &  $\mu$未知     &  $\chi^2=\dfrac{(n-1)S^2}{\sigma^2}\thicksim\chi^2(n-1)$     &  $\lrp{\dfrac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)},\dfrac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}}$ \bigstrut\\
+    \hline
+  $\mu_1-\mu_2$     &  $\sigma^2_1,\sigma^2_2$已知     &  $Z=\dfrac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}\thicksim N(0,1)$     & $\lrp{\bar{X}-\bar{Y}\pm z_{\alpha/2}\sqrt{\dfrac{\sigma^2_1}{n_1}+\dfrac{\sigma_2^2}{n_2}}}$ \bigstrut\\\hline
+   $\mu_1-\mu_2$    &  $\sigma^2_1=\sigma^2_2=\sigma^2$未知     &  $t=\dfrac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_w\sqrt{1/n_1+1/n_2}}\thicksim t(n_1+n_2-2)$     & $\lrp{\bar{X}-\bar{Y}\pm t_{\alpha/2}(n_1+n_2-2)S_w\sqrt{\dfrac{1}{n_1}+\dfrac{2}{n_2}}}$ \bigstrut\\\hline
+ $\dfrac{\sigma_1^2}{\sigma_2^2}$       &  $\mu_1,\mu_2$未知     & $F=\dfrac{S_1^2/S_2^2}{\sigma_1^2/\sigma_2^2}\thicksim F(n_1-1,n_2-1)$      & \begin{tabular}{c}$\Big(\dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{\alpha/2}(n_1-1,n_2-1)},$\\
+ $\dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{1-\alpha/2}(n_1-1,n_2-1)}\Big)$\end{tabular} \bigstrut\\
+    \hline
+    \end{tabular}%
+\end{center}
 
 
 \subsection{可视化}
