@@ -50,6 +50,10 @@
 设试验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\ldots,B_n$为$S$的一个划分，且$\pr{B_i}>0$，则
 \[\pr{A}=\pr{AB_1}+\pr{AB_2}+\cdots+\pr{AB_n}=\pr{A\mid B_1}\pr{B_1}+\pr{A\mid B_2}+\cdots+\pr{A\mid B_n}\pr{B_n}\]
 \end{theorem}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.35\linewidth]{fig/total_probability.PNG}
+\end{figure}
 \begin{theorem}[贝叶斯(Bayes)公式]
 设试验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\ldots,B_n$为$S$的一个划分，且$\pr{A}>0,\pr{B_i}>0$，则
 \[\pr{B_i\mid A}=\frac{\pr{B_iA}}{\pr{A}}=\frac{\pr{A\mid B_i}\pr{B_i}}{\displaystyle\sum_{i=1}^nP(A\mid B_i)\pr{B_i}}\]

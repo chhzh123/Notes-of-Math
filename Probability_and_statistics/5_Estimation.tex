@@ -11,25 +11,25 @@
 \begin{definition}[统计量]
 样本平均
 \[\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i\]
-样本方差（期望估计量$\E(S^2)=\sigma^2$）
+样本方差（期望估计量$\E{S^2}=\sigma^2$）
 \[S^2=\frac{1}{\textcolor{red}{n-1}}\sum_{i=1}^n(X_i-\bar{X})^2=\frac{1}{n-1}\lrp{\sum_{i=1}^nX_i^2-n\bar{X}^2}\]
 样本$k$阶中心矩
-\[B_k=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^k\]
+\[A_k=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^k\]
 经验分布函数
 \[F_n(x)=\frac{1}{n}S(x)\]
 其中$S(x)$是$X_1,X_2,\ldots,X_n$中不大于$x$的随机变量的个数
 \end{definition}
 \begin{theorem}
 设总体$X$（不管服从什么分布），均值为$\mu$，方差为$\sigma^2$，$X_1,X_2,\ldots,X_n$为来自$X$的一个样本，$\bar{X}$为样本均值，$S^2$为样本方差，则
-\[\E{\bar{X}}=\mu,\,\Var{\bar{X}}=\sigma^2/n\]
+\[\E{\bar{X}}=\mu,\,\Var{\bar{X}}=\sigma^2/n=(\sigma/\sqrt{n})^2\]
 \end{theorem}
 \begin{theorem}
 设$X_1,X_2,\ldots,X_n$是来自正态总体$N(\mu,\sigma^2)$的样本，则
 \begin{enumerate}
-	\item $\bar{X}\thicksim N(\mu,\sigma^2/n)$（注意$\Var{X}=(\sigma/\sqrt{n})^2$）
+	\item $\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}\thicksim N(0,1)$或$\bar{X}\thicksim N(\mu,\sigma^2/n)$（中心极限定理）
+	\item $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}\thicksim t(n-1)$
 	\item $\dfrac{(n-1)S^2}{\sigma^2}\thicksim \chi^2(n-1)$
 	\item $\bar{X}$与$S^2$相互独立
-	\item $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}\thicksim t(n-1)$
 \end{enumerate}
 \end{theorem}
 \begin{theorem}
@@ -40,6 +40,7 @@
 	\[\frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_w\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\thicksim t(n_1+n_2-2)\]
 	其中，
 	\[S_w^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2},\;S_w=\sqrt{S_w^2}\]
+	$S_w$为$\sigma^2$的无偏估计量
 \end{enumerate}
 \end{theorem}
 
@@ -56,6 +57,9 @@
 	\end{aligned}\]
 	$\chi^2$具有可加性，因Gamma分布有可加性
 	\[\chi_1^2(n_1)+\chi_2^2(n_2)\thicksim\chi^2(n_1+n_2)\]
+	当$n$充分大时，
+	\[\chi_\alpha^2\approx\frac{1}{2}(z_\alpha+\sqrt{2n-1})^2\]
+
 	\item $t$分布/Student分布\\
 	设$X\thicksim N(0,1)$，$Y\thicksim\chi^2(n)$，且$X,Y$相互独立，则
 	\[t=\frac{X}{\sqrt{Y/n}}\]
@@ -63,6 +67,8 @@
 	\[\begin{aligned}
 	h(t)=\frac{\Gamma[(n+1)/2]}{\sqrt{\pi n}\,\Gamma(n/2)}\lrp{1+\frac{t^2}{n}}^{-(n+1)/2}\,,t\in(-\infty,+\infty)
 	\end{aligned}\]
+	上分位点满足$t_{1-\alpha}(n)=-t_\alpha(n)$，当$n$充分大时$t_\alpha(n)\approx z_\alpha$
+
 	\item $F$分布\\
 	设$U\thicksim\chi^2(n_1)$，$Y\thicksim\chi^2(n_2)$，且$U,V$相互独立，则
 	\[F=\frac{U/n_1}{V/n_2}\]
@@ -70,15 +76,22 @@
 	\[\begin{aligned}
 	\psi(x)=\frac{\Gamma[(n_1+n_2)/2](n_1/n_2)^{n_1/2}x^{(n_1/2)-1}}{\Gamma(n_1/2)\Gamma(n_2/2)[1+(n_1x/n_2)]^{(n_1+n_2)/2}}\,,x>0
 	\end{aligned}\]
+	若$F\thicksim F(n_1,n_2)$，则$\frac{1}{F}\thicksim F(n_2,n_1)$\\
+	上分位点$F_{1-\alpha}(n_1,n_2)=\frac{1}{F_\alpha(n_2,n_1)}$
 \end{enumerate}
 
 \subsection{参数估计}
 \subsubsection{估计量}
 \begin{definition}[估计]
-$X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，对参数$\theta$的估计是函数$T(X_1,\ldots,X_n)$，称$T$是期望(expected)估计，若
-\[\E{T(X_1,\ldots,X_n)}=\theta\]
-相合(probable)的估计，若
-\[\pr{|T(X_1,\ldots,X_n)-\theta|>\eps}\to 0,\,n\to\infty\]
+$X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldots$的分布$f$中得到，参数$\theta$的估计量为$\hat{\theta}$，若
+\[\E{\hat{\theta}}=\theta\]
+则称$T$是期望(expected)估计/无偏估计量.
+若
+\[\Var{\hat{\theta}_1}\leq\Var{\hat{\theta}_2}\]
+则称$\hat{\theta}_1$较$\hat{\theta}_2$有效.
+若
+\[\pr{|\hat{\theta}-\theta|>\eps}\to 0,\,n\to\infty\]
+则称$\hat{\theta}$为相合(probable)的估计.
 \end{definition}
 \[\begin{aligned}
 \E{S^2}&=\frac{1}{n-1}\E{\sum_{i=1}^n(X_i-\bar{X})^2}\\
@@ -93,8 +106,25 @@ $X_1,X_2,\ldots,X_n$为独立随机变量，从有参数$\mu,\sigma,\theta,\ldot
 \[\mu_l(\theta_1,\theta_2,\ldots,\theta_k)=\intabu{-\infty}{\infty}{x^lf(x;\theta_1,\theta_2,\ldots,\theta_k)}{x},\,l=1,2\ldots,k\]
 $k$个方程组便可解得$k$个估计量$\hat{\theta_l}$
 
+总体均值与方差的矩估计量不因不同总体分布而异
+\[\hat{\mu}=\bar{X}\qquad\widehat{\sigma^2}=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^2\]
+
 \subsubsection{最大似然估计法}
 \[L(\theta)=L(x_1,x_2,\ldots,x_n;\theta)=\prod_{i=1}^np(x_i;\theta),\,\theta\in\Theta\]
+求解对数似然方程组可得估计值
+\[\pd{}{\theta_i}\ln L=0,\,i=1,2,\ldots,k\]
+但最大似然函数不一定可导，或最大值不一定在驻点取到，则一般地，
+\[\hat{\theta}=\arg\max_{\theta\in\Theta} L(x_1,x_2,\ldots,x_n;\theta)\]
+
+最大似然估计具有\textbf{不变性}：若$\theta$的函数$u=u(\theta)$有单值反函数$\theta=\theta(u)$，且$\hat{\theta}$为$\theta$的最大似然估计，则$\hat{u}=u(\hat{\theta})$是$u(\theta)$的最大似然估计
+\par 进而标准差的最大似然估计为
+\[\hat{\sigma}=\sqrt{\widehat{\sigma^2}}=\sqrt{\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^2}\]
+
+常见的最大似然估计
+\begin{itemize}
+	\item $(a,b)$上的均匀分布：$\hat{a}=\min_i X_i,\hat{b}=\max_i X_i$
+	\item 泊松分布：$\hat{\lambda}=\bar{X}$
+\end{itemize}
 
 \subsubsection{区间估计}
 \begin{definition}[置信区间]
@@ -112,13 +142,19 @@ $k$个方程组便可解得$k$个估计量$\hat{\theta_l}$
    $\sigma^2$    &  $\mu$未知     &  $\chi^2=\dfrac{(n-1)S^2}{\sigma^2}\thicksim\chi^2(n-1)$     &  $\lrp{\dfrac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)},\dfrac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}}$ \bigstrut\\
     \hline
   $\mu_1-\mu_2$     &  $\sigma^2_1,\sigma^2_2$已知     &  $Z=\dfrac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}\thicksim N(0,1)$     & $\lrp{\bar{X}-\bar{Y}\pm z_{\alpha/2}\sqrt{\dfrac{\sigma^2_1}{n_1}+\dfrac{\sigma_2^2}{n_2}}}$ \bigstrut\\\hline
-   $\mu_1-\mu_2$    &  $\sigma^2_1=\sigma^2_2=\sigma^2$未知     &  $t=\dfrac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_w\sqrt{1/n_1+1/n_2}}\thicksim t(n_1+n_2-2)$     & $\lrp{\bar{X}-\bar{Y}\pm t_{\alpha/2}(n_1+n_2-2)S_w\sqrt{\dfrac{1}{n_1}+\dfrac{2}{n_2}}}$ \bigstrut\\\hline
+   $\mu_1-\mu_2$    &  $\sigma^2_1=\sigma^2_2=\sigma^2$未知     &  $t=\dfrac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_w\sqrt{1/n_1+1/n_2}}\thicksim t(n_1+n_2-2)$     & $\lrp{\bar{X}-\bar{Y}\pm t_{\alpha/2}(n_1+n_2-2)S_w\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}}$ \bigstrut\\\hline
  $\dfrac{\sigma_1^2}{\sigma_2^2}$       &  $\mu_1,\mu_2$未知     & $F=\dfrac{S_1^2/S_2^2}{\sigma_1^2/\sigma_2^2}\thicksim F(n_1-1,n_2-1)$      & \begin{tabular}{c}$\Big(\dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{\alpha/2}(n_1-1,n_2-1)},$\\
  $\dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{1-\alpha/2}(n_1-1,n_2-1)}\Big)$\end{tabular} \bigstrut\\
     \hline
     \end{tabular}%
 \end{center}
+* 单侧的估计量$\alpha$不需除以$2$
 
+对于0-1分布的估计
+\[\frac{n\bar{X}-np}{\sqrt{np(1-p)}}\thicksim N(0,1)\implies\pr{-z_{\alpha/2}<\frac{n\bar{X}-np}{\sqrt{np(1-p)}}<z_{\alpha/2}}\approx 1-\alpha\]
+解出$p$的$1-\alpha$置信区间为
+\[\lrp{\frac{1}{2a}(-b\pm \sqrt{b^2-4ac})}\]
+其中$a=n+z^2_{\alpha/2},b=-(2n\bar{X}+z^2_{\alpha/2}),c=n\bar{X}^2$
 
 \subsection{可视化}
 \begin{enumerate}
@@ -126,6 +162,6 @@ $k$个方程组便可解得$k$个估计量$\hat{\theta_l}$
 	\item 箱线图：最小值$\min$，第一四分位数$Q_1$，中位数$M$，第三四分位数$Q_2$，最大值$\max$
 	\[q\text{分位数}\quad x_p=\begin{cases}
 	x_{[np]+1} & np\notin\zz\\
-	\frac{1}{2}[x_{np}+x_{np+1}] & np\in\zz
+	\frac{1}{2}(x_{np}+x_{np+1}) & np\in\zz
 	\end{cases}\]
 \end{enumerate}

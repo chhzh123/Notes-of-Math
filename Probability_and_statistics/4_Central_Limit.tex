@@ -35,13 +35,15 @@
 的分布函数$F_n(x)$对任意$x$满足
 \[\lim_{n\to\infty}F_n(x)=\lim_{n\to\infty}\pr{Y_n\leq x}=\intabu{-\infty}{x}{\frac{1}{2\pi}\ee^{-t^2/2}}{t}=\Phi(x)\]
 也即，近似地
-\[\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\thicksim N(0,1)\]
+\[\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\thicksim N(0,1)\qquad\mbox{或}\qquad\bar{X}\thicksim N(\mu,\sigma^2/n)\]
 \end{theorem}
 努力将原变量转化为标准化变量形式，以使用标准正态分布解题
 \begin{corollary2}[棣莫弗-拉普拉斯(De Moivre-Laplace)定理]
 设随机变量$\eta_1,\eta_2,\ldots$服从参数为$n,p(0<p<1)$的二项分布，则对于任意$x$，有
-\[\lim_{n\to\infty}\pr{\frac{\eta_n-np}{\sqrt{np(1-p)}}\leq x}=\Phi(x)\]
+\[\lim_{n\to\infty}\pr{\frac{\eta-np}{\sqrt{np(1-p)}}\leq x}=\Phi(x)\]
+注：化为$n$个0-1分布可证
 \end{corollary2}
+\par 涉及到\textbf{数目}的，可以采用上述推论计算.
 \begin{theorem}[李雅普诺夫(Lyapunov)定理]
 若$X_1,X_2,\ldots$为独立随机变量且同等分布，且$\E{X_k}=\mu$，$\Var{X_k}=\sigma^2>0$，记$B_n^2=\sum_{k=1}^n\sigma_k^2$
 若存在$\delta>0$，使得
@@ -49,3 +51,34 @@
 则随机变量之和的标准化变量
 \[Z_n=\frac{\sum_{k=1}^nX_k-\E{\sum_{k=1}^nX_k}}{\sqrt{\Var{\sum_{k=1}^nX_k}}}=\frac{\sum_{k=1}^nX_k-\sum_{k=1}^n\mu_k}{B_n}\]
 \end{theorem}
+\begin{example}
+一食品店有三种蛋糕出售，售出一只蛋糕的价格是一个随机变量，取$1$元、$1.2$元、$1.5$元各个值的概率分别为$0.3$、$0.2$、$0.5$，若售出$300$只蛋糕
+\begin{enumerate}
+	\itemsep -3pt
+	\item 求收入至少$400$元的概率
+	\item 求售出价格为$1.2$元的蛋糕多于$60$只的概率
+\end{enumerate}
+\end{example}
+\begin{analysis}
+\begin{enumerate}
+	\item 设$X_k,k=1,2,\ldots,300$为第$k$个蛋糕的售价
+	\begin{center}
+	\begin{tabular}{c|ccc}
+	$X_k$ & $1$ & $1.2$ & $1.5$\\\hline
+	$p_k$ & $0.3$ & $0.2$ & $0.5$
+	\end{tabular}
+	\end{center}
+	\[\begin{aligned}
+	\E{X_k}&=1.29 \qquad \Var{X_k}=0.0489\\
+	\pr{\sum_{k=1}^{300}X_k\geq 400}&=1-\pr{\sum_{k=1}^{300}X_k<400}\\
+	&=1-\pr{\frac{300\bar{X}-1.29\cdot 300}{\sqrt{300}{0.0489}}<\frac{400-1.29\cdot 300}{\sqrt{300}{0.0489}}}\\
+	&=1-\Phi(3.39)=0.0003
+	\end{aligned}\]
+	\item 记$Y$为售价为$1.2$元的蛋糕数目，则$Y\thicksim b(300,0.2)$，由Laplace定理，
+	\[\begin{aligned}
+	\pr{Y>60}&=1-\pr{Y\leq 60}\\
+	&=1-\pr{\frac{Y-300\cdot 0.2}{\sqrt{300\cdot 0.2\cdot 0.8}}\leq\frac{60-300\cdot 0.2}{\sqrt{300\cdot 0.2\cdot 0.8}}}\\
+	&=1-\Phi(0)=0.5
+	\end{aligned}\]
+\end{enumerate}
+\end{analysis}

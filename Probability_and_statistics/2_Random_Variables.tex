@@ -11,6 +11,7 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 一定要注意，$f_X(x)\ne\pr{X=x}$！
 \end{definition}
 注意\textcolor{red}{积分区间}！注意要写\textcolor{red}{变量范围}！
+\par 对于离散型随机变量还需对\textbf{组合恒等式}十分熟悉.
 \begin{definition}[期望]
 设$Y$是随机变量$X$的\textbf{连续}函数$Y=g(X)$
 \[\begin{aligned}
@@ -22,7 +23,13 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 \[\E{X+Y}=\E{X}+\E{Y},\,\E{cX}=c\E{X}\]
 \par 若$X,Y$相互独立，则
 \[\E{XY}=\E{X}\E{Y}\]
-但反过来不能推相互独立
+但反过来不能推相互独立，上式说明了协方差为0，不相关
+\begin{theorem}[柯西(Cauchy)不等式]
+\[\E{(XY)}^2\leq\E{X^2}\E{Y^2}\]
+\end{theorem}
+\begin{analysis}
+构造函数$q(t)=\E{(X+tY)^2}$，二次判别法
+\end{analysis}
 \begin{definition}[方差]
 \[\begin{aligned}
 \Var{X}=\mathrm{Var}(X)&=\sigma^2=\E{(X-\E{X})^2}=\E{X^2}-\E{X}^2\geq 0\\
@@ -31,7 +38,8 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 \end{aligned}\]
 标准差或均方差则是$\sigma$
 \end{definition}
-一般通过求$\E{X}$和$\E{X^2}$来求方差\par
+一般通过求$\E{X}$和$\E{X^2}$来求方差，也可反解出$\E{X^2}$
+
 由方差定义和期望的线性性有
 \[\Var{aX+b}=a^2\Var{X}\]
 注意方差并不是线性的
@@ -42,16 +50,31 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 \end{aligned}\]
 \begin{definition}[上$\alpha$分位点]
 \[\pr{X>z_\alpha}=\alpha,\,\alpha\in(0,1)\]
+特别地，$\alpha=0.5$的点称为中位数
 \end{definition}
 
 \subsection{随机变量的函数的分布}
 \begin{theorem}
 若$X$为连续型随机变量，$g$为单调递增函数（反函数存在且单调递增），且$Y=g(X)$，那么
-\[f_Y(y)=f_X(g^{-1}(y))(g^{-1})'(y)\]
+\[f_Y(y)=f_X(g^{-1}(y))\textcolor{red}{|}(g^{-1})'(y)\textcolor{red}{|}\]
 \end{theorem}
 特别地，对于$Y=X^2$
 \[f_Y(y)=\frac{1}{2\sqrt{y}}[f_X(\sqrt{y})+f_X(-\sqrt{y})],\,y>0\]
-一般情况则先求$Y$的概率分布函数$F_Y(y)$，然后对$F_Y(y)$求导
+
+一般情况，若$Y=g(X)$，则先求$X$的分布函数$F_X(x)=\pr{X\leq x}$，然后求出$Y$的分布函数$F_Y(y)=\pr{Y\leq y}=\pr{X\leq g^{-1}(y)}=F_X(g^{-1}(y))$，最后对$F_Y(y)$求导.
+同时注意概率函数有无定义域，如有求出来之后要分段写.
+\begin{example}
+$X\thicksim N(0,1)$，求$Y=|X|$概率密度
+\end{example}
+\begin{analysis}
+\begin{itemize}
+	\item $X$的分布函数$F_X(x)=\Phi(x)$
+	\item $Y$的分布函数
+	\[F_Y(y)=\pr{Y\leq y}=\pr{-y\leq X\leq y}=\Phi(y)-\Phi(-y)=2\Phi(y)-1\]
+	\item $Y$的概率密度
+	\[f_Y(y)=F_y'(y)=2\phi(y)=\sqrt{\frac{2}{\pi}}\ee^{-\frac{y^2}{2}}\]
+\end{itemize}
+\end{analysis}
 
 \subsection{常见的离散分布}
 \begin{enumerate}
@@ -74,10 +97,11 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	\item 几何分布 \textbf{Geometric(p)}（负二项分布的特殊情形）
 		\[\begin{aligned}
 		f_{X}(k)& =(1-p)^k\cdot p,k\geq 0\\
-		\mathbb{E}(X)& =\frac{1-p}{p}
+		\mathbb{E}(X)& =\frac{1-p}{p}\\
+		\Var{X}&=\frac{1-p}{p^2}
 		\end{aligned}\]
 		e.g. 扔$k$次反面直至扔到正面（做实验直到你成功，记录失败的次数）
-	\item 负二项分布 \textbf{NegetiveBinomial(r,p)}
+	\item 帕斯卡/负二项分布 \textbf{NegetiveBinomial(r,p)}
 		\[\begin{aligned}
 		f_{X}(k)& =\binom{k+r-1}{r-1}p^r(1-p)^k,\,k\geq 0\\
 		\mathbb{E}(X)& =r\cdot\frac{1-p}{p}
@@ -108,18 +132,19 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 		\mathbb{E}(X)& =n\frac{M}{N}
 		\end{aligned}\]
 		e.g. $M$个产品中有$N$个次品，检查$n$次得到$k$个次品
-	\item 泊松分布 \textbf{Poisson($\lambda$),$\lambda>0$}
+	\item 泊松分布 \textbf{Poisson($\lambda$)或$\pi(\lambda)$,$\lambda>0$}
 		\[\begin{aligned}
 		f_{X}(k)& =\frac{\lambda^k}{k!}\ee^{-\lambda},\,\lambda>0,k\geq0\\
-		\mathbb{E}(X)& =\lambda
+		\mathbb{E}(X)& =\lambda\\
+		\Var{X}&= \lambda
 		\end{aligned}\]
-		$X\thicksim B(n,p)$，若$p=\dfrac{\lambda}{n}$，且$n$非常大，则
+		$X\thicksim B(n,p)$，若$p=\dfrac{\lambda}{n}$（即均值相同），且$n$非常大，则
 		\[\begin{aligned}
 		\pr{X=k} &= \binom{n}{k}\left(\frac{\lambda}{n}\right)^k\left(1-\frac{\lambda}{n}\right)^{n-k}\\
 		&= \frac{n(n-1)\cdots(n-k+1)}{k!}\frac{\lambda^k}{n^k}\left(1+\frac{-\lambda}{n}\right)^{n-k}\\
 		&\approx \frac{\lambda^k}{k!}\ee^{-\lambda}
 		\end{aligned}\]
-		一般$n\geq 20,p\leq 0.05$时，即可用近似
+		一般$n\geq 20,p\leq 0.05$时，即可用近似（泊松定理）
 		\[\begin{aligned}
 		\E{X}&=\sum_{k=0}^\infty k\frac{\lambda^k}{k!}\ee^{-\lambda}\\
 		&=\lambda\ee^{-\lambda}\sum_{k=1}^\infty\frac{\lambda^{k-1}}{(k-1)!}\\
@@ -137,12 +162,15 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	\E{X}&=\dfrac{a+b}{2}\\
 	\Var{X}&=\dfrac{(b-a)^2}{12}
 	\end{aligned}\]
+
 	\item 指数分布 \textbf{Exponential($\theta$),$\theta>0$}
 	\[\begin{aligned}
-	f_X(x)&=\frac{1}{\theta}\ee^{-\frac{x}{\theta}},\,x>0\\
-	\E{X}&=\theta=\dfrac{1}{\lambda}
+	f_X(x)&=\frac{1}{\theta}\ee^{-\frac{x}{\theta}}=\lambda\ee^{-\lambda x},\,x>0\\
+	\E{X}&=\theta=\dfrac{1}{\lambda}\\
+	\Var{X}&=\frac{1}{\lambda^2}
 	\end{aligned}\]
 	与泊松分布类似，同样具有无记忆性
+
 	\item 正态分布 \textbf{Normal($\mu,\sigma^2$)}
 	\[\begin{aligned}
 	f_X(x)&=\dfrac{1}{\sqrt{2\pi}\sigma}\ee^\frac{-(x-\mu)^2}{2\sigma^2}\\
@@ -151,8 +179,8 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	标准正态分布$N(0,1)$
 	\[\begin{aligned}
 	\varphi(x)&=\frac{1}{\sqrt{2\pi}}\ee^{-x^2/2}\\
-	\Phi(x)&=\intabu{-\infty}{x}{\varphi(t)}{t}\\
-	\Phi(-x)=1-\Phi(x)
+	\Phi(x)&=\intabu{-\infty}{x}{\varphi(t)}{t}=\frac{1}{\sqrt{2\pi}}\intabu{-\infty}{x}\ee^{-x^2/2}\\
+	\Phi(-x)&=1-\Phi(x)
 	\end{aligned}\]
 	算平方
 	\[\begin{aligned}
@@ -165,13 +193,36 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	&=-\intabu{0}{2\pi}{(0-1)}{\theta}\\
 	&=\intabu{0}{2\pi}{1}{\theta}=2\pi
 	\end{aligned}\]
-	也即\textcolor{red}{概率积分$I=\sqrt{2\pi}$}\\
+	也即\textcolor{red}{概率积分$I=\sqrt{2\pi}$}（在其他概率题中也经常会遇见，需要记住），同时利用$\Phi(x)$的值也可快速求到其近似值\\
 	若$X\thicksim N(\mu,\sigma^2)$，则$Y=aX+b\thicksim N(a\mu+b,(a\sigma)^2)$，特别地，
 	\[Z=\dfrac{X-\mu}{\sigma}\thicksim N(0,1)\]
 	若$X_i\thicksim N(\mu_i,\sigma_i^2)$相互独立，则它们的和
 	\[Z=X_1+X_2+\cdots+X_n\thicksim N(\mu_1+\mu_2+\cdots+\mu_n,\sigma_1^2+\sigma_2^2+\cdots+\sigma_n^2)\]
 	若$X\thicksim N(0,1)$，且$Y=X^2$，则
 	\[f_Y(y)=\frac{1}{\sqrt{2\pi}}y^{-1/2}\ee^{-y/2}\implies Y\thicksim\Gamma(\frac{1}{2},2)\]
+	二维正态分布
+	\[f(x,y)=\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}\ee^{\frac{-1}{2(1-\rho^2)}\left[\frac{(x-\mu_1)^2}{\sigma_1^2}-2\rho\frac{(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}+\frac{(y-\mu_2)^2}{\sigma_2^2}\right]}\]
+	边缘分布$X,Y$都为一维正态分布
+	\[\begin{aligned}
+	f_X(x)&=\dfrac{1}{\sqrt{2\pi}\sigma_1}\ee^\frac{-(x-\mu_1)^2}{2\sigma_1^2}\\
+	f_Y(y)&=\dfrac{1}{\sqrt{2\pi}\sigma_2}\ee^\frac{-(x-\mu_2)^2}{2\sigma_2^2}
+	\end{aligned}\]
+	进而$\E{X}=\mu_1,\E{Y}=\mu_2,\Var{X}=\sigma_1,\Var{Y}=\sigma_2,\Cov{X,Y}=\rho$\\
+	对于二维正态分布的$X,Y$来说，不相关与相互独立等价\\
+	$n$维正态分布中变量的线性组合都是正态分布
+	\begin{example}
+	设随机变量$(X,Y)$服从二维正态分布，且有$\Var{X}=\sigma_X^2,\Var{Y}=\sigma_Y^2$，证明当$a^2=\sigma_X^2/\sigma_Y^2$时，随机变量$W=X-aY$与$V=X+aY$相互独立
+	\end{example}
+	\begin{analysis}
+	\[\begin{aligned}
+	\Cov{W,V}&=\Cov{X-aY,X+aY}\\
+	&=\Cov{X-aY,X}+\Cov{X-aY,aY}\\
+	&=\Cov{X,X}-a\Cov{Y,X}+a\Cov{Y,X}-a^2\Cov{Y,Y}\\
+	&=\sigma_X^2-a^2\sigma_Y^2=0\qquad\mbox{由题设}
+	\end{aligned}\]
+	又$W,V$分别为正态变量$X,Y$的线性组合，故$(W,V)$也为二维正态变量，而$\rho=0$，故$W,V$不相关，$W,V$相互独立
+	\end{analysis}
+
 	\item 伽马分布 \textbf{Gamma$(\mathbf{\alpha},\mathbf{\beta})\equiv\Gamma (\alpha ,\beta )\equiv\Gamma (k,\theta)\,,k=\alpha,\theta=1/\beta$}
 	\[\begin{aligned}
 	f_X(x;\alpha ,\beta )&=\frac {\beta ^{\alpha }}{\Gamma (\alpha )}x^{\alpha -1}\ee^{-\beta x},\,x,\alpha ,\beta >0\\
@@ -183,4 +234,5 @@ $\displaystyle \intab{-\infty}{x}{f(t)}$，其中$f_X(x)$为$X$的概率密度�
 	若$X_i\thicksim \Gamma(k_i,\theta)$相互独立，则它们的和
 	\[Z=\sum_{i=1}^N X_i \thicksim\Gamma  \left( \sum_{i=1}^n k_i, \theta \right)\]
 	注：通过$B(\alpha,\beta)=\frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$证明
+	\footnote{Gamma函数：$\Gamma(\alpha)=\int_0^{\infty} x^{\alpha-1}\ee^{-x}\diff x,\alpha>0$，其中$\Gamma(\alpha+1)=\alpha\Gamma(\alpha),\Gamma(1)=1,\Gamma(\frac{1}{2})=\sqrt{\pi}$，若$\alpha$为正整数，$\Gamma(n)=(n-1)!$}
 \end{enumerate}
