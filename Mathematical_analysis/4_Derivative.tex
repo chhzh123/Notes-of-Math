@@ -214,3 +214,33 @@ $f(x)$在$[a,+\infty)$有界，$f'(x)$存在，证明$A=\displaystyle\lim_{x\to+
 使用反证法，不妨设$A>0$，则由极限的保号性知$\displaystyle\exists x_0,x>x_0:f'(x)>\frac{A}{2}>0$\\
 对区间$[x_0,x]$用拉格朗日中值定理有$\exists\xi\in(x_0,x):\displaystyle f'(\xi)=\frac{f(x)-f(x_0)}{x-x_0}$，进而$\displaystyle f(x)=f(x_0)+f'(\xi)(x-x_0)>f(x_0)+\frac{A}{2}(x-x_0)$，故$\displaystyle\lim_{x\to+\infty}f(x)=+\infty$，与$f(x)$有界矛盾.
 \end{analysis}
+
+
+\subsection{微分方程}
+通过分离变量法求解一阶微分方程，注意要将微分算子看成是可以运算的（乘除）.
+\begin{example}
+单摆的近似运动方程.
+\end{example}
+\begin{analysis}
+由牛顿第二定律有
+\[m\dfrac{\diff^2 s}{\diff t^2}=-mg\sin\theta\]
+其中，$s$为扫过的弧长，因圆周角$\disp\theta=\dfrac{s}{l}$，故
+\[\dfrac{\diff^2 s}{\diff t^2}=-g\sin\dfrac{s}{l}\]
+该方程比较难解，我们只考虑当$\theta\to 0$时，上式变为
+\[\dfrac{\diff^2 s}{\diff t^2}=-g\dfrac{s}{l}\]
+令$\dfrac{\diff s}{\diff t}=p(s)$，则
+\[\dfrac{\diff^2 s}{\diff t^2}=\dfrac{\diff p}{\diff t}=\dfrac{\diff p}{\diff s}\dfrac{\diff s}{\diff t}=\dfrac{\diff p}{\diff s}p\]
+故可将方程变为一阶方程
+\[p\dfrac{\diff p}{\diff s}=-\dfrac{g}{l}s\]
+分离变量得
+\[p\diff p=-\dfrac{g}{l}s\diff s\]
+解得
+\[p^2=-\dfrac{g}{l}s^2+C_1\]
+最大偏离时弧长为$s_0$，此时速度为$0$，可得$C_1$，于是
+\[\lrp{\dfrac{\diff^2 s}{\diff t^2}}^2=\dfrac{g}{l}(s_0^2-s^2)\]
+开方，分离变量积分得
+\[\arcsin\dfrac{s}{s_0}=\sqrt{\dfrac{g}{l}}t+C_2\]
+假定开始时，摆处于铅垂线上，则
+\[s=s_0\sin\sqrt{\dfrac{g}{l}}t\]
+即为周期$T=2\pi\sqrt{\dfrac{l}{g}}$的简谐运动.
+\end{analysis}

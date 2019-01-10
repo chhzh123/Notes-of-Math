@@ -2,7 +2,38 @@
 
 \section{微积分的应用}
 这一章其实最关键的是建模，即如何用微元的思想对具体问题进行刻画. 至于具体的积分计算，则是第\ref{sec:indefinite_integration}章、第\ref{sec:definite_integration}章的内容.
+
+\subsection{切线与法线}
+\subsubsection{空间曲线的切线与法平面}
+曲线上一点$(x,y,z)$的切向量为
+\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
+若曲线在$P(x_0,y_0,z_0)$的切向量为
+\[\mathbf{\tau}(x_0,y_0,z_0)=(A,B,C)\]
+则该点的切线方程为
+\[\frac{x-x_0}{A}=\frac{y-y_0}{B}=\frac{z-z_0}{C}\]
+法平面方程为
+\[\mathbf{\tau}\cdot(\vv-P)^\T=0\]
+
+\subsubsection{空间曲面的切平面与法线}
+法向量为
+\[\mathbf{n}(x,y,z)=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\]
+若曲线在$P(x_0,y_0,z_0)$的切向量为
+\[\mathbf{n}(x_0,y_0,z_0)=(A',B',C')\]
+则该点的法线方程为
+\[\frac{x-x_0}{A'}=\frac{y-y_0}{B'}=\frac{z-z_0}{C'}\]
+切平面方程为
+\[\mathbf{n}\cdot(\vv-P)^\T=0\]
+
+\subsubsection{方向导数}
+即在某一个方向$\mathbf{l}$上的变化率
+\begin{theorem}
+若$f(x,y,z)$在点$P_0(x_0,y_0,z_0)$可微，则$f(x,y,z)$在$P_0$沿任何方向$\mathbf{l}$的方向导数都存在，且有
+\[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma=\nabla f(P_0)\cdot\cos\theta\]
+其中，$\cos\alpha,\cos\beta,\cos\gamma$是$\mathbf{l}$的方向余弦，即$\mathbf{l}$与三个坐标轴的夹角
+\end{theorem}
+
 \subsection{面积}
+\subsubsection{平面曲线}
 \begin{enumerate}
 	\item 直角坐标
 	\[\diff A=y\diff x=(f(x)-g(x))\diff x\]
@@ -73,6 +104,21 @@
 \[A=2\cdot\dfrac{1}{2}\lrp{\intabu{0}{\frac{\pi}{3}}{(1+\cos\theta)^2}{\theta}+\intabu{\frac{\pi}{3}}{\frac{\pi}{2}}{(3\cos\theta)^2}{\theta}}=\dfrac{5}{4}\pi\]
 \end{analysis}
 \par 如果是单一极坐标曲线求面积，则一般关注其最大最小极径以及其对称性.
+
+\subsubsection{空间曲面}
+思路与求曲线弧长类似，采用切平面来做原曲面的近似.
+将曲线某点的切平面投影到平面$D$上，设$\diff S$的法向量的方向余弦为$(\cos\alpha,\cos\beta,\cos\gamma)$，则
+\[\diff S=\frac{\diff D}{|\cos\gamma|}=\frac{\diff x\diff y}{|\cos\gamma|}=\sqrt{1+f^2_x(x,y)+f^2_y(x,y)}\diff x\diff y\]
+参数形式下
+\[x=x(u,v),y=y(u,v),z=z(u,v),(u,v)\in D\]
+记
+\[\begin{aligned}
+E&=|\mathbf{r}_u|^2=\lrp{\pd{x}{u}}^2+\lrp{\pd{y}{u}}^2+\lrp{\pd{z}{u}}^2\\
+G&=|\mathbf{r}_v|^2=\lrp{\pd{x}{v}}^2+\lrp{\pd{y}{v}}^2+\lrp{\pd{z}{v}}^2\\
+F&=\mathbf{r}_u\cdot\mathbf{r}_v=\pd{x}{u}\pd{x}{v}+\pd{y}{u}\pd{y}{v}+\pd{z}{u}\pd{z}{v}
+\end{aligned}\]
+进而曲面面积为
+\[S=\iint_D\sqrt{EG-F^2}\diff u\diff v\]
 
 \subsection{体积}
 \begin{enumerate}
@@ -145,7 +191,9 @@
 2\pi\,b^2\lrp{1 + \frac{a}{b}\,\frac{\arcsin(\varepsilon)}{\varepsilon}}\]
 \end{analysis}
 
-\subsection{质心}
+\subsection{物理量}
+\subsubsection{质心}
+平面的情况
 \begin{theorem}[古鲁金(Guldin)第一定理]
 质量分布均匀的平面曲线弧的质心坐标$(\bar{x},\bar{y})$由下式得出
 \[2\pi\bar{x}l=S_1\qquad 2\pi\bar{y}l=S_2\]
@@ -156,32 +204,17 @@
 质量分布均匀的平面图形绕此平面上一条与之不相交的直线旋转，所得旋转体的体积由下式给出
 \[V=2\pi\bar{y}S\]
 \end{theorem}
+空间的情况
+\[\bar{x}=\frac{\int_\Omega x\rho(P)\diff\Omega}{\int_\Omega\rho(P)\diff\Omega}=\frac{\int_\Omega x\diff m}{\int_\Omega\diff m}\]
 
-\subsection{切线与法线}
-\subsubsection{空间曲线的切线与法平面}
-曲线上一点$(x,y,z)$的切向量为
-\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
-\[\mathbf{\tau}(x_0,y_0,z_0)=(A,B,C)\]
-则该点的切线方程为
-\[\frac{x-x_0}{A}=\frac{y-y_0}{B}=\frac{z-z_0}{C}\]
-法平面方程为
-\[\mathbf{\tau}\cdot(\vv-P)^\T=0\]
+\subsubsection{转动惯量}
+\[\begin{aligned}
+I_x&=\iiint_V(y^2+z^2)\rho(x,y,z)\diff x\diff y\diff z\\
+I_{xy}&=\iiint_Vz^2\rho(x,y,z)\diff x\diff y\diff z
+\end{aligned}\]
 
-\subsubsection{空间曲面的切平面与法线}
-法向量为
-\[\mathbf{n}(x,y,z)=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
-\[\mathbf{n}(x_0,y_0,z_0)=(A',B',C')\]
-则该点的法线方程为
-\[\frac{x-x_0}{A'}=\frac{y-y_0}{B'}=\frac{z-z_0}{C'}\]
-切平面方程为
-\[\mathbf{n}\cdot(\vv-P)^\T=0\]
-
-\subsubsection{方向导数}
-即在某一个方向$\mathbf{l}$上的变化率
-\begin{theorem}
-若$f(x,y,z)$在点$P_0(x_0,y_0,z_0)$可微，则$f(x,y,z)$在$P_0$沿任何方向$\mathbf{l}$的方向导数都存在，且有
-\[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma=\nabla f(P_0)\cdot\cos\theta\]
-其中，$\cos\alpha,\cos\beta,\cos\gamma$是$\mathbf{l}$的方向余弦，即$\mathbf{l}$与三个坐标轴的夹角
-\end{theorem}
+\subsubsection{引力}
+\[\begin{aligned}
+F_x&=\iiint_Vk\frac{x-x_0}{r^3}\rho(x,y,z)\diff x\diff y\diff z\\
+\mathbf{F}&=F_x\vi+F_y\vj+F_z\vk
+\end{aligned}\]
