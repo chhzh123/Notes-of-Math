@@ -363,6 +363,7 @@ $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，
 \end{analysis}
 \par 关于和函数分析性质的运用，可以见下例.
 \begin{example}
+\label{eg:sum_fun_analysis}
 \[\intab{-\pi}{\pi}{\dfrac{1-r^2}{1-2r\cos x+r^2}}=2\pi,|r|<1\]
 \end{example}
 \begin{analysis}
@@ -372,3 +373,67 @@ $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，
 又级数的每一项$\{r^n\cos nx\}$都在$(-\infty,+\infty)$连续，故可逐项积分，得
 \[\intab{-\pi}{\pi}{\dfrac{1-r^2}{1-2r\cos x+r^2}}=\intab{-\pi}{\pi}{}+2\ssum{\intab{-\pi}{\pi}{r^n\cos nx}}=2\pi\]
 \end{analysis}
+
+\subsection{含参变量的广义积分}
+\begin{definition}[一致收敛]
+设$f(x,y)$定义在$[a,b]\times[c,+\infty)$，且对任意$x\in[a,b]$，无穷积分
+\[I(x)=\int_c^{+\infty}f(x,y)\diff y\]
+收敛.
+若
+\[\forall x\in[a,b],\eps>0\exists A_0>c, A>A_0:\;\left|\int_c^Af(x,y)\diff y-I(x)\right|<\eps\quad\text{或}\quad\left|\int_A^{+\infty}f(x,y)\diff y\right|<\eps\]
+则称广义积分$I(x)$在$[a,b]$一致收敛.\\
+定义中的区间可换为开区间、半开半闭区间等.
+\end{definition}
+\begin{theorem}[M判别法(Weierstrass)]
+若存在$M(y)$使得与常数$B>c$，
+\[|f(x,y)|\leq M(y),\forall y\geq B,x\in[a,b]\]
+而广义积分$\disp\int_c^{+\infty}M(y)\diff y$收敛，则$\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$一致收敛
+\end{theorem}
+\begin{theorem}[迪尼(Dini)]
+设$f(x,y)$在$[a,+\infty)\times[c,d]$连续且非负.
+若$\intab{a}{+\infty}{f(x,y)}$在$[c,d]$收敛，且作为$y$的函数在$[c,d]$连续，则$\intab{a}{+\infty}{f(x,y)}$在$[c,d]$一致收敛
+\end{theorem}
+\par 类比定理\ref{thm:sum_function_analysis_properties}，有以下性质.
+\begin{theorem}
+对于含参变量广义积分$\disp I(x)=\int_c^{+\infty}f(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,+\infty)$上连续，
+\begin{enumerate}
+	\item 积分与极限互换：若$I(x)$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$连续
+	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，若$\disp\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$收敛，$\disp\intabu{c}{+\infty}{f_x(x,y)}{y}$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$可导，且
+	\[I'(x)=\int_c^{+\infty}f_x(x,y)\diff y\]
+	\item 积分交换次序：
+	\[\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{}{y}\intab{a}{b}{f(x,y)}\]
+\end{enumerate}
+\end{theorem}
+\begin{example}
+求狄利克雷积分$I=\intab{0}{+\infty}{\frac{\sin x}{x}}$
+\end{example}
+\begin{analysis}
+\begin{itemize}
+\item 引入因子$\ee^{-xy}(y\geq 0)$使其变为含参变量积分
+\[I(y)=\intab{0}{+\infty}{\ee^{-xy}\frac{\sin x}{x}}\]
+\item 因为$\intab{0}{+\infty}{\frac{\sin x}{x}}$收敛（狄利克雷），又对每一个$y\in[0,+\infty)$，函数$\ee^{-xy}$关于$x$是单调函数，且
+\[|\ee^{-xy}|\leq 1,\,x,y\in[0,+\infty)\]
+由阿贝尔判别法，$\intab{0}{+\infty}{f(x,y)}$在$[0,+\infty)$一致收敛.
+\item 由上式一致收敛及$f(x,y)=\ee^{-xy}\frac{\sin x}{x}$在$[0,+\infty)\times[0,+\infty)$连续，故积分与极限可互换，从而$I=I(0)=\lim_{y\to 0^+}I(y)$
+\item 为求$I(y)$，先求$I'(y)$.
+由构造式有$f_y(x,y)=-\ee^{-xy}\sin x$，
+\[\forall a>0:\;|f_y(x,y)|=|\ee^{-xy}\sin x|\leq \ee^{-ax},\,y\geq a>0\]
+而$\intab{0}{+\infty}{\ee^{-ax}}$收敛，由M判别法，$\intab{0}{+\infty}{f_y(x,y)}$在$[a,+\infty)$一致收敛
+\item 又$f_y(x,y)$在$[0,+\infty)\times[0,\infty)$连续，故积分与导数可互换，即$I(y)$在$[a,+\infty)$可导，且
+\[I'(y)=\intab{0}{+\infty}{f_y(x,y)}=-\intab{0}{+\infty}{\ee^{-xy}\sin x}=\frac{1}{1+y^2},\,y>0\]
+故$I(y)=\disp\int\frac{1}{1+y^2}=-\arctan y+C$
+\item 注意到$\dfrac{\sin x}{x}$在$[0,+\infty)$有界，故$y>0$时，
+\[\intab{0}{+\infty}{\ee^{-xy}\frac{\sin x}{x}}\leq M\intab{0}{+\infty}{\ee^{-xy}}=\frac{M}{y}\]
+即当$y\to +\infty$时，左侧积分为$0$.
+故$c=\lim_{y\to\infty}\arctan y=\frac{\pi}{2}$，有$I(y)=-\arctan y+\frac{\pi}{2}$，进而
+\[I=I(0)=\lim_{y\to 0^+}I(y)=\frac{\pi}{2}\]
+\end{itemize}
+注：本题进一步可得
+\[\intab{0}{+\infty}{\frac{\sin\alpha x}{x}}=\frac{\pi}{2}\sgn\alpha\]
+\end{analysis}
+\begin{theorem}
+设$f(x,y)$在$[a,+\infty)\times[c,+\infty)$连续且非负，
+\[\intab{a}{+\infty}{f(x,y)},\intabu{c}{+\infty}{f(x,y)}{y}\]
+都收敛，且分别在$[c,+\infty)$和$[a,+\infty)$连续，则（若存在）
+\[\int_c^{+\infty}\diff y\intab{a}{+\infty}{f(x,y)}=\int_a^{+\infty}\diff x\intabu{c}{+\infty}{f(x,y)}{y}\]
+\end{theorem}

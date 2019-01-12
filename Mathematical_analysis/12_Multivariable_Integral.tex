@@ -105,15 +105,15 @@ $f(x,y,z)$在$L$上连续，则$f(x,y,z)$在$L$上的第一型曲线积分存在
 \end{definition}
 \begin{center}
 \begin{tabular}{|c|c|c|}\hline
-一线 & $\int_Lf(x,y,z)\diff s$ & 线密度\\\hline
-二线 & $\int_L\vF(x,y,z)\cdot\diff\vs$ & 变力做功\\\hline
-一面 & $\iint_S f(x,y,z)\diff S$ & 面密度\\\hline
-二面 & $\iint_S\vF(x,y,z)\cdot\diff\vS$ & 流量\\\hline
+第一型曲线积分（一线） & $\disp\int_\mL f(x,y,z)\diff l$ & 线密度\\\hline
+第二型曲线积分（二线） & $\disp\int_\mL\vF(x,y,z)\cdot\diff\vl$ & 变力做功\\\hline
+第一型曲面积分（一面） & $\disp\iint_\mS f(x,y,z)\diff S$ & 面密度\\\hline
+第二型曲面积分（二面） & $\disp\iint_\mS\vF(x,y,z)\cdot\diff\vS$ & 流量\\\hline
 \end{tabular}
 \end{center}
-牛顿-莱布尼茨公式在高维空间的推广，即将内部积分转化为边界积分
+\par 牛顿-莱布尼茨公式在高维空间的推广，即将内部积分转化为边界积分
 \begin{theorem}[格林(Green)公式]
-\[\iint_D\vmat{\pd{}{x}&\pd{}{y}\\P&Q}\diff x\diff y=\oint_LP\diff x+Q\diff y\]
+\[\iint_D\pd{P}{y}-\pd{Q}{x}\diff x\diff y=\iint_D\vmat{\pd{}{x}&\pd{}{y}\\P&Q}=\oint_LP\diff x+Q\diff y\]
 \end{theorem}
 平面区域$D$的面积
 \[|D|=\iint_D\diff x\diff y=\frac{1}{2}\oint_Lx\diff y-y\diff x\]
@@ -123,16 +123,25 @@ $S$方向为外侧
 \end{theorem}
 \begin{theorem}[斯托克斯(Stokes)公式]
 \[\begin{aligned}
-&\oint_LP\diff x+Q\diff y+R\diff z\\
+\oint_\mL P\diff x+Q\diff y+R\diff z&=\oint_\mL\lrp{\pd{R}{y}-\pd{Q}{z}}\diff y\diff z+\lrp{\pd{P}{z}-\pd{R}{x}}\diff z\diff x+\lrp{\pd{Q}{x}-\pd{P}{y}}\diff x\diff y\\
 &=\iint_S\vmat{\diff y\diff z&\diff z\diff x&\diff x\diff y\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\\
 &=\iint_S\vmat{\cos\alpha&\cos\beta&\cos\gamma\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\diff S
 \end{aligned}\]
 \end{theorem}
 
-重积分
-
-叉积
-\[\vx\times\vy=\vmat{\vi&\vj&\vk\\x_1&x_2&x_3\\y_1&y_2&y_3}=\vmat{x_2&x_3\\y_2&y_3}\vi+\vmat{x_1&x_3\\y_1&y_3}\vj+\vmat{x_1&x_2\\y_1&y_2}\vk\]
+结合场论的符号（见第\ref{sec:field}章），可以得到以下这张关系图.
+其中，$\vtau$是与$\mL$方向一致的\textbf{单位切向量}，$\vn$是与$\mS$同侧的\textbf{单位法向量}，且有
+\[\begin{aligned}
+\diff\vl&=\vtau\diff l=(\cos(\vtau,x),\cos(\vtau,y),\cos(\vtau,z))\diff l=(\diff x,\diff y,\diff z)\\
+\diff\vS&=\vn\diff S=(\cos(\vn,x),\cos(\vn,y),\cos(\vn,z))\diff S=(\diff y\diff z,\diff z\diff x,\diff x\diff y)
+\end{aligned}\]
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{fig/multivar-integral-relationship.pdf}
+\end{figure}
+\par 三大公式用外微分形式表示，如$\partial\mD$表示$\mD$区域的边界.
+\par 同时注意
+\[\vx_u\times\vx_v=\lrp{\pd{(u,v)}{(y,z)},\pd{(u,v)}{(z,x)},\pd{(u,v)}{(x,y)}}\]
 
 \subsubsection{积分与路径无关}
 \begin{theorem}

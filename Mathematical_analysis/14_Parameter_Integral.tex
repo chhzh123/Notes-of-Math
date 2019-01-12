@@ -1,6 +1,50 @@
 % !TEX root = main.tex
 
 \section{含参变量积分}
+\subsection{正常积分}
+含参变量积分其实就对应着概率论里面的边缘概率密度，而二重积分则是联合概率密度.
+\begin{theorem}
+对于含参变量积分$I(x)=\disp\int_c^df(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,d]$上连续，有
+\begin{enumerate}
+	\item 积分与极限互换：$I(x)$在$[a,b]$连续
+	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，则$I(x)$在$[a,b]$有连续导函数
+	\[I'(x)=\int_c^df_x(x,y)\diff y\]
+	\item 积分交换次序：
+	\[\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{}{y}\intab{a}{b}{f(x,y)}\]
+\end{enumerate}
+（对于变上限积分$I(x,u)=\disp\int_c^uf(x,y)\diff y$也是一样）
+\end{theorem}
+\begin{example}
+$\disp I(a)=\int_0^\pi\ln(1-2a\cos x+a^2)\diff x,\,|a|<1$
+\end{example}
+\begin{analysis}
+$f(a,x)=\ln(1-2a\cos x+a^2),\,f_a(a,x)=\dfrac{2a^2-2a\cos x}{1-2a\cos x+a^2}$，由$\Delta=4\cos^2x-4<0$知$1-2a\cos x+a^2>0$恒成立，进而$f(a,x)$与$f_a(a,x)$都在$[-1,1]$连续，$I(a)$在积分号下可求导数
+\[\begin{aligned}
+I'(a)&=\intab{0}{\pi}f_a(a,x)\diff x\\
+&=\frac{1}{a}\intab{0}{\pi}{\frac{2a^2-2a\cos x}{1-2a\cos x+a^2}}\\
+&=\frac{1}{a}\intab{0}{\pi}{1+\frac{a^2-1}{1-2a\cos x+a^2}}\qquad\mbox{把分子的$\cos$项消去}\\
+&=\frac{x}{a}\Big|_0^\pi+\frac{a^2-1}{a}\intab{0}{+\infty}{\frac{1}{a^2-2a\cos x+1}}\\
+&=\frac{\pi}{a}+\frac{a^2-1}{a}\int_0^{+\infty}\frac{\frac{2}{1+t^2}\diff t}{a^2-2a\frac{1-t^2}{1+t^2}+1}\qquad\mbox{令}t=\tan\frac{x}{2}\in[0,+\infty),\text{即}x=2\arctan t\\
+&=\frac{\pi}{a}+2\frac{a^2-1}{a}\int_0^{+\infty}\frac{\diff t}{t^2(a+1)^2+(a-1)^2}\\
+&=\frac{\pi}{a}+2\frac{a^2-1}{a}\frac{1}{(a-1)^2}\int_0^{+\infty}\frac{\diff t}{1+\lrp{\frac{a+1}{a-1}t}^2}\\
+&=\frac{\pi}{a}+\frac{2}{a}\arctan\lrp{\frac{a+1}{a-1}t}\Big|_0^{+\infty}\qquad|a|<1,\frac{a+1}{a-1}\mbox{为负数}\\
+&=\frac{\pi}{a}-\frac{2}{a}\cdot\frac{\pi}{2}=0
+\end{aligned}\]
+故$I(a)=\disp\int 0\diff a=0$\\
+（注意，对于一般的情况还需解出常数$C$；本题可联系例\ref{eg:sum_fun_analysis}）
+\end{analysis}
+\begin{theorem}
+设函数$f(x,y)$在$[a,b]\times[c,d]$上连续，
+\begin{enumerate}
+	\item $c(x),d(x)$都在$[a,b]$上连续，并且当$x\in[a,b]$时，有$c\leq c(x),d(x)\leq d$，则
+	\[F(x)=\int_{c(x)}^{d(x)}f(x,y)\diff y\]
+	在$[a,b]$连续
+	\item $f_x$也在$[a,b]\times[c,d]$连续，又$c'(x)$和$d'(x)$在$[a,b]$存在，则变上限积分$F(x)$可导，且
+	\[F'(x)=\int_{c(x)}^{d(x)}f_x(x,y)\diff y+f(x,d(x))d'(x)-f(x,c(x))c'(x)\]
+\end{enumerate}
+\end{theorem}
+
+
 \subsection{欧拉积分}
 \subsubsection{第二欧拉积分}
 \[\Gamma(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}\ee^{-x}},\,\alpha>0\]
@@ -10,21 +54,26 @@
 	\[\Gamma^{(n)}(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}(\ln x)^n\ee^{-x}}\]
 	\item 递推公式
 	\[\Gamma(\alpha+1)=\alpha\Gamma(\alpha)\]
-	\[\begin{aligned}
-	\Gamma(\alpha)&=\Gamma(n+p)\\
-	&=(n+p-1)\cdots(1+p)p\Gamma(p),\,\alpha=n+p,\,p\in(0,1]
-	\end{aligned}\]
-	\item 由概率积分可得$\Gamma(\frac{1}{2})=\sqrt{\pi}$
+	特别地，当$\alpha\in\zz^+$时
+	\[\Gamma(\alpha+1)=\alpha!\]
+	对于任意$\alpha>0$，总存在非负整数$n$使得$\alpha=n+p,\,p\in(0,1]$，则
+	\[\Gamma(\alpha)=\Gamma(n+p=(n+p-1)\cdots(1+p)p\Gamma(p)\]
+	\item $\Gamma(1)=1$；由概率积分可得$\Gamma(\frac{1}{2})=\sqrt{\pi}$
 \end{enumerate}
-上不完全伽马函数(upper incomplete)
+概率分布中会用到的其他公式
+\begin{itemize}
+\item 上不完全(upper incomplete)伽马函数
 \[ \Gamma(s,x) = \int_x^{\infty} t^{s-1}\ee^{-t}\diff t\]
-下不完全伽马函数(lower incomplete)
+\item 下不完全(lower incomplete)伽马函数
 \[ \gamma(s,x) = \int_{0}^{x}t^{s-1}\ee^{-t}\diff t\]
-递推关系
-\[\Gamma(s,x)=(s-1)\Gamma(s-1,x) + x^{s-1} \ee^{-x}\]
-\[\gamma(s,x)=(s-1)\gamma(s-1,x) - x^{s-1} \ee^{-x}\]
-\[\Gamma(s) = \Gamma(s,0)\]
-\[\gamma (s,x)+\Gamma (s,x)=\Gamma (s)\]
+\item 递推关系
+\[\begin{aligned}
+\Gamma(s,x)&=(s-1)\Gamma(s-1,x) + x^{s-1} \ee^{-x}\\
+\gamma(s,x)&=(s-1)\gamma(s-1,x) - x^{s-1} \ee^{-x}\\
+\Gamma(s) &= \Gamma(s,0)\\
+\gamma (s,x)&+\Gamma (s,x)=\Gamma (s)
+\end{aligned}\]
+\end{itemize}
 
 \subsubsection{第一欧拉积分}
 \[B(a,b)=\intab{0}{1}{x^{a-1}(1-x)^{b-1}},\,a,b>0\]
@@ -37,5 +86,5 @@
 	&=\frac{a-1}{a+b-1}B(a-1,b),\,a>1,b>0
 	\end{aligned}\]
 	\item 狄利克雷公式
-	\[B(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}\]
+	\[B(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)},\,a>0,b>0\]
 \end{enumerate}

@@ -1,30 +1,26 @@
 % !TEX root = main.tex
 
 \section{场论初步}
-\[\mathbf{F}(x,y,z)=(P(x,y,z),Q(x,y,z),R(x,y,z))\]
+\label{sec:field}
+\[\mathbf{F}(x,y,z)=(P(x,y,z),Q(x,y,z),R(x,y,z))=P\vi+Q\vj+R\vk\]
 梯度场
 \[\grad u=\nabla u=\lrp{\pd{}{x},\pd{}{y},\pd{}{z}}u=\lrp{\pd{u}{x},\pd{u}{y},\pd{u}{z}}\]
 散度场
-\[\div \mathbf{F}(x,y,z)=\pd{P}{x}+\pd{Q}{y}+\pd{R}{z}\]
-旋度场
-\[\rot \mathbf{F}(x,y,z)=\vmat{\vi&\vj&\vk\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}=\nabla\times\mathbf{F}\]
+\[\div \mathbf{F}(x,y,z)=\div\cdot\vF=\pd{P}{x}+\pd{Q}{y}+\pd{R}{z}\]
+旋度场\footnote{叉积的计算方式如下
+\[\vx\times\vy=\vmat{\vi&\vj&\vk\\x_1&x_2&x_3\\y_1&y_2&y_3}=\vmat{x_2&x_3\\y_2&y_3}\vi+\vmat{x_1&x_3\\y_1&y_3}\vj+\vmat{x_1&x_2\\y_1&y_2}\vk\]}
+\[\rot \mathbf{F}(x,y,z)=\nabla\times\vF=\vmat{\vi&\vj&\vk\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\]
 高斯公式可改写为
-\[\iiint_V(\div\vF)\diff V=\oiint_S\vF\cdot\diff\vS\]
+\[\iiint_V(\div\vF)\diff V=\oiint_\mS\vF\cdot\diff\vS\]
 斯托克斯公式可改写为
-\[\iint_S\rot\vF\cdot\diff\vS=\oint_L\vF\cdot\diff\vs\]
+\[\iint_\mS\rot\vF\cdot\diff\vS=\oint_\mL\vF\cdot\diff\vl\]
 \begin{definition}
 若对$V$内任一逐段光滑曲线$L$
 \begin{enumerate}
-	\item 且$L$封闭，则$\oint_L\vF\cdot\diff\vs=0$，则$\vF$为有势场
-	\item $\int_L\vF\cdot\diff\vs$与路径无关，则$\vF$为保守场
+	\item 且$L$封闭，则$\disp\oint_L\vF\cdot\diff\vs=0$，则$\vF$为有势场
+	\item $\disp\int_L\vF\cdot\diff\vs$与路径无关，则$\vF$为保守场
 \end{enumerate}
 \end{definition}
 \begin{theorem}
-设$V$为空间的单连通区域，$\vF=(P,Q,R)$在$V$内有连续偏导数，则下列四个条件等价
-\begin{enumerate}
-	\item $\vF$是有势场
-	\item $\vF$是保守场
-	\item $\vF$是梯度场
-	\item $\vF$是无旋场
-\end{enumerate}
+设$V$为空间的单连通区域，$\vF=(P,Q,R)$在$V$内有连续偏导数，则$\vF$是有势场、保守场、梯度场、无旋场等价
 \end{theorem}

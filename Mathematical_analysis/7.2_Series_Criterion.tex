@@ -2,10 +2,10 @@
 
 \subsection{敛散性判定方法总结}
 \label{summary_conver}
-本小节阐述对于正项级数、一般项级数、无穷限积分、广义积分、函数项级数中的某几个都通用的判别法. 为方便表述和记忆，用BNF范式表述，有点泛型编程(Generic Programming)的思想在里面，下面先做一些符号说明.
+本小节阐述对于正项级数、一般项级数、无穷限积分、广义积分、函数项级数、含参变量广义积分中的某几个都通用的判别法. 为方便表述和记忆，用BNF范式表述，有点泛型编程(Generic Programming)的思想在里面，下面先做一些符号说明.
 \[\begin{aligned}
 \inpro{s}&::=u_n\mmid v_n\\
-\inpro{f}&::=f(x)\mmid g(x)\\
+\inpro{f}&::=f(x)\mmid g(x)\mmid f(x,y)\\
 \inpro{fs}&::=u_n(x)\mmid v_n(x)
 \end{aligned}\]
 
@@ -140,9 +140,10 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 
 \subsubsection{一般判别法}
 这里要区别一致收敛和绝对收敛概念的适用范围.
-\par \textbf{一致收敛}用于函数项级数，是指其在各个点收敛的速度都差不多.
+\par \textbf{一致收敛}用于函数项级数或含参变量广义积分，是指其在各个点收敛的速度都差不多.
 \par \textbf{绝对收敛}用于数项级数或广义积分，对于函数列的某个点$x_0$也可以讨论其绝对收敛性.
 \par 至于函数列的一致收敛性，只能通过定义来证明.
+\par 而对于含参变量广义积分来说，则需跟函数项级数类比，确定清楚哪一个是变化的量（对$y$积分则固定$x$），哪一个要看为常数.
 \[\begin{aligned}
 \inpro{T}&::=\inpro{s}\mmid \inpro{f}\mmid \inpro{fs}\\
 \inpro{U}&::=\ssum{\inpro{s}}\mmid \intab{a}{+\infty}{\inpro{f}}\mmid \intab{a}{b}{\inpro{f}}(\mbox{a为瑕点})\mmid \ssum{\inpro{fs}}\\
@@ -286,7 +287,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \begin{analysis}
 \begin{enumerate}
 	\item 当$p>1$时，$\lra{\dfrac{\cos nx}{n^p}}\leq\dfrac{1}{n^p}$，而$\ssum{\dfrac{1}{n^p}}$收敛，由比较判别法，原级数绝对收敛\par
-	\item 当$0<p\leq 1$时，由例\ref{egdirconv1}类似的方法知$\ssum{\cos nx}$有界，而$\{\dfrac{1}{n^p}\}$单调下降趋于$0$，故由狄利克雷函数判别法，原级数收敛\par
+	\item 当$0<p\leq 1$时，由例\ref{egdirconv1}类似的方法知$\ssum{\cos nx}$有界，而$\{\dfrac{1}{n^p}\}$单调下降趋于$0$，故由狄利克雷判别法，原级数收敛\par
 但由于（\textbf{相当关键的一步}）
 \[\lra{\dfrac{\cos nx}{n^p}}\geq\dfrac{\cos^2 nx}{n^p}=\dfrac{1}{2n^p}+\dfrac{\cos 2nx}{2n^p}\]
 $\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利克雷），故$\ssum\lra{\dfrac{\cos nx}{n^p}}$发散，即原级数条件收敛\par
