@@ -20,7 +20,7 @@ $\disp I(a)=\int_0^\pi\ln(1-2a\cos x+a^2)\diff x,\,|a|<1$
 \begin{analysis}
 $f(a,x)=\ln(1-2a\cos x+a^2),\,f_a(a,x)=\dfrac{2a^2-2a\cos x}{1-2a\cos x+a^2}$，由$\Delta=4\cos^2x-4<0$知$1-2a\cos x+a^2>0$恒成立，进而$f(a,x)$与$f_a(a,x)$都在$[-1,1]$连续，$I(a)$在积分号下可求导数
 \[\begin{aligned}
-I'(a)&=\intab{0}{\pi}f_a(a,x)\diff x\\
+I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
 &=\frac{1}{a}\intab{0}{\pi}{\frac{2a^2-2a\cos x}{1-2a\cos x+a^2}}\\
 &=\frac{1}{a}\intab{0}{\pi}{1+\frac{a^2-1}{1-2a\cos x+a^2}}\qquad\mbox{把分子的$\cos$项消去}\\
 &=\frac{x}{a}\Big|_0^\pi+\frac{a^2-1}{a}\intab{0}{+\infty}{\frac{1}{a^2-2a\cos x+1}}\\
@@ -31,7 +31,13 @@ I'(a)&=\intab{0}{\pi}f_a(a,x)\diff x\\
 &=\frac{\pi}{a}-\frac{2}{a}\cdot\frac{\pi}{2}=0
 \end{aligned}\]
 故$I(a)=\disp\int 0\diff a=0$\\
-（注意，对于一般的情况还需解出常数$C$；本题可联系例\ref{eg:sum_fun_analysis}）
+另外，
+\begin{itemize}
+	\itemsep -3pt
+	\item 对于一般的情况还需解出常数$C$
+	\item 本题还可联系例\ref{eg:sum_fun_analysis}
+	\item 对于$a\geq 0$的其他情况，可见\footnote{\url{https://math.stackexchange.com/questions/650513/computing-int-0-pi-ln-left1-2a-cos-xa2-right-dx}}
+\end{itemize}
 \end{analysis}
 \begin{theorem}
 设函数$f(x,y)$在$[a,b]\times[c,d]$上连续，
@@ -43,6 +49,7 @@ I'(a)&=\intab{0}{\pi}f_a(a,x)\diff x\\
 	\[F'(x)=\int_{c(x)}^{d(x)}f_x(x,y)\diff y+f(x,d(x))d'(x)-f(x,c(x))c'(x)\]
 \end{enumerate}
 \end{theorem}
+\par 关于含参变量广义积分请见\ref{sec:sub:parameter_abnormal_integral}节.
 
 
 \subsection{欧拉积分}

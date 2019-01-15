@@ -6,17 +6,21 @@
 \subsection{切线与法线}
 \subsubsection{空间曲线的切线与法平面}
 曲线上一点$(x,y,z)$的切向量为
-\[\mathbf{\tau}(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
+\[\vtau(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
 若曲线在$P(x_0,y_0,z_0)$的切向量为
-\[\mathbf{\tau}(x_0,y_0,z_0)=(A,B,C)\]
+\[\vtau(x_0,y_0,z_0)=(A,B,C)\]
 则该点的切线方程为
 \[\frac{x-x_0}{A}=\frac{y-y_0}{B}=\frac{z-z_0}{C}\]
 法平面方程为
-\[\mathbf{\tau}\cdot(\vv-P)^\T=0\]
+\[\vtau\cdot(\vv-P)^\T=0\]
 
 \subsubsection{空间曲面的切平面与法线}
+% 回忆起高中立几那一套！
 法向量为
-\[\mathbf{n}(x,y,z)=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\]
+\[\begin{aligned}
+\mathbf{n}(x,y,z)&=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\\
+&=\pm\vmat{\vi&\vj&\vk\\x_u&y_u&z_u\\x_v&y_v&z_v}=\pm(\mathbf{r}_u\times\mathbf{r}_v)
+\end{aligned}\]
 若曲线在$P(x_0,y_0,z_0)$的切向量为
 \[\mathbf{n}(x_0,y_0,z_0)=(A',B',C')\]
 则该点的法线方程为
@@ -67,10 +71,15 @@
 \par 如果是单一极坐标曲线求面积，则一般关注其最大最小极径以及其对称性.
 
 \subsubsection{空间曲面}
+\label{subsubsec:surface_area}
 思路与求曲线弧长类似，采用切平面来做原曲面的近似.
-将曲线某点的切平面投影到平面$D$上，设$\diff S$的法向量的方向余弦为$(\cos\alpha,\cos\beta,\cos\gamma)$，则
-\[\diff S=\frac{\diff D}{|\cos\gamma|}=\frac{\diff x\diff y}{|\cos\gamma|}=\sqrt{1+f^2_x(x,y)+f^2_y(x,y)}\diff x\diff y\]
-参数形式下
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.2\linewidth]{fig/surface_projection.eps}
+\end{figure}
+\par 将曲线某点的切平面$\Delta\sigma$投影到平面$\Delta D$上，设$\diff S$的法向量的方向余弦为$(\cos\alpha,\cos\beta,\cos\gamma)$，则
+\[\diff S=\frac{\diff D}{|\cos\gamma|}=\frac{\diff x\diff y}{|\cos\gamma|}=\sqrt{1+f^2_x(x,y)+f^2_y(x,y)}\diff x\diff y=\|\vn\|\diff x\diff y\]
+\par 参数形式下
 \[x=x(u,v),y=y(u,v),z=z(u,v),(u,v)\in D\]
 记
 \[\begin{aligned}
@@ -80,6 +89,37 @@ F&=\mathbf{r}_u\cdot\mathbf{r}_v=\pd{x}{u}\pd{x}{v}+\pd{y}{u}\pd{y}{v}+\pd{z}{u}
 \end{aligned}\]
 进而曲面面积为
 \[S=\iint_D\sqrt{EG-F^2}\diff u\diff v\]
+\par 采用向量叉积可以将上述两种形式统一（见下图\footnote{图源：Parametric Representations of Surfaces, \url{https://services.math.duke.edu/education/ccp/materials/mvcalc/parasurfs/para3.html}}）
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{fig/coordinate_projection2.png}
+\end{figure}
+设$\vx=(x(u,v),y(u,v),z(u,v))$，则有
+\[\diff S=|\vx_u\times\vx_v|\diff u\diff v\]
+\begin{example}
+求锥面$x^2+y^2=\dfrac{1}{3}z^2$与平面$x+y+z=2a(a>0)$所界部分的表面面积
+\end{example}
+\begin{analysis}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\linewidth]{fig/surface_area_eg.pdf}
+\end{figure}
+锥面与平面的交线在$xOy$平面上的投影为（在下面这条曲线上不管取什么$z$值都成立，故为交线的投影）
+\[3(x^2+y^2)=(2a-x-y)^2\implies x^2-xy+y^2+2a(x+y)=2a^2\]
+由圆锥曲线理论\footnote{\url{https://math.stackexchange.com/questions/280937/finding-the-angle-of-rotation-of-an-ellipse-from-its-general-equation-and-the-ot}}知道旋转角
+\[\theta=\frac{1}{2}\left|\arctan\frac{-1}{1-1}\right|=\pi/4\]
+进而做转轴变换\footnote{\url{https://en.wikipedia.org/wiki/Rotation_(mathematics)}}
+\[\begin{pmatrix}x\\y\end{pmatrix}=\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}\begin{pmatrix}x'\\y'\end{pmatrix}\implies\begin{cases}x=\frac{x'+y'}{\sqrt{2}}\\y=\frac{-x'+y'}{\sqrt{2}}\end{cases}\]
+得到射影方程为
+\[\frac{(x'+2\sqrt{2})^2}{12a^2}+\frac{y'^2}{4a^2}=1\]
+这是以$2\sqrt{3}a$和$2a$为半轴长的椭圆，面积为$\pi(2\sqrt{3}a)(2a)=4\sqrt{3}\pi a^2$.
+锥面与平面所截部分的表面由截面$z=2a-x-y$和截出的锥面$z=\sqrt{3(x^2+y^2)}$两部分组成，因此
+\[\begin{aligned}
+S&=\iint_{D}\sqrt{1+(-1)^2+(-1)^2}\diff x\diff y+\iint_D\sqrt{1+\lrp{\frac{6x}{2\sqrt{3(x^2+y^2)}}}^2+\lrp{\frac{6y}{2\sqrt{3(x^2+y^2)}}}^2}\diff x\diff y\\
+&=\iint_D(2+\sqrt{3})\diff x\diff y\\
+&=(2+\sqrt{3})|D|=4(3+2\sqrt{3})\pi a^2
+\end{aligned}\]
+\end{analysis}
 
 \subsection{体积}
 \begin{enumerate}
@@ -101,7 +141,7 @@ F&=\mathbf{r}_u\cdot\mathbf{r}_v=\pd{x}{u}\pd{x}{v}+\pd{y}{u}\pd{y}{v}+\pd{z}{u}
 	\item 直角坐标
 	\[\diff s^2=(1+[f'(x)]^2)\diff x^2\]
 	\item 参数方程
-	\[\diff s^2=([x(t)]^2+[y(t)]^2)\diff t^2\]
+	\[\diff s^2=([x'(t)]^2+[y'(t)]^2)\diff t^2\]
 	\item 极坐标（通过$x=r\cos\theta,y=r\sin\theta$转直角坐标推导）
 	\[\diff s^2=r^2\diff\theta^2+\diff r^2\]
 \end{enumerate}
