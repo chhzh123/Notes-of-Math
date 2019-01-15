@@ -24,8 +24,8 @@
   & \intabu{a}{b}{f(\vx(t))\|\vx'(t)\|}{t}\arrow{ur} & & \intabu{a}{b}{\vF(\vx(t))\cdot\vx'(t)}{t}\arrow{lu} & \\
 \intabu{\mL}{}{f(\vx)}{l} \arrow{ur}\arrow[dashed]{rd} & & \intabu{\mL}{}{\vF\cdot\vtau}{l}\arrow{ll} &  & \textcolor{red}{\begin{tabular}{c}Line Integral\\$\intabu{\mL}{}{\vF(\vx)\cdot}{\vl}$\end{tabular}} \arrow{ul}\arrow{ll}\arrow{ld}\\
   & \disp\oint_{\pd\mD}\vF\cdot\vtau\diff l=\iintu{\mD}{(\nabla\times\vF)}{x\diff y}\arrow[dashed]{rd} & & \begin{tabular}{c}Green\\$\boxed{\disp\oint_{\pd\mD}\vF\cdot\diff\vl=\iintu{\mD}{(\nabla\times\vF)}{x\diff y}}$\end{tabular}\arrow{ld} & \\
-  \iintu{\mS}{(\nabla\times\vF)\cdot\vn}{S}=\oint_{\pd\mS}\vF\cdot\vtau\diff l\arrow[dashed]{uu}& & \iintu{\mD}{f(x,y)}{x\diff y} & & \begin{tabular}{c}Stokes\\$\boxed{\iintu{\mS}{(\nabla\times\vF)\cdot}{\mS}=\oint_{\pd\mS}\vF\cdot\diff\vl}$\end{tabular}\arrow{uu}\\
-  & \iintu{\mD}{f(\vx(u,v))\|\vx_u\times\vx_v\|}{u\diff v}\arrow{ru} & & \iintu{\mD}{f(\vx(u,v))\cdot(\vx_u\times\vx_v)}{u\diff v}\arrow{lu} &\\ 
+  \iintu{\mS}{(\nabla\times\vF)\cdot\vn}{S}=\oint_{\pd\mS}\vF\cdot\vtau\diff l\arrow[dashed]{uu}& & \iintu{\mD}{f(x,y)}{x\diff y} & & \begin{tabular}{c}Stokes\\$\boxed{\iintu{\mS}{(\nabla\times\vF)\cdot}{\vS}=\oint_{\pd\mS}\vF\cdot\diff\vl}$\end{tabular}\arrow{uu}\\
+  & \iintu{\mD}{f(\vx(u,v))\|\vx_u\times\vx_v\|}{u\diff v}\arrow{ru} & & \iintu{\mD}{\vF(\vx(u,v))\cdot(\vx_u\times\vx_v)}{u\diff v}\arrow{lu} &\\ 
 \iintu{\mS}{f(\vx)}{S} \arrow{ur}\arrow[dashed]{rd}\arrow[dashed]{uu} & & \iintu{\mS}{\vF\cdot\vn}{S}\arrow{ll} & & \textcolor{red}{\begin{tabular}{c}Surface Integral\\$\iintu{\mS}{\vF(\vx)\cdot}{\vS}$\end{tabular}} \arrow{uu}\arrow{ll}\arrow{lu}\arrow{ld}\\
  & \disp\oiint_{\pd V}\vF\cdot\vn\diff S=\iiint_V(\nabla\cdot\vF)\diff x\diff y\diff z \arrow[dashed]{rd} & & \begin{tabular}{c}Gauss\\$\boxed{\disp\oiint_{\pd V}\vF\cdot\diff\vS=\iiint_V(\nabla\cdot\vF)\diff x\diff y\diff z}$\end{tabular}\arrow{ld} &\\
  & & \disp\iiint_Vf(x,y,z)\diff x\diff y\diff z & &

@@ -48,26 +48,39 @@
 
 % vector
 \def\va{\mathbf{a}}
+\def\vb{\mathbf{b}}
 \def\vc{\mathbf{c}}
 \def\vd{\mathbf{d}}
 \def\ve{\mathbf{e}}
 \def\vf{\mathbf{f}}
 \def\vg{\mathbf{g}}
+\def\vh{\mathbf{h}}
 \def\vi{\mathbf{i}}
 \def\vj{\mathbf{j}}
 \def\vk{\mathbf{k}}
+\def\vl{\mathbf{l}}
+\def\vm{\mathbf{m}}
+\def\vn{\mathbf{n}}
+\def\vo{\mathbf{o}}
+\def\vp{\mathbf{p}}
+\def\vq{\mathbf{q}}
 \def\vr{\mathbf{r}}
 \def\vs{\mathbf{s}}
+\def\vt{\mathbf{t}}
+\def\vu{\mathbf{u}}
+\def\vv{\mathbf{v}}
+\def\vw{\mathbf{w}}
 \def\vx{\mathbf{x}}
 \def\vy{\mathbf{y}}
-\def\vv{\mathbf{v}}
-\def\vu{\mathbf{u}}
+\def\vz{\mathbf{z}}
 \def\vzero{\mathbf{0}}
 \def\vF{\mathbf{F}}
+\def\vJ{\mathbf{J}}
 \def\vS{\mathbf{S}}
+\def\valpha{\bm{\alpha}}
+\def\vbeta{\bm{\beta}}
+\def\vgamma{\bm{\gamma}}
 \def\vtau{\bm{\tau}}
-\def\vl{\mathbf{l}}
-\def\vn{\mathbf{n}}
 
 % matrix
 % \def\+#1{\mathbf{#1}}
@@ -77,7 +90,6 @@
 \def\mS{\mathcal{S}}
 \def\mD{\mathcal{D}}
 
-\def\vbb{\bm{\beta}}
 \def\T{\mathrm{T}}
 \def\rn{\mathbb{R}^n}
 \def\dim{\mathrm{dim}\,}
@@ -117,10 +129,10 @@
 \newcommand{\floor}[1]{\lfloor#1\rfloor}
 \newcommand{\dnf}[1]{f^{(#1)}}
 \newcommand{\arc}[1]{\wideparen{#1}}
+\newcommand{\surfaceint}[4]{\displaystyle\iint_{#1}{#2}\diff y\diff z+{#3}\diff z\diff x+{#4}\diff x\diff y}
 
 \newcommand{\proj}[1]{\mathrm{proj}_{#1}}
 \newcommand{\inp}[2]{\langle #1,#2 \rangle}
-\newcommand{\vb}[1]{\mathbf{#1}}
 \newcommand{\bmat}[2]{\begin{bmatrix}{#1}&\cdots&{#2}\end{bmatrix}}
 \newcommand{\vmat}[1]{\begin{vmatrix}#1\end{vmatrix}}
 \newcommand{\setenu}[2]{\{#1,\dots,#2\}}

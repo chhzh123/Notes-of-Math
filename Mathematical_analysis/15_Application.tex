@@ -5,36 +5,61 @@
 
 \subsection{切线与法线}
 \subsubsection{空间曲线的切线与法平面}
-曲线上一点$(x,y,z)$的切向量为
-\[\vtau(x,y,z)=\pm(x'(t_0),y'(t_0),z'(t_0))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
+\label{sub:sub:sec:tangent}
+曲线$L:x=x(t),y=y(t),z=z(t),\alpha\leq t\leq\beta$的切向量为
+\[\vtau(x,y,z)=\pm(x'(t),y'(t),z'(t))=\pm\lrp{\pd{(F,G)}{(y,z)},\pd{(F,G)}{(z,x)},\pd{(F,G)}{(x,y)}}\]
+考虑由割线变切线的极限过程，前者是容易理解的.
+后者涉及两条曲线$F,G$的交线，需要设出隐函数解方程.
+\par 若曲线在$P(x_0,y_0,z_0)$的切向量为
 \[\vtau(x_0,y_0,z_0)=(A,B,C)\]
 则该点的切线方程为
 \[\frac{x-x_0}{A}=\frac{y-y_0}{B}=\frac{z-z_0}{C}\]
 法平面方程为
-\[\vtau\cdot(\vv-P)^\T=0\]
+\[\vtau\cdot(\vx-P)^\T=0\]
 
 \subsubsection{空间曲面的切平面与法线}
+\label{sub:sub:sec:normal}
 % 回忆起高中立几那一套！
-法向量为
+曲面$\pi:F(x,y,z)=0$的法向量为
 \[\begin{aligned}
-\mathbf{n}(x,y,z)&=\pm(F_x,F_y,F_z)=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\\
-&=\pm\vmat{\vi&\vj&\vk\\x_u&y_u&z_u\\x_v&y_v&z_v}=\pm(\mathbf{r}_u\times\mathbf{r}_v)
+\mathbf{n}(x,y,z)&=\pm\nabla F(x,y,z)=\pm(F_x,F_y,F_z)\\
+&=\pm(\mathbf{r}_u\times\mathbf{r}_v)=\pm\vmat{\vi&\vj&\vk\\x_u&y_u&z_u\\x_v&y_v&z_v}=\pm\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}
 \end{aligned}\]
-若曲线在$P(x_0,y_0,z_0)$的切向量为
+梯度与等值面\footnote{\url{https://en.wikipedia.org/wiki/Level_set\#Level_sets_versus_the_gradient}}垂直，进而第一条等式成立；
+或者求过$P$的曲线的切向量，所有切向量构成切平面，切平面的法线即为所求.
+若$F$可被参数方程写出来，则$\vr_u,\vr_v$分别为$u,v$方向上的切向量，叉积即为法向量.
+\par 若曲面方程为$\pi:z=f(x,y)$，则$F:f(x,y)-z=0$.
+\par 若曲线在$P(x_0,y_0,z_0)$的法向量为
 \[\mathbf{n}(x_0,y_0,z_0)=(A',B',C')\]
 则该点的法线方程为
 \[\frac{x-x_0}{A'}=\frac{y-y_0}{B'}=\frac{z-z_0}{C'}\]
 切平面方程为
-\[\mathbf{n}\cdot(\vv-P)^\T=0\]
+\[\mathbf{n}\cdot(\vx-P)^\T=0\]
 
 \subsubsection{方向导数}
-即在某一个方向$\mathbf{l}$上的变化率
+方向导数即在某一个方向$\mathbf{l}$上的变化率
 \begin{theorem}
 若$f(x,y,z)$在点$P_0(x_0,y_0,z_0)$可微，则$f(x,y,z)$在$P_0$沿任何方向$\mathbf{l}$的方向导数都存在，且有
 \[\pd{f(P_0)}{l}=\pd{f(P_0)}{x}\cos\alpha+\pd{f(P_0)}{y}\cos\beta+\pd{f(P_0)}{z}\cos\gamma=\nabla f(P_0)\cdot\cos\theta\]
 其中，$\cos\alpha,\cos\beta,\cos\gamma$是$\mathbf{l}$的方向余弦，即$\mathbf{l}$与三个坐标轴的夹角
 \end{theorem}
+
+\subsection{弧长}
+\begin{center}
+\begin{tikzpicture}[domain=0:2.5]
+\draw (0,0) --node[below] {$\diff x$} (2.5,0) --node[right] {$\diff y$} (2.5,1.5) --node[left,above] {$\diff s$} cycle;
+\draw[color=orange] plot (\x,{1.5/(exp(2.5)-1)*(exp(\x)-1)});
+\end{tikzpicture}
+\end{center}
+\[\diff s=\sqrt{\diff x^2+\diff y^2}=\sqrt{1+\lrp{\dfrac{\diff y}{\diff x}}^2}\diff x\]
+\begin{enumerate}
+	\item 直角坐标
+	\[\diff s^2=(1+[f'(x)]^2)\diff x^2\]
+	\item 参数方程
+	\[\diff s^2=([x'(t)]^2+[y'(t)]^2)\diff t^2\]
+	\item 极坐标（通过$x=r(\theta)\cos\theta,y=r(\theta)\sin\theta$转直角坐标推导）
+	\[\diff s^2=r^2\diff\theta^2+\diff r^2\]
+\end{enumerate}
 
 \subsection{面积}
 \subsubsection{平面曲线}
@@ -43,7 +68,7 @@
 	\[\diff A=y\diff x=(f(x)-g(x))\diff x\]
 	积分上下限即两曲线端点
 	\item 参数方程$(x(t),y(t)),t\in[\alpha,\beta]$（简单闭曲线$\Gamma$，端点相连$x(\alpha)=x(\beta),y(\alpha)=y(\beta)$，其他地方不相交\footnote{规定曲线的正向：沿着曲线的正向走，其包围的有界区域始终在曲线左侧}）
-	\[\diff A=y(t)\diff x(t)\implies A=\textcolor{red}{-}\oint_\Gamma y\diff x\]
+	\[\diff A=y(t)\diff x(t)\implies A=\textcolor{red}{-}\oint_\Gamma y\diff x=\oint_\Gamma x\diff y=\frac{1}{2}\oint_\Gamma x\diff y-y\diff x\]
 	积分上下限为$\alpha,\beta$
 	\item 极坐标（曲线$r(\theta)$与向径$\theta=\alpha,\theta=\beta$所围成的区域）
 	\[\diff A=\dfrac{1}{2}r^2(\theta)\diff\theta\]
@@ -72,15 +97,24 @@
 
 \subsubsection{空间曲面}
 \label{subsubsec:surface_area}
-思路与求曲线弧长类似，采用切平面来做原曲面的近似.
+思路与求曲线弧长类似，采用\textbf{切平面}来做原曲面的近似.
+故要求$xOy$平面上微元$\diff x\diff y$对应的切平面的面积.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.2\linewidth]{fig/surface_projection.eps}
 \end{figure}
-\par 将曲线某点的切平面$\Delta\sigma$投影到平面$\Delta D$上，设$\diff S$的法向量的方向余弦为$(\cos\alpha,\cos\beta,\cos\gamma)$，则
-\[\diff S=\frac{\diff D}{|\cos\gamma|}=\frac{\diff x\diff y}{|\cos\gamma|}=\sqrt{1+f^2_x(x,y)+f^2_y(x,y)}\diff x\diff y=\|\vn\|\diff x\diff y\]
-\par 参数形式下
+\par 将曲面$z=f(x,y)$某点的切平面$\Delta\sigma$投影到平面$\Delta D$上，设$\diff S$的法向量$\vn=\pm(f^2_x,f^2_y,-1)$的方向余弦为$(\cos\alpha,\cos\beta,\cos\gamma)$，则
+\[\diff S=\frac{\diff D}{|\cos\gamma|}=\frac{\diff x\diff y}{|\cos\gamma|}=\frac{\diff x\diff y}{1/\sqrt{f^2_x(x,y)+f^2_y(x,y)+1}}=\|\vn\|\diff x\diff y\]
+\par 若曲面由参数形式给出
 \[x=x(u,v),y=y(u,v),z=z(u,v),(u,v)\in D\]
+\par 法向量采用叉积形式表示（见下图\footnote{图源：Parametric Representations of Surfaces, \url{https://services.math.duke.edu/education/ccp/materials/mvcalc/parasurfs/para3.html}}），则有
+\[\diff S=\|\vr_u\diff u\times\vr_v\diff v\|=\|\vr_u\times\vr_v\|\diff u\diff v=|\vJ|\diff u\diff v\]
+注意叉积的行列式即为平行四边形构成的面积，但要取绝对值.
+实际上这里的叉积也即雅可比行列式(Jacobian)\footnote{准确来说是雅可比矩阵的行列式的绝对值，\url{http://faculty.bard.edu/belk/math352f11/Outline\%20-\%20Area.pdf}}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{fig/coordinate_projection2.png}
+\end{figure}
 记
 \[\begin{aligned}
 E&=|\mathbf{r}_u|^2=\lrp{\pd{x}{u}}^2+\lrp{\pd{y}{u}}^2+\lrp{\pd{z}{u}}^2\\
@@ -89,13 +123,7 @@ F&=\mathbf{r}_u\cdot\mathbf{r}_v=\pd{x}{u}\pd{x}{v}+\pd{y}{u}\pd{y}{v}+\pd{z}{u}
 \end{aligned}\]
 进而曲面面积为
 \[S=\iint_D\sqrt{EG-F^2}\diff u\diff v\]
-\par 采用向量叉积可以将上述两种形式统一（见下图\footnote{图源：Parametric Representations of Surfaces, \url{https://services.math.duke.edu/education/ccp/materials/mvcalc/parasurfs/para3.html}}）
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.4\linewidth]{fig/coordinate_projection2.png}
-\end{figure}
-设$\vx=(x(u,v),y(u,v),z(u,v))$，则有
-\[\diff S=|\vx_u\times\vx_v|\diff u\diff v\]
+
 \begin{example}
 求锥面$x^2+y^2=\dfrac{1}{3}z^2$与平面$x+y+z=2a(a>0)$所界部分的表面面积
 \end{example}
@@ -127,23 +155,6 @@ S&=\iint_{D}\sqrt{1+(-1)^2+(-1)^2}\diff x\diff y+\iint_D\sqrt{1+\lrp{\frac{6x}{2
 \[\diff V=\pi[f(x)]^2\diff x\]
 	\item 已知截面积
 \[\diff V=A(x)\diff x\]
-\end{enumerate}
-
-\subsection{弧长}
-\begin{center}
-\begin{tikzpicture}[domain=0:2.5]
-\draw (0,0) --node[below] {$\diff x$} (2.5,0) --node[right] {$\diff y$} (2.5,1.5) --node[left,above] {$\diff s$} cycle;
-\draw[color=orange] plot (\x,{1.5/(exp(2.5)-1)*(exp(\x)-1)});
-\end{tikzpicture}
-\end{center}
-\[\diff s=\sqrt{\diff x^2+\diff y^2}=\sqrt{1+\lrp{\dfrac{\diff y}{\diff x}}^2}\diff x\]
-\begin{enumerate}
-	\item 直角坐标
-	\[\diff s^2=(1+[f'(x)]^2)\diff x^2\]
-	\item 参数方程
-	\[\diff s^2=([x'(t)]^2+[y'(t)]^2)\diff t^2\]
-	\item 极坐标（通过$x=r\cos\theta,y=r\sin\theta$转直角坐标推导）
-	\[\diff s^2=r^2\diff\theta^2+\diff r^2\]
 \end{enumerate}
 
 \subsection{曲率}

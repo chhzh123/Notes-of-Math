@@ -1,7 +1,7 @@
 % !TEX root = main.tex
 
 \section{多元函数的积分}
-\subsection{重积分基本定义}
+\subsection{重积分概述}
 \begin{definition}[二重积分]
 设$D$是平面上可求面积的有界闭区域，$f(x,y)$定义在$D$上，用任意曲线网将$D$分成有限个可求面积的区域$\Delta\sigma_1,\Delta\sigma_2,\ldots,\Delta\sigma_n$（称为$D$的一个分法），任取$(\xi_i,\eta_i)\in\Delta\sigma_i$，作和
 \[\sigma=\sum_{i=1}^nf(\xi_i,\eta_i)\Delta\sigma_i\]
@@ -23,6 +23,7 @@
 \end{example}
 \begin{analysis}
 \begin{enumerate}
+	\itemsep -3pt
 	\item 连续函数必一致连续，则振幅可限制上界，进而对振幅与面积的乘积求和趋于$0$，可积
 	\item 抽一个邻域出来，极限保号性
 	\item 分别取$f(\xi_i,\eta_i)$为不同值的点，极限不同
@@ -137,219 +138,164 @@ $\disp\iiint_Vxy^2z^3\diff x\diff y\diff z$，$V$由曲面$z=xy,y=x,z=0,x=1$围�
 \end{itemize}
 \end{example}
 
-\subsection{曲线积分}
-\subsubsection{第一型曲线及曲面积分}
-\begin{definition}[第一型曲线积分]
-设$L$为空间可求长的曲线段，$f(x,y,z)$定义在$L$上，$L$的两端点为$A,B$，依次用分点$A=A_0,A_1,\ldots,A_n=B$将$L$分为$n$小段，每小段的弧长记为$\Delta s_i$，不妨将第$i$段小弧也记为$\Delta s_i$，任取$(\xi_i,\eta_i,\zeta_i)\in\Delta s_i$，作和式
-\[\sum_{i=1}^n f(\xi_i,\eta_i,\zeta_i)\Delta s_i\]
-若当$\lambda=\max_{1\leq i\leq n}\{\Delta s_i\}\to 0$时上述和式极限存在，则称此极限值为$f(x,y,z)$在曲线$L$上的第一型曲线积分，记为
-\[\int_Lf(x,y,z)\diff s=\lim_{\lambda\to 0}\sum_{i=1}^nf(\xi_i,\eta_i,\zeta_i)\Delta s_i\]
-若$L$为光滑曲线
-\[x=x(t),y=y(t),z=z(t),\alpha\leq t\leq\beta\]
-$f(x,y,z)$在$L$上连续，则$f(x,y,z)$在$L$上的第一型曲线积分存在，有
-\[\int_Lf(x,y,z)\diff s=\intabu{\alpha}{\beta}{f(x(t),y(t),z(t))\sqrt{{x'}^2(t)+{y'}^2(t)+{z'}^2(t)}}{t}\]
-\end{definition}
-由于第一型曲线积分是无向的（上限一定大于下限），故
-\[\int_{\wideparen{AB}}f(x,y,z)\diff s=\int_{\wideparen{BA}}f(x,y,z)\diff s\]
-\begin{definition}[第一型曲面积分]
-设$S$是空间光滑曲面$z=z(x,y),(x,y)\in D$，$f(x,y,z)$是定义在$S$上的函数，对于$D$的任意分法$\Delta\sigma_i$，相应地得到$S$的分法$\Delta S_i$，任取$(\xi_i,\eta_i,\zeta_i)\in\Delta S_i$，记$\lambda=\max_{1\leq i\leq n}\{d(\Delta\sigma_i)\}$，则第一型曲面积分记为
-\[\iint_S f(x,y,z)\diff S=\lim_{\lambda\to 0}\sum_{i=1}^n f(\xi_i,\eta_i,\zeta_i)\Delta S_i\]
-若$D$为有界闭区域，$f(x,y,z)$在$S$上连续，则$f(x,y,z)$在曲面$S$上的第一型曲面积分存在，且
-\[\iint_S f(x,y,z)\diff S=\iint_D f(x,y,z(x,y))\sqrt{1+z_x^2(x,y)+z_y^2(x,y)}\diff x\diff y\]
-\end{definition}
-求第一型曲面积分，关键是将曲面投影到$xOy$平面上（即$D$），即可将曲面积分变为二重积分.
-\par 当曲面的参数方程不好写出时，考虑采用对称性解决.
-\begin{example}
-$\disp\int_Lxy\diff s$，其中$L$为球面$x^2+y^2+z^2=a^2$与平面$x+y+z=0$的交线
-\end{example}
-\begin{analysis}
-注意观察所给式子之间的关系，有
-\[-a^2=(x+y+z)^2-(x^2+y^2+z^2)=2(xy+yz+zx)\]
-求三项之和的积分，注意到$x+y+z=0$过原点，故交线为大圆
-\[\frac{1}{2}\int_L(-a^2)\diff s=\frac{-a^2}{2}\int_L\diff s=\frac{-a^2}{2}2\pi a=-a^3\pi\]
-又注意到交线$L$关于$x,y,z$的对称性，故原式$=-\dfrac{a^3\pi}{3}$
-\end{analysis}
-
-\subsubsection{第二型曲线积分及曲面积分}
-\begin{definition}[第二型曲线积分]
-设向量函数$\vF(x,y,z)=P(x,y,z)\vi+Q(x,y,z)\vj+R(x,y,z)\vk$定义在空间光滑曲线弧$L$上，则
-\[\begin{aligned}
-\int_L\vF(x,y,z)\cdot\diff\vs&=\int_LP(x,y,z)\diff x+Q(x,y,z)\diff y+R(x,y,z)\diff z\\
-&=\lim_{\lambda\to 0}\sum_{i=1}^n[P(\xi_i,\eta_i,\zeta_i)\Delta x_i+Q(\xi_i,\eta_i,\zeta_i)\Delta y_i+R(\xi_i,\eta_i,\zeta_i)\Delta z_i]\\
-&=\int_a^b(Px'(t)+Qy'(t)+Rz'(t))\diff t
-\end{aligned}\]
-\end{definition}
-若$L$为闭曲线，则记
-\[\oint_LP\diff x+Q\diff y+R\diff z\]
-此时积分与起点选择无关，只与曲线$L$的方向有关.
-\par 注意积分公式中定积分的\textbf{下限}总是对应有向曲线段的\textbf{起点}，\textbf{上限}总是对应有线曲线段的\textbf{终点}.
-路径不同，积分值可能不同.
-\[\int_{\wideparen{AB}}\vF\cdot \diff\vs=\int_{\arc{AB}}\vF\cdot\vtau\diff d\]
-其中，$\vtau$是与$\arc{AB}$方向一致的单位切向量，用分量表示即为
-\[(\diff x,\diff y,\diff z)=(\cos\alpha,\cos\beta,\cos\gamma)=(\frac{\diff x}{\diff s},\frac{\diff y}{\diff s},\frac{\diff z}{\diff s})\]
-\par 涉及切向量/法向量的式子大多用\textbf{本性方程}进行推导，下面是一例关于本性方程的应用.
-\begin{example}
-设$P,Q,R$在$L$上连续，$L$为光滑弧段，弧长为$l$，证明
-\[\left|\int_LP\diff x+Q\diff y+R\diff z\right|\leq Ml\]
-其中$M=\max_{(x,y,z)\in L}\{\sqrt{P^2+Q^2+R^2}\}$
-\end{example}
-\begin{analysis}
-取弧长$s$为参数，则$L$的本性方程为
-\[\begin{cases}
-x=x(s)\\
-y=y(s)&0\leq s\leq l\\
-z=z(s)
-\end{cases}\]
-进而有
-\[\begin{aligned}
-\Big|\int_LP\diff x+&Q\diff y+R\diff z\Big|=
-\left|\int_0^lP(x(s),y(s),z(s))\diff x(s)+\int_0^lQ(x(s),y(s),z(s))\diff y(s)+\int_0^lR(x(s),y(s),z(s))\diff z(s)\right|\\
-&\leq \int_0^l\left|P(x(s),y(s),z(s))\diff x(s)+Q(x(s),y(s),z(s))\diff y(s)+R(x(s),y(s),z(s))\diff z(s)\right|\quad\mbox{绝对值不等式}\\
-&\leq \int_0^l\sqrt{P^2+Q^2+R^2}\sqrt{\diff x^2+\diff y^2+\diff z^2}\quad\mbox{Cauchy不等式}\\
-&\leq M\int_0^l\diff s=Ml
-\end{aligned}\]
-\end{analysis}
-\begin{definition}[第二型曲面积分]
-设向量函数$\vF(x,y,z)=P(x,y,z)\vi+Q(x,y,z)\vj+R(x,y,z)\vk$定义在空间光滑光滑双侧曲面$S$上，则
-\[\begin{aligned}
-\iint_S\vF(x,y,z)\cdot\diff\vS&=\iint_SP(x,y,z)\diff y\diff z+Q(x,y,z)\diff z\diff x+R(x,y,z)\diff x\diff y\\
-&=\lim_{\lambda\to 0}\sum_{i=1}^n[P(\xi_i,\eta_i,\zeta_i)\Delta S_i\cos\alpha_i+Q(\xi_i,\eta_i,\zeta_i)\Delta S_i\cos\beta_i+R(\xi_i,\eta_i,\zeta_i)\Delta S_i\cos\gamma_i]\\
-&=\iint_S(P\cos\alpha+Q\cos\beta+R\cos\gamma)\diff S\\
-&=\pm\iint_D (P,Q,R)\cdot\lrp{\pd{(y,z)}{(u,v)},\pd{(z,x)}{(u,v)},\pd{(x,y)}{(u,v)}}\diff u\diff v\\
-&=\iint_D\pm P\left|\pd{(y,z)}{(u,v)}\right|\diff y\diff z\pm Q\left|\pd{(z,x)}{(u,v)}\right|\diff z\diff x\pm R\left|\pd{(x,y)}{(u,v)}\right|\diff u\diff v
-\end{aligned}\]
-这里的$(\cos\alpha,\cos\beta,\cos\gamma)$是法向量与坐标轴的夹角
-\end{definition}
-\par 曲面的侧由$\cos\gamma$的正负决定，若$\vn$与$z$轴正向夹角为锐角，则为曲面的上侧，否则为曲面的下侧.
+\subsection{含参变量正常积分}
+含参变量积分其实就对应着概率论里面的边缘概率密度，而二重积分则是联合概率密度.
 \begin{theorem}
-设$R(x,y,z)$在光滑曲面$S:z=z(x,y),(x,y)\in D$上连续，则
-\[\iint_SR(x,y,z)\diff x\diff y=\sgn(\cos\gamma)\iint_DR(x,y,z(x,y))\diff x\diff y\]
-\end{theorem}
-
-\subsubsection{各类积分之间的联系}
-\begin{definition}[简单闭曲线]
-封闭无交叉点的曲线
-\end{definition}
-\begin{definition}[连通区域]
-平面区域$D$上任何一条封闭曲线都可以不经过$D$以外的点而连续地收缩为属于$D$的一点，则称$D$为平面单连通区域，否则为复连通区域
-\end{definition}
-\par 规定区域$D$的边界$L$的正方向是指沿$L$行走时，所围的区域$D$总在左侧；规定了正方向的边界记为$L^+$.
-\par 国外的教材均不对第一第二型积分进行区分，一般提到线积分或面积分都是指第二型积分，而第一型积分则是标量场意义下的线积分或面积分.
-\begin{center}
-\begin{tabular}{|c|c|c|c|}\hline
-第一型曲线积分（一线） & 标量场 & $\disp\int_\mL f(x,y,z)\diff l$ & 线密度\\\hline
-第二型曲线积分（二线） & 矢量场 & $\disp\int_\mL\vF(x,y,z)\cdot\diff\vl$ & 变力做功\\\hline
-第一型曲面积分（一面） & 标量场 & $\disp\iint_\mS f(x,y,z)\diff S$ & 面密度\\\hline
-第二型曲面积分（二面） & 矢量场 & $\disp\iint_\mS\vF(x,y,z)\cdot\diff\vS$ & 流量\\\hline
-\end{tabular}
-\end{center}
-\par 牛顿-莱布尼茨公式在高维空间的推广，即将内部积分转化为边界积分
-\begin{theorem}[格林(Green)公式]
-设$D$由逐段光滑闭曲线$L$围成的平面单连通区域，函数$P(x,y),Q(x,y)$在$D$上有一阶\textbf{连续}偏导数，则
-\[\iint_D\lrp{\pd{Q}{x}-\pd{P}{y}}\diff x\diff y=\iint_D\vmat{\pd{}{x}&\pd{}{y}\\P&Q}=\oint_{L^+}P\diff x+Q\diff y\]
-\end{theorem}
-格林公式运用时注意补弧或者挖洞.
-\par 平面区域$D$的面积
-\[|D|=\iint_D\diff x\diff y=\frac{1}{2}\oint_Lx\diff y-y\diff x\]
-\begin{theorem}[高斯(Gauss)公式]
-设空间区域$V$由分片光滑的双侧封闭曲面$S$围成，函数$P(x,y,z),Q(x,y,z),R(x,y,z)$在$V$及$S$上有一阶\textbf{连续}偏导数，则
-\[\iiint_V\lrp{\pd{P}{x}+\pd{Q}{y}+\pd{R}{z}}\diff x\diff y\diff z=\oiint_{S^+}P\diff y\diff z+Q\diff z\diff x+R\diff x\diff y\]
-其中$S^+$为曲面$S$的外侧
-\end{theorem}
-\begin{theorem}[斯托克斯(Stokes)公式]
-若光滑曲面$S$的边界为光滑曲线$L$，函数$P(x,y,z),Q(x,y,z),R(x,y,z)$在曲面$S$及曲线$L$上有连续一阶偏导数，则
-\[\begin{aligned}
-\oint_{\mL^+} P\diff x+Q\diff y+R\diff z&=\iint_{S^+}\lrp{\pd{R}{y}-\pd{Q}{z}}\diff y\diff z+\lrp{\pd{P}{z}-\pd{R}{x}}\diff z\diff x+\lrp{\pd{Q}{x}-\pd{P}{y}}\diff x\diff y\\
-&=\iint_S\vmat{\diff y\diff z&\diff z\diff x&\diff x\diff y\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\\
-&=\iint_S\vmat{\cos\alpha&\cos\beta&\cos\gamma\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\diff S
-\end{aligned}\]
-\end{theorem}
-
-结合场论的符号（见第\ref{sec:field}章），可以得到以下这张关系图.
-其中，$\vtau$是与$\mL$方向一致的\textbf{单位切向量}，$\vn$是与$\mS$同侧的\textbf{单位法向量}，且有
-\[\begin{aligned}
-\diff\vl&=\vtau\diff l=(\cos(\vtau,x),\cos(\vtau,y),\cos(\vtau,z))\diff l=(\diff x,\diff y,\diff z)\\
-\diff\vS&=\vn\diff S=(\cos(\vn,x),\cos(\vn,y),\cos(\vn,z))\diff S=(\diff y\diff z,\diff z\diff x,\diff x\diff y)
-\end{aligned}\]
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth]{fig/multivar-integral-relationship.pdf}
-\end{figure}
-\par 三大公式用外微分形式表示，如$\partial\mD$表示$\mD$区域的边界.
-\par 同时注意下式的关系成立，是法向量，但\textbf{不是单位}法向量（见\ref{subsubsec:surface_area}节）
-\[\vx_u\times\vx_v=\lrp{\pd{(u,v)}{(y,z)},\pd{(u,v)}{(z,x)},\pd{(u,v)}{(x,y)}}\]
-
-\subsubsection{积分与路径无关}
-\begin{theorem}
-设$D$为平面单连通区域，函数$P(x,y)$，$Q(x,y)$在$D$上有连续偏导数，则下列四个命题等价
+对于含参变量积分$I(x)=\disp\int_c^df(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,d]$上连续，有
 \begin{enumerate}
-	\item 沿$D$中任一逐段光滑闭曲线$L$，有
-	\[\oint_LP\diff x+Q\diff y=0\]
-	\item 对$D$中任一逐段光滑曲线$L$，曲线积分
-	\[\int_LP\diff x+Q\diff y\]
-	与路径无关，只与$L$的起点和终点有关
-	\item 微分式$P\diff x+Q\diff y$在$D$内是某函数$u(x,y)$的全微分，即有
-	\[\diff u=P\diff x+Q\diff y\]
-	\item 在$D$内每一点有
-	\[\vmat{\vi&\vj\\\pd{P}{y}&\pd{Q}{x}}=0\]
+	\item 积分与极限互换：$I(x)$在$[a,b]$连续
+	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，则$I(x)$在$[a,b]$有连续导函数
+	\[I'(x)=\int_c^df_x(x,y)\diff y\]
+	\item 积分交换次序：
+	\[\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{}{y}\intab{a}{b}{f(x,y)}\]
 \end{enumerate}
+（对于变上限积分$I(x,u)=\disp\int_c^uf(x,y)\diff y$也是一样）
 \end{theorem}
-\begin{theorem}[奇点]
-关于奇点的结论
-\begin{enumerate}
-	\item 对$D$内任意一条不包围奇点的闭曲线$L$，有
-	\[\oint_LP\diff x+Q\diff y=0\]
-	\item 环绕某一奇点的任意两条简单闭曲线$L_1,L_2$的积分相等，即
-	\[\oint_{L_1}P\diff x+Q\diff y=\oint_{L_2}P\diff x+Q\diff y\]
-	这个公共值称为该奇点的循环常数
-	\item 环绕某一奇点$n$圈的光滑闭曲线$L$，其中$n_1$圈为正向，$n_2$圈为负向，$n_1+n_2=n$，则积分
-	\[I=\oint_LP\diff x+Q\diff y\]
-	等于该点循环常数的$n_1-n_2$倍
-	\item 若不自相交光滑闭曲线$L$包围了$k$个奇点，则沿$L$正向的积分
-	\[I=\oint_LP\diff x+Q\diff y\]
-	等于这$k$个奇点循环常数之和
-\end{enumerate}
-\end{theorem}
-\begin{definition}[原函数]
-若$\diff u(x,y)=P(x,y)\diff x+Q(x,y)\diff y$，则称$u(x,y)$为$P\diff x+Q\diff y$的原函数
-\end{definition}
-\par 注意看积分区域包不包含奇点，若包含则需分类讨论
+\par 将下式称为先对$y$后对$x$的累次积分
+\[\int_a^bI(x)\diff x=\int_a^b\left[\int_c^df(x,y)\diff y\right]\diff x=\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}\]
 \begin{example}
-设$L$为不经过$(-2,0)$和$(2,0)$点的简单闭曲线，求
-\[\begin{aligned}
-I&=\oint_L\left[\frac{y}{(x-2)^2+y^2}+\frac{y}{(x+2)^2+y^2}\right]\diff x\\
-&+\left[\frac{2-x}{(2-x)^2+y^2}+\frac{-(2+x)}{(x+2)^2+y^2}\right]\diff y
-\end{aligned}\]
+$\disp I(a)=\int_0^\pi\ln(1-2a\cos x+a^2)\diff x,\,|a|<1$
 \end{example}
 \begin{analysis}
-依题意有
+$f(a,x)=\ln(1-2a\cos x+a^2),\,f_a(a,x)=\dfrac{2a^2-2a\cos x}{1-2a\cos x+a^2}$，由$\Delta=4\cos^2x-4<0$知$1-2a\cos x+a^2>0$恒成立，进而$f(a,x)$与$f_a(a,x)$都在$[-1,1]$连续，$I(a)$在积分号下可求导数
 \[\begin{aligned}
-P(x,y)&=\frac{y}{(x-2)^2+y^2}+\frac{y}{(x+2)^2+y^2}\\
-Q(x,y)&=\frac{2-x}{(2-x)^2+y^2}+\frac{-(2+x)}{(x+2)^2+y^2}
+I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
+&=\frac{1}{a}\intab{0}{\pi}{\frac{2a^2-2a\cos x}{1-2a\cos x+a^2}}\\
+&=\frac{1}{a}\intab{0}{\pi}{1+\frac{a^2-1}{1-2a\cos x+a^2}}\qquad\mbox{把分子的$\cos$项消去}\\
+&=\frac{x}{a}\Big|_0^\pi+\frac{a^2-1}{a}\intab{0}{+\infty}{\frac{1}{a^2-2a\cos x+1}}\\
+&=\frac{\pi}{a}+\frac{a^2-1}{a}\int_0^{+\infty}\frac{\frac{2}{1+t^2}\diff t}{a^2-2a\frac{1-t^2}{1+t^2}+1}\qquad\mbox{令}t=\tan\frac{x}{2}\in[0,+\infty),\text{即}x=2\arctan t\\
+&=\frac{\pi}{a}+2\frac{a^2-1}{a}\int_0^{+\infty}\frac{\diff t}{t^2(a+1)^2+(a-1)^2}\\
+&=\frac{\pi}{a}+2\frac{a^2-1}{a}\frac{1}{(a-1)^2}\int_0^{+\infty}\frac{\diff t}{1+\lrp{\frac{a+1}{a-1}t}^2}\\
+&=\frac{\pi}{a}+\frac{2}{a}\arctan\lrp{\frac{a+1}{a-1}t}\Big|_0^{+\infty}\qquad|a|<1,\frac{a+1}{a-1}\mbox{为负数}\\
+&=\frac{\pi}{a}-\frac{2}{a}\cdot\frac{\pi}{2}=0
 \end{aligned}\]
-可求得$A(-2,0),B(2,0)$为奇点，当$(x,y)\ne A,B$时$\pd{P}{y}=\pd{Q}{x}$.
-设$L$包含的区域为$D$
-\begin{enumerate}
-	\item 若$D$不包含$A,B$，则由格林公式
-	\[I=\iint_D\lrp{\pd{P}{y}-\pd{Q}{x}}=0\]
-	\item 若$D$包含$A$和$B$，则分别以$A,B$为圆心，以很小的正数$\eps$为半径作圆$r_1,r_2$，使得$r_1,r_2\in D$且$r_1\cap r_2=\varnothing$，有积分等于奇点循环常数之和，即
-	\[I=\oint_{r_1}P\diff x+Q\diff y+\oint_{r_2}P\diff x+Q\diff y\]
-	设
-	\[\begin{aligned}
-	P_1&=\frac{y}{(x-2)^2+y^2}\qquad&Q_1&=\frac{2-x}{(2-x)^2+y^2}\\
-	P_2&=\frac{y}{(x+2)^2+y^2}\qquad&Q_2&=\frac{-(2+x)}{(x+2)^2+y^2}
-	\end{aligned}\]
-	在$r_1$包围的区域$D_1$内，$P_1,Q_1$均有连续偏导数，且$\pd{P_1}{y}=\pd{Q_1}{x}$；\\
-	在$r_2$包围的区域$D_2$内，$P_2,Q_2$均有连续偏导数，且$\pd{P_2}{y}=\pd{Q_2}{x}$；
-	故有
-	\[\begin{aligned}
-	I&=\oint_{r_1}P_2\diff x+Q_2\diff y+\oint_{r_2} P_1\diff x+Q_1\diff y\\
-	&=\frac{1}{\eps^2}\oint_{r_1}y\diff x-(2+x)\diff y+\frac{1}{\eps^2}\oint_{r_2}y\diff x+(2-x)\diff y\\
-	&=\frac{1}{\eps^2}\iint_{D_1}(-2)\diff x\diff y+\frac{1}{\eps^2}\iint_{D_2}(-2)\diff x\diff y\qquad\mbox{格林公式}\\
-	&=-4\pi
-	\end{aligned}\]
-	\item 若$D$只含$A,B$中其中一个，同上理可得$I=-2\pi$
-\end{enumerate}
-综上，
-\[I=\begin{cases}0&\text{$D$不含$A,B$}\\-2\pi&\text{$D$中只含$A,B$中任一个}\\-4\pi&\text{$D$包含$A,B$}\end{cases}\]
+故$I(a)=\disp\int 0\diff a=0$\\
+另外，
+\begin{itemize}
+	\itemsep -3pt
+	\item 对于一般的情况还需解出常数$C$
+	\item 本题还可联系例\ref{eg:sum_fun_analysis}
+	\item 对于$a\geq 0$的其他情况，可见\footnote{\url{https://math.stackexchange.com/questions/650513/computing-int-0-pi-ln-left1-2a-cos-xa2-right-dx}}
+\end{itemize}
 \end{analysis}
+\begin{theorem}
+设函数$f(x,y)$在$[a,b]\times[c,d]$上连续，
+\begin{enumerate}
+	\item $c(x),d(x)$都在$[a,b]$上连续，并且当$x\in[a,b]$时，有$c\leq c(x),d(x)\leq d$，则
+	\[F(x)=\int_{c(x)}^{d(x)}f(x,y)\diff y\]
+	在$[a,b]$连续
+	\item $f_x$也在$[a,b]\times[c,d]$连续，又$c'(x)$和$d'(x)$在$[a,b]$存在，则变上限积分$F(x)$可导，且
+	\[F'(x)=\int_{c(x)}^{d(x)}f_x(x,y)\diff y+f(x,d(x))d'(x)-f(x,c(x))c'(x)\]
+\end{enumerate}
+\end{theorem}
+
+\subsection{含参变量的广义积分}
+\label{sec:sub:parameter_abnormal_integral}
+\begin{definition}[一致收敛]
+设$f(x,y)$定义在$[a,b]\times[c,+\infty)$，且对任意$x\in[a,b]$，无穷积分
+\[I(x)=\int_c^{+\infty}f(x,y)\diff y\]
+收敛.
+若
+\[\forall x\in[a,b],\eps>0\exists A_0>c, A>A_0:\;\left|\int_c^Af(x,y)\diff y-I(x)\right|<\eps\quad\text{或}\quad\left|\int_A^{+\infty}f(x,y)\diff y\right|<\eps\]
+则称广义积分$I(x)$在$[a,b]$一致收敛.\\
+定义中的区间可换为开区间、半开半闭区间等.
+\end{definition}
+\begin{theorem}[M判别法(Weierstrass)]
+若存在$M(y)$使得与常数$B>c$，
+\[|f(x,y)|\leq M(y),\forall y\geq B,x\in[a,b]\]
+而广义积分$\disp\int_c^{+\infty}M(y)\diff y$收敛，则$\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$一致收敛
+\end{theorem}
+\begin{theorem}[迪尼(Dini)]
+设$f(x,y)$在$[a,+\infty)\times[c,d]$连续且非负.
+若$\intab{a}{+\infty}{f(x,y)}$在$[c,d]$收敛，且作为$y$的函数在$[c,d]$连续，则$\intab{a}{+\infty}{f(x,y)}$在$[c,d]$一致收敛
+\end{theorem}
+\par 关于一致收敛的其他定理，可见\ref{summary_conver}节，只需注意所有的定理条件都是对于积分变量而言的.
+如狄利克雷判别法中$g(x,y)$关于积分变量$y$单调一致趋于$0$；阿贝尔判别法中$g(x,y)$关于积分变量$y$单调有界($y\geq$积分下限).
+\par 类比定理\ref{thm:sum_function_analysis_properties}，有以下性质.
+\begin{theorem}
+对于含参变量广义积分$\disp I(x)=\int_c^{+\infty}f(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,+\infty)$上连续，
+\begin{enumerate}
+	\item 积分与极限互换：若$I(x)$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$连续
+	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，若$\disp\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$收敛，$\disp\intabu{c}{+\infty}{f_x(x,y)}{y}$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$可导，且
+	\[I'(x)=\int_c^{+\infty}f_x(x,y)\diff y\]
+	\item 积分交换次序：若$I(x)$在$[a,b]$一致收敛，则
+	\[\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{}{y}\intab{a}{b}{f(x,y)}\]
+\end{enumerate}
+\end{theorem}
+\begin{example}
+求狄利克雷积分$I=\intab{0}{+\infty}{\frac{\sin x}{x}}$
+\end{example}
+\begin{analysis}
+\begin{itemize}
+\item 引入因子$\ee^{-xy}(y\geq 0)$使其变为含参变量积分
+\[I(y)=\intab{0}{+\infty}{\ee^{-xy}\frac{\sin x}{x}}\]
+\item 因为$\intab{0}{+\infty}{\frac{\sin x}{x}}$收敛（狄利克雷），又对每一个$y\in[0,+\infty)$，函数$\ee^{-xy}$关于$x$是单调函数，且
+\[|\ee^{-xy}|\leq 1,\,x,y\in[0,+\infty)\]
+由阿贝尔判别法，$\intab{0}{+\infty}{f(x,y)}$在$[0,+\infty)$一致收敛.
+\item 由上式一致收敛及$f(x,y)=\ee^{-xy}\dfrac{\sin x}{x}$在$[0,+\infty)\times[0,+\infty)$连续，故积分与极限可互换，从而$I=I(0)=\disp\lim_{y\to 0^+}I(y)$
+\item 为求$I(y)$，先求$I'(y)$.
+由构造式有$f_y(x,y)=-\ee^{-xy}\sin x$，
+\[\forall a>0:\;|f_y(x,y)|=|\ee^{-xy}\sin x|\leq \ee^{-ax},\,y\geq a>0\]
+而$\intab{0}{+\infty}{\ee^{-ax}}$收敛，由M判别法，$\intab{0}{+\infty}{f_y(x,y)}$在$[a,+\infty)$一致收敛
+\item 又$f_y(x,y)$在$[0,+\infty)\times[0,\infty)$连续，故积分与导数可互换，即$I(y)$在$[a,+\infty)$可导，且
+\[I'(y)=\intab{0}{+\infty}{f_y(x,y)}=-\intab{0}{+\infty}{\ee^{-xy}\sin x}=\frac{-1}{1+y^2},\,y>0\]
+故$I(y)=\disp\int\frac{-1}{1+y^2}=-\arctan y+C$
+\item 注意到$\dfrac{\sin x}{x}$在$[0,+\infty)$有界，故$y>0$时，
+\[\intab{0}{+\infty}{\ee^{-xy}\frac{\sin x}{x}}\leq M\intab{0}{+\infty}{\ee^{-xy}}=\frac{M}{y}\]
+即当$y\to +\infty$时，左侧积分为$0$.
+故$\disp c=\lim_{y\to\infty}\arctan y=\frac{\pi}{2}$，有$I(y)=-\arctan y+\frac{\pi}{2}$，进而
+\[I=I(0)=\lim_{y\to 0^+}I(y)=\frac{\pi}{2}\]
+\end{itemize}
+注：本题进一步可得
+\[\intab{0}{+\infty}{\frac{\sin\alpha x}{x}}=\frac{\pi}{2}\sgn\alpha\]
+\end{analysis}
+\begin{theorem}
+设$f(x,y)$在$[a,+\infty)\times[c,+\infty)$连续且非负，
+\[\intab{a}{+\infty}{f(x,y)},\intabu{c}{+\infty}{f(x,y)}{y}\]
+都收敛，且分别在$[c,+\infty)$和$[a,+\infty)$连续，则（若存在）
+\[\int_c^{+\infty}\diff y\intab{a}{+\infty}{f(x,y)}=\int_a^{+\infty}\diff x\intabu{c}{+\infty}{f(x,y)}{y}\]
+\end{theorem}
+
+\subsection{欧拉积分}
+\subsubsection{第二欧拉积分}
+\[\Gamma(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}\ee^{-x}},\,\alpha>0\]
+分析性质：
+\begin{enumerate}
+	\item 在定义域$\alpha>0$内连续且有任意阶连续导数
+	\[\Gamma^{(n)}(\alpha)=\intab{0}{+\infty}{x^{\alpha-1}(\ln x)^n\ee^{-x}}\]
+	\item 递推公式
+	\[\Gamma(\alpha+1)=\alpha\Gamma(\alpha)\]
+	特别地，当$\alpha\in\zz^+$时
+	\[\Gamma(\alpha+1)=\alpha!\]
+	对于任意$\alpha>0$，总存在非负整数$n$使得$\alpha=n+p,\,p\in(0,1]$，则
+	\[\Gamma(\alpha)=\Gamma(n+p=(n+p-1)\cdots(1+p)p\Gamma(p)\]
+	\item $\Gamma(1)=1$；由概率积分可得$\Gamma(\frac{1}{2})=\sqrt{\pi}$
+\end{enumerate}
+概率分布中会用到的其他公式
+\begin{itemize}
+\item 上不完全(upper incomplete)伽马函数
+\[ \Gamma(s,x) = \int_x^{\infty} t^{s-1}\ee^{-t}\diff t\]
+\item 下不完全(lower incomplete)伽马函数
+\[ \gamma(s,x) = \int_{0}^{x}t^{s-1}\ee^{-t}\diff t\]
+\item 递推关系
+\[\begin{aligned}
+\Gamma(s,x)&=(s-1)\Gamma(s-1,x) + x^{s-1} \ee^{-x}\\
+\gamma(s,x)&=(s-1)\gamma(s-1,x) - x^{s-1} \ee^{-x}\\
+\Gamma(s) &= \Gamma(s,0)\\
+\gamma (s,x)&+\Gamma (s,x)=\Gamma (s)
+\end{aligned}\]
+\end{itemize}
+
+\subsubsection{第一欧拉积分}
+\[B(a,b)=\intab{0}{1}{x^{a-1}(1-x)^{b-1}},\,a,b>0\]
+分析性质：
+\begin{enumerate}
+	\item 对称性：$B(a,b)=B(b,a)$
+	\item 递推公式
+	\[\begin{aligned}
+	B(a,b)&=\frac{b-1}{a+b-1}B(a,b-1),\,a>0,b>1\\
+	&=\frac{a-1}{a+b-1}B(a-1,b),\,a>1,b>0
+	\end{aligned}\]
+	\item 狄利克雷公式
+	\[B(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)},\,a>0,b>0\]
+\end{enumerate}
