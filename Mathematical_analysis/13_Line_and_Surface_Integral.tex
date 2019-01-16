@@ -80,7 +80,7 @@ z=z(s)
 这里的$(\cos\alpha,\cos\beta,\cos\gamma)$是法向量$\vn$与坐标轴的夹角
 \end{definition}
 \par 曲面的侧由$\cos\gamma$的正负决定，若$\vn$与$z$轴正向夹角为锐角，则为曲面的上侧，否则为曲面的下侧.
-\par 不同的侧将决定积分的正负
+\par 不同的侧将决定积分的正负，记$S^+$为曲面的正侧，$S^-$为曲面的负侧，则
 \[\iint_{S^+}\vF\cdot\diff\vS=-\iint_{S^-}\vF\cdot\diff\vS\]
 \par 由于第二型积分化为第一型积分再来计算太为麻烦，因此考虑直接变化为二重积分.
 \begin{theorem}
@@ -188,6 +188,7 @@ z=z(s)
 \end{aligned}\]
 注意，$S$和$L$的方向满足右手法则，即四指方向为$L$方向，大拇指所指方向为$S$方向.
 \end{theorem}
+\par 斯托克斯公式虽然将第二型曲线积分转化为第二型曲面积分，但是不代表不好算，往往会将冗余的项消除.
 
 结合场论的符号（见第\ref{sec:field}章），可以得到以下这张关系图.
 其中，$\vtau$是与$\mL$方向\textbf{一致}的\textbf{单位切向量}，$\vn$是与$\mS$\textbf{同侧}的\textbf{单位法向量}\footnote{之所以是单位长度，是因为后面已经乘了模长，相当于$\vv=\dfrac{\vv}{\|\vv\|}\|\vv\|$.}，且有
@@ -281,7 +282,7 @@ Q(x,y)&=\frac{2-x}{(2-x)^2+y^2}+\frac{-(2+x)}{(x+2)^2+y^2}
 设$L$包含的区域为$D$
 \begin{enumerate}
 	\item 若$D$不包含$A,B$，则由格林公式
-	\[I=\iint_D\lrp{\pd{P}{y}-\pd{Q}{x}}=0\]
+	\[I=\iint_D\lrp{\pd{Q}{x}-\pd{P}{y}}=0\]
 	\item 若$D$包含$A$和$B$，则分别以$A,B$为圆心，以很小的正数$\eps$为半径作圆$r_1,r_2$，使得$r_1,r_2\in D$且$r_1\cap r_2=\varnothing$，有积分等于奇点循环常数之和，即
 	\[I=\oint_{r_1}P\diff x+Q\diff y+\oint_{r_2}P\diff x+Q\diff y\]
 	设

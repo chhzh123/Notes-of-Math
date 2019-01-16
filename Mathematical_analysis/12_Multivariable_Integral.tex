@@ -34,12 +34,12 @@
 若$f(x,y)$在矩形区域$D=[a,b]\times[c,d]$可积，且对$[a,b]$上任意$x$，含参变量积分
 \[A(x)=\intabu{c}{d}{f(x,y)}{y}\]
 存在，则
-\[\iint_Df(x,y)\diff x\diff y=\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}\]
+\[\iint_Df(x,y)\diff x\diff y=\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{y}\intabu{a}{b}{f(x,y)}{x}\]
 即$f(x,y)$在$D$上连续，则积分次序可交换.
 若$D=\{(x,y)\mid y_1(x)\leq y\leq y_2(x),a\leq x\leq b\}$，$y_1(x),y_2(x)$在$[a,b]$连续，$f(x,y)$在$D$上连续，则
 \[\iint_Df(x,y)\diff x\diff y=\intab{a}{b}{}\intabu{y_2(x)}{y_1(x)}{f(x,y)}{y}\]
 \end{theorem}
-\par 二重积分关键确定好积分区域及积分限，有必要时注意要分段.
+\par 二重积分关键确定好积分区域及积分限，有必要时要分段，注意最外层积分的积分限一定为常数.
 \par 对于三重积分的情况可以这样考虑
 \begin{enumerate}
 	\item 横向（平面）累加后再纵向加（注意$D_z$是变化的，即确定关于$z$的面积函数）
@@ -112,7 +112,7 @@ $\disp\iiint_Vxy^2z^3\diff x\diff y\diff z$，$V$由曲面$z=xy,y=x,z=0,x=1$围�
 用微元的观点看，即
 \[\diff S=|J(u,v)|\diff\sigma\]
 注意雅可比行列式要加绝对值.
-换元后$f(x,y)$会变为$f(\phi,\chi)$，而不是$f(u,v)$.
+换元后$f(x,y)$会变为$f(\phi,\psi)$，而不是$f(u,v)$.
 \end{theorem}
 用微元的观点看会简单很多，关键确定好变换后的积分区间.
 \par 三种常见的积分变换如下
@@ -137,10 +137,21 @@ $\disp\iiint_Vxy^2z^3\diff x\diff y\diff z$，$V$由曲面$z=xy,y=x,z=0,x=1$围�
 	\[T^{-1}:\;u=xy,y=vx\implies u=xy,v=\frac{y}{x}\]
 \end{itemize}
 \end{example}
+\par 直接采用极坐标变换可以求得一些特殊的积分.
+\begin{example}
+计算概率积分$I=\intab{0}{+\infty}{\ee^{-x^2}}$
+\end{example}
+\begin{analysis}
+对$I$进行平方，同时变换变量名字
+\[I^2=\intab{0}{+\infty}{\ee^{-x^2}}\intabu{0}{+\infty}{\ee^{-y^2}}{y}=\iint_D\ee^{-(x^2+y^2)}\diff x\diff y\]
+用极坐标变换
+\[I^2=\int_0^{2\pi}\int_0^{+\infty}r\ee^{-r^2}\diff r\diff\theta=\frac{\pi}{4}\implies\frac{\sqrt{\pi}}{2}\]
+\end{analysis}
 
 \subsection{含参变量正常积分}
 含参变量积分其实就对应着概率论里面的边缘概率密度，而二重积分则是联合概率密度.
 \begin{theorem}
+\label{thm:parameter_normal_integral}
 对于含参变量积分$I(x)=\disp\int_c^df(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,d]$上连续，有
 \begin{enumerate}
 	\item 积分与极限互换：$I(x)$在$[a,b]$连续
@@ -189,7 +200,7 @@ I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
 \end{enumerate}
 \end{theorem}
 
-\subsection{含参变量的广义积分}
+\subsection{含参变量广义积分}
 \label{sec:sub:parameter_abnormal_integral}
 \begin{definition}[一致收敛]
 设$f(x,y)$定义在$[a,b]\times[c,+\infty)$，且对任意$x\in[a,b]$，无穷积分
@@ -216,11 +227,12 @@ I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
 对于含参变量广义积分$\disp I(x)=\int_c^{+\infty}f(x,y)\diff y$，$f(x,y)$在$[a,b]\times [c,+\infty)$上连续，
 \begin{enumerate}
 	\item 积分与极限互换：若$I(x)$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$连续
-	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，若$\disp\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$收敛，$\disp\intabu{c}{+\infty}{f_x(x,y)}{y}$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$可导，且
+	\item 积分与导数互换：$f_x$也在$[a,b]\times [c,d]$连续，若$\disp\intabu{c}{+\infty}{f(x,y)}{y}$在$[a,b]$\textbf{收敛}，$\disp\intabu{c}{+\infty}{f_x(x,y)}{y}$在$[a,b]$一致收敛，则$I(x)$在$[a,b]$可导，且
 	\[I'(x)=\int_c^{+\infty}f_x(x,y)\diff y\]
 	\item 积分交换次序：若$I(x)$在$[a,b]$一致收敛，则
 	\[\intab{a}{b}{}\intabu{c}{d}{f(x,y)}{y}=\intabu{c}{d}{}{y}\intab{a}{b}{f(x,y)}\]
 \end{enumerate}
+注：相比起含参变量正常积分（定理\ref{thm:parameter_normal_integral}），都添加了一致收敛/收敛的条件.
 \end{theorem}
 \begin{example}
 求狄利克雷积分$I=\intab{0}{+\infty}{\frac{\sin x}{x}}$
@@ -231,7 +243,7 @@ I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
 \[I(y)=\intab{0}{+\infty}{\ee^{-xy}\frac{\sin x}{x}}\]
 \item 因为$\intab{0}{+\infty}{\frac{\sin x}{x}}$收敛（狄利克雷），又对每一个$y\in[0,+\infty)$，函数$\ee^{-xy}$关于$x$是单调函数，且
 \[|\ee^{-xy}|\leq 1,\,x,y\in[0,+\infty)\]
-由阿贝尔判别法，$\intab{0}{+\infty}{f(x,y)}$在$[0,+\infty)$一致收敛.
+由阿贝尔判别法，$I(y)=\intab{0}{+\infty}{f(x,y)}$在$[0,+\infty)$一致收敛.
 \item 由上式一致收敛及$f(x,y)=\ee^{-xy}\dfrac{\sin x}{x}$在$[0,+\infty)\times[0,+\infty)$连续，故积分与极限可互换，从而$I=I(0)=\disp\lim_{y\to 0^+}I(y)$
 \item 为求$I(y)$，先求$I'(y)$.
 由构造式有$f_y(x,y)=-\ee^{-xy}\sin x$，
@@ -248,6 +260,17 @@ I'(a)&=\intab{0}{\pi}{f_a(a,x)}\\
 \end{itemize}
 注：本题进一步可得
 \[\intab{0}{+\infty}{\frac{\sin\alpha x}{x}}=\frac{\pi}{2}\sgn\alpha\]
+\end{analysis}
+\par 判断开区间内函数的连续性，往往不需要再开区间内一致连续（因很有可能在端点处不一致连续），这时设出一个闭区间，再令这个闭区间任取即可.
+\begin{example}
+讨论$f(x)=\intabu{0}{+\infty}{\frac{y^2}{1+y^x}}{y},x>3$的连续性
+\end{example}
+\begin{analysis}
+拆为两块计算
+\[f(x)=\intabu{0}{1}{\frac{y^2}{1+y^x}}{y}+\intabu{1}{+\infty}{\frac{y^2}{1+y^x}}{y}\]
+前者在$x>3$为常义积分，而后者
+\[\forall x_0>3,\exists 3<b<x_0\,s.t.\,y\geq 1,\forall x\in[b,+\infty):\;\frac{y^2}{1+y^x}=\frac{1}{y^{-2}+y^{x-2}}<\frac{1}{y^{x-2}}\leq\frac{1}{y^{b-2}}\]
+而$\intabu{1}{+\infty}{\frac{1}{y^{b-2}}}{y}$收敛，由$M$判别法，原积分在$[b,+\infty)$一致收敛，因此$f(x)$在$x_0\in[b,+\infty)$连续，而由$x_0\in(3,+\infty)$的任意性知，$f(x)$在$x>3$连续
 \end{analysis}
 \begin{theorem}
 设$f(x,y)$在$[a,+\infty)\times[c,+\infty)$连续且非负，
