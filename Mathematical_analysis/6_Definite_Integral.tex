@@ -113,9 +113,9 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 同理可证下面的练习.
 \begin{exercise}
 设$f''(x)$在$[a,b]$连续，且$f(a)=f(b)=0$，证明：
-\begin{enumerate}[(1)]
-	\item $\displaystyle\int_a^bf(x)\diff x=\frac{1}{2}\int_a^bf''(x)(x-a)(x-b)\diff x$
-	\item $\displaystyle\left|\int_a^bf(x)\diff x\right|\leq\frac{(b-a)^3}{12}\underset{a\leq x\leq b}{\max}|f''(x)|$
+\begin{enumerate}
+	\item[(1)] $\displaystyle\int_a^bf(x)\diff x=\frac{1}{2}\int_a^bf''(x)(x-a)(x-b)\diff x$
+	\item[(2)] $\displaystyle\left|\int_a^bf(x)\diff x\right|\leq\frac{(b-a)^3}{12}\underset{a\leq x\leq b}{\max}|f''(x)|$
 \end{enumerate}
 \end{exercise}
 
@@ -132,7 +132,6 @@ f(x)-f^*(x),x\in\{c_1,c_2,\cdots,c_k\}
 \par 有以下几个定理.
 \begin{theorem}\mbox{}\par
 \begin{enumerate}
-	\itemsep-3pt
 	\item 达布上和是黎曼和的上确界，达布下和是黎曼和的下确界
 	\item 若添加新的分点，达布上和不增大，达布下和不减小
 	\item 任一个达布下和总不超过任一个达布上和
@@ -156,7 +155,6 @@ $f(x)$在$[a,b]$上黎曼可积的充要条件是上积分$\overline{I}$等于�
 \par 上述定理实际上是说函数在各个区间的振幅之和趋于$0$，则函数可积，这一点在多元函数可积性上也是一样的.
 \par 以下给出几类特殊的可积函数.
 \begin{enumerate}
-	\itemsep -3pt
 	\item 在$[a,b]$连续
 	\item 在$[a,b]$单调
 	\item 在$[a,b]$上有界且仅有有限个间断点的函数
@@ -174,13 +172,13 @@ $f(x)$在$[0,1]$上有界，不连续点为$x=\dfrac{1}{n},n\in\zz^+$，则$f(x)
 其中，区间为
 \[x_0=0<x_1<x_2<\cdots<x_j<\delta<x_{j+1}<\cdots<x_n=1\]
 因为$f(x)$在$[\delta,1]$有界且含有有穷个不连续点，故$f(x)$在$[\delta,1]$可积，由可积的充要条件有，
-\[\forall\eps>0,\exists\delta_0>0,\lambda=\max_i\{\Delta x_i\}<\delta_0:\,\lra{\sum_{i=j+1}^n\omega_i\Delta x_i}<\dfrac{\eps}{2}\]
+\[\forall\eps>0,\exists\delta_0>0,\lambda=\max_i\{\Delta x_i\}<\delta_0:\,\lrabs{\sum_{i=j+1}^n\omega_i\Delta x_i}<\dfrac{\eps}{2}\]
 再考虑无穷个不连续点的部分. 因为$f(x)$在$[0,1]$有界，所以
 \[\exists M>0:\,|f(x)|<M\]
 进而振幅$\omega_i<2M$，有
-\[\lra{\sum_{i=1}^j\omega_i\Delta x_i}\leq\sum_{i=1}^j|\omega_i||\Delta x_i|\leq 2M\sum_{i=1}^j|\Delta_i|=2Mx_j<2M\delta\]
+\[\lrabs{\sum_{i=1}^j\omega_i\Delta x_i}\leq\sum_{i=1}^j|\omega_i||\Delta x_i|\leq 2M\sum_{i=1}^j|\Delta_i|=2Mx_j<2M\delta\]
 综上，取$\delta=\dfrac{\eps}{4M}$，有
-\[\lra{\sum_{i=1}^n\omega_i\Delta x_i}\leq\lra{\sum_{i=1}^j\omega_i\Delta x_i}+\lra{\sum_{i=j+1}^n\omega_i\Delta x_i}<2M\dfrac{\eps}{4M}+\dfrac{\eps}{2}=\eps\]
+\[\lrabs{\sum_{i=1}^n\omega_i\Delta x_i}\leq\lrabs{\sum_{i=1}^j\omega_i\Delta x_i}+\lrabs{\sum_{i=j+1}^n\omega_i\Delta x_i}<2M\dfrac{\eps}{4M}+\dfrac{\eps}{2}=\eps\]
 （注意$[0,\delta)$部分并不关心分多少份，只关心$\delta$的值，故在$[\delta,1]$部分限制$\lambda$的最大值并不影响最终结果）
 进而得证.
 \end{analysis}
@@ -232,7 +230,7 @@ $(*)$式补充证明：即证$(M_i^\frac{1}{p}-m_i^\frac{1}{p})^p\leq M_i-m_i$\\
 若$f(x)$可积，则$f(x)$有界，即$\exists M>0:\,|f(x)|<M$\\
 且$\disp\lim_{\lambda\to 0}\sum_{i=1}^m\omega_i\Delta x_i=0$\\
 由极限的定义有
-\[\forall\eps>0,\exists\delta>0,\lambda<\delta:\,\lra{\sum_{i=1}^m\omega_i\Delta x_i}<\dfrac{\eps}{2M}\]
+\[\forall\eps>0,\exists\delta>0,\lambda<\delta:\,\lrabs{\sum_{i=1}^m\omega_i\Delta x_i}<\dfrac{\eps}{2M}\]
 对于$f^2(x)$，由例\ref{ex:inf_sup_inequality}可得
 \[\begin{aligned}
 \omega_i'&=\sup_{x_{i-1}\leq x\leq x_i}f(x)-\inf_{x_{i-1}\leq x\leq x_i}f(x)\\
@@ -242,9 +240,9 @@ $(*)$式补充证明：即证$(M_i^\frac{1}{p}-m_i^\frac{1}{p})^p\leq M_i-m_i$\\
 \end{aligned}\]
 所以，$\forall\eps>0,\exists\delta>0$，当$\lambda<\delta$时有
 \[\begin{aligned}
-\lra{\sum_{i=1}^m\omega_i\Delta x_i}&\leq\lra{\sum_{i=1}^m(M_i^2-m_i^2)\Delta x_i}\\
-&=\lra{\sum_{i=1}^m(M_i+m_i)(M_i-m_i)\Delta x_i}\\
-&\leq\lra{\sum_{i=1}^m2M\omega_i\Delta x_i}\\
+\lrabs{\sum_{i=1}^m\omega_i\Delta x_i}&\leq\lrabs{\sum_{i=1}^m(M_i^2-m_i^2)\Delta x_i}\\
+&=\lrabs{\sum_{i=1}^m(M_i+m_i)(M_i-m_i)\Delta x_i}\\
+&\leq\lrabs{\sum_{i=1}^m2M\omega_i\Delta x_i}\\
 &<2M\dfrac{\eps}{2M}=\eps
 \end{aligned}\]
 故$\disp\lim_{\lambda\to 0}\sum_{i=1}^m\omega'_i\Delta x_i=0$，$f^2(x)$可积

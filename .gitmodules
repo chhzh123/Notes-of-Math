@@ -1,0 +1,3 @@
+[submodule "mylatextmpl"]
+	path = mylatextmpl
+	url = git@github.com:chhzh123/mylatextmpl

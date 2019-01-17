@@ -17,7 +17,7 @@ $\vb{a}_j\cdot(\vb{b}-A\hat{\vx})=\vb{a}_j^T(\vb{b}-A\hat{\vx})=0\implies A^T(\v
 直接计算$A^TA\vx=A^T\vb{b}$即可.
 \end{myalgorithm}
 \begin{definition}[一般线性模型]
-$\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbb$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbb=\vy$的最小二乘解.
+$\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbeta$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbeta=\vy$的最小二乘解.
 \end{definition}
 以下是一些例子.
 \begin{enumerate}
@@ -67,13 +67,13 @@ $A$为$2\times 2$实矩阵，有复特征值$\lambda=a-b\ii(b\ne 0)$及对应$\m
 假设$c_1\ne 0$，左右同除$\lambda_1^k$，可知$(\lambda_1)^{-k}A^k\vx\to c_1\vv_1(k\to\infty)$
 
 \subsection{傅里叶级数}%6.8 加权最小二乘 傅里叶级数
-$\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt\}$，定义内积$\inp{f}{g}=\displaystyle\int_0^{2\pi} f(t)g(t)\diff t$，知这个集合为正交集
+$\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt\}$，定义内积$\lrang{f,g}=\displaystyle\int_0^{2\pi} f(t)g(t)\diff t$，知这个集合为正交集
 \begin{theorem}[傅里叶(Fourier)级数]
 \[f(t)=\dfrac{a_0}{2}+\sum_{k=1}^\infty(a_k\cos kt+b_k\sin kt)\]
 当$k\geq 1$时，
-\[a_k=\dfrac{\inp{f}{\cos kt}}{\inp{\cos kt}{\cos kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\cos kt\diff t,\,b_k=\dfrac{\inp{f}{\sin kt}}{\inp{\sin kt}{\sin kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\sin kt\diff t\]
+\[a_k=\dfrac{\lrang{f,\cos kt}}{\lrang{\cos kt,\cos kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\cos kt\diff t,\,b_k=\dfrac{\lrang{f,\sin kt}}{\lrang{\sin kt,\sin kt}}=\dfrac{1}{\pi}\int_0^{2\pi}f(t)\sin kt\diff t\]
 常数项，
-\[\dfrac{\inp{f}{1}}{\inp{1}{1}}=\dfrac{a_0}{2}\]
+\[\dfrac{\lrang{f,1}}{\lrang{1,1}}=\dfrac{a_0}{2}\]
 \end{theorem}
 
 \subsection{统计学应用}%7.5 图像处理及统计学应用
@@ -81,7 +81,7 @@ $\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt
 $p\times N$的观测矩阵$A=\bmat{\vb{X}_1}{\vb{X}_N}$（即有$N$个样本，每个样本有$p$个维度的信息），则其样本均值为$\vb{M}=\dfrac{1}{N}(\vb{X}_1+\cdots+\vb{X}_N)$. 平均偏差形式为$B=\bmat{\vb{\hat{X}}_1}{\vb{\hat{X}}_N}$，其中$\vb{\hat{X}}_k=\vb{X}_k-\vb{M}$.
 \end{definition}
 \begin{definition}[方差]
-协方差矩阵为$S=\dfrac{1}{N-1}BB^T$（$BB^T$正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\tv B=\tr S$
+协方差矩阵为$S=\dfrac{1}{N-1}BB^T$（$BB^T$正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\optv B=\optr S$
 \end{definition}
 \begin{definition}[主成分分析]
 假设$A=\bmat{\vb{X}_1}{\vb{X}_N}$为平均偏差形式，找到$p\times p$正交矩阵$P=\bmat{\vu_1}{\vu_p}$使得$\vb{X}=P\vb{Y}$，其中$y_1,\dots,y_p$都线性无关且方差递减. $\vu_1,\dots,\vu_p$为数据的主成分，第一主成分是$S$最大的特征值对应的特征向量.\\
@@ -91,4 +91,4 @@ $p\times N$的观测矩阵$A=\bmat{\vb{X}_1}{\vb{X}_N}$（即有$N$个样本，�
 $\vb{X}_k=P\vb{Y}_k\implies \vb{Y}_k=P^{-1}\vb{X}_k=P^T\vb{X}_k,k=1,\dots,N\implies S=PDP^T, P^TSP=D$\\
 可以验证对于任意正交矩阵$P$，$\vb{Y},\dots\vb{Y}_N$的协方差矩阵都是$P^TSP$
 \end{analysis}
-变量的正交变换$\vb{X}=P\vb{Y}$不改变数据的总方差，且$\tv \vb{X}=\tv \vb{Y}=\tr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\tr S$表明$y_j$的占比，用于降维
+变量的正交变换$\vb{X}=P\vb{Y}$不改变数据的总方差，且$\optv \vb{X}=\optv \vb{Y}=\optr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\optr S$表明$y_j$的占比，用于降维

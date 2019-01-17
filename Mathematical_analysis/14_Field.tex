@@ -6,12 +6,12 @@
 梯度场
 \[\grad u=\nabla u=\lrp{\pd{}{x},\pd{}{y},\pd{}{z}}u=\lrp{\pd{u}{x},\pd{u}{y},\pd{u}{z}}\]
 散度场
-\[\div \mathbf{F}(x,y,z)=\div\cdot\vF=\pd{P}{x}+\pd{Q}{y}+\pd{R}{z}\]
+\[\opdiv \mathbf{F}(x,y,z)=\opdiv\cdot\vF=\pd{P}{x}+\pd{Q}{y}+\pd{R}{z}\]
 旋度场\footnote{叉积的计算方式如下
 \[\vx\times\vy=\vmat{\vi&\vj&\vk\\x_1&x_2&x_3\\y_1&y_2&y_3}=\vmat{x_2&x_3\\y_2&y_3}\vi+\vmat{x_1&x_3\\y_1&y_3}\vj+\vmat{x_1&x_2\\y_1&y_2}\vk\]}
 \[\rot \mathbf{F}(x,y,z)=\nabla\times\vF=\vmat{\vi&\vj&\vk\\\pd{}{x}&\pd{}{y}&\pd{}{z}\\P&Q&R}\]
 高斯公式可改写为
-\[\iiint_V(\div\vF)\diff V=\oiint_\mS\vF\cdot\diff\vS\]
+\[\iiint_V(\opdiv\vF)\diff V=\oiint_\mS\vF\cdot\diff\vS\]
 斯托克斯公式可改写为
 \[\iint_\mS\rot\vF\cdot\diff\vS=\oint_\mL\vF\cdot\diff\vl\]
 \begin{definition}

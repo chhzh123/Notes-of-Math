@@ -48,7 +48,7 @@ $A$是对称矩阵且$A^2=A$，则称其为投影矩阵
 \begin{enumerate}
 	\itemsep -3pt
 	\item $A$是投影矩阵
-	\item $A\vx=\proj{\vu}\vx$
+	\item $A\vx=\opproj_{\vu}\vx$
 	\item $\vu$是$A$的特征向量
 \end{enumerate}
 \end{proposition}
@@ -64,19 +64,19 @@ $\forall\vu_i,\,\|A\vu_i\|^2=(A\vu_i)^TA\vu_i=\vu_i^T(A^TA)\vu_i=\vu_i^T\lambda_
 $A$的奇异值是$A^TA$的特征值的算术平方根，记为$\sigma_i:=\sqrt{\lambda_i},\forall 1\leq i\leq n$，且呈递减序列.
 \end{definition}
 \begin{theorem}
-$A$为$m\times n$矩阵，$\disp A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，假设有$r$个非零特征值，不妨设$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>\lambda_{r+1}=\cdots=\lambda_n=0$，则$\{A\vu_1,\dots,A\vu_r\}$是$\col A$正交基，且$\rank A=r$.
+$A$为$m\times n$矩阵，$\disp A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，假设有$r$个非零特征值，不妨设$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>\lambda_{r+1}=\cdots=\lambda_n=0$，则$\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，且$\oprank A=r$.
 \end{theorem}
 \begin{analysis}
 $\|A\vu_i\|=\sqrt{\lambda_i}\ne 0,i=1,\dots,r$\\
 正交性：$\forall i\ne j,\,(A\vu_i)\cdot(A\vu_j)=\vu_i^TA^TA\vu_j=\lambda_j\vu_i^T\vu_j=0$\\
-任取$\vv\in\col A$，即$\exists\vx\in\rn\,s.t.\,A\vx=\vv$，其中$\vx=c_1\vu_1+\cdots+c_n\vu_n$，则$\vv=c_1A\vu_1+\cdots+c_nA\vu_n=c_1A\vu_1+\cdots+c_rA\vu_r+0+\cdots+0$，即说明$\vv$可由$\{A\vu_1,\dots,A\vu_r\}$线性表示，故证毕.
+任取$\vv\in\opcol A$，即$\exists\vx\in\rn\,s.t.\,A\vx=\vv$，其中$\vx=c_1\vu_1+\cdots+c_n\vu_n$，则$\vv=c_1A\vu_1+\cdots+c_nA\vu_n=c_1A\vu_1+\cdots+c_rA\vu_r+0+\cdots+0$，即说明$\vv$可由$\{A\vu_1,\dots,A\vu_r\}$线性表示，故证毕.
 \end{analysis}
 \begin{theorem}[奇异值分解(SVD)]
-$A$是$m\times n$的矩阵，$\rank A=r$，则存在$m\times n$矩阵$\Sigma=\begin{bmatrix}D&O\\O&O\end{bmatrix}$，其中$D$的对角线是前$r$个$A$的奇异值，且$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$，那么存在$m\times m$正交矩阵$U$和$n\times n$正交矩阵$V$使得$A=U\Sigma V^T$.
+$A$是$m\times n$的矩阵，$\oprank A=r$，则存在$m\times n$矩阵$\Sigma=\begin{bmatrix}D&O\\O&O\end{bmatrix}$，其中$D$的对角线是前$r$个$A$的奇异值，且$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$，那么存在$m\times m$正交矩阵$U$和$n\times n$正交矩阵$V$使得$A=U\Sigma V^T$.
 \end{theorem}
 \begin{analysis}
 设$\disp A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，其有$r$个非零特征值，$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>0$.\\
-$\{A\vu_1,\dots,A\vu_r\}$是$\col A$正交基，将其标准化，得$\{\vu_1,\dots,\vu_r\}$，其中$\vu_i=\dfrac{A\vv_i}{\|A\vv_i\|}=\dfrac{1}{\sigma_i}A\vv_i$，即$A\vv_i=\sigma_i\vu_i$.\\
+$\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，将其标准化，得$\{\vu_1,\dots,\vu_r\}$，其中$\vu_i=\dfrac{A\vv_i}{\|A\vv_i\|}=\dfrac{1}{\sigma_i}A\vv_i$，即$A\vv_i=\sigma_i\vu_i$.\\
 将$\{\vu_1,\dots,\vu_r\}$拓展为$\mathbb{R}^m$的正交基$\{\vu_1,\dots,\vu_m\}$，令
 \[U=\begin{bmatrix}\vu_1&\cdots&\vu_m\end{bmatrix},\,V=\begin{bmatrix}\vv_1&\cdots&\vv_n\end{bmatrix}\]
 那么$U,V$均为正交矩阵，而且

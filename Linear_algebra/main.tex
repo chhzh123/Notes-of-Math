@@ -1,9 +1,21 @@
-\documentclass[11pt,UTF8]{ctexart}
-\input{../mypackage}
+\documentclass{note}
+\usepackage{mypackage}
+\usepackage{comment}
+
+\usepackage{array}
+\newcommand{\underwrite}[3][]{% \underwrite[<thickness>]{<numerator>}{<denominator>}
+  \genfrac{}{}{#1}{}{\textstyle #2}{\scriptstyle #3}
+}
+\newcommand{\xdownarrow}[1]{%
+  {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
+\newcommand{\xuparrow}[1]{%
+  {\left\uparrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
 
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-\title{线性代数笔记整理V2.0}
+\title{线性代数笔记整理V2.1}
 \author{陈鸿峥}
 \date{{\builddatemonth\today} \footnote{\text{Build \builddate\today}}}%加了build
 

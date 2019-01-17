@@ -142,7 +142,6 @@ S&=a_1b_1+(a_1b_2+a_2b_2+a_2b_1)+(a_1b_3+a_2b_3+a_3b_3+a_3b_2+a_3b_1)+\cdots\\
 \begin{theorem}[级数相乘]
 分以下三种情况讨论
 \begin{enumerate}
-	\itemsep -3pt
 	\item (Cauchy) 若$A$和$B$都绝对收敛，则以任意方式相乘，结果都为$AB$
 	\item (Mertens) 若$A$或$B$中有一者条件收敛，另外一者绝对收敛，则柯西乘积为$AB$
 	\item 若$A$和$B$都条件收敛，则最终结果不一定收敛
@@ -216,7 +215,6 @@ $\exists \varepsilon_0>0,\forall N\in\zz^+,\exists n>N$与$x_n\in[a,b]$，使得
 \[f_n(x)=\dfrac{x^n}{1+x^n}\]
 讨论在以下区间的一致收敛性
 \begin{enumerate}
-	\itemsep -3pt
 	\item $x\in[0,b],b<1$
 	\item $x\in[0,1)$
 \end{enumerate}
@@ -229,7 +227,7 @@ $\exists \varepsilon_0>0,\forall N\in\zz^+,\exists n>N$与$x_n\in[a,b]$，使得
 \end{cases}\]
 \begin{enumerate}
 	\item $\forall\varepsilon>0,|f_n(x)-f(x)|=\dfrac{x^n}{1+x^n}\leq x^n\leq b^n,x\in[0,b],b<1$\\
-	则取$N=\floor{\log_b\varepsilon}+1$，当$n>N$时，$|f_n(x)-f(x)|\leq \varepsilon$，故一致收敛
+	则取$N=\lrfloor{\log_b\varepsilon}+1$，当$n>N$时，$|f_n(x)-f(x)|\leq \varepsilon$，故一致收敛
 	\item $\exists\varepsilon_0=\dfrac{1}{3},\forall N,\exists n=N+1>N$，取$x_n=\dfrac{1}{\sqrt[n]{2}}\in[0,1)$，则
 	\[|f_n(x_n)-f(x_n)|=\dfrac{1/2}{1+1/2}=\dfrac{1}{3}\geq\eps_0=\dfrac{1}{3}\]
 	故不一致收敛
@@ -258,7 +256,6 @@ $\exists \varepsilon_0>0,\forall N\in\zz^+,\exists n>N$与$x_n\in[a,b]$，使得
 \end{analysis}
 \begin{theorem}[函数列的分析性质]
 \begin{enumerate}
-	\itemsep -3pt
 	\item (连续)若函数列$\{f_n(x)\}$每一项都在$[a,b]$连续，且$\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，则$f(x)$连续
 	\[\displaystyle\lim_{x\to x_0}\lim_{n\to\infty}f_n(x)=f(x_0)=\lim_{n\to\infty}\lim_{x\to x_0}f_n(x)\]
 	\item (可积)若函数列$\{f_n(x)\}$每一项都在$[a,b]$连续，且$\{f_n(x)\}$在$[a,b]$一致收敛到$f(x)$，则$f(x)$可积
@@ -303,13 +300,13 @@ S(x):&=\lim_{n\to\infty}S_n(x)=\lim_{n\to\infty}\sum_{k=1}^nu_k(x)\\
 因此
 \[\begin{aligned}
 |S_n(x)-S(x)|
-&=\lra{\dfrac{x^2}{2+x^2}\dfrac{(-1)^{n-1}}{(1+x^2)^n}}\\
+&=\lrabs{\dfrac{x^2}{2+x^2}\dfrac{(-1)^{n-1}}{(1+x^2)^n}}\\
 &=\dfrac{x^2}{(1+x^2)^n(2+x^2)}\\
 &\leq\dfrac{1}{2}\dfrac{x^2}{1+nx^2}\qquad\mbox{伯努利不等式}\\
 &\leq\dfrac{1}{2}\dfrac{x^2}{nx^2}\\
 &=\dfrac{1}{2n}<\eps
 \end{aligned}\]
-取$N=\floor{\dfrac{1}{2\eps}}+1$，则当$n>N$时上式成立，故一致收敛
+取$N=\lrfloor{\dfrac{1}{2\eps}}+1$，则当$n>N$时上式成立，故一致收敛
 \end{analysis}
 \par 其实函数项级数就和普通的数项级数没有太大差别，用在数项级数的判别法，在函数项级数这里照样可以用，需要改动的地方不过是在一些地方加上“一致”罢了. 下面这条定理就是定理\ref{series_conver}的函数项级数版本.
 \begin{theorem}[函数项级数一致收敛必要条件]
@@ -336,7 +333,7 @@ S(x):&=\lim_{n\to\infty}S_n(x)=\lim_{n\to\infty}\sum_{k=1}^nu_k(x)\\
 \begin{analysis}
 因直接对分母用均值不等式，得到$\dfrac{1}{n}$并无法判断收敛性，故换种方式\\
 $\forall x_0,|x_0|>0,\exists\delta>0,\delta\in(0,|x_0|),\forall|x|\geq\delta$，有
-\[\lra{\dfrac{nx}{1+n^4x^2}}\leq\dfrac{n|x|}{n^4x^2}=\dfrac{1}{n^3|x|}\leq\dfrac{1}{n^3\delta}\]
+\[\lrabs{\dfrac{nx}{1+n^4x^2}}\leq\dfrac{n|x|}{n^4x^2}=\dfrac{1}{n^3|x|}\leq\dfrac{1}{n^3\delta}\]
 而$\ssum{\dfrac{1}{n^3\delta}}$收敛，由M判别法，原级数在$|x|\geq\delta$一致收敛\\
 又$x_0$的任意性，知原级数在$|x|>0$一致收敛
 \end{analysis}

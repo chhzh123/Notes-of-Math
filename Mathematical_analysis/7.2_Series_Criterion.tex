@@ -4,16 +4,16 @@
 \label{summary_conver}
 本小节阐述对于正项级数、一般项级数、无穷限积分、广义积分、函数项级数、含参变量广义积分（\ref{sec:sub:parameter_abnormal_integral}节）中的某几个都通用的判别法. 为方便表述和记忆，用BNF范式表述，有点泛型编程(Generic Programming)的思想在里面，下面先做一些符号说明.
 \[\begin{aligned}
-\inpro{s}&::=u_n\mmid v_n\\
-\inpro{f}&::=f(x)\mmid g(x)\mmid f(x,y)\\
-\inpro{fs}&::=u_n(x)\mmid v_n(x)
+\lrang{s}&::=u_n\mmid v_n\\
+\lrang{f}&::=f(x)\mmid g(x)\mmid f(x,y)\\
+\lrang{fs}&::=u_n(x)\mmid v_n(x)
 \end{aligned}\]
 
 \subsubsection{比较判别法}
 比较判别法是为通用的判别法，对于上述五种级数积分均可采用，但要注意只能用于判定\textbf{正项}的级数或积分，即其\textbf{绝对收敛}性，使用时注意\textbf{加上绝对值}
 \[\begin{aligned}
-\inpro{T}&::=|\inpro{s}|\mmid |\inpro{f}|\mmid |\inpro{fs}|\\
-\inpro{U}&::=\ssum{|\inpro{s}|}\mmid \intab{a}{+\infty}{|\inpro{f}|}\mmid \intab{a}{b}{|\inpro{f}|}(\mbox{a为瑕点})\mmid \ssum{|\inpro{fs}|}
+\lrang{T}&::=|\lrang{s}|\mmid |\lrang{f}|\mmid |\lrang{fs}|\\
+\lrang{U}&::=\ssum{|\lrang{s}|}\mmid \intab{a}{+\infty}{|\lrang{f}|}\mmid \intab{a}{b}{|\lrang{f}|}(\mbox{a为瑕点})\mmid \ssum{|\lrang{fs}|}
 \end{aligned}\]
 \begin{itemize}
 	\item 一般形式：
@@ -62,8 +62,8 @@ $\ssum{n\left(1-\cos\frac{1}{n}\right)}$
 \subsubsection{正项判别法}
 同样也是判定绝对收敛
 \[\begin{aligned}
-\inpro{T_i}&::=|\inpro{s_i}| \mmid |\inpro{fs_i}|\\
-\inpro{U}&::=\ssum{|\inpro{s}|}\mmid \ssum{|\inpro{fs}|}
+\lrang{T_i}&::=|\lrang{s_i}| \mmid |\lrang{fs_i}|\\
+\lrang{U}&::=\ssum{|\lrang{s}|}\mmid \ssum{|\lrang{fs}|}
 \end{aligned}\]
 \par 注意这里要将函数项级数看成$x$为常数的数项级数，但以下几种判别法只能判定收敛，而\textbf{不能}判定一致收敛性.
 \begin{enumerate}
@@ -93,7 +93,7 @@ $\ssum{n\left(1-\cos\frac{1}{n}\right)}$
 \end{example}
 \begin{analysis}
 指数阶乘采用达朗贝尔判别法，注意加绝对值
-\[\limtoinf{\lra{\dfrac{u_{n+1}}{u_n}}}=\limtoinf\lrp{1-\dfrac{1}{n+1}}^n|x|=\dfrac{|x|}{e}\]
+\[\limtoinf{\lrabs{\dfrac{u_{n+1}}{u_n}}}=\limtoinf\lrp{1-\dfrac{1}{n+1}}^n|x|=\dfrac{|x|}{e}\]
 故$|x|<e$时原级数绝对收敛；$|x|>e$时，原级数发散；当$|x|=e$时，达朗贝尔判别法失效.\\
 但由\textbf{斯特林(Stirling)公式}
 \[n! = \sqrt{2 \pi n} \; \left(\frac{n}{e}\right)^{n}e^{\lambda_n}\]
@@ -145,9 +145,9 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \par 至于函数列的一致收敛性，只能通过定义来证明.
 \par 而对于含参变量广义积分来说，则需跟函数项级数类比，确定清楚哪一个是变化的量（对$y$积分则固定$x$），哪一个要看为常数.
 \[\begin{aligned}
-\inpro{T}&::=\inpro{s}\mmid \inpro{f}\mmid \inpro{fs}\\
-\inpro{U}&::=\ssum{\inpro{s}}\mmid \intab{a}{+\infty}{\inpro{f}}\mmid \intab{a}{b}{\inpro{f}}(\mbox{a为瑕点})\mmid \ssum{\inpro{fs}}\\
-\inpro{V}&::=\ssum{\inpro{s}\inpro{s}}\mmid \intab{a}{+\infty}{\inpro{f}\inpro{f}}\mmid \intab{a}{b}{\inpro{f}\inpro{f}}(\mbox{a为瑕点})\mmid \ssum{\inpro{fs}\inpro{fs}}
+\lrang{T}&::=\lrang{s}\mmid \lrang{f}\mmid \lrang{fs}\\
+\lrang{U}&::=\ssum{\lrang{s}}\mmid \intab{a}{+\infty}{\lrang{f}}\mmid \intab{a}{b}{\lrang{f}}(\mbox{a为瑕点})\mmid \ssum{\lrang{fs}}\\
+\lrang{V}&::=\ssum{\lrang{s}\lrang{s}}\mmid \intab{a}{+\infty}{\lrang{f}\lrang{f}}\mmid \intab{a}{b}{\lrang{f}\lrang{f}}(\mbox{a为瑕点})\mmid \ssum{\lrang{fs}\lrang{fs}}
 \end{aligned}\]
 \begin{enumerate}
 	\item 绝对收敛必收敛
@@ -190,16 +190,16 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \begin{analysis}
 这题相当复杂，但却是练习用定义证明的绝佳好题.
 \begin{enumerate}
-	\item 欲用柯西收敛原理，即$\forall\eps>0,\exists N$，当$n>N$时，$\forall p\in\zz^+$有$\disp\lra{\sum_{k=n+1}^{n+p}}<\eps$\\
+	\item 欲用柯西收敛原理，即$\forall\eps>0,\exists N$，当$n>N$时，$\forall p\in\zz^+$有$\disp\lrabs{\sum_{k=n+1}^{n+p}}<\eps$\\
 	用阿贝尔变换
 	\[\begin{aligned}
-	LHS&=\lra{\sum_{k=n+1}^{n+p-1}(S_k-S_n)(b_k-b_{k+1})+b_{n+p}(S_{n+p}-S_n)}\\
+	LHS&=\lrabs{\sum_{k=n+1}^{n+p-1}(S_k-S_n)(b_k-b_{k+1})+b_{n+p}(S_{n+p}-S_n)}\\
 	&\leq\sum_{k=n+1}^{n+p-1}(|S_k-S_n||\Delta b_k|+|b_{n+p}||S_{n+p}-S_n|)\qquad(\star)
 	\end{aligned}\]
 	因为$\nums{S_n}$有界，故
 	\[\exists M>0,s.t.\forall n\in\zz^+:|S_n|\leq M\qquad(1')\]
 	因为$\ssum|\Delta b_n|$收敛，故
-	\[\exists N_1>0,s.t.\forall n>N_1,\forall p\in\zz^+:\lra{\sum_{k=n+1}^{n+p}|\Delta b_k|}<\dfrac{\eps}{4M}\qquad(2')\]
+	\[\exists N_1>0,s.t.\forall n>N_1,\forall p\in\zz^+:\lrabs{\sum_{k=n+1}^{n+p}|\Delta b_k|}<\dfrac{\eps}{4M}\qquad(2')\]
 	因为$\limtoinf{b_n}=0$，故
 	\[\exists N_2>0,s.t.\forall n>N_2:|b_n|<\dfrac{\eps}{4M}\qquad(3')\]
 	结合$(1')(2')(3')$式，得
@@ -212,7 +212,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 	又$\nums{S_n}$有界，$\limtoinf b_n=0\implies\limtoinf(b_nS_n)=0$，所以
 	\[\ssum{a_nb_n}=-\ssum{S_n\Delta b_n}\]
 	\item 同1理，由阿贝尔变换有
-	\[\lra{\sum_{k=n+1}^{n+p}}\leq\sum_{k=n+1}^{n+p-1}(|S_k-S_n||\Delta b_k|+|b_{n+p}||S_{n+p}-S_n|)\qquad(\star)\]
+	\[\lrabs{\sum_{k=n+1}^{n+p}}\leq\sum_{k=n+1}^{n+p-1}(|S_k-S_n||\Delta b_k|+|b_{n+p}||S_{n+p}-S_n|)\qquad(\star)\]
 	因为$\ssum{a_n}$收敛，故由数列极限的有界性知，其部分和数列$\nums{S_n}$有界，即
 	\[\exists M_1>0,\forall n\in\zz^+:|S_n|\leq M_1\qquad(a')\]
 	因为$\ssum{|\Delta b_n|}$收敛，所以$\ssum{\Delta b_n}$收敛，其部分和数列
@@ -220,8 +220,8 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 	极限存在，故$\{b_n\}$有极限，进而$\nums{b_n}$有界，即
 	\[\exists M_2>0,\forall n\in\zz^+:|b_n|\leq M_2\qquad(b')\]
 	因为$\ssum{a_n}$与$\ssum{|\Delta b_n|}$都收敛，取$M=\max(M_1,M_2)$，由柯西收敛原理
-	\[\exists N_1>0,\forall n>N_1,\forall p\in\zz^+:\lra{\sum_{k=n+1}^{n+p}a_k}=|S_{n+p}-S_n|<\dfrac{\eps}{2M}\qquad(c')\]
-	\[\exists N_2>0,\forall n>N_2,\forall p\in\zz^+:\lra{\sum_{k=n+1}^{n+p}\Delta b_k}<\dfrac{\eps}{4M}\qquad(d')\]
+	\[\exists N_1>0,\forall n>N_1,\forall p\in\zz^+:\lrabs{\sum_{k=n+1}^{n+p}a_k}=|S_{n+p}-S_n|<\dfrac{\eps}{2M}\qquad(c')\]
+	\[\exists N_2>0,\forall n>N_2,\forall p\in\zz^+:\lrabs{\sum_{k=n+1}^{n+p}\Delta b_k}<\dfrac{\eps}{4M}\qquad(d')\]
 	结合$(a')(b')(c')(d')$式，取$N=\max(N_1,N_2)$，得
 	\[(\star)\leq 2M\dfrac{\eps}{4M}+M\dfrac{\eps}{2M}=\eps\]
 	由柯西收敛原理知$\ssum{a_nb_n}$收敛
@@ -277,7 +277,7 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 当$x\neq k\pi,k\in\zz$时，由三角函数积化和差公式，裂项相消可得
 \[2\sin\dfrac{x}{2}\ssumkn{\sin kx}=\cos\dfrac{x}{2}-\cos\dfrac{2n+1}{2}x\]
 故
-\[\lra{\ssumkn{\sin kx}}\leq\dfrac{\lra{\cos\dfrac{x}{2}}+\lra{\cos\dfrac{2n+1}{2}x}}{2\lra{\sin\dfrac{x}{2}}}\leq\dfrac{1}{\lra{\sin\dfrac{x}{2}}}\]
+\[\lrabs{\ssumkn{\sin kx}}\leq\dfrac{\lrabs{\cos\dfrac{x}{2}}+\lrabs{\cos\dfrac{2n+1}{2}x}}{2\lrabs{\sin\dfrac{x}{2}}}\leq\dfrac{1}{\lrabs{\sin\dfrac{x}{2}}}\]
 即$\ssumkn{\sin kx}$有界，而$\{\dfrac{1}{n}\}$单调下降趋于$0$，由狄利克雷判别法知原级数收敛
 \end{analysis}
 \par 下面是几道变形例题.
@@ -286,11 +286,11 @@ $\gamma_n$极限存在故有界，因此$\alpha=\beta$时原级数发散
 \end{example}
 \begin{analysis}
 \begin{enumerate}
-	\item 当$p>1$时，$\lra{\dfrac{\cos nx}{n^p}}\leq\dfrac{1}{n^p}$，而$\ssum{\dfrac{1}{n^p}}$收敛，由比较判别法，原级数绝对收敛\par
+	\item 当$p>1$时，$\lrabs{\dfrac{\cos nx}{n^p}}\leq\dfrac{1}{n^p}$，而$\ssum{\dfrac{1}{n^p}}$收敛，由比较判别法，原级数绝对收敛\par
 	\item 当$0<p\leq 1$时，由例\ref{egdirconv1}类似的方法知$\ssum{\cos nx}$有界，而$\{\dfrac{1}{n^p}\}$单调下降趋于$0$，故由狄利克雷判别法，原级数收敛\par
 但由于（\textbf{相当关键的一步}）
-\[\lra{\dfrac{\cos nx}{n^p}}\geq\dfrac{\cos^2 nx}{n^p}=\dfrac{1}{2n^p}+\dfrac{\cos 2nx}{2n^p}\]
-$\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利克雷），故$\ssum\lra{\dfrac{\cos nx}{n^p}}$发散，即原级数条件收敛\par
+\[\lrabs{\dfrac{\cos nx}{n^p}}\geq\dfrac{\cos^2 nx}{n^p}=\dfrac{1}{2n^p}+\dfrac{\cos 2nx}{2n^p}\]
+$\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利克雷），故$\ssum\lrabs{\dfrac{\cos nx}{n^p}}$发散，即原级数条件收敛\par
 	\item 当$p\leq 0$时，$\limtoinf{\cos nx}\neq 0$. 若不然，则
 \[0=\limtoinf{\cos nx}\neq 0=\limtoinf{\dfrac{1+\cos 2nx}{2}}=\dfrac{1}{2}\]
 矛盾，而$\dfrac{1}{n^p}\geq 1$，故$\limtoinf{\cos\dfrac{nx}{n^p}}\neq 0$，由数项级数收敛的必要条件知原级数发散
@@ -318,7 +318,7 @@ $\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利�
 又$\lrp{\dfrac{\ln\ln x}{\sqrt{\ln x}}}'=\dfrac{2 - \ln\ln x}{2 x \ln x^{\frac{3}{2}}}$，故当$x\geq e^{e^2}$时，$\dfrac{\ln\ln x}{\sqrt{\ln x}}$单调递减\\
 由阿贝尔判别法，原积分收敛
 \item 再证明绝对收敛性
-\[\lra{\dfrac{\ln\ln x}{\ln x}\sin x}\geq\dfrac{\ln\ln x}{\ln x}\sin^2 x=\dfrac{|\ln\ln x}{2\ln x}-\dfrac{(\ln\ln x)\cos 2x}{2\ln x}\]
+\[\lrabs{\dfrac{\ln\ln x}{\ln x}\sin x}\geq\dfrac{\ln\ln x}{\ln x}\sin^2 x=\dfrac{|\ln\ln x}{2\ln x}-\dfrac{(\ln\ln x)\cos 2x}{2\ln x}\]
 类似地，由阿贝尔判别法知，$\intab{2}{+\infty}{\dfrac{(\ln\ln x)\cos 2x}{2\ln x}}$收敛\\
 而当$x$充分大时，$\dfrac{\ln\ln x}{\ln x}\geq\dfrac{1}{x}$，故由比较判别法$\intab{2}{+\infty}{\dfrac{|\ln\ln x|}{2\ln x}}$发散\\
 进而$\intab{2}{+\infty}{\dfrac{\ln\ln x}{\ln x}\sin^2 x}$发散\\
@@ -330,7 +330,6 @@ $\ssum{\dfrac{1}{2n^p}}$发散，$\ssum{\dfrac{\cos 2nx}{2n^p}}$收敛（狄利�
 
 \subsubsection{方法总结}
 \begin{enumerate}
-	\itemsep -3pt
 	\item 尝试求出和式或积分具体的值
 	\item 用某些收敛充要(必要)条件判断不会发散
 	\item 比较判别法最先考虑，绝对收敛用正项判别法，一般收敛性或一致收敛性用一般判别法

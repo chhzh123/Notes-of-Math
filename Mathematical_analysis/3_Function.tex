@@ -57,14 +57,12 @@ $\arctan x$
 
 \subsection{函数的基本性质}
 \begin{enumerate}
-	\itemsep -3pt
 	\item 定义域$D$、值域$V$
 	\item 奇偶性
 	\item 周期性
 	\item 有界性：注意是\textbf{有上界且有下界}，如二次函数就不能算有界
 	\item 连续性：见定义\ref{continuous}，以下是间断点的分类
 	\begin{enumerate}
-		\itemsep -3pt
 		\item 可去间断点：可通过修改定义使其连续
 		\item 第一类间断点：左右极限都存在但不相等（跳跃间断点）
 		\item 第二类间断点：左右极限至少有一不存在
@@ -155,10 +153,10 @@ $f(x)$在$(a,b)$为严格凸函数，若$c\in(a,b)$为$f(x)$的极小值点，�
 \begin{exercise}
 \label{reverseinte}
 设$y=\varphi(x),x\geq 0$是严格单调增的连续函数，$\varphi(0)=0$，$x=\psi(y)$是它的反函数，证明
-\begin{enumerate}[(a)]
+\begin{partlist}
 	\item $\displaystyle\int_0^a\varphi(x)\diff x+\int_0^{\varphi(a)}\psi(y)\diff y=a\varphi(a)$
 	\item $\displaystyle\int_0^a\varphi(x)\diff x+\int_0^b\psi(y)\diff y\geq ab\qquad(a\geq 0,b\geq 0)$
-\end{enumerate}
+\end{partlist}
 \end{exercise}
 
 
@@ -227,7 +225,7 @@ $f(x)$在区间$(x_0,b)$上单调上升有下界$f(x_0)$，必有$\displaystyle\
 \end{definition}
 \par 若函数满足利普希茨条件，易知其一致连续.
 \par 涉及一致连续和导数的题目，常常结合拉格朗日中值定理一起使用，即
-\[|f(x')-f(x'')|=\lra{\dfrac{f(x')-f(x'')}{x'-x''}(x'-x'')}=|f'(\xi)||x'-x''|,\xi\in(x',x'')\]
+\[|f(x')-f(x'')|=\lrabs{\dfrac{f(x')-f(x'')}{x'-x''}(x'-x'')}=|f'(\xi)||x'-x''|,\xi\in(x',x'')\]
 \begin{example}
 设$f(x)$在$(a,+\infty)$上可导，且$\disp\lim_{x\to+\infty}f'(x)=+\infty$，求证：$f(x)$在$(a,+\infty)$上不一致连续
 \end{example}
@@ -243,13 +241,11 @@ $f(x)$在区间$(x_0,b)$上单调上升有下界$f(x_0)$，必有$\displaystyle\
 \begin{example}
 设$f(x)$在$[a,b]$满足条件：
 \begin{enumerate}
-	\itemsep -3pt
 	\item $|f(x)-f(y)|\leq k|x-y|,\forall x,y\in[a,b],0<k<1$
 	\item $f(x)$值域在$[a,b]$内
 \end{enumerate}
 则对任意$x_0\in[a,b]$，令$x_{n+1}=f(x_n)$，有
 \begin{enumerate}
-	\itemsep -3pt
 	\item $\disp\lim_{n\to+\infty}x_n$存在
 	\item 方程$x=f(x)$的解在$[a,b]$上是唯一的，这个解就是上述极限值
 \end{enumerate}

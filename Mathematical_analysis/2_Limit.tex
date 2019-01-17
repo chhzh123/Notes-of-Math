@@ -215,12 +215,12 @@ $\displaystyle x_n>0,\lim_{n\to\infty}\frac{x_{n+1}}{x_n}=a$，则$\displaystyle
 	\item 泰勒公式(\ref{sec:sub:taylor}节)或等价无穷小量代换(\ref{sec:sub:eq_equivalent_infinitesimal}节)
 \end{enumerate}
 %网页链接有%始终不行
-\begin{theorem}[O'Stolz定理\protect\footnote{本定理可跳过，详细内容请见$https://en.wikipedia.org/wiki/Stolz\%E2\%80\%93Ces\%C3\%A0ro\_theorem$}]%T143
-若\begin{enumerate}[(a)]
+\begin{theorem}[O'Stolz定理\protect\footnote{本定理可跳过，详细内容请见\url{https://en.wikipedia.org/wiki/Stolz\%E2\%80\%93Ces\%C3\%A0ro\_theorem}}]%T143
+若\begin{partlist}
 	\item $y_{n+1}>y_n,n=1,2,\cdots$
 	\item $\displaystyle\lim_{n\to\infty}y_n=+\infty$
 	\item $\displaystyle\lim_{n\to\infty}\frac{x_{n+1}-x_n}{y_{n+1}-y_n}$存在
-\end{enumerate}
+\end{partlist}
 则$\displaystyle\lim_{n\to\infty}\frac{x_n}{y_n}=\lim_{n\to\infty}\frac{x_{n+1}-x_n}{y_{n+1}-y_n}$\\
 注：本定理算是洛必达法则的离散版本.
 \end{theorem}
@@ -271,7 +271,6 @@ $\displaystyle x_n>0,\lim_{n\to\infty}\frac{x_{n+1}}{x_n}=a$，则$\displaystyle
 以下列举的是比较常用的等价无穷小量$(x\to 0)$，在极限乘除运算\footnote{求极限什么情况下可以在加减式中使用等价（无穷小）替换？ - 撒欢猪宝的回答 - 知乎 \url{https://zhihu.com/question/49541771/answer/118408666}}中可以相互替代.
 等价无穷小量实际上是一阶泰勒公式，详细的内容可在\ref{sec:sub:taylor}节找到.
 \begin{enumerate}
-	\itemsep -3pt
 	\item $\arcsin x\thicksim\sin x\thicksim x$
 	\item $\arctan x\thicksim\tan x\thicksim x$
 	\item $\ln(1+x)\thicksim x$

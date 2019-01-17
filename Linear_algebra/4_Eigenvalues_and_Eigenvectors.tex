@@ -119,7 +119,7 @@ $2\degree\;$唯一性：
 设存在另一矩阵$M'$使得$[T(\vx)]_{\mathcal{C}}=M'[\vx]_{\mathcal{B}}$，故$M[\vx]_{\mathcal{B}}=M'[\vx]_{\mathcal{B}}$，令$\vx=\vb{b}_i$即得$M=M'$
 \end{analysis}
 \begin{proposition}
-若$A=PDP^{-1}$，$D$是$n\times n$的对角矩阵，若$\mathcal{B}$是$\col P$的一组基，则$D$是线性变换$\vx\mapsto A\vx$的$\mathcal{B}$-矩阵.
+若$A=PDP^{-1}$，$D$是$n\times n$的对角矩阵，若$\mathcal{B}$是$\opcol P$的一组基，则$D$是线性变换$\vx\mapsto A\vx$的$\mathcal{B}$-矩阵.
 \end{proposition}
 \begin{analysis}
 \[\begin{aligned}
@@ -145,13 +145,13 @@ $[\vb{x}]_{\mathcal{B}}$ & $\xrightarrow{\quad\text{乘}D\quad}$ & $[A\vb{x}]_{\
 \end{table}
 \begin{definition}[迹(trace)]
 $A$为$n\times n$的方阵，$A$主对角线上元素之和称为$A$的迹，定义为
-\[\tr A=\sum_{i=1}^na_{ii}\]
+\[\optr A=\sum_{i=1}^na_{ii}\]
 \end{definition}
 \begin{theorem}
-若$A,B$均为$n\times n$的方阵，则$\tr(AB)=\tr(BA)$
+若$A,B$均为$n\times n$的方阵，则$\optr(AB)=\optr(BA)$
 \end{theorem}
 \begin{analysis}
-\[\tr(AB)=\sum_{i=1}^n\sum_{j=1}^na_{ij}b_{ji}=\sum_{j=1}^n\sum_{i=1}^na_{ji}b_{ij}=\sum_{i=1}^n\sum_{j=1}^nb_{ij}a_{ji}=\tr(BA)\]
+\[\optr(AB)=\sum_{i=1}^n\sum_{j=1}^na_{ij}b_{ji}=\sum_{j=1}^n\sum_{i=1}^na_{ji}b_{ij}=\sum_{i=1}^n\sum_{j=1}^nb_{ij}a_{ji}=\optr(BA)\]
 \end{analysis}
 \begin{theorem}[相似性一些定理]已知$A$与$B$相似，
 \begin{enumerate}
@@ -161,6 +161,6 @@ $A$为$n\times n$的方阵，$A$主对角线上元素之和称为$A$的迹，定
 	\item $A$与$C$相似，则$B$与$C$相似
 	\item $A$可对角化，则$B$也可对角化
 	\item $A=PBP^{-1}$，$\vx$是$A$关于$\lambda$的特征向量，则$P^{-1}\vx$是$B$关于$\lambda$的特征向量
-	\item $\rank A=\rank B$
+	\item $\oprank A=\oprank B$
 \end{enumerate}
 \end{theorem}

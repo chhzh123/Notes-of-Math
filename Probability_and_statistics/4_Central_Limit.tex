@@ -10,9 +10,9 @@
 \end{theorem}
 \begin{theorem}[弱大数定律(辛钦)]
 若$X_1,X_2,\ldots$为独立随机变量且同等分布(iid)，$\E{X_i}=\mu,\Var{X_i}=\sigma^2$，则
-\[\lim_{n\to\infty}\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}\geq\eps}=0,\,\forall\eps>0\]
+\[\lim_{n\to\infty}\pr{\lrabs{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}\geq\eps}=0,\,\forall\eps>0\]
 或
-\[\lim_{n\to\infty}\pr{\lra{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}<\eps}=1,\,\forall\eps>0\]
+\[\lim_{n\to\infty}\pr{\lrabs{\dfrac{1}{n}\sum_{i=1}^nX_i-\mu}<\eps}=1,\,\forall\eps>0\]
 可记成$\bar{X}\xrightarrow{P}\mu$
 \end{theorem}
 \begin{theorem}[实际推断原理]
@@ -53,14 +53,13 @@
 \end{theorem}
 \begin{example}
 一食品店有三种蛋糕出售，售出一只蛋糕的价格是一个随机变量，取$1$元、$1.2$元、$1.5$元各个值的概率分别为$0.3$、$0.2$、$0.5$，若售出$300$只蛋糕
-\begin{enumerate}
-	\itemsep -3pt
+\begin{partlist}
 	\item 求收入至少$400$元的概率
 	\item 求售出价格为$1.2$元的蛋糕多于$60$只的概率
-\end{enumerate}
+\end{partlist}
 \end{example}
 \begin{analysis}
-\begin{enumerate}
+\begin{partlist}
 	\item 设$X_k,k=1,2,\ldots,300$为第$k$个蛋糕的售价
 	\begin{center}
 	\begin{tabular}{c|ccc}
@@ -80,5 +79,5 @@
 	&=1-\pr{\frac{Y-300\cdot 0.2}{\sqrt{300\cdot 0.2\cdot 0.8}}\leq\frac{60-300\cdot 0.2}{\sqrt{300\cdot 0.2\cdot 0.8}}}\\
 	&=1-\Phi(0)=0.5
 	\end{aligned}\]
-\end{enumerate}
+\end{partlist}
 \end{analysis}

@@ -4,7 +4,6 @@
 \subsection{基本概念}
 在此仅罗列一些基本的知识点的名字，具体内容本文不作赘述.
 \begin{enumerate}
-	\itemsep -3pt
 	\item 解线性方程组（高斯消元法）
 	\item 方程组无解、唯一解、多解的判断，与主元列、主元位置的关系\\
 		解的\textbf{存在性}：看每一列是否都有主元位置\\
@@ -26,24 +25,23 @@
 \begin{theorem}
 \label{linear_relationship}
 $S=\{\vb{v}_1,\dots,\vb{v}_p\},|S|>1$
-\begin{enumerate}[(a)]
-	\itemsep -3pt
+\begin{partlist}
 	\item $S$线性相关，当且仅当至少有一向量可以表示为其他向量的线性组合（注意\textbf{不是}每一个）
 	\item 若$S$线性相关，$\vb{v}_1\ne 0$，那么$\exists\vb{v}_j,j>1$可以被表示为$\vb{v}_1,\dots,\vb{v}_{j-1}$的线性组合
 	\item 若$S$的子集$S'$线性相关，则$S$线性相关；若$S$线性无关，则$S'$线性无关（注意关系不能颠倒）
 	\item 初等行变换不改变\textbf{列}之间的线性相关关系
-\end{enumerate}
+\end{partlist}
 \end{theorem}
 \begin{analysis}
 记$A=\bmat{\vb{v}_1}{\vb{v}_n}$，$B\thicksim A$为$A$的阶梯形
-\begin{enumerate}[(a)]
+\begin{partlist}
 	\item \label{enu1a}必要性：即$\exists c_1,\dots,c_n$不全为$0$，使得$c_1\vb{v}_1+\cdots+c_n\vb{v}_n=\vb{0}$.\\
 	不妨设$c_1\ne 0$，则$\vb{v}_1=(-\dfrac{c_2}{c_1})\vv_2+\cdots+(-\dfrac{c_n}{c_1})\vb{v}_n$，证毕.\\
 	充分性：不妨设$\vb{v}_1=c_2\vb{v}_2+\cdots+c_n\vb{v}_n$，移项得$(-1)\vb{v}_1+c_2\vb{v}_2+\cdots+c_n\vb{v}_n=\vb{0}$.
 	\item 用(\ref{enu1a})的结论，设$\vb{v}_p=c_1\vb{v}_1+\cdots+c_{p-1}\vb{v}_{p-1}+c_{p+1}\vb{v}_{p+1}+\cdots+c_n\vb{v}_n,p>1$，找出最大的$j$使得$c_j\ne 0$（$\vb{v}_p$的系数$c_p=-1$也计入），进而$c_1\vb{v}_1+\cdots+c_j\vb{v}_j=\vb{0}$，接下来证明方法与(\ref{enu1a})相同，$\vb{v}_j$即为所求.
 	\item 因两者互为逆否命题，故只用证前者，而前者通过不断扩充$S'$并令扩充部分的权重全为$0$即可.
 	\item $A\vx=\vb{0}$与$B\vx=\vb{0}$有相同的解，故线性相关关系不会改变.
-\end{enumerate}
+\end{partlist}
 \end{analysis}
 
 \subsection{矩阵的逆}
@@ -94,8 +92,7 @@ d&-b\\-c&a
 \begin{theorem}[可逆阵定理]
 对于$n\times n$矩阵$A$，下列说法均等价
 \begin{multicols}{2} %multicols!
-\begin{enumerate}[(a)]
-	\itemsep -3pt
+\begin{partlist}
 	\item $A$可逆
 	\item $A\thicksim I_n$
 	\item $A$有$n$个主元位置
@@ -109,24 +106,23 @@ d&-b\\-c&a
 	\item $\exists\;n\times n\;D\,s.t.\,AD=I$
 	\item $A^T$可逆
 	\item $A$的列构成$\rn$的一组基
-	\item $\col A=\rn$
-	\item $\dim\col A=n$
-	\item $\rank A=n$（满秩）
-	\item $\nul A=\{\vb{0}\}$
-	\item $\dim\nul A=0$
+	\item $\opcol A=\rn$
+	\item $\opdim\opcol A=n$
+	\item $\oprank A=n$（满秩）
+	\item $\opnul A=\{\vb{0}\}$
+	\item $\opdim\opnul A=0$
 	\item $0$\textbf{不是}$A$的特征值
 	\item $\det A\ne 0$
-	\item $(\col A)^\perp=\nul A^T=\{\vb{0}\}$
-	\item $(\nul A)^\perp=\row A=\rn$
-	\item $\row A=\rn$
+	\item $(\opcol A)^\perp=\opnul A^T=\{\vb{0}\}$
+	\item $(\opnul A)^\perp=\oprow A=\rn$
+	\item $\oprow A=\rn$
 	\item $A$有$n$个非零奇异值
-\end{enumerate}
+\end{partlist}
 \end{multicols}
 \end{theorem}
 \begin{myalgorithm}[LU分解]
 $A$为$m\times n$的矩阵，则$A$一定可以被分解为$A=LU$，其中$L$为下三角矩阵，$U$为上三角矩阵.以下为步骤
 \begin{enumerate}
-	\itemsep -3pt
 	\item 初等行变换（\textbf{只进行替换}）将$A$变成行阶梯形$U$，并记录每次$E_1,\dots,E_p$
 	\item 则$L=(E_p\cdots E_1)^{-1}$，相当于将每次初等行变换逆过来，并将矩阵直接重合即可
 \end{enumerate}
@@ -217,7 +213,6 @@ $A=\begin{bmatrix}B&O \\ O&C\end{bmatrix}$，$B,C$均为方阵，则$A$可逆，
 \subsection{行列式}
 \begin{proposition}[行列式的基本运算]\mbox{}\par
 \begin{enumerate}
-	\itemsep -1pt
 	\item $\det A^T=\det A$
 	\item $\det AB=(\det A)(\det B)=\det BA$
 	\item \label{det3}$\det A^{-1}=\dfrac{1}{\det A}$

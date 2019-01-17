@@ -16,7 +16,7 @@
 \begin{definition}[长度/模/范数]
 $V$是一个内积空间，则对于某一向量$v\in V$的长度为$\|v\|:=\sqrt{\langle v,v\rangle}$.
 \end{definition}
-注：如无特殊说明，下文在谈论到内积时都是指最简单不加权的内积，即$\inp{\vb{u}}{\vb{v}}=\vb{u}\cdot\vb{v}=\vb{u}^T\vb{v}$.
+注：如无特殊说明，下文在谈论到内积时都是指最简单不加权的内积，即$\lrang{\vb{u},\vb{v}}=\vb{u}\cdot\vb{v}=\vb{u}^T\vb{v}$.
 
 \subsection{正交}
 \begin{definition}[正交]
@@ -43,10 +43,10 @@ $S=\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的一个由\textbf{非零}向量�
 \end{theorem}
 \begin{analysis}
 \[\vb{0}=c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p\]
-\[\begin{aligned}0&=\inp{\vb{0}}{\vb{u}_1}=\inp{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p}{\vb{u}_1}\\
-&=\inp{c_1\vb{u}_1}{\vb{u}_1}+\inp{c_2\vb{u}_2}{\vb{u}_1}+\cdots+\inp{c_p\vb{u}_p}{\vb{u}_1}\\
-&=c_1\inp{\vb{u}_1}{\vb{u}_1}+c_2\inp{\vb{u}_2}{\vb{u}_1}+\cdots+c_p\inp{\vb{u}_p}{\vb{u}_1}\\
-&=c_1\inp{\vb{u}_1}{\vb{u}_1}
+\[\begin{aligned}0&=\lrang{\vb{0},\vb{u}_1}=\lrang{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p,\vb{u}_1}\\
+&=\lrang{c_1\vb{u}_1,\vb{u}_1}+\lrang{c_2\vb{u}_2,\vb{u}_1}+\cdots+\lrang{c_p\vb{u}_p,\vb{u}_1}\\
+&=c_1\lrang{\vb{u}_1,\vb{u}_1}+c_2\lrang{\vb{u}_2,\vb{u}_1}+\cdots+c_p\lrang{\vb{u}_p,\vb{u}_1}\\
+&=c_1\lrang{\vb{u}_1,\vb{u}_1}
 \end{aligned}\]
 因为$\vb{u}_1\ne\vb{0}$，所以$c_1=0$. 类似地，可以推出$c_i=0,i=2,\dots,p$，因此$S$线性无关.
 \end{analysis}
@@ -58,11 +58,11 @@ $\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组正交基，�
 注：与选的基没有关系，只和$W$有关.
 \end{theorem}
 \begin{analysis}
-类似定理\ref{ortho_indep}的证明有$\inp{\hat{\vb{y}}}{\vb{u}_i}=\inp{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p}{\vb{u}_i}=c_i\inp{\vb{u}_i}{\vb{u}_i}$，移项即得$(*)$式.
-\[\begin{aligned}\inp{\vb{z}}{\vb{u}_1}=\inp{\vb{y}-\hat{\vb{y}}}{\vb{u}_1}&=\inp{\vb{y}}{\vb{u}_1}-\inp{\frac{\langle \hat{\mathbf{y}},\mathbf{u}_1\rangle}{\langle\mathbf{u}_1,\mathbf{u}_1\rangle}\mathbf{u}_1}{\vb{u}_1}-0-\cdots-0\\
-&=\inp{\vb{y}}{\vb{u}_1}-\inp{\vb{y}}{\vb{u}_1}=0\end{aligned}\]
+类似定理\ref{ortho_indep}的证明有$\lrang{\hat{\vb{y}},\vb{u}_i}=\lrang{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p,\vb{u}_i}=c_i\lrang{\vb{u}_i,\vb{u}_i}$，移项即得$(*)$式.
+\[\begin{aligned}\lrang{\vb{z},\vb{u}_1}=\lrang{\vb{y}-\hat{\vb{y}},\vb{u}_1}&=\lrang{\vb{y},\vb{u}_1}-\lrang{\frac{\langle \hat{\mathbf{y}},\mathbf{u}_1\rangle}{\langle\mathbf{u}_1,\mathbf{u}_1\rangle},\mathbf{u}_1}{\vb{u}_1}-0-\cdots-0\\
+&=\lrang{\vb{y},\vb{u}_1}-\lrang{\vb{y},\vb{u}_1}=0\end{aligned}\]
 类似地可证明$\vb{z}$与$W$的每一个基$\vb{u}_i$都正交，进而$\vb{z}\in W^\perp$.\\
-为证明唯一性，不妨设存在另一表示方法$\vb{y}=\hat{\vb{y}}'+\vb{z'}$，其中$\hat{\vb{y}}'\in W$，$\vb{z'}\in W^\perp$那么$\hat{\vb{y}}+\vb{z}=\hat{\vb{y}}'+\vb{z'}$，即$\hat{\vb{y}}-\hat{\vb{y}}'=\vb{z'}-\vb{z}$. 因为$\vb{z},\vb{z'}\in W^\perp$，所以$\vb{z'}-\vb{z}\in W^\perp$，故$\hat{\vb{y}}-\hat{\vb{y}}'\in W^\perp$，而$\hat{\vb{y}}-\hat{\vb{y}}'\in W$，推出$\inp{\hat{\vb{y}}-\hat{\vb{y}}'}{\hat{\vb{y}}-\hat{\vb{y}}'}=0$，即$\hat{\vb{y}}=\hat{\vb{y}}'$，同时$\vb{z'}=\vb{z}$.
+为证明唯一性，不妨设存在另一表示方法$\vb{y}=\hat{\vb{y}}'+\vb{z'}$，其中$\hat{\vb{y}}'\in W$，$\vb{z'}\in W^\perp$那么$\hat{\vb{y}}+\vb{z}=\hat{\vb{y}}'+\vb{z'}$，即$\hat{\vb{y}}-\hat{\vb{y}}'=\vb{z'}-\vb{z}$. 因为$\vb{z},\vb{z'}\in W^\perp$，所以$\vb{z'}-\vb{z}\in W^\perp$，故$\hat{\vb{y}}-\hat{\vb{y}}'\in W^\perp$，而$\hat{\vb{y}}-\hat{\vb{y}}'\in W$，推出$\lrang{\hat{\vb{y}}-\hat{\vb{y}}',\hat{\vb{y}}-\hat{\vb{y}}'}=0$，即$\hat{\vb{y}}=\hat{\vb{y}}'$，同时$\vb{z'}=\vb{z}$.
 \end{analysis}
 \par 从$(*)$的最后一个等式可以看出，实际上正交分解与我们高中所学的向量知识是一致的，即$\mathbf{y}$在$\mathbf{u}_i$上的投影的长度再乘上该方向上的单位向量.
 \begin{theorem}[最佳估计]
@@ -79,7 +79,7 @@ $W$为$V$的子空间，$\vb{y}\in V$，则
 \[\|\mathbf{u}\|\|\mathbf{v}\|\geq|\langle \mathbf{u},\mathbf{v} \rangle|\]
 \end{theorem}
 \begin{analysis}
-\[\|\proj{\vb{u}}\vv\|=\dfrac{\inp{\vb{u}}{\vv}}{\|\vb{u}\|}\leq\|\vv\|\]
+\[\|\opproj_{\vb{u}}\vv\|=\dfrac{\lrang{\vb{u},\vv}}{\|\vb{u}\|}\leq\|\vv\|\]
 \end{analysis}
 \begin{theorem}[三角不等式]
 \[\|\mathbf{u}\|+\|\mathbf{v}\|\geq\|\mathbf{u}+\mathbf{v}\|\]
@@ -88,8 +88,8 @@ $W$为$V$的子空间，$\vb{y}\in V$，则
 平方后用柯西不等式.
 \end{analysis}
 \begin{proposition}%P417
-$A$是$m\times n$矩阵，$A\vx=\vb{0}$当且仅当$A^TA\vx=\vb{0}$，进而$\nul A=\nul A^TA$.\\
-$A^TA$可逆当且仅当$A$的列线性无关. $\rank A^TA=n-\dim\nul A^TA=\nul A=\rank A$
+$A$是$m\times n$矩阵，$A\vx=\vb{0}$当且仅当$A^TA\vx=\vb{0}$，进而$\opnul A=\opnul A^TA$.\\
+$A^TA$可逆当且仅当$A$的列线性无关. $\oprank A^TA=n-\opdim\opnul A^TA=\opnul A=\oprank A$
 \end{proposition}
 \begin{analysis}
 $\vx^TA^TA\vx=\vb{0}$
@@ -135,7 +135,7 @@ $1,3$同理可证.
 \end{enumerate}
 \end{proposition}
 \begin{proposition}
-$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交基，则$\proj{W}\vy=UU^T\vy,\,\forall\vy\in V$
+$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交基，则$\opproj_{W}\vy=UU^T\vy,\,\forall\vy\in V$
 \end{proposition}
 \begin{myalgorithm}[施密特(Schmidt)正交化]
 \label{schmidt}
@@ -149,11 +149,11 @@ $\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交�
 注：此过程说明了结合向量空间基的存在性可说明正交基的存在性.
 \end{myalgorithm}
 \begin{analysis}
-设$V_k=\span\{\mathbf{v}_1,\dots,\mathbf{v}_k\},W_k=\span\{\mathbf{u}_1,\dots,\mathbf{u}_k\},1\leq k\leq p$，则$\vb{u}_{k+1}=\vv_{k+1}-\proj{W_k}\vv_{k+1}$，进而$\vb{u}_{k+1}\in W_{k+1}^\perp$，即每一$\vb{u}_i$均与前面的$\vb{u}_j,1\leq j\leq i-1$正交（也就保证了两两正交）. 而$\vb{v}_i\in V_i$，由向量加减法的封闭性，$\vb{u}_i\in V_i$，故$\vb{u}_i\in V_p$（因$V_k\subset V_{k+1}$）. 又正交一定线性无关，且$V$已有一组$p$个向量的基，故$\{\mathbf{u}_1,\dots,\mathbf{u}_k\}$是$V_k$的一组正交基，进而$V_k=W_k$.\\
+设$V_k=\opspan\{\mathbf{v}_1,\dots,\mathbf{v}_k\},W_k=\opspan\{\mathbf{u}_1,\dots,\mathbf{u}_k\},1\leq k\leq p$，则$\vb{u}_{k+1}=\vv_{k+1}-\opproj_{W_k}\vv_{k+1}$，进而$\vb{u}_{k+1}\in W_{k+1}^\perp$，即每一$\vb{u}_i$均与前面的$\vb{u}_j,1\leq j\leq i-1$正交（也就保证了两两正交）. 而$\vb{v}_i\in V_i$，由向量加减法的封闭性，$\vb{u}_i\in V_i$，故$\vb{u}_i\in V_p$（因$V_k\subset V_{k+1}$）. 又正交一定线性无关，且$V$已有一组$p$个向量的基，故$\{\mathbf{u}_1,\dots,\mathbf{u}_k\}$是$V_k$的一组正交基，进而$V_k=W_k$.\\
 \end{analysis}
 \begin{theorem}[QR分解]
 \label{qr_fact}
-若$m\times n$矩阵$A$的\textbf{列线性无关}，则$A$可被分解为$A=QR$，其中$Q$是$m\times n$矩阵且它的列形成$\col A$的\textbf{单位正交}基，$R$是$n\times n$可逆上三角矩阵且对角线上元素全为正数.\\
+若$m\times n$矩阵$A$的\textbf{列线性无关}，则$A$可被分解为$A=QR$，其中$Q$是$m\times n$矩阵且它的列形成$\opcol A$的\textbf{单位正交}基，$R$是$n\times n$可逆上三角矩阵且对角线上元素全为正数.\\
 注：在下面的证明可以看出$A=QR$，单位正交不是必须的，但可能因为具有某种性质，所以才要强调单位正交.
 \end{theorem}
 \begin{analysis}

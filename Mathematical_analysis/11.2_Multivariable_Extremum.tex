@@ -26,15 +26,15 @@
 \[f(a,b)=\sum_{i=1}^n(ax_i+b-y_i)^2\]
 最小，分别对$a,b$求偏导数，令其为$0$，得
 \[\begin{cases}
-\pd{f}{a}=2\sum_{i=1}^n(ax_i+b-y_i)x_i=0 & \implies\inp{\vx}{\vx}a+\inp{\vx}{\ve}b=\inp{\vx}{\vy}\\
-\pd{f}{b}=2\sum_{i=1}^n(ax_i+b-y_i)=0 & \implies\inp{\vx}{\ve}a+\inp{\ve}{\ve}b=\inp{\vy}{\ve}
+\pd{f}{a}=2\sum_{i=1}^n(ax_i+b-y_i)x_i=0 & \implies\lrang{\vx,\vx}a+\lrang{\vx,\ve}b=\lrang{\vx,\vy}\\
+\pd{f}{b}=2\sum_{i=1}^n(ax_i+b-y_i)=0 & \implies\lrang{\vx,\ve}a+\lrang{\ve,\ve}b=\lrang{\vy,\ve}
 \end{cases}\]
 进而由克莱姆法则求得
-\[\hat{a}=\frac{\vmat{\inp{\vx}{\vy} & \inp{\vx}{\ve}\\\inp{\vy}{\ve}&\inp{\ve}{\ve}}}
-{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\ve}\\\inp{\vx}{\ve}&\inp{\ve}{\ve}}}
+\[\hat{a}=\frac{\vmat{\lrang{\vx,\vy} & \lrang{\vx,\ve}\\\lrang{\vy,\ve}&\lrang{\ve,\ve}}}
+{\vmat{\lrang{\vx,\vx} & \lrang{\vx,\ve}\\\lrang{\vx,\ve}&\lrang{\ve,\ve}}}
 \qquad
-\hat{b}=\frac{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\vy}\\\inp{\vx}{\ve}&\inp{\vy}{\ve}}}
-{\vmat{\inp{\vx}{\vx} & \inp{\vx}{\ve}\\\inp{\vx}{\ve}&\inp{\ve}{\ve}}}\]
+\hat{b}=\frac{\vmat{\lrang{\vx,\vx} & \lrang{\vx,\vy}\\\lrang{\vx,\ve}&\lrang{\vy,\ve}}}
+{\vmat{\lrang{\vx,\vx} & \lrang{\vx,\ve}\\\lrang{\vx,\ve}&\lrang{\ve,\ve}}}\]
 拟合的直线为
 \[y=\hat{a}x+\hat{b}\]
 
