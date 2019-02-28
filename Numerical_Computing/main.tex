@@ -1,0 +1,37 @@
+\documentclass{note}
+\usepackage{mypackage}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\title{数值计算方法}
+\author{陈鸿峥}
+\date{{\builddatemonth\today}\protect\footnote{\text{Build \builddate\today}}}%加了build
+
+\begin{document}
+
+\maketitle
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{footnote}{0}
+
+\setcounter{tocdepth}{2}%设置深度
+\tableofcontents
+\bigskip\bigskip\bigskip
+
+\section{简介}
+\subsection{误差}
+误差来源
+\begin{itemize}
+	\item 原始误差：模型误差
+	\item 观测误差：测量数据产生的误差
+	\item 方法误差：截断误差
+	\item 计算误差：舍入误差
+\end{itemize}
+数值计算需要注意的问题
+\begin{itemize}
+	\item 避免相近的数相减，如$\sqrt{1001}-\sqrt{1000}$有效数字会损失，分子有理化可使误差减小。\textbf{数学上等价的公式在计算上是不等价的！}
+	\item 避免数量级相差太大的两数相除，容易溢出
+	\item 避免大数和小数相加减，浮点数计算要对阶
+	\item 简化计算步骤
+\end{itemize}
+
+\end{document}

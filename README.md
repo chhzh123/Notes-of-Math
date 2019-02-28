@@ -40,3 +40,6 @@
 
 ## Convex Optimization
 最优化理论笔记
+
+## Numerical Computing
+数值计算方法笔记
