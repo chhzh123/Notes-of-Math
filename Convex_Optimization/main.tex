@@ -148,7 +148,6 @@
 	\item 半空间、欧式球、椭球、多面体为凸集
 \end{itemize}
 \end{example}
-% 凸集的交仍然为凸集
 
 \begin{definition}[仿射函数]
 \[f:\rn\mapsto\rr^m\quad f(\vx)=A\vx+\vb,A\in\rr^{m\times n},\vb\in\rr^m\]
@@ -166,4 +165,74 @@
 令$A=\bmat{I & I},\vx=\bmat{x & y}^\T,\vb=0$，由仿射函数性质知
 \end{analysis}
 
+\begin{definition}[透视(perspective)函数\footnote{$+$代表$\geq 0$，$++$代表$>0$}]
+透视函数$P:\rr^{n+1}\mapsto\rn,\dom P=\rn\times\rr_{++}$定义如下
+\[P(z,t)=\dfrac{z}{t},z\in\rn,t\in\rr_{++}\]
+反透视函数
+\[P^{-1}(c):=\lrb{(x,t)\in\rr^{n+1}\mid\frac{x}{t}\in c,t>0}\]
+\end{definition}
+
+若$c\in\dom P$为凸，则$P(c):=\{P(x),x\in c\}$为凸；反透视函数仍保持$c$的凸性。
+
+考虑$\rr^{n+1}$内的线段，$x=(\widetilde{x}\in\rn,x_{n+1}\in\rr_{++}),y=(\widetilde{y},y_{n+1})$
+则经过透视函数仍是线段
+\begin{analysis}
+\[P(\theta x+(1-\theta)y)=\frac{\theta\widetilde{x}+(1-\theta)\widetilde{y}}{\theta x_{n+1}+(1-\theta y_{n+1})}=\frac{\theta x_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{x}}{x_{n+1}}+\frac{(1-\theta)y_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{y}}{y_{n+1}}\]
+\end{analysis}
+
+\begin{definition}[线性分数函数]
+仿射函数
+\[g(x)=\bmat{A\\C^\T}x+\bmat{b\\d},A\in\rr^{m\times n},b\in\rm,c\in\rn,d\in\rr\]
+线性分数函数$f:\rn\mapsto\rm=p\circ g$
+\[f(x)=\frac{Ax+b}{c^\T x+d},\dom f=\{x\mid c^\T+d>0\}\]
+\end{definition}
+
+保凸性
+\begin{itemize}
+	\item 凸集的交
+	\item 仿射、逆仿射
+	\item 透视函数
+	\item 线性分数函数
+\end{itemize}
+
+\section{凸函数} % 3.5
+\begin{definition}[凸函数]
+\begin{enumerate}
+	\item $f:\rn\to\rr$为凸$\iff\dom f$为凸且$\forall x,y\in\dom f,\theta\in[0,1]$
+\[f(\theta x+(1-\theta)y)\leq\theta f(x)+(1-\theta)f(y)\]
+\begin{itemize}
+	\item 严格凸：$\theta\in(0,1)$，不等式不能取等
+	\item 凹函数：若$-f$为凸
+\end{itemize}
+	\item 高维定义：
+$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
+\[\forall x\in\dom f,v\in\rn:g(t):=f(x+tv)\text{为凸，}\dom g=\{t\mid x+tv\in\dom f\}\]
+相当于每一个剖面上的低维函数都是凸的
+	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(x)=[\nabla f(x)]^\T$}
+	\[f(y)\geq f(x)+\nabla^\T f(x)(y-x)\]
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+$f(x)=a^\T x+b$
+\end{example}
+\begin{analysis}
+有$\nabla f(x)=a$，进而
+\[f(y)=a^\T y+b\geq a^\T x+b+a^\T(y-x)=a^\T y+b\]
+\end{analysis}
+
+\begin{definition}[凸函数的扩展(extended-value)]
+尽管凸函数的定义域为凸，但往往不好处理，那就将其扩展到全空间。
+$x\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
+\[\widetilde{f}(x)=\begin{cases}f(x)&x\in\dom f\\+\infty&x\notin\dom f\end{cases}\]
+\end{definition}
+
+指示/示信(indicator)函数不一定是凸的
+\[f(x)=\begin{cases}0&x\in C\\ +\infty & x\notin C\end{cases}\]
+
+\begin{theorem}
+若$f$为凸，可微，则$\exists x\in\dom f,\nabla f(x)=0$
+\end{theorem}
+
 \end{document}
+% 神经网络次微分
