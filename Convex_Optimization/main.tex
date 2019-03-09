@@ -210,6 +210,13 @@ $f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
 相当于每一个剖面上的低维函数都是凸的
 	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(x)=[\nabla f(x)]^\T$}
 	\[f(y)\geq f(x)+\nabla^\T f(x)(y-x)\]
+	\item 二阶条件：% 3.7
+	$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
+	\[\forall x\in\dom f:\nabla^2 f(x) \succeq 0\]
+	\begin{itemize}
+		\item 凹函数：$\nabla^2 f(x)\preceq 0$
+		\item 严格凸：\textcolor{red}{$\impliedby$}$\nabla^2 f(x)\succ 0$，反例$f(x)=x^4$（在一个点斜率不变并不要紧）
+	\end{itemize}
 \end{enumerate}
 \end{definition}
 
@@ -233,6 +240,74 @@ $x\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
 \begin{theorem}
 若$f$为凸，可微，则$\exists x\in\dom f,\nabla f(x)=0$
 \end{theorem}
+
+\begin{example}
+二次函数$f(x)=\dfrac{1}{2}x^\T Px+q^\T x+r$，$P\in S^n$（对称矩阵），$q^\T\in\rn$，$r\in\rr$
+\end{example}
+\begin{analysis}
+$\nabla^2 f(x)=P$\\
+$P\in S^n_+$凸，$P\in S_{++}^n$严格凸
+\end{analysis}
+
+\begin{example}
+$f(x)=\dfrac{1}{x^2},\dom f=\lrb{x\in\rr,x\ne 0}$
+\end{example}
+\begin{analysis}
+注意$\dom f$不是凸集
+\end{analysis}
+\begin{itemize}
+	\item 指数函数$f(x)=\ee^{ax}$
+	\item 幂函数$f(x)=x^a$
+	\item 绝对值的幂函数$f(x)=|x|^p,x\in\rr,p>0$：$p\in[1,+\infty)$凸，$p\in(0,1)$既不凸又不凹
+	\begin{analysis}
+	\[f''(x)=\begin{cases}
+	p(p-1)x^{p-2} & x<0\\
+	p(p-1)(-x)^{p-2} & x<0
+	\end{cases}\]
+	\end{analysis}
+	\item 对数函数$f(x)=\log x$
+	\item 熵$f(x)=-x\log x$
+	\item 极大值函数$f(x)=\max\lrb{x_1,\ldots,x_n},x\in\rn$
+\end{itemize}
+
+\begin{definition}[解析近似]
+无穷阶可微
+\end{definition}
+
+极大值函数的解析近似是$f(x)=\log(\ee^{x_1}+\cdots+\ee^{x_n})$
+\[\max\{x_1,\ldots,x_n\}\leq f(x)\leq\max\{x_1,\ldots,x_n\}+\log n\]
+\begin{analysis}
+\[\pd{f}{x_i}=\frac{\ee^{x_i}}{\ee^{x_i}+\cdots+\ee^{x_n}}\]
+\[\pddxy{f}{x_i}{x_j}=\begin{cases}\frac{-\ee^{x_i}\ee^{x_i}}i=j\\i\ne j\end{cases}\]
+\[z:=\bmat{\ee^{x_1}&\cdots&\ee^{x_n}}^\T\]
+求Hessian矩阵
+\[H=\frac{1}{(\vone^\T z)^2}(-z\cdot z^\T+(\vone^\T z)\opdiag(z))\]
+将前面常量丢弃
+\footnote{$H$半正定，则$\forall v\in\rn:v^\T Hv\geq 0$}
+\[a_i:=v_i\sqrt{z_i}=\bmat{a_1&\cdots&a_n}^\T,b_i=\sqrt{z_i}\]
+\[\begin{aligned}
+v^\T Hv&=(\mathbbm{1}^\T z)v^\T \opdiag(z)v-v^\T zz^\T v\\
+&=(\sum_i z_i)(\sum_i v_i^2 z_i)-(\sum_i v_i z_i)^2\\
+&=(b^\T b)(a^\T a)-(a^\T b)^2\qquad\text{Cauchy}\\
+&\geq 0
+\end{aligned}\]
+\end{analysis}
+
+\begin{definition}[范数]
+$p(x)$为范数
+\begin{enumerate}
+	\item $p(ax)=|a|p(x)$
+	\item $p(x+y)\leq p(x)+p(y)$
+	\item $p(x)=0\iff x=0$
+\end{enumerate}
+零范数$\|x\|_0$：非零元素数目，是伪范数（不符合第一个定义）
+\end{definition}
+$\rn$中的范数都是凸函数，正则化！
+\begin{analysis}
+\forall x,y,\theta\in[0,1]
+p(\theta x+(1-\theta)y)\leq p(\theta x)+p((1-\theta)y)
+\leq \theta p(x)+(1-\theta)p(y)
+\end{analysis}
 
 \end{document}
 % 神经网络次微分
