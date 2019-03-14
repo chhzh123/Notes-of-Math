@@ -1,0 +1,98 @@
+% !TEX root = main.tex
+
+% http://mathworld.wolfram.com/DividedDifference.html
+% http://mathfaculty.fullerton.edu/mathews/n2003/Web/NewtonPolyMod/NewtonPolyMod.html
+\section{插值}
+\begin{theorem}[唯一性]
+$n$次插值多项式存在且唯一
+\end{theorem}
+\begin{analysis}
+设$n$次多项式$p(x)=a_0+a_1x+\cdots+a_nx^n$为函数$f(x)$在$[a,b]$上$n+1$个互异节点$x_i(i=0,1,\ldots,n)$上的插值多项式，则求$p(x)$的系数$a_i$相当于解线性方程组
+\[\begin{cases}
+a_0+a_1x_0+\cdots+a_nx_0^n=y_0\\
+a_0+a_1x_1+\cdots+a_nx_1^n=y_1\\
+\vdots\\
+a_0+a_1x_n+\cdots+a_nx_n^n=y_n
+\end{cases}\]
+其系数行列式为范德蒙特行列式$V=\prod_{i=1}^n\prod_{j=0}^{i-1}(x_i-x_j)$，因为$x_i$互不相同，故$V\ne 0$。
+进而由克莱姆法则，$a_i$解存在且唯一。
+\end{analysis}
+
+由于$p(x)$为线性空间$P_n(x)$\footnote{次数小于等于$n$的代数多项式的集合}的一个点，因而其基底/插值基函数$\phi(x)$不唯一，有多种表示方法（不同的线性组合）
+\[p(x)=a_0\phi_0(x)+a_1\phi_1(x)+\cdots+a_n\phi_n(x)\]
+
+\subsection{拉格朗日插值}
+\begin{definition}[拉格朗日插值基函数]
+节点$x_k$上的插值基函数$l_k(x)$满足
+\[l_k(x_k)=\begin{cases}1&i=k\\0&i\ne k\end{cases}\]
+\end{definition}
+\par 由定义知$l_k(x)$的零点为$x_i,i\ne k$，待定系数$A_k$
+\[l_k(x)=A_k(x-x_0)(x-x_1)\cdots(x-x_{k-1})(x-x_{k+1})\cdots(x-x_n)\]
+可求得$A_k$，进而得到插值基函数
+\[l_k(x)=\prod_{\substack{i=0\\i\ne k}}^{n}\frac{(x-x_i)}{x_k-x_i}\]
+因此拉格朗日插值函数为
+\[L_n(x)=\sum_{k=0}^nf(x_k)\prod_{\substack{i=0\\i\ne k}}^{n}\frac{(x-x_i)}{x_k-x_i}\]
+其中$L_1(x)$称为线性插值，$L_2(x)$称为抛物线插值
+
+误差估计
+\[R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n(x-x_i),\;\xi=\xi(x)\in(a,b)\]
+
+\subsection{牛顿插值}
+\begin{definition}[牛顿插值基函数]
+\[\begin{cases}
+\varphi_0(x)=1\\
+\varphi_j(x)=\displaystyle\prod_{i=0}^{j-1}(x-x_i),\;j=1,2,\ldots,n
+\end{cases}\]
+\end{definition}
+\par 进而牛顿插值函数为
+\[N_n(x)=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)+\cdots=a_0+\sum_{i=1}^na_i\prod_{j=0}^{i-1}(x-x_j)\]
+实际上就是将$x_i$之后的项全部为$0$消掉了。
+\par 由$f(x_k)=N_n(x_k)$，对比系数可得
+\[\begin{aligned}
+a_0 &=f(x_0)\\
+a_1 &=\frac{f(x_1)-f(x_0)}{x_1-x_0}\\
+a_2 &=\frac{\dfrac{f(x_2)-f(x_0)}{x_2-x_0}-\dfrac{f(x_1)-f(x_0)}{x_1-x_0}}{x_2-x_1}
+\end{aligned}\]
+
+\begin{definition}[差商]
+一阶差商$f[x_i,x_k]=\dfrac{f(x_k)-f(x_i)}{x_k-x_i}$，二阶差商$f[x_i,x_j,x_k]=\dfrac{f[x_i,x_k]-f[x_j,x_k]}{x_k-x_j}$，高阶差商为
+\[f[x_0,x_1,\ldots,x_{k-1},x_k]=\frac{f[x_0,x_1,\ldots,x_{k-2},x_k]-f[x_0,x_1,\ldots,x_{k-1}]}{x_k-x_{k-1}}\]
+\end{definition}
+由差商定义可得以下差商表（注：下面$f_i:=f(x_i)$）
+\begin{center}
+\begin{tabular}{ccccc}\hline
+$x_k$ & $y_k$ & 一阶 & 二阶 & 三阶\\\hline
+$x_0$ & $f_0$ & & &\\
+$x_1$ & $f_1$ & $f[x_0,x_1]$ & &\\
+$x_2$ & $f_2$ & $f[x_1,x_2]$ & $f[x_0,x_1,x_2]$ &\\
+$x_3$ & $f_3$ & $f[x_2,x_3]$ & $f[x_1,x_2,x_3]$ & $f[x_0,x_1,x_2,x_3]$ \\\hline
+\end{tabular}
+\end{center}
+并且有
+\[\begin{aligned}
+a_0&=f(x_0)\\
+a_1&=f[x_0,x_1]\\
+a_2&=f[x_0,x_1,x_2]\\
+\vdots\\
+a_n&=f[x_0,x_1,\ldots,x_n]
+\end{aligned}\]
+
+由误差估计的计算可得差商与导数之间的关系
+\[f[x_0,x_1,\ldots,x_k]=\frac{f^{(k)}(\xi)}{k!}\]
+
+可以看出，当增加一个节点时，牛顿插值只需增加一项，而拉格朗日插值需要全部重新算。
+
+\begin{definition}[差分]
+设已知函数$f(x)$在等距节点$x_i=x_0+ih(i=0,1,2,\ldots,n)$上的函数值为$f(x_i)=f_i$，其中$h>0$为步长，则称$\Delta f_i=f(x_i+h)-f(x_i)=f_{i+1}-f_i$为$f(x)$在$x_i$处步长为$h$的一阶向前差分。
+称$\Delta^2 f_i=\Delta(\Delta f_i)=\Delta f_{i+1}-\Delta f_i$为函数$f(x)$在$x_i$处的二阶向前差分。
+一般地$\Delta^n f_i=\Delta(\Delta^{n-1} f_i)$为函数$f(x)$在$x_i$处的$n$阶向前差分。
+并规定，$\Delta^0 f_i=f_i$为零阶差分。
+\end{definition}
+\par 差分与差商的关系为
+\[f[x_0,x_1,\ldots,x_k]=\frac{\Delta^k f_0}{k!h^k},\,k=1,2,\ldots,n\]
+
+则牛顿插值公式的向前差分形式为
+\[N_n(x)=N_n(x_0+th)=f_0+\frac{t}{1!}\Delta f_0+\frac{t(t-1)}{2!}\Delta^2 f_0+\cdots+\frac{t(t-1)\cdots(t-n+1)}{n!}\Delta^n f_0,\,t\in[0,1]\]
+类似于泰勒展开。
+
+\subsection{埃尔米特插值}
