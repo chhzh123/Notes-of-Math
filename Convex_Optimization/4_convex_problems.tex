@@ -1,0 +1,114 @@
+% !TEX root = main.tex
+
+\section{凸优化问题}
+\subsection{标准型}
+广义定义：极小化凸函数，约束为凸集
+\[\begin{aligned}
+& \text{minimize}& f_0(\vx)& &\\
+& \text{subject to}& f_i(\vx)&\leq 0 &\quad i&=1,\ldots,m\\
+&  & h_j(\vx)&=0 &\quad j&=1,\ldots,p
+\end{aligned}\]
+\begin{itemize}
+	\item 优化变量$\vx\in\rn$
+	\item 目标/损失函数$f_0:\rn\mapsto \rr$
+	\item 不等式约束函数$f_i:\rn\mapsto \rr$
+	\item 等式约束函数$h_j:\rn\mapsto\rr$
+	\item 域$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$
+	\item 可行解$\sX=\{\vz\mid f_i(\vz)\leq 0,h_j(\vz)=0,i=1,\ldots,m,j=1,\ldots,p\}$
+	\item 最优值$P^\star=\inf\{f_0(\vx)\mid x\in \sX\}$
+	\item 最优解$\vx^\star\iff\forall \vz\in\rn,\vz\in\sX:\;f_0(\vz)\geq f_0(\vx^\star)$
+	\item 最优解集$X^\star=\{x^\star\mid f_0(\vx^\star)=P^\star,\vx^\star\in \sS\}$
+	\item $\eps$-次优解集$X_\eps=\{\vx\mid f_0(\vx)\leq P^\star+\eps, \vx\in \sX\}$
+	\item 局部最优$\exists R>0,f_0(x)=\inf\{f_0(\vz)\mid \vx\in\sX, \vz\in\sX,\|\vx-\vz\|\leq R\}$
+	\item 局部最优解集$x_{local}=\{\vx\mid\vx\text{为局部最优}\}$
+\end{itemize}
+
+狭义定义：$f_i(x),i=0,1,\ldots$为凸函数，$h_i(x)$为仿射函数
+\begin{example}
+\[\begin{aligned}
+& \min &f_0(x)=x_1^2+x_2^2 & \\
+& \text{s.t.} & f_1(x)=\frac{x_1}{1+x_2^2}\leq 0 & \implies x_1\leq 0\\
+& & h_1(x)=(x_1+x_2)^2=0 & \implies x_1+x_2=0
+\end{aligned}\]
+\end{example}
+
+% 3.19
+\begin{theorem}
+凸问题局部最优等价于全局最优
+\end{theorem}
+\begin{analysis}
+若$x$为局部最优
+\[\exists R>0:\;f_0(x)=\inf\{f_0(z)\mid z\in\sX,x\in\sX,\|x-z\|_2\leq R\}\]
+反证法，设$x$不是全局最优，$y$为全局最优，$f_0(x)>f_0(y)$\\
+$z=\theta x+(1-\theta)y$,$\theta=\frac{R}{2\|y-x\|_2}$
+\[\|z-x\|_2=\frac{R\|y-x\|_2}{2\|y-x\|_2}=\frac{R}{2}\]
+由$\|z-x\|_2\leq R\implies f_0(x)\leq f_0(z)$，有
+\[f_0(z)\leq\theta f_0(x)+(1-\theta)f_0(y)<\theta f_0(z)+(1-\theta)f_0(z)=f_0(z)\]
+矛盾
+\end{analysis}
+
+可微凸目标函数
+
+无约束$\min f_0(x),\nabla f_0^\star(x)=0$
+\[\begin{aligned}
+\forall x,y:&\;f_0(y)\geq f_0(x)+\lrang{\nabla f_0(x),y-x}\\
+f_0(y)&\geq f_0(x^\star)+\lrang{\nabla f_0(x^\star),y-x}=f_0(x^\star)
+\end{aligned}\]
+
+有约束$\min f_0(x),\,s.t. x\in\sX$
+\[x^\star\in\sX,\lrang{\nabla f_0(x^\star),y-x^\star}\geq,\forall y\in x\]
+
+\begin{example}
+等式约束 $\min f_0(x),\dom f_0\subset\rn$，$f_0$可微，使得$Ax=b$
+\end{example}
+\begin{analysis}
+$x^\star$最优，$Ax^\star=b,\forall y Ay=b$
+
+\[\lrang{\nabla f_0(x^\star),y-x^\star}\geq 0\]
+\[\begin{cases} y=x^\star+v\\Av=0\end{cases},v\in\opnul A\]
+\[\forall v\in\opnul A,\lrang{\nabla f_0(x^\star),v}\geq 0\]
+\begin{enumerate}
+	\item $\opnul A=\{0\}$
+	\item $A$不可逆，$\nabla f_0(x^\star)\perp\opnul A$
+\end{enumerate}
+\end{analysis}
+
+\begin{example}
+正约束$\min f_0(x),s.t. x\geq 0$
+\end{example}
+\begin{analysis}
+若$x^\star$最优，$\iff x^\star\geq 0,\forall y\geq 0,\lrang{\nabla f_0(x^\star),y-x^\star}\geq 0$
+\[\iff \lrang{\nabla f_0(x^\star,y)}\geq\lrang{\nabla f_0(x^\star,x^\star)}\]
+\begin{enumerate}
+\item 若$\nabla f_0(x^\star)\ngeq 0$有矛盾（负数行乘上正无穷），故$\nabla f_0(x^\star)\geq 0$
+\item 令$y=0$，有$0\geq \lrang{\nabla f_0(x^\star),x^\star}\implies\sum_{i=1}n(\nabla f_0(x^\star)_ix^\star)\leq 0$\\
+前面$\geq 0$，进而互补松弛条件
+\item $x^\star\geq 0$
+\end{enumerate}
+
+\subsection{线性规划}
+\[\begin{aligned}
+&\min &c^\T\vx+\vd\\
+&\text{s.t.} & G\vx\leq\vh\\
+& & A\vx=\vb
+\end{aligned}\]
+\[\begin{aligned}
+&\min &c^\T\vx+\vd\\
+&\text{s.t.} & G\vx+\vs=\vh\\\
+& & A\vx=\vb\\
+& & \vs\geq 0
+\end{aligned}\]
+$\vs$为松弛变量(slack variable)\\
+用$\vx^+$和$\vx^-$拆分，得到$\vx=\vx^+-\vx^-,\vx^+\geq 0,\vx^-\geq 0,\vs\geq 0$
+
+\begin{example}[食谱问题]
+$m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j},\ldots,a_{mj}$，食物量$x_1,\ldots,x_n$，价格$c_1,\ldots,c_n$
+\[\begin{aligned}
+& \min & \sum_{i=1}^n c_jx_j\\
+& \text{s.t.} & \sum_{j=1}^n a_{ij}x_j\geq b_i\\
+& & x_j\geq 0
+\end{aligned}\]
+其中$i=1,\ldots,m,j=1,\ldots,n$
+\end{example}
+
+\end{analysis}

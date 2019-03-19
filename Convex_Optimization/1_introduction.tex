@@ -1,0 +1,51 @@
+% !TEX root = main.tex
+
+\section{简介} % Lec 1 - 2.26
+\subsection{优化概述}
+优化(optimization)：从一个\emph{可行解}的集合中寻找出\emph{最好}的元素
+\begin{example}
+\begin{itemize}
+\item 最小二乘线性拟合（凸问题）
+\item 深度神经网络（非凸，见下）
+\[\begin{aligned}
+\vx_1^{(i)}&=f_1(\vx_0^{(i)},\vw_1)\\
+\cdots&=\cdots\\
+\vx_n^{(i)}&=f_n(\vx_{n-1}^{(i)},\vw_n)\\
+\min&\sum_{i=1}^m(\vy^{(i)}-\vx_n^{(i)})^2
+\end{aligned}\]
+\item 图像处理，自然图像通常都是\textbf{分块光滑}的，原图$\Phi_0$，有噪声的新图$\Phi$\\
+全变参(TV, Total Variation)范数，计算图像每个像素点左侧和下侧的差异
+\[\|\Phi\|_{TV}=\sum_y\sum_x\sqrt{(\Phi(x,y)-\Phi(x,y-1))^2+(\Phi(x,y)-\Phi(x-1,y))^2}\]
+可得优化目标：近似自然图像，而且跟原图不能差太远
+\[\min(\|\Phi\|_{TV}+\lambda\|\Phi-\Phi_0\|_F^2)\]
+\item 推荐系统：Netflix问题\\
+矩阵横向为用户，纵向为电影，值为评分值($1\thicksim 5$)，问题是把矩阵补全，这样就可以做推荐了$\to$低秩矩阵补全\\
+电影很多，但类型不多，关联关系有限$\to$\textbf{近似低秩}\footnote{$A$的秩等于非零奇异值$\sqrt{\mathop{eig}(A^\T A)}$数目}\\
+低秩本来需要最小化$\vz$的非零奇异值数目$\|\vz\|_0$，但是非凸的；
+转化为最小化\emph{和范数}\footnote{矩阵所有奇异值之和}$\|\vz\|_\star$
+\[\begin{aligned}
+\min& \;&\|\vz\|_\star&:=\|\vz\|_1\\
+\text{s.t.}& \;&\vz_{ij}&=\vM_{ij},\;(i,j)\in\Omega
+\end{aligned}\]
+\end{itemize}
+\end{example}
+
+\subsection{分类}
+\begin{itemize}
+	\item 线性规划/非线性规划
+	\item 凸规划/非凸规划（更好的分类）
+\end{itemize}
+目标函数凸函数，可行解集为凸集则是凸优化，一般容易求解
+
+\subsection{历史}
+\begin{itemize}
+\item Newton-Raphson算法：求零点，等价于求$\min f^2(x)$
+\item Gauss-Seidel算法：求解线性方程组$A\vx=\vb$，等价于求$\min \|A\vx-\vb\|_2^2$
+\item Lagrange
+\item Kantoronc：苏联，线性规划，诺贝尔经济学奖
+\item Dantzig：美国，优化决策，线性规划单纯形
+\item Von Neumann：线性规划问题对偶理论
+\item Karmarkar：80年代，线性规划内点法
+\item Nesterov：后80年代，非线性凸优化内点法
+\item 现代：并行、随机算法
+\end{itemize}

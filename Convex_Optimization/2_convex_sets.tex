@@ -1,0 +1,115 @@
+% !TEX root = main.tex
+
+\section{凸集} % Lec 2 - 2.28
+\begin{definition}
+一些集合概念如下
+\begin{itemize}
+\item 仿射集(affine set)
+\[\begin{aligned}
+\mathcal{C}\text{为仿射集}&\iff\text{过$\sC$内任意两点的\textbf{直线}都在$\sC$内}\\
+&\iff\forall x_1,x_2\in\mathcal{C},\theta\in\rr,\theta x_1+(1-\theta)x_2\in\mathcal{C}
+\end{aligned}\]
+\begin{example}
+用定义易证线性方程组的解集$\mathcal{C}=\{\vx\mid A\vx=\vb\}$是仿射集；
+反过来，每一个仿射集都可以用线性方程组的解集表示
+\end{example}
+\item 仿射组合
+\[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},\theta_1,\ldots,\theta_k\in\rr,{\color{red}{\theta_1+\cdots+\theta_k=1}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
+\item 仿射包(hull)：所有仿射组合的集合
+\[\opaff\mathcal{C}:=\{\theta_1 x_1+\cdots+\theta_k x_k\mid\forall x_1,\ldots,x_k\in\mathcal{C},\theta_1+\cdots+\theta_k=1\}\]
+\item 凸集(convex set)
+\[\begin{aligned}
+\mathcal{C}\text{为凸集}&\iff\text{过$\sC$内任意两点的\textbf{线段}都在$\sC$内}\\
+&\iff\forall x_1,x_2\in\mathcal{C},\theta\in\bm{[0,1]},\theta x_1+(1-\theta)x_2\in\mathcal{C}
+\end{aligned}\]
+\item 凸组合
+\[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},{\color{red}{\theta_1,\ldots,\theta_k\in[0,1],\theta_1+\cdots+\theta_k=1}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
+\item 凸包：最小的凸集
+\[\opconv\mathcal{C}:=\{\theta_1 x_1+\cdots+\theta_k x_k\mid\forall x_1,\ldots,x_k\in\mathcal{C},\theta_1,\ldots,\theta_k\in[0,1],\theta_1+\cdots+\theta_k=1\}\]
+\item 凸锥(convex cone)
+\[\mathcal{C}\text{为凸锥}\iff\forall x_1,x_2\in\mathcal{C},\theta_1,\theta_2\geq 0,\theta_1 x_1+\theta_2 x_2\in\mathcal{C}\]
+除了\textbf{空集}的凸锥都得包含\textbf{原点}（取$\theta_1=\theta_2=0$）
+\item 凸锥组合/非负线性组合：
+\[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},{\color{red}{\theta_1,\ldots,\theta_k\geq 0}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
+\item 凸锥包：类似前面定义
+\end{itemize}
+\end{definition}
+由上面的定义易知，仿射组合/凸锥组合（强条件）一定是凸组合。
+
+\begin{definition}[超平面(hyperplane)与半空间(halfspace)]
+超平面都是比原空间低一维
+\[\{\vx\mid \va^\T\vx=b,\vx,\va\in\rn,b\in\rr,\va\ne 0\}\]
+超平面将空间划分为两个部分，即半空间
+\[\{\vx\mid \va^\T\vx\leq b,\va\ne 0\}\]
+若方程特解为$\vx_0$，则$\va\perp(\vx-\vx_0)$
+\end{definition}
+\begin{definition}[欧式球(Euclidean ball)]
+\[B(x_c,r)=\{x\mid\|x-x_c\|_2\leq r\}\]
+范数(norm)球可类似定义
+\end{definition}
+\begin{definition}[椭球(ellipsoid)]
+\[\eps(x_c,P)=\{x\mid(x-x_c)^\T P^{-1}(x-x_c)\leq 1\},P\succ 0\]
+其中$P\succ 0$代表$P$\textbf{对称}且正定($P=P^T$)
+\end{definition}
+\begin{analysis}
+% https://ljk.imag.fr/membres/Anatoli.Iouditski/cours/convex/chapitre_3.pdf
+定义内积$\lrang{x^\T P^{-1}y}$（需证满足内积条件），进而P-范数$\|x\|_P:=\sqrt{x^\T Px}$是范数，而椭球不过是P-范数意义下的球，由定理得椭球是凸的
+\end{analysis}
+\begin{definition}[多面体(polyhedron)]
+\[P=\{\vx\mid\va_i^\T\vx\leq b_i,\vc_j^\T\vx=d_j,i=1,\ldots,m,j=1,\ldots,p\}\]
+\end{definition}
+\begin{example}
+\begin{itemize}
+	\item 空集、点、$\rn$空间均为仿射
+	\item 任意直线为仿射；若过原点则为凸锥
+	\item $\rn$空间的子空间\footnote{零元、加法封闭、数乘封闭}为仿射和凸锥
+	\item 超平面为仿射
+	\item 半空间、欧式球、椭球、多面体为凸集
+\end{itemize}
+\end{example}
+
+\begin{definition}[仿射函数]
+\[f:\rn\mapsto\rr^m\quad f(\vx)=A\vx+\vb,A\in\rr^{m\times n},\vb\in\rr^m\]
+性质如下：
+\begin{itemize}
+	\item $S\subset\rn$为凸$\implies f(S)=\{f)\vx\mid\vx\in S\}$为凸
+	\item $C\subset\rr^m$为凸$\implies f^{-1}(C)=\{\vx\in\rn\mid f(\vx)\in C\}$为凸
+\end{itemize}
+\end{definition}
+\begin{example}
+两个集合的和$S_1+S_2=\{x+y\mid x\in S_1,y\in S_2\}$保凸
+\end{example}
+\begin{analysis}
+直积$S_1\times S_2=\{(x,y)\mid x\in S_1,y\in S_2\}$显然可以保凸（相当于在两个集合同时画线）\\
+令$A=\bmat{I & I},\vx=\bmat{x & y}^\T,\vb=0$，由仿射函数性质知
+\end{analysis}
+
+\begin{definition}[透视(perspective)函数\footnote{$+$代表$\geq 0$，$++$代表$>0$}]
+透视函数$P:\rr^{n+1}\mapsto\rn,\dom P=\rn\times\rr_{++}$定义如下
+\[P(z,t)=\dfrac{z}{t},z\in\rn,t\in\rr_{++}\]
+反透视函数
+\[P^{-1}(c):=\lrb{(x,t)\in\rr^{n+1}\mid\frac{x}{t}\in c,t>0}\]
+\end{definition}
+
+若$c\in\dom P$为凸，则$P(c):=\{P(x),x\in c\}$为凸；反透视函数仍保持$c$的凸性。
+
+考虑$\rr^{n+1}$内的线段，$x=(\widetilde{x}\in\rn,x_{n+1}\in\rr_{++}),y=(\widetilde{y},y_{n+1})$
+则经过透视函数仍是线段
+\begin{analysis}
+\[P(\theta x+(1-\theta)y)=\frac{\theta\widetilde{x}+(1-\theta)\widetilde{y}}{\theta x_{n+1}+(1-\theta y_{n+1})}=\frac{\theta x_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{x}}{x_{n+1}}+\frac{(1-\theta)y_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{y}}{y_{n+1}}\]
+\end{analysis}
+
+\begin{definition}[线性分数函数]
+仿射函数
+\[g(x)=\bmat{A\\C^\T}x+\bmat{b\\d},A\in\rr^{m\times n},b\in\rm,c\in\rn,d\in\rr\]
+线性分数函数$f:\rn\mapsto\rm=p\circ g$
+\[f(x)=\frac{Ax+b}{c^\T x+d},\dom f=\{x\mid c^\T+d>0\}\]
+\end{definition}
+
+保凸性
+\begin{itemize}
+	\item 凸集的交
+	\item 仿射、逆仿射
+	\item 透视函数
+	\item 线性分数函数
+\end{itemize}
