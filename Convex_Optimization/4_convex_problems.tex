@@ -85,6 +85,7 @@ $x^\star$最优，$Ax^\star=b,\forall y Ay=b$
 前面$\geq 0$，进而互补松弛条件
 \item $x^\star\geq 0$
 \end{enumerate}
+\end{analysis}
 
 \subsection{线性规划}
 \[\begin{aligned}
@@ -111,4 +112,87 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 其中$i=1,\ldots,m,j=1,\ldots,n$
 \end{example}
 
+% 3.21
+线性分数规划
+\[\begin{aligned}
+& \min & f_0(x)=\frac{c^\T x+d}{e^\T x+f}, \dom f=\{x \mid e^\T x + f >0 \}\\
+& \text{s.t.} & Gx\leq h\\
+& & Ax=b
+\end{aligned}\]
+等价于
+\[\begin{aligned}
+	& \min & c^\T y+dz\\
+	& \text{s.t.} & Gy-hz\leq 0\\
+	& & Ay-bz= 0\\
+	& & e^\T y+fz=1\\
+	& z\geq 0
+\end{aligned}\]
+\begin{analysis}
+	证明两个问题等价，$P_0$与$P_1$\\
+	若$x$在$P_0$内可行
+	\[y=\frac{x}{e^\T x+f},z=\frac{1}{e^\T x+f}\]
+	若$(y,z)$在$P_1$中可行
+	\[x=\frac{y}{z}(z\ne 0)\]
+	若$z=0$，$x_0$为$P_0$的可行解
+	\[x=x_0+ty,t\geq 0\]
+	\[\lim_{t\to\infty}\frac{c^\T(x_0+ty)+d}{e^\T(x_0+ty)+f}=c^\T y\]%考试
+	代入看所有条件结论都相同
 \end{analysis}
+
+二次规划(Quadratic Programming)
+\[\begin{aligned}
+	& \min & \frac{1}{2}x^\T px+q^\T+r,\;p\succ 0\\
+	& \text{s.t.} & Gx\leq h\\
+	& & Ax=b
+\end{aligned}\]
+
+二次约束二次规划(QCQP)
+\[\begin{aligned}
+	& \min & \frac{1}{2}p_0x+q_0^\T x+r_0,p\succ 0\\
+	& \text{s.t.} & \frac{1}{2}x^\T p_ix+q_i^\T x+r_i\leq 0,i=1,\ldots,m,p_i\succ 0\\
+	& & Ax=b
+\end{aligned}\]
+
+最小二乘问题
+\[\begin{aligned}
+	& \min_x & \frac{1}{2}\|Ax-b\|_2^2\\
+	& \text{s.t.} & b=Ax+e
+\end{aligned}\]
+\[\frac{1}{2}(x^\T A^\T Ax-2b^\T Ax+b^\T b)\]
+
+一范数规范化最小二乘
+\[\min\frac{1}{2}\|Ax-b\|_2^2+\lambda_1\|x\|_1\]
+本来用零范数，但用一范数拟合
+
+改写
+\[\|x\|_1=\vone^\T\vx^++\vone^\T\vx^-\]
+
+Basic Pursuit
+\[\begin{aligned}
+	& \min & \frac{1}{2}\|Ax-b\|_2^2\\
+	& \text{s.t.} & \|x\|_1\leq\eps_1
+\end{aligned}\]
+原式很难平衡两者，下式只需考虑$\|x\|_1$的影响
+
+岭回归(Ridge)：所有$x$差距不要太大
+\[\min\frac{1}{2}\|Ax-b\|_2^2+\frac{1}{2}\lambda_2\|x\|_2^2\]
+\[\begin{aligned}
+	& \min & \frac{1}{2}\|Ax-b\|_2^2\\
+	& \text{s.t.} & \|x\|_2^2\leq\eps_2
+\end{aligned}\]
+
+投资组合问题(portfolio optimization)：
+初始价格$x_1,\ldots,x_n$，最终价格$P_1x_1,\ldots,P_nx_n$
+\[\begin{aligned}
+	& \max & P_1x_1+\cdots+P_nx_n\\
+	& \text{s.t.} & x_1+\cdots+x_n=B\\
+	& & x_1,\ldots,x_n\geq 0
+\end{aligned}\]
+
+$\bar{P}=\E{P}$已知，$\Sigma=\Var{P}$
+\[\begin{aligned}
+	& \min & x^\T\Sigma x\\
+	& \text{s.t.} & p^\T x\geq r_{\min}\\
+	& & x_1+\cdots+x_n=B\\
+	& & x_1,\ldots,x_n\geq 0
+\end{aligned}\]
