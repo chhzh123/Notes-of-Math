@@ -1,0 +1,174 @@
+% !TEX root = main.tex
+
+\section{对偶理论}
+拉格朗日函数(Lagrangian function)
+\[L(x,\lambda,v)=f_0(x)+\sum_{i=1}^m\lambda_if_i(x)+\sum_{i=1}^pv_ih_i(x),\dom L=D\times \rr^m\times \rr^p\]
+拉格朗日乘子(multiplier)
+\begin{itemize}
+\item 原变量(primal variable)：$\lambda=\bmat{\lambda_1 & \cdots & \lambda_m}^\T$
+\item 对偶变量(dual variable)：$v=\bmat{v_1 & \cdots & v_p}^\T$
+\end{itemize}
+
+拉格朗日对偶函数
+\[\begin{aligned}
+    g(\lambda,v)&=\inf_{x\in\sD} L(x,\lambda,v)\\
+    &=\inf_{x\in\sD}\lrp{f_0(x)+\sum_{i=1}^m\lambda_if_i(x)+\sum_{i=1}^pv_ih_i(x)}
+\end{aligned}\]
+注意遍历域是$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$，而不是可行解集$\sX$\\
+\begin{itemize}
+    \item $g(\lambda,v)$一定是关于$\lambda$和$v$的凹函数（关于$\lambda$和$v$的仿射函数，注意$x$为常数）
+    \item $\forall\lambda\geq 0,\forall v,g(\lambda,v)\leq P^\star$\\
+    对偶(dual)问题
+    \begin{maxi*}
+        {}{g(\lambda,v)}{}{}
+        \addConstraint{\lambda}{\geq 0}
+    \end{maxi*}
+    其最优解记为$D^\star$，则$D^\star\leq P^\star$，即给出了原问题的一个最优下界
+\end{itemize}
+
+$x^\star$原问题最优解
+\[\sum_{i=1}^m\lambda_i f_0(x^\star)+\sum_{i=1}^p v_i h_i(x^\star)\leq 0\]
+\[L(x^\star,\lambda,v)=f_0(x^\star)+(\cdots)\leq P^\star\]
+\[g(\lambda,v)=\inf_{x\in\sD} L(x,\lambda,v)\leq L(x^\star,\lambda,v)\leq P^\star\]
+
+\begin{example}
+\begin{mini*}
+    {}{x^\T x}{}{}
+    \addConstraint{Ax}{=b}
+\end{mini*}
+\end{example}
+\begin{analysis}
+\[L(x,v)=x^\T x+v^\T(Ax-b)\]
+\[\begin{aligned}
+    g(v)&=\inf_{x\in\sD} L(x,v)\\
+    &=\inf_{x\in\sD} x^\T x+v^\T A x-v^\T b\\
+    &=(-\frac{A^\T v}{2})^\T(-\frac{A^\T v}{2})+v^\T A(-\frac{A^\T v}{2})-v^\T b\\
+    &=-\frac{1}{4}v^\T AA^\T v-b^\T v
+\end{aligned}\]
+补充求梯度：$2x+A^\T v=0\implies x=-\frac{A^\T v}{2}$
+
+因而得到对偶问题
+\[\max_v-\frac{1}{4}v^\T AA^\T v-b^\T v\]
+\end{analysis}
+
+\begin{example}
+\begin{mini*}
+    {}{c^\T x}{}{}
+    \addConstraint{Ax}{=b}
+    \addConstraint{x}{\geq 0}
+\end{mini*}
+\end{example}
+\begin{analysis}
+    注意$\lambda$前面符号，要化为一般形式
+    \[L(x,\lambda,v)=c^\T x-\lambda^\T x+v^\T(Ax-b)\]
+    \[\begin{aligned}
+        g(\lambda,v)&=\inf_x L(x,\lambda,v)\\
+        &=\inf_x(c-\lambda+A^\T v)^\T x-v^\T b\\
+        &=\begin{cases}-\infty&c-\lambda+A^\T v\ne 0\\-v^\T b&c-\lambda+A^\T v=0\end{cases}
+    \end{aligned}\]
+    对偶问题，由于要极大，故不考虑负无穷部分
+    \begin{maxi*}
+        {\lambda,v}{-v^\T b}{}{}
+        \addConstraint{c-\lambda+A^\T v}{=0}
+        \addConstraint{\lambda}{\geq 0}
+    \end{maxi*}
+    逆过来求解
+    \begin{mini*}
+        {}{b^\T v}{}{}
+        \addConstraint{A^\T v+c}{\geq 0}
+    \end{mini*}
+    \[L(v,\lambda)=b^\T v-\lambda^\T(A^\T v+c)\]
+    \[\begin{aligned}
+        g(\lambda)&=\inf_v L(v,\lambda)\\
+        &=\inf(b-A\lambda)^\T v-\lambda^\T c\\
+        &=\begin{cases}
+            -\lambda^\T c & b-A\lambda =0\\
+            -\infty & b-A\lambda\ne 0
+        \end{cases}
+    \end{aligned}\]
+    \begin{maxi*}
+        {}{-\lambda^\T c}{}{}
+        \addConstraint{b-A\lambda}{=0}
+        \addConstraint{\lambda}{\geq 0}
+    \end{maxi*}
+    对偶的对偶不一定回去，线性规划才满足
+\end{analysis}
+% 对偶支撑向量机(SVM) 升变量维度，降约束维度
+
+\begin{example}
+\begin{mini*}
+    {}{x^\T wx}{}{}
+    \addConstraint{x_i}{=\pm 1,}{\quad i=1,\ldots,n}
+\end{mini*}
+\end{example}
+\begin{analysis}
+    \[L(x,v)=x^\T wx+\sum_{i=1}^n v_i(x_i^2-1)\]
+    \[\begin{aligned}
+        g(v)&=\inf_x L(x,v)\\
+        &=\inf_x x^\T wx+\sum_{i=1}^n v_ix_i^2-\sum_{i=1}^n v_i\\
+        &=\inf_x x^\T\lrp{w+\opdiag v}x-\vone^\T v
+        &=\begin{cases}-\vone^\T v & w+\opdiag(v)\succeq 0\\-\infty&\text{otherwise}\end{cases}
+    \end{aligned}\]
+    补充求梯度：$2(w+\opdiag(v))x=0$
+    \begin{maxi*}
+        {v}{-\vone^\T v}{}{}
+        \addConstraint{w+\opdiag(v)}{\succeq 0}
+    \end{maxi*}
+\end{analysis}
+
+\begin{definition}[函数的共轭]
+    $f:\rn\mapsto\rr,f^\star(y)=\sup_{x\in\dom f}(y^\T x-f(x))$，
+    几何意义即到不同斜率直线的距离最大值
+\end{definition}
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{Ax}{\leq b}
+    \addConstraint{cx}{=d}
+\end{mini*}
+\[\begin{aligned}
+    L(x,\lambda,v)&=f_0(x)+\lambda^\T(Ax-b)+v^\T(cx-d)\\
+    &=f_0(x)+(A^\T\lambda+c^\T v)^\T x-\lambda^\T b-v^\T d\\
+    g(\lambda,v)&=\inf_x f_0(x)+(A^\T\lambda+c^\T v)^\T x-\lambda^\T b-v^\T d\\
+    &=-\sup_x-(A^\T\lambda+c^\T v)^\T x-f_0\\
+    &=-f_0^\star(-(A^\T\lambda+c^\T v))-\lambda^\T b-v^\T d
+\end{aligned}\]
+
+对偶间隙(duality gap)：$p^\star-d^\star\geq 0$
+\begin{itemize}
+    \item 弱对偶：严格大于0
+    \item 强对偶：对偶间隙为0
+\end{itemize}
+
+\begin{enumerate}
+    \item 对于非凸问题，\textbf{通常}$p^\star\ne d^\star$
+    \item 对于凸问题，若slater条件满足，$p^\star=d^\star$
+\end{enumerate}
+
+\begin{definition}[相对内点(relative interior)]
+    \[\mathop{relint} D=\{x\in D\mid B(x,r)\cap\opaff D\subset v,\exists r>0\}\]
+\end{definition}
+
+\begin{theorem}[Slater条件]
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
+    \addConstraint{Ax}{=b}
+\end{mini*}
+$\exists x\in\mathop{relint} D$使得$f_i(x)<0,i=1,\ldots,m,Ax=b$
+\end{theorem}
+\begin{example}
+    二次规划(QP)
+    \begin{mini*}
+        {}{x^\T x}{}{}
+        \addConstraint{Ax}{=b}
+    \end{mini*}
+    Slater条件$\{x\mid Ax=b\}$非空
+\end{example}
+\begin{example}
+    二次约束二次规划(QCQP)
+    \begin{mini*}
+        {}{\frac{1}{2}x^\T P_0 x+q_0^\T+r_0}{}{}
+        \addConstraint{\frac{1}{2}x^\T P_i x+q_i^\T x+r_i}{\leq 0}{,\quad i=1,\ldots,m}
+    \end{mini*}
+    $P_0,\ldots,P_i$半正定
+\end{example}

@@ -196,3 +196,69 @@ $\bar{P}=\E{P}$已知，$\Sigma=\Var{P}$
 	& & x_1+\cdots+x_n=B\\
 	& & x_1,\ldots,x_n\geq 0
 \end{aligned}\]
+
+% 3.26
+半定规划(semi-definite programming, SDP)（矩阵意义下的线性规划问题）：% 通信
+$X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
+\[\begin{aligned}
+	& \min & \optr(CX)\\
+	& \text{s.t.} & \optr(A_i X)=b_i,i=1,\ldots,p\\
+	& & X\succeq 0
+\end{aligned}\]
+
+\begin{example}[谱范数极小化问题]
+	矩阵多项式$A(x)=A_0+x_1A_1+\cdots+x_nA_n,A_i\in\rr^{p\times q}$
+	\[\min_x\|A(x)\|_2\]
+	谱范数代表$A(x)$的最大奇异值\footnote{谱范数是诱导范数，F-范数(Frobenias)$\|A(x)\|_F$才算是矩阵意义下的2范数}
+\end{example}
+\[\begin{aligned}
+	& \min_{x,s} & S\\
+	& \text{s.t.} & A^\T (x)A(x)\preceq SI
+\end{aligned}\]
+
+\begin{example}[最快分布式线性平均]
+	\[x(t) = Px(t-1)\]
+	\[P=\bmat{P_{11} & \cdots & P_{1n}\\\vdots & & \vdots\\P_{n1} & \cdots & P_{nn}},P\vone=\vone\]
+	其中$(i,j)\in E$或$i=j$，$P_{ij}\ne 0$；否则$P_{ij}=0$\\
+	$P=P^\T,P_{ij}=P_{ji}$，$P_{ij}>0$\\
+	$P\succeq 0, P_{ij}\geq 0$\\
+	只要图是连通图，则一定会收敛\\
+	收敛速度与第二大[特征值绝对值]有关
+	\[1=\lambda_1\geq\lambda_2\geq \cdots\geq \lambda_n\geq -1\]
+	即收敛速度由$\max\{|\lambda_2|,|\lambda_n|\}$决定\\
+	\[\min\max\{|\lambda_2|,|\lambda_n|\}\]
+	\[\max\{|\lambda_2|,|\lambda_n|\}=\norm{P-\frac{1}{n}\vone\vone^\T}\]
+	\begin{mini*}
+		{}{t:=\norm{P-\frac{1}{n}\vone\vone^\T}_2}{}{}
+		\addConstraint{P\vone}{=\vone}
+		\addConstraint{P}{=P^\T}
+		\addConstraint{P}{\succeq 0}
+		\addConstraint{P_{ij}}{= 0,\quad (i,j)\ne E\land i\ne j}
+		\addConstraint{-tI}{\preceq P-\frac{1}{n}\vone\vone^\T\preceq tI}
+	\end{mini*}
+\end{example}
+
+多目标优化问题：帕累托最优解\\
+若有另一解在某个指标上更好，则必有指标更差
+
+帕累托最优值/帕累托最优面
+
+$\min f_{01}$与$\min f_{02}$的交点为理想点(oracle)
+
+若$f_{01}(x),\ldots,f_{0q}(x)$为凸，$\sX$为凸
+\begin{mini*}[2]
+% variable function label LHS
+{}{\lambda_1f_{01}(x)+\cdots+\lambda_qf_{0q}(x),\quad\lambda_1,\ldots,\lambda_q\geq 0}
+{}{}
+\addConstraint{x\in\sX}{}
+\end{mini*}
+\begin{enumerate}
+	\item 能找到一个Pareto最优解
+	\item 遍历$\lambda_1,\ldots,\lambda_q$，可找到全部
+\end{enumerate}
+
+岭回归的多目标优化表示
+\[\begin{cases}
+	\min \frac{1}{2}\norm{Ax-b}_2^2\\
+	\min \frac{1}{2}\norm{x}_2^2
+\end{cases}\]
