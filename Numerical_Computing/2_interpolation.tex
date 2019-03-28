@@ -96,3 +96,23 @@ a_n&=f[x_0,x_1,\ldots,x_n]
 类似于泰勒展开。
 
 \subsection{埃尔米特插值}
+不仅要求插值点的函数值$H(x_i)$与原函数的值$f(x_i)$相同，还要求它们有公切线，即$H'(x_i)=f'(x_i)$。
+若所有插值点都要满足上述条件，则埃尔米特(Hermite)插值多项式为$2n+1$次的。
+
+\subsection{三次样条插值}
+分多段，每段用三次函数逼近
+
+三次样条条件
+\begin{itemize}
+    \item 插值条件：$s_k(x_j)=y_j,\quad j=k-1,k,\quad k=1,2,\ldots,n$，共$2n$个条件
+    \item 端点导数条件：$\lim_{x\to x_k^-}s^{(p)}(x)=\lim_{x\to x^+_k}s^{(p)}(x),\quad p=1,2,\quad k=1,\ldots,n-1$，共$2n-2$个条件
+    \item 边界条件：
+    \begin{itemize}
+        \item 第一类边界条件：$s'(x_0)=f_0',s'(x_n)=f_n'$，其中$f_0',f_n'$为给定值
+        \item 第二类边界条件：$s''(x_0)=f_0'',s''(x_n)=f_n''$，其中$f_0'',f_n''$为给定值，若为$0$，则为\textbf{自然}边界条件
+        \item 周期性条件：$\lim_{x\to x_0^+}s^{(p)}(x)=\lim_{x\to x_n^-}s^{(p)}(x),p=1,2$
+    \end{itemize}
+\end{itemize}
+
+三转角方法，用一阶导数求解；三弯矩方法，用二阶导数求解。
+\[\bmat{2 & 1 & & & \\\mu_1 & 2 & \lambda_1 & & \\ & \mu_2 & 2 & \lambda_2 & \\ & & \ddots & \ddots & \ddots \\ & & & \mu_{n-1} & 2 & \lambda_{n-1}\\&&&&1&2}\bmat{M_0\\M_1\\M_2\\\vdots\\M_{n-1}\\M_n}=\bmat{d_0\\d_1\\d_2\\\vdots\\d_{n-1}\\d_n}\]
