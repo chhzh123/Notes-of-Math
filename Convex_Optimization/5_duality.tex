@@ -172,3 +172,99 @@ $\exists x\in\mathop{relint} D$使得$f_i(x)<0,i=1,\ldots,m,Ax=b$
     \end{mini*}
     $P_0,\ldots,P_i$半正定
 \end{example}
+
+凸问题+Slater条件$\implies p^\star=d^\star$，但有可能不满足Slater条件也依然强对偶
+\begin{example}
+\begin{mini*}
+    {}{x,x\in\rr}{}{}
+    \addConstraint{x}{leq 0}
+    \addConstraint{-x}{\leq 0}
+\end{mini*}
+\end{example}
+\begin{analysis}
+    \[L(x,\lambda_1,\lambda_2)=x+\lambda_1 x-\lambda_2 x=(1+\lambda_1-\lambda_2)x\]
+\[g(\lambda_1,\lambda_2)=\inf_{x\in\rr}(1+\lambda_1-\lambda_2)x=
+\begin{cases}0& 1+\lambda_1-\lambda_2=0\\ -\infty &\text{otherwise}\end{cases}\]
+    \begin{maxi*}
+        {\lambda_1,\lambda_2}{0}{}{}
+        \addConstraint{1+\lambda_1-\lambda_2}{=0}
+    \end{maxi*}
+\[\implies p^\star=d^\star=0\]
+\end{analysis}
+
+置信域问题
+\begin{mini*}
+    {}{x^\T Ax+b^\T x}{}{}
+    \addConstraint{x^\T x}{\leq 1}
+    \addConstraint{A}{\nsucceq 0}
+\end{mini*}
+依然可以得到$p^\star=d^\star$
+
+几何解释
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
+\end{mini*}
+
+\[G=\{(f_1(x),f_0(x))\mid x\in\sD\}\]
+\[g(\lambda)=\inf\{t+\lambda u\mid(u,t)\in G\}\]
+\[L(x,\lambda)=f_0(x)+\lambda f_1(x)\]
+\[g(\lambda)=\inf_{x\in\sD}\{f_0(x)+\lambda f_1(x)\}\]
+
+\[p^\star=\inf\{t\mid(u,t)\in G,u\leq 0\}\]
+\[\lambda\geq 0,\max g(\lambda)\]
+
+注意问题必须要有可行解
+
+经济学解释：满足原材料约束下，利润最多
+价格$\lambda_i\geq 0$
+\[g(\lambda)=\inf_x f_(x)+\lambda_1 f_1(x)+\cdots+\lambda_m f_m(x)=\inf_x L(x,\lambda)\]
+则$g(\lambda)$为对偶函数，市场$p^\star$损失最小（$g(\lambda)\leq p^\star$）
+\[d^\star=\sup_{lambda\geq 0}g(\lambda)\]
+市场平衡点，均衡市场$p^\star=d^\star$，最优/影子价格$\lambda^\star$
+
+多目标优化解释
+\[\begin{cases}
+    \min f_0(x) & 1\\
+    \min f_1(x) & \lambda_1\\
+    \vdots & \vdots\\
+    \min f_m(x) & \lambda_m
+\end{cases}\]
+\[\min_x f_0(x)+\lambda_1 f_1(x)+\cdots+\lambda_m f_m(x)\]
+
+鞍点(saddle point)解释
+\[f(w,z),w\in S_w,z\in S_z\]
+极小极大不等式
+\[\sup_{z\in S_z}\inf_{w\in S_w} f(wz)\leq \inf_{w\in S_w}\sup_{z\in S_z}f(w,z)\]
+若有$(\tilde{w},\tilde{z})$使得
+\[\begin{aligned}
+    (\tilde{w},\tilde{z})&=\arg\max_{z\in S_z}\min_{w\in S_w} f(w,z)
+    (\tilde{w},\tilde{z})&=\arg\min_{w\in S_w}\max_{z\in S_z} f(w,z)
+\end{aligned}\]
+则$(\tilde{w},\tilde{z})$为鞍点
+
+有下面不等式成立
+\[f((\tilde{w},z))\leq f(\tilde{w},\tilde{z})\leq f(w,\tilde{z}),\forall z\in S_z,w\in S_w\]
+即从一个方向望过去是最小，从另一个方向望过去是最大
+
+\[\begin{aligned}
+    &L(x,\lambda)&=f_0(x)+\sum_{i=1}^m\lambda_i f_i(x)\\
+    \implies&\sup_{\lambda\geq 0}L(x,\lambda)&=\sup_{\lambda\geq 0}\{f_0(x)+\sum_{i=1}^m\lambda_if_i(x)\}\\
+    &&=\begin{cases}f_0(x)&f_i(x)\leq 0,i=1,\ldots,m\\+\infty&\text{otherwise}\end{cases}\\
+    \implies& p^\star&=\inf_x\{f_0(x)\mid f_i(x)\leq 0,i=1,\ldots,m\}=\inf_x\sup_{\lambda\geq 0}L(x,\lambda)
+\end{aligned}\]
+\[d^\star=\sup_{\lambda\geq 0}g(\lambda)=\sup_{\lambda\geq 0}\inf_x L(x,\lambda)\implies p^\star\geq d^\star\]
+
+如果$L(x,\lambda)$有鞍点，则必有$p^\star=d^\star$
+
+鞍点在无约束优化问题中是很糟糕的点（所有方向上梯度为0），但是有约束优化问题则是非常好的点
+
+若$(\tilde{x},\tilde{\lambda})$为$L(x,\lambda)$鞍点$\iff p^\star=d^\star$且$\tilde{x},\tilde{\lambda}$为原对偶问题最优解
+$\implies$若为鞍点，$p^\star=d^\star$
+\[\sup_{\lambda\geq 0}\inf_x L(x,\lambda)=\inf_x\sup_{\lambda\geq 0}L(x,\lambda)\]
+已知$(\tilde{x},\tilde{\lambda})$为左边最优
+\[\begin{aligned}
+    \tilde{\lambda}&=\arg\max_{\lambda\geq 0}\inf_x L(x,\lambda)\\
+    \tilde{x}&=\arg\inf_x\sup_{\lambda\geq 0}L(x,\lambda)
+\end{aligned}\]
+则$\tilde{\lambda}$对偶最优，$\tilde{x}$为原问题最优
