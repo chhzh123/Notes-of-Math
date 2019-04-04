@@ -1,0 +1,82 @@
+% !TEX root = main.tex
+
+\section{线性方程组迭代解法}
+\subsection{范数与条件数}
+\begin{definition}[向量的范数]
+    对任意$n$维向量$\vx$，若对应非负实数$\norm{\vx}$，满足
+    \begin{enumerate}
+        \item $\norm{\vx}\geq 0$，当且仅当$\vx=\vzero$时等号成立
+        \item 对任意$\alpha\in\rr$，$\norm{\alpha\vx}=|\alpha|\cdot\norm{\vx}$
+        \item 对任意的$n$维向量$\vx$和$\vy$，满足三角不等式$\norm{\vx+\vy}\leq\norm{\vx}+\norm{\vy}$
+    \end{enumerate}
+    则称$\norm{\vx}$为$\vx$的范数，其中1-范数、2-范数、无穷范数定义如下
+    \[\begin{aligned}
+        \norm{\vx}_1&=\sum_{i=1}^n|x_i|\\
+        \norm{\vx}_2&=\sqrt{\sum_{i=1}^n|x_i|^2}\\
+        \norm{\vx}_\infty&=\max_{1\leq i\leq n}|x_i|
+    \end{aligned}\]
+\end{definition}
+\begin{definition}[矩阵的范数]
+    对于$n$阶方阵$\vA$，若对应非负实数$\norm{\vA}$，满足
+    \begin{enumerate}
+        \item $\norm{\vA}\geq 0$，当且仅当$\vA=\vzero$时等号成立
+        \item 对任意$\alpha\in\rr$，$\norm{\alpha\vA}=|\alpha|\cdot\norm{\vA}$
+        \item 对任意两个$n$阶方阵$\vA$和$\vB$，满足三角不等式$\norm{\vA+\vB}\leq\norm{\vA}+\norm{\vB}$
+        \item 对任意两个$n$阶方阵$\vA$和$\vB$，满足矩阵乘法要求$\norm{\vA\vB}\leq\norm{\vA}\cdot\norm{\vB}$
+    \end{enumerate}
+    则称$\norm{\vA}$为方阵$\vA$的矩阵范数。
+    记$\rho(\vA)=\max_{1\leq i\leq n}|\lambda_i|$为$\vA$的谱半径，这里$\lambda_i$为$\vA$的特征值，矩阵的1-范数、2-范数、无穷范数和F范数分别定义如下
+    \[\begin{aligned}
+        \norm{\vA}_1&=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|\\
+        \norm{\vA}_2&=\sqrt{\rho(A^\T A)}\\
+        \norm{\vA}_\infty&=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|\\
+        \norm{\vA}_F&=\sqrt{\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2}
+    \end{aligned}\]
+    注意矩阵的F-范数才是向量2-范数的直接推广，而矩阵的2-范数是计算$A^\T A$的谱半径，又被称为谱范数
+\end{definition}
+相容的向量范数和矩阵范数，满足
+\[\norm{\vA\vx}\leq\norm{\vA}\cdot\norm{\vx}\]
+一些相容的范数如下
+\begin{itemize}
+    \item 矩阵1-范数与向量1-范数
+    \item 矩阵2-范数与向量2-范数
+    \item 矩阵无穷范数与向量无穷范数
+    \item 矩阵F范数与向量2-范数
+\end{itemize}
+\begin{definition}[条件数]
+    设$\vA$为$n$阶非奇异矩阵，称数$\mathop{cond}(\vA)=\norm{\vA}\norm{\vA^{-1}}$为线性方程组$\vA\vx=\vb$或矩阵$\vA$的条件数。
+    其对方程组的解的相对误差起到关键的控制作用
+\end{definition}
+
+\subsection{基本迭代法}
+给定线性方程组$\vA\vx=\vb$，设$\vA=\vM-\vN$，其中$\vM$为非奇异矩阵，则原式变为
+\[\vM\vx=\vN\vx+\vb\]
+左右乘上$\vM^{-1}$，有
+\[\vx=\vM^{-1}\vN\vx+\vM^{-1}\vb=\vB\vx+\vg\]
+给定初始向量$\vx^{(0)}$，按照下式迭代
+\[\vx^{(n+1)}=\vB\vx^{(n)}+\vg\]
+最终若收敛至$\vx^\star$，则原方程得出解。
+实际迭代还是用
+\[\vM\vx^{(k+1)}=\vN\vx^{(k)}+\vb\]
+将$\vA$拆分成三个矩阵之和（只是将矩阵$\vA$元素分块而已）
+\[\vA=\vD-\vL-\vU\]
+对角线阵$\vD$、\textbf{负的}严格下三角阵$\vL$和严格上三角阵$\vU$
+
+\subsubsection{雅可比迭代法}
+取$\vM=\vD$和$\vN=\vL+\vU$，即得雅可比迭代法
+\[\vD\vx^{(k+1)}=(\vL+\vU)\vx^{(k)}+\vb\]
+
+\subsubsection{高斯-赛德尔迭代法}
+如果在雅可比迭代算法的第三步，将算出来的$\vx^{(k+1)}$的分量立即投入到下一个迭代方程，则得到Gauss-Seidel迭代法
+\[\vD\vx^{(k+1)}=\vL\vx^{(k+1)}+\vU\vx^{(k)}+\vb\]
+
+\subsubsection{超松弛(SOR)迭代法}
+将GS迭代改写为
+\[\begin{aligned}
+    \vx^{(k+1)}&=\vD^{-1}(\vL\vx^{(k+1)}+\vU\vx^{(k)}+\vb\\
+    &=\vx^{(k)}+\vD^{-1}(\vL\vx^{(k+1)}+\vU\vx^{(k)}-\vD\vx^{(k)}+\vb)
+\end{aligned}\]
+等号右侧第二项为修正量，为获得更快的收敛速度，在其前面乘系数$\omega$，即得到逐次超松弛(SOR)迭代法，其中$\omega$为松弛因子
+\[\vx^{(k+1)}=(\vD-\omega\vL)^{-1}[(1-\omega)\vD+\omega\vU]\vx^{(k)}+\omega(\vD-\omega\vL)^{-1}\vb\]
+此时迭代矩阵为
+\[\vB_{SOR}=(\vD-\omega\vL)^{-1}[(1-\omega)\vD+\omega\vU]\]

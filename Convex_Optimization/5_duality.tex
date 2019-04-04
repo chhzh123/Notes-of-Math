@@ -268,3 +268,127 @@ $\implies$若为鞍点，$p^\star=d^\star$
     \tilde{x}&=\arg\inf_x\sup_{\lambda\geq 0}L(x,\lambda)
 \end{aligned}\]
 则$\tilde{\lambda}$对偶最优，$\tilde{x}$为原问题最优
+
+% 4.4
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
+\end{mini*}
+\begin{theorem}
+    $(\tilde{x},\tilde{\lambda})$为拉格朗日函数鞍点$\iff p^\star=d^\star$，且$(\tilde{x},\tilde{\lambda})$为原对偶的最优解
+\end{theorem}
+\begin{analysis}
+    右推左，$(\tilde{x},\tilde{\lambda})$原对偶可行
+    \[f_i(\tilde{x})\leq 0,i=1,\ldots,m,\tilde{\lambda}\geq 0\]
+    因$p^\star=d^\star$，有
+    \[\begin{aligned}
+        f_0(\tilde{x})&=g(\tilde{\lambda})\\
+        &=\inf_x\{f_0(x)+\sum_{i=1}^m\tilde{\lambda}_i f_i(x)\}\\
+        \leq & f_0(\tilde{x})+\sum_{i=1}^m\tilde{\lambda}_i f_i(\tilde{x})\\
+        \leq & f_0(\tilde{x})
+    \end{aligned}\]
+    进而不等号都得为等号
+    \begin{enumerate}
+        \item $\inf_x L(x,\tilde{\lambda})=L(\tilde{x},\tilde{\lambda})$
+        \item $f_0(\tilde{x})=\sup_{\lambda\geq 0}\{f_0(\tilde{x})+\sum_{i=1}^m\lambda_i f_i(\tilde{x})\}=\sup_{\lambda\geq 0}L(\tilde{x},\lambda)$
+    \end{enumerate}
+    \[\implies L(\tilde{x},\tilde{\lambda})=\sup_{\lambda\geq 0}L(\tilde{x},\lambda)\]
+    \[\implies (\tilde{x},\tilde{\lambda})\text{是}L(x,\lambda)\text{的鞍点}\]
+\end{analysis}
+
+一般优化问题的对偶理论
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
+    \addConstraint{h_i(x)}{=0}{,\quad i=1,\ldots,p}
+\end{mini*}
+不一定是凸问题，但$p^\star=d^\star$，最优解满足什么条件？
+
+对偶问题
+\begin{maxi*}
+    {}{g(\lambda,v)}{}{}
+    \addConstraint{\lambda}{\geq 0}
+\end{maxi*}
+\begin{analysis}
+    设$(x^\star,\lambda^\star,v^\star)$为原对偶最优解，则$(x^\star,\lambda^\star,v^\star)$为原对偶可行解
+    \[f_i(x^\star)\leq 0,i=1,\ldots,m,\quad h_i(x^\star)=0,i=1,\ldots,p,\quad\lambda^\star\geq 0\]
+    \[\begin{aligned}
+        p^\star=d^\star\implies f_0(x^\star)&=g(\lambda^\star,v^\star)\\
+        &=\inf_x\{f_0(x)+\sum_{i=1}^m\lambda_i^\star f_i(x)+\sum_{i=1}^pv_i^\star h_i(x)\}\\
+        &\leq f_0(x^\star)+\sum_{i=1}^m\lambda_i^\star f_i(x^\star)+\sum_{i=1}^pv_i^\star h_i(x^\star)\\
+        &\leq f_0(x^\star)
+    \end{aligned}\]
+    同上理，不等号全取等
+    \begin{enumerate}
+        \item $\lambda_i^\star f_i(x^\star)=0,\forall i=1,\ldots,m$
+        \item $x^\star=\arg\min_x L(x,\lambda^\star,v^\star)$
+    \end{enumerate}
+    若$f_0,f_i,h_i$均可微，则必要条件为
+    \[\pd{L(x,\lambda^\star,v^\star)}{x}\Big|_{x=x^\star}=0\]
+\end{analysis}
+可微优化问题的KKT(Karush-Kuhn-Tucker)条件
+\begin{itemize}
+    \item $f_i(x^\star)\leq 0,i=1,\ldots,m$ primal feasibility
+    \item $h_i(x^\star)=0,i=1,\ldots,p$ primal feasibility
+    \item $\lambda^\star\geq 0$ dual feasibility
+    \item $\lambda_i^\star f_i(x^\star)=0, i=1,\ldots,m$ complementarity slackness(对偶互斥条件)
+    \item $\pd{L(x,\lambda^\star,v^\star)}{x}\Big|_{x=x^\star}=0$ stablity
+\end{itemize}
+
+\begin{theorem}
+若原问题为凸，则KKT条件为\textbf{充要条件}
+\end{theorem}
+\begin{analysis}
+    必要性已证，证明充分性\\
+    若$(\tilde{x},\tilde{\lambda},\tilde{v})$满足KKT条件$\implies(\tilde{x},\tilde{\lambda},\tilde{v})$最优
+    $\tilde{x}$为原问题可行解，$(\tilde{\lambda},\tilde{v})$为对偶问题可行解\\
+    证明思路：$g(\tilde{\lambda},\tilde{v})=f_0(\tilde{x})$\\
+    $L(x,\tilde{\lambda},\tilde{v})$为$x$的凸函数，则$\tilde{x}$使$L(x,\tilde{\lambda},\tilde{v})$最小
+    \[\begin{aligned}
+        g(\tilde{\lambda},\tilde{v})&=\inf_x L(x,\tilde{\lambda},\tilde{v})\\
+        &=L(\tilde{x},\tilde{\lambda},\tilde{v})\\
+        &=f_0(\tilde{x})+\sum_{i=1}^m\tilde{\lambda}_if_i(\tilde{x})+\sum_{i=1}^p\tilde{v_i}h_i(\tilde{x})\\
+        &=f_0(\tilde{x})
+    \end{aligned}\]
+\end{analysis}
+
+\begin{example}[Waterfilling算法]
+    共$n$个信道(channel)
+    \begin{center}
+        \begin{tikzcd}
+            \text{source}\arrow{r} & \text{destination}\arrow{l}
+        \end{tikzcd}
+    \end{center}
+    \begin{mini*}
+        {}{-\sum_{i=1}^n\log(\alpha_i+x_i)}{}{}
+        \addConstraint{x}{\geq 0}
+        \addConstraint{\vone^\T}{=1}
+    \end{mini*}
+\end{example}
+\begin{analysis}
+    KKT条件
+    \begin{itemize}
+        \item $x^\star\geq 0$
+        \item $\vone^\T x^\star=1$
+        \item $\lambda^\star\geq 0$
+        \item $x_i^\star\lambda_i^\star=0,\forall i$
+    \end{itemize}
+\[\begin{aligned}
+    L(x,\lambda,v)=-\sum_{i=1}^n\log(\alpha_i+x_i)-\lambda^\T x+v(\vone^\T x-1)
+\end{aligned}\]
+\[\lrp{\pd{L(x,\lambda,v)}{x}}_i=-\frac{1}{\alpha_i+x_i}-\lambda_i+v\]
+\[-\frac{1}{\alpha_i+x_i^\star}-\lambda_i^\star+v^\star=0,\forall i\]
+\[\implies v^\star\frac{1}{\alpha_i+x_i^\star},i=1,\ldots,n\]
+\[x_i^\star\lrp{v^\star-\frac{1}{\alpha_i+x_i^\star}}=0,i=1,\ldots,n\]
+若$v^\star>\frac{1}{\alpha_i}\implies x_i^\star=0$\\
+若$v^\star<\frac{1}{\alpha_i}$
+\[\frac{1}{\alpha_i}>v^\star\geq\frac{1}{\alpha_i+x_i^\star}\]
+进而
+\[\begin{aligned}
+    x_i^\star&>0\\
+    v^\star&=\frac{1}{\alpha_i+x_i^\star}\\
+    x_i^\star&=\frac{1}{v^\star}-\alpha_i
+\end{aligned}\]
+\[\implies x_i^\star=\max\{0,\frac{1}{v^\star}-\alpha_i\}\]
+结合$\sum_i x_i^\star=1$，即注水算法
+\end{analysis}
