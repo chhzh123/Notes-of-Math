@@ -392,3 +392,16 @@ $\implies$若为鞍点，$p^\star=d^\star$
 \[\implies x_i^\star=\max\{0,\frac{1}{v^\star}-\alpha_i\}\]
 结合$\sum_i x_i^\star=1$，即注水算法
 \end{analysis}
+
+Motivation：误差，调整参数测灵敏度
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{f(x)}{\leq u_i}{,\quad i=1,\ldots,m}
+    \addConstraint{h_i(x)}{= w_i}{,\quad i=1,\ldots,p}
+\end{mini*}
+新问题的最优解记为$p^\star(\vu,\vw)$
+
+性质：若原始问题为凸，则$p^\star(\vu,\vw)$是$(u,w)$的凸函数
+
+布尔线性规划问题做松弛(relaxation)
+\[x_i\in\{0,1\}\implies 1\geq x_i\geq 0\]

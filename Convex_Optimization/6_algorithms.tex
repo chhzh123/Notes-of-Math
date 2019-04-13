@@ -1,0 +1,76 @@
+% !TEX root = main.tex
+
+\section{优化算法}
+\subsection{简介}
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{A\vx}{=\vb}
+\end{mini*}
+罚函数法
+\[\min f_0(x)+\frac{\lambda}{2}\norm{A\vx-\vb}_2^2\]
+\[\tilde{x}=\arg\min_x F\]
+\[\nabla f_0(\tilde{\lambda})+\lambda A^\T(A\tilde{\vx}-\vb)=0\]
+\[\begin{aligned}
+    L(x,v)&=f_0(x)+v^\T(A\vx-\vb)\\
+    \implies g(v)&=\inf_x f_0(x)+v^\T(A\vx-\vb)\\
+    v&=\lambda(A\tilde{\vx}-\vb)\\
+    \implies & g(\lambda(A\tilde{x}-\vb)=\inf_x f_0(x)+\lambda(A\tilde{x}-b)^\T(A\vx-\vb)
+\end{aligned}\]
+\[\nabla f_0(x)+\lambda A^\T(A\tilde{x}-\vb)=0\]
+
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{A\vx}{\geq\vb}
+\end{mini*}
+log-barrier
+\[\min f_0(x)+\sum_{i=1}^m u_i\log(a_i^\T \vx-b_i)\]
+
+
+$\min f_0(x)$可微，凸，无约束
+\begin{enumerate}
+    \item 所有算法都是迭代的
+    \[\iter{x}{k+1}=\iter{x}{k}+\iter{\alpha}{k}\iter{d}{k}\]
+    $\alpha\geq 0$为步长，$d$为方向，所有算法本质上都是选择方向与步长的问题
+    \item 如何选择步长$\iter{\alpha}{k}$
+    \[\begin{cases}
+    \text{确定步长} & \begin{cases}\text{固定步长}\\\text{变化步长（递减步长）}\end{cases}\\
+    \text{搜索步长}
+    \end{cases}\]
+    最优步长：线搜索问题
+    \[\iter{\alpha}{k}=\arg\min_{\alpha\geq 0} f_0(\iter{x}{k}+\alpha\iter{d}{k})\]
+    \item 关键问题是选方向
+\end{enumerate}
+黄金分割法(0.618法)/优选法求解线搜索问题：这样做的采样复杂度很低，之前算过的点很容易被再用！
+
+不精确线搜索(Armijo Rule)：一阶泰勒展开
+% \begin{algorithm}[H]
+%     \begin{algorithmic}[1]
+%         \State{$\iter{\alpha}{k}=\alpha_\max$}
+%         \If{$f_0(\iter{x}{k}+\iter{\alpha}{k}\iter{d}{k})>f_0(\iter{x}{k}+\mu\iter{\alpha}{k}\lrang{\nabla f_0(\iter{x}{k},\iter{d}{k})})$}
+%         \State $\iter{\alpha}{k}\gets\iter{\alpha}{k}\beta,\beta\in(0,1)$
+%         \Else
+%         \State Stop
+%         \EndIf
+%     \end{algorithmic}
+% \end{algorithm}
+
+实际上没有必要求最优步长，在该方向上的差异并没有太大
+
+\subsection{梯度下降法}
+$\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
+\begin{itemize}
+    \item 能否收敛
+    \item 收敛到哪里
+    \item 收敛速度
+\end{itemize}
+
+假设
+\begin{itemize}
+    \item[0.] 基本假设：$f$为可微的凸函数，
+    \[x^\star=\arg\min_x f_0(x)\]
+    存在且有限，$f_0(x^\star)$有限
+    \item[1.] Lipschitz连续梯度
+    \[\exists L>0,\norm{\nabla f_0(x)-\nabla f_0(y)}\leq L\norm{x-y},\forall x,y\]
+    \item[2.] 强凸性(strong convexity)
+    \[\exists\mu>0:\;f_0(y)\geq f_0(x)+\lrang{\nabla f_0(x),y-x}+\frac{\mu}{2}\norm{x-y}_2^2,\forall x,y\]
+\end{itemize}
