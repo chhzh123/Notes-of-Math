@@ -5,19 +5,19 @@
 \subsection{线性模型与最小二乘}%6.6 在线性模型的应用
 \begin{theorem}[最小二乘]
 $A$为$m\times n$的矩阵，$\mathbf{b}\in\mathbb{R}^m$，$A\mathbf{x}=\mathbf{b}$的最小二乘解是$\hat{\mathbf{x}}\in\mathbb{R}^n$使得
-\[\|\vb{b}-A\hat{\vx}\|\leq\|\vb{b}-A\vx\|\]
-则$\disp\hat{\vb{b}}=\mathrm{proj}_{\mathrm{Col}\;A}\vb{b}$，解与$A^TA\vx=A^T\vb{b}$相同.\\
-若$A$可被$QR$分解（定理\ref{qr_fact}），则$\hat{\vx}=R^{-1}Q^T\vb{b}$.
+\[\|\vb-A\hat{\vx}\|\leq\|\vb-A\vx\|\]
+则$\disp\hat{\vb}=\mathrm{proj}_{\mathrm{Col}\;A}\vb$，解与$A^\T A\vx=A^\T \vb$相同.\\
+若$A$可被$QR$分解（定理\ref{qr_fact}），则$\hat{\vx}=R^{-1}Q^\T \vb$.
 \end{theorem}
-%A^TA计算误差可能引起全局大误差，最好用QR分解，算R\vx=Q^T\vb{b}
+%A^\T A计算误差可能引起全局大误差，最好用QR分解，算R\vx=Q^\T \vb
 \begin{analysis}
-$\vb{a}_j\cdot(\vb{b}-A\hat{\vx})=\vb{a}_j^T(\vb{b}-A\hat{\vx})=0\implies A^T(\vb{b}-A\hat{\vx})=\vb{0}\implies A^TA\vx=A^T\vb{b}$
+$\va_j\cdot(\vb-A\hat{\vx})=\va_j^\T (\vb-A\hat{\vx})=0\implies A^\T (\vb-A\hat{\vx})=\vzero\implies A^\T A\vx=A^\T \vb$
 \end{analysis}
 \begin{myalgorithm}[最小二乘估计]
-直接计算$A^TA\vx=A^T\vb{b}$即可.
+直接计算$A^\T A\vx=A^\T \vb$即可.
 \end{myalgorithm}
 \begin{definition}[一般线性模型]
-$\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbeta$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbeta=\vy$的最小二乘解.
+$\vy=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbeta$为参数向量，$\vy$为观测向量，$\bm{\varepsilon}$为残差向量，满足这种形式的方程称为线性模型. 使$\bm{\varepsilon}$得长度最小化，即找出$X\vbeta=\vy$的最小二乘解.
 \end{definition}
 以下是一些例子.
 \begin{enumerate}
@@ -35,7 +35,7 @@ $\vb{y}=X\bm{\beta}+\bm{\varepsilon}$，$X$为设计矩阵，$\vbeta$为参数�
 具有非负分量的数值且相加等于$1$的向量$\vx_0,\vx_1,\dots$称为\textbf{概率向量}，各列向量均为概率向量的方阵$P$称为\textbf{随机矩阵}，则\textbf{马尔可夫链}为$\vx_{k+1}=P\vx_{k},k=0,1,2,\dots$，其中$\vx_k$称为\textbf{状态向量}.
 \end{definition}
 \begin{theorem}[马尔可夫链收敛定理\protect\footnote{具体情况比较复杂}]
-马尔可夫链$\{\vx_{k+1}\}$一定会收敛至\textbf{平衡向量}$\vb{q}$，其中$\vb{q}$满足$P\vb{q}=\vb{q}$.
+马尔可夫链$\{\vx_{k+1}\}$一定会收敛至\textbf{平衡向量}$\vq$，其中$\vq$满足$P\vq=\vq$.
 \end{theorem}
 
 \subsection{复数特征值}%5.5 复数特征值
@@ -78,17 +78,17 @@ $\forall n\geq 1,\{1,\cos t,\cos 2t,\cdots,\cos nt,\sin t,\sin 2t,\cdots,\sin nt
 
 \subsection{统计学应用}%7.5 图像处理及统计学应用
 \begin{definition}[平均值]
-$p\times N$的观测矩阵$A=\bmat{\vb{X}_1}{\vb{X}_N}$（即有$N$个样本，每个样本有$p$个维度的信息），则其样本均值为$\vb{M}=\dfrac{1}{N}(\vb{X}_1+\cdots+\vb{X}_N)$. 平均偏差形式为$B=\bmat{\vb{\hat{X}}_1}{\vb{\hat{X}}_N}$，其中$\vb{\hat{X}}_k=\vb{X}_k-\vb{M}$.
+$p\times N$的观测矩阵$A=\bmat{\vX_1,\ldots,\vX_N}$（即有$N$个样本，每个样本有$p$个维度的信息），则其样本均值为$\vM=\dfrac{1}{N}(\vX_1+\cdots+\vX_N)$. 平均偏差形式为$B=\bmat{\hat{\vX}_1,\ldots,\hat{\vX}_N}$，其中$\hat{\vX}_k=\vX_k-\vM$.
 \end{definition}
 \begin{definition}[方差]
-协方差矩阵为$S=\dfrac{1}{N-1}BB^T$（$BB^T$正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\optv B=\optr S$
+协方差矩阵为$S=\dfrac{1}{N-1}BB^\T $（$BB^\T $正定，故$S$正定），其中元素$s_{ii}$称为$x_i$（某一行）的方差，$s_{ij},i\ne j$称为$x_i$与$x_j$的协方差，而总方差$\optv B=\optr S$
 \end{definition}
 \begin{definition}[主成分分析]
-假设$A=\bmat{\vb{X}_1}{\vb{X}_N}$为平均偏差形式，找到$p\times p$正交矩阵$P=\bmat{\vu_1}{\vu_p}$使得$\vb{X}=P\vb{Y}$，其中$y_1,\dots,y_p$都线性无关且方差递减. $\vu_1,\dots,\vu_p$为数据的主成分，第一主成分是$S$最大的特征值对应的特征向量.\\
+假设$A=\bmat{\vX_1,\ldots,\vX_N}$为平均偏差形式，找到$p\times p$正交矩阵$P=\bmat{\vu_1,\ldots,\vu_p}$使得$\vX=P\vY$，其中$y_1,\dots,y_p$都线性无关且方差递减. $\vu_1,\dots,\vu_p$为数据的主成分，第一主成分是$S$最大的特征值对应的特征向量.\\
 注：主成分分析等同于正交回归
 \end{definition}
 \begin{analysis}
-$\vb{X}_k=P\vb{Y}_k\implies \vb{Y}_k=P^{-1}\vb{X}_k=P^T\vb{X}_k,k=1,\dots,N\implies S=PDP^T, P^TSP=D$\\
-可以验证对于任意正交矩阵$P$，$\vb{Y},\dots\vb{Y}_N$的协方差矩阵都是$P^TSP$
+$\vX_k=P\vY_k\implies \vY_k=P^{-1}\vX_k=P^\T \vX_k,k=1,\dots,N\implies S=PDP^\T , P^\T SP=D$\\
+可以验证对于任意正交矩阵$P$，$\vY,\dots\vY_N$的协方差矩阵都是$P^\T SP$
 \end{analysis}
-变量的正交变换$\vb{X}=P\vb{Y}$不改变数据的总方差，且$\optv \vb{X}=\optv \vb{Y}=\optr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\optr S$表明$y_j$的占比，用于降维
+变量的正交变换$\vX=P\vY$不改变数据的总方差，且$\optv \vX=\optv \vY=\optr D=\lambda_1+\cdots+\lambda_p$，商$\lambda_j/\optr S$表明$y_j$的占比，用于降维

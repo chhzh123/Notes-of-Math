@@ -18,7 +18,7 @@ $\rn$中的向量$\vv_1,\dots,\vv_p$的线性组合$c_1\vv_1+\cdots+c_p\vv_p$，
 \end{enumerate}
 \end{theorem}
 \begin{definition}
-\rm$\rn$的一个集合$S$经向量$\vb{p}$的平移(translate)变为$S+\vb{p}=\{\vb{s}+\vb{p}|\vb{s}\in S\}$. $\rn$的一个面(flat)\footnote{\url{https://en.wikipedia.org/wiki/Flat_(geometry)}}是$\rn$子空间的一个平移. 若一个面是另一个的平移，则两个面平行. 一个面的维度是它对应的平行子空间的维度. $S$的维度是包含$S$最小的面的维度. $\rn$中的线是一维的面，$\rn$中的超平面(hyperplane)是$n-1$维的面.\\
+\rm$\rn$的一个集合$S$经向量$\vp$的平移(translate)变为$S+\vp=\{\vs+\vp|\vs\in S\}$. $\rn$的一个面(flat)\footnote{\url{https://en.wikipedia.org/wiki/Flat_(geometry)}}是$\rn$子空间的一个平移. 若一个面是另一个的平移，则两个面平行. 一个面的维度是它对应的平行子空间的维度. $S$的维度是包含$S$最小的面的维度. $\rn$中的线是一维的面，$\rn$中的超平面(hyperplane)是$n-1$维的面.\\
 注：由于子空间必须包含零点，故经过平移的子空间就不是子空间了，就称为面. 真(proper)面即不包含自己的面.
 \end{definition}
 \begin{definition}[齐次(homogeneous)坐标]
@@ -31,7 +31,7 @@ $\rn$中的向量$\vv_1,\dots,\vv_p$的线性组合$c_1\vv_1+\cdots+c_p\vv_p$，
 	\item 引入无穷远点 等同于其他点
 \end{enumerate}
 \begin{definition}[仿射无关]
-若存在$c_1,\dots,c_p$不全为$0$，使得$c_1+\cdots+c_p=0,c_1\vv_1+\cdots+c_p\vv_p=\vb{0}$，则称$\{\vv_1,\dots,\vv_p\}\in\rn$仿射相关，否则称为仿射无关.
+若存在$c_1,\dots,c_p$不全为$0$，使得$c_1+\cdots+c_p=0,c_1\vv_1+\cdots+c_p\vv_p=\vzero$，则称$\{\vv_1,\dots,\vv_p\}\in\rn$仿射相关，否则称为仿射无关.
 \end{definition}
 \begin{theorem}$S=\{\vv_1,\dots,\vv_p\}\in\rn,p\geq 2$，以下命题都等价
 \begin{enumerate}
@@ -43,18 +43,18 @@ $\rn$中的向量$\vv_1,\dots,\vv_p$的线性组合$c_1\vv_1+\cdots+c_p\vv_p$，
 \end{enumerate}
 \end{theorem}
 \begin{theorem}[向量唯一表示定理（仿射组合）]
-\rm $S=\nums{\vv_1,\ldots,\vv_k}$是$\rn$的仿射无关集，那么$\forall\vb{p}\in\opaff S$有唯一向量表示
-\[\vb{p}=c_1\vv_1+\cdots+c_k\vv_k\quad\text{且}\quad c_1+\cdots+c_k=1\]
-其中$c_1,\dots,c_p$称为$\vb{p}$的质心(barycentric)坐标或仿射坐标.
+\rm $S=\nums{\vv_1,\ldots,\vv_k}$是$\rn$的仿射无关集，那么$\forall\vp\in\opaff S$有唯一向量表示
+\[\vp=c_1\vv_1+\cdots+c_k\vv_k\quad\text{且}\quad c_1+\cdots+c_k=1\]
+其中$c_1,\dots,c_p$称为$\vp$的质心(barycentric)坐标或仿射坐标.
 \end{theorem}
 \begin{analysis}
-相当于解$\tilde{\vb{p}}=c_1\tilde{\vv}_1+\cdots+c_k\tilde{\vv}_k$，通过高斯消元初等行变换可得. 广泛应用于图像渐变、透视关系.
+相当于解$\tilde{\vp}=c_1\tilde{\vv}_1+\cdots+c_k\tilde{\vv}_k$，通过高斯消元初等行变换可得. 广泛应用于图像渐变、透视关系.
 \end{analysis}
 \begin{theorem}
 \begin{enumerate}
 	\itemsep -3pt
 	\item 一个非空子集$S$是仿射集当且仅当它是一个面
-	\item $S$仿射无关，$\vb{p}\in\opaff S$，那么$\vb{p}\in\opconv S$当且仅当$\vb{p}$的质心坐标全部非负
+	\item $S$仿射无关，$\vp\in\opaff S$，那么$\vp\in\opconv S$当且仅当$\vp$的质心坐标全部非负
 	\item $\opconv S$是所有包含$S$的凸集的交
 \end{enumerate}
 \end{theorem}
@@ -68,10 +68,10 @@ $S$是$\rn$的一个非空子集，那么$\opconv S$的每一个点都可以被�
 线性变换$f:\rn\to\mathbb{R}$是一个线性泛函. $\forall d\in\mathbb{R},[f:d]:=\{\vx\in\rn:\,f(\vx)=d\}$. 零泛函是使得$f(\vx)=0,\forall\vx\in\rn$的变换，其他均称为非零.
 \end{definition}
 \begin{theorem}
-$\rn$的子集$H$是一个超平面当且仅当$H=[f:d]$，其中$f$是非零泛函，$d\in\mathbb{R}$. 因此，若$H$是一个超平面，则存在一个非零向量$\vb{n}$和$d\in\mathbb{R}$使得$H=\{\vx:\vb{n}\cdot\vx=d\}$
+$\rn$的子集$H$是一个超平面当且仅当$H=[f:d]$，其中$f$是非零泛函，$d\in\mathbb{R}$. 因此，若$H$是一个超平面，则存在一个非零向量$\vn$和$d\in\mathbb{R}$使得$H=\{\vx:\vn\cdot\vx=d\}$
 \end{theorem}
 \begin{definition}[拓扑概念]
-\rm $\forall\vb{p}\in\rn,\delta>0$，中心为$\vb{p}$，半径为$\delta$的开球(open ball)记为$B(\vb{p},\delta):=\{\vx:\,\|\vx-\vb{p}\|<\delta\}$. 给定集合$S\in\rn$，若$\exists\delta>0\,s.t.\,B(\vb{p},\delta)\subset S$，则称$\vb{p}$是$S$的内点(interior point). 若每一个中心在$\vb{p}$的开球都与$S$和$S$的补相交，则$\vb{p}$是$S$的边界点(boundary point). 若$S$不包含任一边界点，则称$S$是开的(open)；若$S$包含所有边界点，则称$S$是闭的(closed)；否则既不开也不闭. 若$\exists\delta>0\,s.t.\,S\subset B(\vb{0},\delta)$，则称$S$是有界的(bounded). $S$同时是闭的，又是有界的，则称$S$是紧的(compact).（欧氏空间上有界闭集等于紧集）
+\rm $\forall\vp\in\rn,\delta>0$，中心为$\vp$，半径为$\delta$的开球(open ball)记为$B(\vp,\delta):=\{\vx:\,\|\vx-\vp\|<\delta\}$. 给定集合$S\in\rn$，若$\exists\delta>0\,s.t.\,B(\vp,\delta)\subset S$，则称$\vp$是$S$的内点(interior point). 若每一个中心在$\vp$的开球都与$S$和$S$的补相交，则$\vp$是$S$的边界点(boundary point). 若$S$不包含任一边界点，则称$S$是开的(open)；若$S$包含所有边界点，则称$S$是闭的(closed)；否则既不开也不闭. 若$\exists\delta>0\,s.t.\,S\subset B(\vzero,\delta)$，则称$S$是有界的(bounded). $S$同时是闭的，又是有界的，则称$S$是紧的(compact).（欧氏空间上有界闭集等于紧集）
 \end{definition}
 \begin{theorem}
 开集的凸包是开的，紧集的凸包是紧的，但闭集的凸包不一定是闭的
@@ -99,7 +99,7 @@ $\rn$中的多胞形是有限集合的凸包. $\mathbb{R}^2$中，多胞体就�
 \rm $S$是$\rn$紧致的凸集，$F$是$S$的非空子集，若$F\ne S$，$\exists H=[f:d]\,s.t.\,F=S\cap H$以及$f(S)\leq d$或$f(S)\geq d$，则称$F$为$S$的面(face). $H$称为$S$的支撑超平面(supporting hyperplane). 若$\dim F=k$，则$F$称为$S$的$k$-面. 若$P$是$k$维的多胞体，称$P$为$k$-多胞体. $P$的$0$-面称为顶点(vertex/vertices)，$1$-面称为边(edge)，$k-1$-面是$S$的facet.
 \end{definition}
 \begin{definition}[端点]
-\rm $S$是凸集，若$\vx,\vy\in S,\vb{p}\in\overline{\vx\vy}$，则$\vb{p}=\vx$或$\vb{p}=\vy$称为$S$的端点(extreme point)，$S$的所有端点称为$S$的轮廓(profile).
+\rm $S$是凸集，若$\vx,\vy\in S,\vp\in\overline{\vx\vy}$，则$\vp=\vx$或$\vp=\vy$称为$S$的端点(extreme point)，$S$的所有端点称为$S$的轮廓(profile).
 \end{definition}
 \begin{definition}[最小表示]
 \rm 若多胞形$P=\opconv\nums{\vv_1,\ldots,\vv_k}$且$\vv_i\notin\opconv\{\vv_j:j\ne i\},\forall i=1,\dots,k$，则称$\nums{\vv_1,\ldots,\vv_k}$是$P$的最小表示(minimal representation).
@@ -108,17 +108,17 @@ $\rn$中的多胞形是有限集合的凸包. $\mathbb{R}^2$中，多胞体就�
 $M=\nums{\vv_1,\ldots,\vv_k}$是多胞形$P$的最小表示，则以下说法等价
 \begin{enumerate}
 	\itemsep -3pt
-	\item $\vb{p}\in M$
-	\item $\vb{p}$是$P$的顶点
-	\item $\vb{p}$是$P$的端点
+	\item $\vp\in M$
+	\item $\vp$是$P$的顶点
+	\item $\vp$是$P$的端点
 \end{enumerate}
 \end{theorem}
 \begin{theorem}
 $S$是非空紧致凸集，则$S$是它轮廓（$S$的端点）的凸包
 \end{theorem}
 \begin{theorem}
-$f$是一个定义在非空紧致凸集$S$上的线性泛函，则存在$S$的端点$\hat{\vv},\hat{\vb{w}}$使得
-\[f(\hat{\vv})=\max_{\vv\in S}f(\vv)\quad f(\hat{\vb{w}})=\min_{\vv\in S}f(\vv)\]
+$f$是一个定义在非空紧致凸集$S$上的线性泛函，则存在$S$的端点$\hat{\vv},\hat{\vw}$使得
+\[f(\hat{\vv})=\max_{\vv\in S}f(\vv)\quad f(\hat{\vw})=\min_{\vv\in S}f(\vv)\]
 注：线性规划极值点取得依据
 \end{theorem}
 \begin{definition}[单纯形(simplex)]
@@ -130,7 +130,7 @@ $f$是一个定义在非空紧致凸集$S$上的线性泛函，则存在$S$的�
 k\text{-单纯形} S^k &:\; \opconv(S^{k-1}\cup\{\vv_{k+1}\})\text{，其中}\vv_{k+1}\notin S^{k-1}
 \end{aligned}\]
 \begin{definition}[超立方体(hypercube)]
-\rm $I_i=\overline{\vb{0}\vb{e}_i}$，向量和(vector sum)\footnote{$A+B=\{\vb{c}:\vb{c}=\vb{a}+\vb{b},\forall\vb{a}\in A,\vb{b}\in B\}$}$C^k=I_1+I_2+\cdots+I_k$称为f$k$-维超立方体
+\rm $I_i=\overline{\vzero\ve_i}$，向量和(vector sum)\footnote{$A+B=\{\vc:\vc=\va+\vb,\forall\va\in A,\vb\in B\}$}$C^k=I_1+I_2+\cdots+I_k$称为f$k$-维超立方体
 \end{definition}
 \begin{theorem}[欧拉(Euler)公式]
 记$f_k(P)$为$n$-维多胞形$P$的$k$-维面的数目，则
@@ -141,12 +141,12 @@ k\text{-单纯形} S^k &:\; \opconv(S^{k-1}\cup\{\vv_{k+1}\})\text{，其中}\vv
 \subsection{曲线和表面}
 \begin{definition}[贝塞尔(Bézier)曲线]
 三阶贝塞尔曲线
-\[\vx(t)=\begin{bmatrix}\vb{p}_0&\vb{p}_1&\vb{p}_2&\vb{p}_3\end{bmatrix}\begin{bmatrix}1&-3&3&-1\\0&3&-6&3\\0&0&3&-3\\0&0&0&1\end{bmatrix}\begin{bmatrix}1\\t\\t^2\\t^3\end{bmatrix}=GM_B\vb{u}(t)\]
+\[\vx(t)=\begin{bmatrix}\vp_0&\vp_1&\vp_2&\vp_3\end{bmatrix}\begin{bmatrix}1&-3&3&-1\\0&3&-6&3\\0&0&3&-3\\0&0&0&1\end{bmatrix}\begin{bmatrix}1\\t\\t^2\\t^3\end{bmatrix}=GM_B\vu(t)\]
 \rm 其中$G$为四个控制点构成的几何(geometry)矩阵，$M_B$为贝塞尔基底矩阵. 换种形式表示
-\[\vx(s)=\vb{u}(s)^TM_B^TG^T=\begin{bmatrix}(1-s)^3&3s(1-s)^2&3s^2(1-s)&s^3\end{bmatrix}\begin{bmatrix}\vb{p}_0\\\vb{p}_1\\\vb{p}_2\\\vb{p}_3\end{bmatrix}\]
+\[\vx(s)=\vu(s)^\T M_B^\T G^\T =\begin{bmatrix}(1-s)^3&3s(1-s)^2&3s^2(1-s)&s^3\end{bmatrix}\begin{bmatrix}\vp_0\\\vp_1\\\vp_2\\\vp_3\end{bmatrix}\]
 \end{definition}
 \begin{definition}[贝塞尔表面]
-\[GM_B\vb{u}(t)\begin{bmatrix}\vb{p}_{11}&\vb{p}_{12}&\vb{p}_{13}&\vb{p}_{14}\\\vb{p}_{21}&\vb{p}_{22}&\vb{p}_{23}&\vb{p}_{24}\\\vb{p}_{31}&\vb{p}_{32}&\vb{p}_{33}&\vb{p}_{34}\\\vb{p}_{41}&\vb{p}_{42}&\vb{p}_{43}&\vb{p}_{44}\end{bmatrix}\begin{bmatrix}(1-t)^3\\3t(1-t)^2\\3t^2(1-t)\\t^3\end{bmatrix}\]
+\[GM_B\vu(t)\begin{bmatrix}\vp_{11}&\vp_{12}&\vp_{13}&\vp_{14}\\\vp_{21}&\vp_{22}&\vp_{23}&\vp_{24}\\\vp_{31}&\vp_{32}&\vp_{33}&\vp_{34}\\\vp_{41}&\vp_{42}&\vp_{43}&\vp_{44}\end{bmatrix}\begin{bmatrix}(1-t)^3\\3t(1-t)^2\\3t^2(1-t)\\t^3\end{bmatrix}\]
 进而，
-\[\vb{x}(s,t)=\vb{u}(s)^TM_B^TGM_B\vb{u}(t),0\leq s,t\leq 1\]
+\[\vx(s,t)=\vu(s)^\T M_B^\T GM_B\vu(t),0\leq s,t\leq 1\]
 \end{definition}

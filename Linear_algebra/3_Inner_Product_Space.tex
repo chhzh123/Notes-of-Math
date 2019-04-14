@@ -16,7 +16,7 @@
 \begin{definition}[长度/模/范数]
 $V$是一个内积空间，则对于某一向量$v\in V$的长度为$\|v\|:=\sqrt{\langle v,v\rangle}$.
 \end{definition}
-注：如无特殊说明，下文在谈论到内积时都是指最简单不加权的内积，即$\lrang{\vb{u},\vb{v}}=\vb{u}\cdot\vb{v}=\vb{u}^T\vb{v}$.
+注：如无特殊说明，下文在谈论到内积时都是指最简单不加权的内积，即$\lrang{\vu,\vv}=\vu\cdot\vv=\vu^\T \vv$.
 
 \subsection{正交}
 \begin{definition}[正交]
@@ -42,31 +42,31 @@ $S=\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的一个由\textbf{非零}向量�
 注：一定要注意前提条件！！！
 \end{theorem}
 \begin{analysis}
-\[\vb{0}=c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p\]
-\[\begin{aligned}0&=\lrang{\vb{0},\vb{u}_1}=\lrang{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p,\vb{u}_1}\\
-&=\lrang{c_1\vb{u}_1,\vb{u}_1}+\lrang{c_2\vb{u}_2,\vb{u}_1}+\cdots+\lrang{c_p\vb{u}_p,\vb{u}_1}\\
-&=c_1\lrang{\vb{u}_1,\vb{u}_1}+c_2\lrang{\vb{u}_2,\vb{u}_1}+\cdots+c_p\lrang{\vb{u}_p,\vb{u}_1}\\
-&=c_1\lrang{\vb{u}_1,\vb{u}_1}
+\[\vzero=c_1\vu_1+c_2\vu_2+\cdots+c_p\vu_p\]
+\[\begin{aligned}0&=\lrang{\vzero,\vu_1}=\lrang{c_1\vu_1+c_2\vu_2+\cdots+c_p\vu_p,\vu_1}\\
+&=\lrang{c_1\vu_1,\vu_1}+\lrang{c_2\vu_2,\vu_1}+\cdots+\lrang{c_p\vu_p,\vu_1}\\
+&=c_1\lrang{\vu_1,\vu_1}+c_2\lrang{\vu_2,\vu_1}+\cdots+c_p\lrang{\vu_p,\vu_1}\\
+&=c_1\lrang{\vu_1,\vu_1}
 \end{aligned}\]
-因为$\vb{u}_1\ne\vb{0}$，所以$c_1=0$. 类似地，可以推出$c_i=0,i=2,\dots,p$，因此$S$线性无关.
+因为$\vu_1\ne\vzero$，所以$c_1=0$. 类似地，可以推出$c_i=0,i=2,\dots,p$，因此$S$线性无关.
 \end{analysis}
 \begin{theorem}[正交分解]
-$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组正交基，对于$\vb{y}\in V$，都可以唯一表示成$\vb{y}=\hat{\vb{y}}+\vb{z}$，其中$\hat{\vb{y}}\in W,\vb{z}\in W^\perp$，且
+$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组正交基，对于$\vy\in V$，都可以唯一表示成$\vy=\hat{\vy}+\vz$，其中$\hat{\vy}\in W,\vz\in W^\perp$，且
 \[\hat{\mathbf{y}}=c_1\mathbf{u}_1+\cdots+c_p\mathbf{u}_p\]
 各项为
 \[\hat{\mathbf{y}}_i=\mathrm{proj}_{u_i}\hat{\mathbf{y}}=c_i\mathbf{u}_i=\frac{\langle \hat{\mathbf{y}},\mathbf{u}_i\rangle}{\langle\mathbf{u}_i,\mathbf{u}_i\rangle}\mathbf{u}_i=\frac{\langle \hat{\mathbf{y}},\mathbf{u}_i\rangle}{\|\mathbf{u}_i\|}\frac{\mathbf{u}_i}{\|\mathbf{u}_i\|}\,,i=1,\dots,p\qquad(*)\]
 注：与选的基没有关系，只和$W$有关.
 \end{theorem}
 \begin{analysis}
-类似定理\ref{ortho_indep}的证明有$\lrang{\hat{\vb{y}},\vb{u}_i}=\lrang{c_1\vb{u}_1+c_2\vb{u}_2+\cdots+c_p\vb{u}_p,\vb{u}_i}=c_i\lrang{\vb{u}_i,\vb{u}_i}$，移项即得$(*)$式.
-\[\begin{aligned}\lrang{\vb{z},\vb{u}_1}=\lrang{\vb{y}-\hat{\vb{y}},\vb{u}_1}&=\lrang{\vb{y},\vb{u}_1}-\lrang{\frac{\langle \hat{\mathbf{y}},\mathbf{u}_1\rangle}{\langle\mathbf{u}_1,\mathbf{u}_1\rangle},\mathbf{u}_1}{\vb{u}_1}-0-\cdots-0\\
-&=\lrang{\vb{y},\vb{u}_1}-\lrang{\vb{y},\vb{u}_1}=0\end{aligned}\]
-类似地可证明$\vb{z}$与$W$的每一个基$\vb{u}_i$都正交，进而$\vb{z}\in W^\perp$.\\
-为证明唯一性，不妨设存在另一表示方法$\vb{y}=\hat{\vb{y}}'+\vb{z'}$，其中$\hat{\vb{y}}'\in W$，$\vb{z'}\in W^\perp$那么$\hat{\vb{y}}+\vb{z}=\hat{\vb{y}}'+\vb{z'}$，即$\hat{\vb{y}}-\hat{\vb{y}}'=\vb{z'}-\vb{z}$. 因为$\vb{z},\vb{z'}\in W^\perp$，所以$\vb{z'}-\vb{z}\in W^\perp$，故$\hat{\vb{y}}-\hat{\vb{y}}'\in W^\perp$，而$\hat{\vb{y}}-\hat{\vb{y}}'\in W$，推出$\lrang{\hat{\vb{y}}-\hat{\vb{y}}',\hat{\vb{y}}-\hat{\vb{y}}'}=0$，即$\hat{\vb{y}}=\hat{\vb{y}}'$，同时$\vb{z'}=\vb{z}$.
+类似定理\ref{ortho_indep}的证明有$\lrang{\hat{\vy},\vu_i}=\lrang{c_1\vu_1+c_2\vu_2+\cdots+c_p\vu_p,\vu_i}=c_i\lrang{\vu_i,\vu_i}$，移项即得$(*)$式.
+\[\begin{aligned}\lrang{\vz,\vu_1}=\lrang{\vy-\hat{\vy},\vu_1}&=\lrang{\vy,\vu_1}-\lrang{\frac{\langle \hat{\mathbf{y}},\mathbf{u}_1\rangle}{\langle\mathbf{u}_1,\mathbf{u}_1\rangle},\mathbf{u}_1}{\vu_1}-0-\cdots-0\\
+&=\lrang{\vy,\vu_1}-\lrang{\vy,\vu_1}=0\end{aligned}\]
+类似地可证明$\vz$与$W$的每一个基$\vu_i$都正交，进而$\vz\in W^\perp$.\\
+为证明唯一性，不妨设存在另一表示方法$\vy=\hat{\vy}'+\vz'$，其中$\hat{\vy}'\in W$，$\vz'\in W^\perp$那么$\hat{\vy}+\vz=\hat{\vy}'+\vz'$，即$\hat{\vy}-\hat{\vy}'=\vz'-\vz$. 因为$\vz,\vz'\in W^\perp$，所以$\vz'-\vz\in W^\perp$，故$\hat{\vy}-\hat{\vy}'\in W^\perp$，而$\hat{\vy}-\hat{\vy}'\in W$，推出$\lrang{\hat{\vy}-\hat{\vy}',\hat{\vy}-\hat{\vy}'}=0$，即$\hat{\vy}=\hat{\vy}'$，同时$\vz'=\vz$.
 \end{analysis}
 \par 从$(*)$的最后一个等式可以看出，实际上正交分解与我们高中所学的向量知识是一致的，即$\mathbf{y}$在$\mathbf{u}_i$上的投影的长度再乘上该方向上的单位向量.
 \begin{theorem}[最佳估计]
-$W$为$V$的子空间，$\vb{y}\in V$，则
+$W$为$V$的子空间，$\vy\in V$，则
 \[\|\mathbf{y}-\hat{\mathbf{y}}\|\leq\|\mathbf{y}-\mathbf{v}\|,\forall v\in W\]
 \end{theorem}
 \begin{analysis}
@@ -79,7 +79,7 @@ $W$为$V$的子空间，$\vb{y}\in V$，则
 \[\|\mathbf{u}\|\|\mathbf{v}\|\geq|\langle \mathbf{u},\mathbf{v} \rangle|\]
 \end{theorem}
 \begin{analysis}
-\[\|\opproj_{\vb{u}}\vv\|=\dfrac{\lrang{\vb{u},\vv}}{\|\vb{u}\|}\leq\|\vv\|\]
+\[\|\opproj_{\vu}\vv\|=\dfrac{\lrang{\vu,\vv}}{\|\vu\|}\leq\|\vv\|\]
 \end{analysis}
 \begin{theorem}[三角不等式]
 \[\|\mathbf{u}\|+\|\mathbf{v}\|\geq\|\mathbf{u}+\mathbf{v}\|\]
@@ -88,22 +88,22 @@ $W$为$V$的子空间，$\vb{y}\in V$，则
 平方后用柯西不等式.
 \end{analysis}
 \begin{proposition}%P417
-$A$是$m\times n$矩阵，$A\vx=\vb{0}$当且仅当$A^TA\vx=\vb{0}$，进而$\opnul A=\opnul A^TA$.\\
-$A^TA$可逆当且仅当$A$的列线性无关. $\oprank A^TA=n-\opdim\opnul A^TA=\opnul A=\oprank A$
+$A$是$m\times n$矩阵，$A\vx=\vzero$当且仅当$A^\T A\vx=\vzero$，进而$\opnul A=\opnul A^\T A$.\\
+$A^\T A$可逆当且仅当$A$的列线性无关. $\oprank A^\T A=n-\opdim\opnul A^\T A=\opnul A=\oprank A$
 \end{proposition}
 \begin{analysis}
-$\vx^TA^TA\vx=\vb{0}$
+$\vx^\T A^\T A\vx=\vzero$
 \end{analysis}
 
 \subsection{正交矩阵}
 \begin{theorem}
-$U$是$m\times n$矩阵，则$U$每一列都\textbf{单位正交}当且仅当$U^TU=I$
+$U$是$m\times n$矩阵，则$U$每一列都\textbf{单位正交}当且仅当$U^\T U=I$
 \end{theorem}
 \begin{analysis}
-\[U^TU=\begin{bmatrix}\vb{u}_1^T\\\vdots\\\vb{u}_n^T\end{bmatrix}[\vb{u}_1\quad\cdots\quad\vb{u}_n]
-=\begin{bmatrix}\vb{u}_1^T\vb{u}_1 & \cdots & \vb{u}_1^T\vb{u}_n\\
+\[U^\T U=\begin{bmatrix}\vu_1^\T \\\vdots\\\vu_n^\T \end{bmatrix}[\vu_1\quad\cdots\quad\vu_n]
+=\begin{bmatrix}\vu_1^\T \vu_1 & \cdots & \vu_1^\T \vu_n\\
 \vdots&\ddots&\vdots\\
-\vb{u}_n^T\vb{u}_1 & \cdots & \vb{u}_n^T\vb{u}_n\\\end{bmatrix}
+\vu_n^\T \vu_1 & \cdots & \vu_n^\T \vu_n\\\end{bmatrix}
 =\begin{bmatrix}1 & \cdots & 0\\
 \vdots&\ddots&\vdots\\
 0 & \cdots & 1\\\end{bmatrix}=I\]
@@ -118,7 +118,7 @@ $U$是$m\times n$矩阵且每一列都单位正交，$x,y\in\mathbb{R}^n$
 \end{enumerate}
 \end{theorem}
 \begin{analysis}
-$(U\mathbf{x})\cdot(U\mathbf{y})=(U\mathbf{x})^T(U\mathbf{y})=\mathbf{x}^TU^TU\mathbf{y}=\mathbf{x}\cdot\mathbf{y}$，
+$(U\mathbf{x})\cdot(U\mathbf{y})=(U\mathbf{x})^\T (U\mathbf{y})=\mathbf{x}^\T U^\T U\mathbf{y}=\mathbf{x}\cdot\mathbf{y}$，
 $1,3$同理可证.
 \end{analysis}
 \begin{definition}[正交矩阵]
@@ -129,13 +129,13 @@ $1,3$同理可证.
 \begin{proposition}
 \begin{enumerate}
 	\itemsep -3pt
-	\item $U$为方阵则一定可逆，因$U^TU=I=U^{-1}U=I$
+	\item $U$为方阵则一定可逆，因$U^\T U=I=U^{-1}U=I$
 	\item $U,V$均为正交矩阵，则$UV$也为正交矩阵
 	\item $U$中的列交换一下得到$V$，则$V$也为正交矩阵
 \end{enumerate}
 \end{proposition}
 \begin{proposition}
-$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交基，则$\opproj_{W}\vy=UU^T\vy,\,\forall\vy\in V$
+$\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交基，则$\opproj_{W}\vy=UU^\T \vy,\,\forall\vy\in V$
 \end{proposition}
 \begin{myalgorithm}[施密特(Schmidt)正交化]
 \label{schmidt}
@@ -149,7 +149,7 @@ $\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交�
 注：此过程说明了结合向量空间基的存在性可说明正交基的存在性.
 \end{myalgorithm}
 \begin{analysis}
-设$V_k=\opspan\{\mathbf{v}_1,\dots,\mathbf{v}_k\},W_k=\opspan\{\mathbf{u}_1,\dots,\mathbf{u}_k\},1\leq k\leq p$，则$\vb{u}_{k+1}=\vv_{k+1}-\opproj_{W_k}\vv_{k+1}$，进而$\vb{u}_{k+1}\in W_{k+1}^\perp$，即每一$\vb{u}_i$均与前面的$\vb{u}_j,1\leq j\leq i-1$正交（也就保证了两两正交）. 而$\vb{v}_i\in V_i$，由向量加减法的封闭性，$\vb{u}_i\in V_i$，故$\vb{u}_i\in V_p$（因$V_k\subset V_{k+1}$）. 又正交一定线性无关，且$V$已有一组$p$个向量的基，故$\{\mathbf{u}_1,\dots,\mathbf{u}_k\}$是$V_k$的一组正交基，进而$V_k=W_k$.\\
+设$V_k=\opspan\{\mathbf{v}_1,\dots,\mathbf{v}_k\},W_k=\opspan\{\mathbf{u}_1,\dots,\mathbf{u}_k\},1\leq k\leq p$，则$\vu_{k+1}=\vv_{k+1}-\opproj_{W_k}\vv_{k+1}$，进而$\vu_{k+1}\in W_{k+1}^\perp$，即每一$\vu_i$均与前面的$\vu_j,1\leq j\leq i-1$正交（也就保证了两两正交）. 而$\vv_i\in V_i$，由向量加减法的封闭性，$\vu_i\in V_i$，故$\vu_i\in V_p$（因$V_k\subset V_{k+1}$）. 又正交一定线性无关，且$V$已有一组$p$个向量的基，故$\{\mathbf{u}_1,\dots,\mathbf{u}_k\}$是$V_k$的一组正交基，进而$V_k=W_k$.\\
 \end{analysis}
 \begin{theorem}[QR分解]
 \label{qr_fact}
@@ -157,17 +157,17 @@ $\{\mathbf{u}_1,\dots,\mathbf{u}_p\}$是$V$的子空间$W$的一组单位正交�
 注：在下面的证明可以看出$A=QR$，单位正交不是必须的，但可能因为具有某种性质，所以才要强调单位正交.
 \end{theorem}
 \begin{analysis}
-施密特正交化将$A$的列转为正交基$\{\mathbf{u}_1,\dots,\mathbf{u}_n\}$，则$Q=\bmat{\vb{u}_1}{\vb{u}_n}$.\\
+施密特正交化将$A$的列转为正交基$\{\mathbf{u}_1,\dots,\mathbf{u}_n\}$，则$Q=\bmat{\vu_1,\ldots,\vu_n}$.\\
 由算法\ref{schmidt}的分析知$\vx_k\in V_k=W_k$，故存在$r_{k1},\dots,r_{kk}$，使得
-\[\vx_k=r_{k1}\vb{u}_1+\cdots+r_{kk}\vb{u}_k+0\cdot\vb{u}_{k+1}+\cdots+0\cdot\vb{u}_n\]
-假设$r_{kk}\geq 0$（否则给$r_{kk}$和$\vb{u}_k$同乘$-1$），令
-\[\vb{r}_k=\begin{bmatrix}r_{k1}\\\vdots\\r_{kk}\\0\\\vdots\\0\end{bmatrix}\]
-为$R$的列，显然$R$为上三角，即可满足$\vx_k=Q\vb{r}_k$.
+\[\vx_k=r_{k1}\vu_1+\cdots+r_{kk}\vu_k+0\cdot\vu_{k+1}+\cdots+0\cdot\vu_n\]
+假设$r_{kk}\geq 0$（否则给$r_{kk}$和$\vu_k$同乘$-1$），令
+\[\vr_k=\begin{bmatrix}r_{k1}\\\vdots\\r_{kk}\\0\\\vdots\\0\end{bmatrix}\]
+为$R$的列，显然$R$为上三角，即可满足$\vx_k=Q\vr_k$.
 \end{analysis}
 \begin{myalgorithm}[QR分解]
 \begin{enumerate}
 	\itemsep -3pt
 	\item 先将$A$的列向量单位正交化，得到$Q$
-	\item 通过$R=IR=Q^TQR=Q^TA$计算得$R$
+	\item 通过$R=IR=Q^\T QR=Q^\T A$计算得$R$
 \end{enumerate}
 \end{myalgorithm}

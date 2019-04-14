@@ -3,27 +3,27 @@
 \section{对称矩阵与二次型}
 \subsection{谱分解}
 \begin{definition}[对称矩阵]
-$A^T=A$（显然得是方阵）
+$A^\T =A$（显然得是方阵）
 \end{definition}
 \begin{theorem}
 $A$为对称矩阵，任两个不同特征空间的特征向量一定正交
 \end{theorem}
 \begin{analysis}
 设$\vv_1,\vv_2$为不同特征值$\lambda_1,\lambda_2$对应的特征向量
-\[\begin{aligned}\lambda_1\vv_1\cdot\vv_2&=(\lambda_1\vv_1)^T\vv_2=(A\vv_1)^T\vv_2\\
-&=\vv_1^TA^T\vv_2=\vv_1^T(A\vv_2)\\
+\[\begin{aligned}\lambda_1\vv_1\cdot\vv_2&=(\lambda_1\vv_1)^\T \vv_2=(A\vv_1)^\T \vv_2\\
+&=\vv_1^\T A^\T \vv_2=\vv_1^\T (A\vv_2)\\
 &=\lambda_2\vv_1\cdot\vv_2\end{aligned}\]
 进而$(\lambda_1-\lambda_2)\vv_1\cdot\vv_2=0$，而$\lambda_1,\lambda_2$不同，故$\vv_1\cdot\vv_2=0$
 \end{analysis}
 \begin{definition}[正交对角化]
-若存在对角矩阵$D$和正交矩阵$P$使得$A=PDP^T=PDP^{-1}$，则称$A$可正交对角化
+若存在对角矩阵$D$和正交矩阵$P$使得$A=PDP^\T =PDP^{-1}$，则称$A$可正交对角化
 \end{definition}
 \begin{myalgorithm}[正交对角化]\mbox{}\par
 \begin{enumerate}
 	\itemsep -3pt
 	\item 先将矩阵一般对角化，暂不用求$P^{-1}$
 	\item 然后将$P$的列施密特\textbf{单位}正交化，使$P$变为正交矩阵
-	\item $P^T=P^{-1}$直接求得$P$的逆
+	\item $P^\T =P^{-1}$直接求得$P$的逆
 \end{enumerate}
 \end{myalgorithm}
 \begin{theorem}[谱定理]
@@ -31,20 +31,20 @@ $A$为$n\times n$的对称矩阵，则
 \begin{enumerate}
 	\itemsep -3pt
 	\item $A$有$n$个实特征值（包含重数）
-	\item $\mathrm{dim}\;W_{\lambda_i}=\lambda_i$的代数重数
+	\item $\opdim W_{\lambda_i}=\lambda_i$的代数重数
 	\item 特征空间相互正交，对应不同特征值的特征向量都正交
 	\item $A$可以被正交对角化（\textbf{充要条件}）
 \end{enumerate}
 注：正交矩阵不一定可以被正交对角化，正交对角化一定会产生正交矩阵，要理清关系.
 \end{theorem}
 \begin{theorem}[谱分解]
-$A$为对称矩阵，记正交矩阵$P$的列为$\vu_i$，则$A=\lambda_1\vu_1\vu_1^T+\lambda_2\vu_2\vu_2^T+\cdots+\lambda_n\vu_n\vu_n^T$
+$A$为对称矩阵，记正交矩阵$P$的列为$\vu_i$，则$A=\lambda_1\vu_1\vu_1^\T +\lambda_2\vu_2\vu_2^\T +\cdots+\lambda_n\vu_n\vu_n^\T $
 \end{theorem}
 \begin{definition}[投影矩阵]
 $A$是对称矩阵且$A^2=A$，则称其为投影矩阵
 \end{definition}
 \begin{proposition}
-若$A=\vu\vu^T$，其中$\vu\in\rn$为\textbf{单位}向量，则
+若$A=\vu\vu^\T $，其中$\vu\in\rn$为\textbf{单位}向量，则
 \begin{enumerate}
 	\itemsep -3pt
 	\item $A$是投影矩阵
@@ -55,43 +55,43 @@ $A$是对称矩阵且$A^2=A$，则称其为投影矩阵
 
 \subsection{奇异值分解}%7.4 奇异值分解与子空间
 \begin{theorem}
-$A^TA$的特征值均为非负数
+$A^\T A$的特征值均为非负数
 \end{theorem}
 \begin{analysis}
-$\forall\vu_i,\,\|A\vu_i\|^2=(A\vu_i)^TA\vu_i=\vu_i^T(A^TA)\vu_i=\vu_i^T\lambda_i\vu_i=\lambda_i\vu_i\cdot\vu_i=\lambda_i\|\vu_i\|\geq 0\implies \lambda_i\geq 0$，故记$\sigma_i=\sqrt{\lambda_i}=\|A\vu_i\|$为$A$的奇异值，注意这里的$\lambda_i$都为$A^TA$的特征值.
+$\forall\vu_i,\,\|A\vu_i\|^2=(A\vu_i)^\T A\vu_i=\vu_i^\T (A^\T A)\vu_i=\vu_i^\T \lambda_i\vu_i=\lambda_i\vu_i\cdot\vu_i=\lambda_i\|\vu_i\|\geq 0\implies \lambda_i\geq 0$，故记$\sigma_i=\sqrt{\lambda_i}=\|A\vu_i\|$为$A$的奇异值，注意这里的$\lambda_i$都为$A^\T A$的特征值.
 \end{analysis}
 \begin{definition}[奇异值]
-$A$的奇异值是$A^TA$的特征值的算术平方根，记为$\sigma_i:=\sqrt{\lambda_i},\forall 1\leq i\leq n$，且呈递减序列.
+$A$的奇异值是$A^\T A$的特征值的算术平方根，记为$\sigma_i:=\sqrt{\lambda_i},\forall 1\leq i\leq n$，且呈递减序列.
 \end{definition}
 \begin{theorem}
-$A$为$m\times n$矩阵，$\disp A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，假设有$r$个非零特征值，不妨设$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>\lambda_{r+1}=\cdots=\lambda_n=0$，则$\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，且$\oprank A=r$.
+$A$为$m\times n$矩阵，$\disp A^\T A=\sum_{i=1}^n\lambda_i\vu_i\vu_i^\T $，假设有$r$个非零特征值，不妨设$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>\lambda_{r+1}=\cdots=\lambda_n=0$，则$\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，且$\oprank A=r$.
 \end{theorem}
 \begin{analysis}
 $\|A\vu_i\|=\sqrt{\lambda_i}\ne 0,i=1,\dots,r$\\
-正交性：$\forall i\ne j,\,(A\vu_i)\cdot(A\vu_j)=\vu_i^TA^TA\vu_j=\lambda_j\vu_i^T\vu_j=0$\\
+正交性：$\forall i\ne j,\,(A\vu_i)\cdot(A\vu_j)=\vu_i^\T A^\T A\vu_j=\lambda_j\vu_i^\T \vu_j=0$\\
 任取$\vv\in\opcol A$，即$\exists\vx\in\rn\,s.t.\,A\vx=\vv$，其中$\vx=c_1\vu_1+\cdots+c_n\vu_n$，则$\vv=c_1A\vu_1+\cdots+c_nA\vu_n=c_1A\vu_1+\cdots+c_rA\vu_r+0+\cdots+0$，即说明$\vv$可由$\{A\vu_1,\dots,A\vu_r\}$线性表示，故证毕.
 \end{analysis}
 \begin{theorem}[奇异值分解(SVD)]
-$A$是$m\times n$的矩阵，$\oprank A=r$，则存在$m\times n$矩阵$\Sigma=\begin{bmatrix}D&O\\O&O\end{bmatrix}$，其中$D$的对角线是前$r$个$A$的奇异值，且$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$，那么存在$m\times m$正交矩阵$U$和$n\times n$正交矩阵$V$使得$A=U\Sigma V^T$.
+$A$是$m\times n$的矩阵，$\oprank A=r$，则存在$m\times n$矩阵$\Sigma=\begin{bmatrix}D&O\\O&O\end{bmatrix}$，其中$D$的对角线是前$r$个$A$的奇异值，且$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$，那么存在$m\times m$正交矩阵$U$和$n\times n$正交矩阵$V$使得$A=U\Sigma V^\T $.
 \end{theorem}
 \begin{analysis}
-设$\disp A^TA=\sum_{i=1}^n\lambda_i\vu_i\vu_i^T$，其有$r$个非零特征值，$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>0$.\\
+设$\disp A^\T A=\sum_{i=1}^n\lambda_i\vu_i\vu_i^\T $，其有$r$个非零特征值，$\lambda_1\geq\lambda_2\geq\cdots\geq\lambda_r>0$.\\
 $\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，将其标准化，得$\{\vu_1,\dots,\vu_r\}$，其中$\vu_i=\dfrac{A\vv_i}{\|A\vv_i\|}=\dfrac{1}{\sigma_i}A\vv_i$，即$A\vv_i=\sigma_i\vu_i$.\\
 将$\{\vu_1,\dots,\vu_r\}$拓展为$\mathbb{R}^m$的正交基$\{\vu_1,\dots,\vu_m\}$，令
 \[U=\begin{bmatrix}\vu_1&\cdots&\vu_m\end{bmatrix},\,V=\begin{bmatrix}\vv_1&\cdots&\vv_n\end{bmatrix}\]
 那么$U,V$均为正交矩阵，而且
-\[AV=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vb{0}\cdots\vb{0}\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vb{0}\cdots\vb{0}\end{bmatrix}\]
+\[AV=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vzero\cdots\vzero\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vzero\cdots\vzero\end{bmatrix}\]
 进而
 \[\begin{aligned}U\Sigma&=\begin{bmatrix}\vu_1&\cdots&\vu_m\end{bmatrix}\begin{bmatrix}D&O\\O&O\end{bmatrix}\\
-&=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vb{0}\cdots\vb{0}\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vb{0}\cdots\vb{0}\end{bmatrix}\\
+&=\begin{bmatrix}A\vv_1&\cdots&A\vv_r&\vzero\cdots\vzero\end{bmatrix}=\begin{bmatrix}\sigma_1\vu_1&\cdots&\sigma_r\vu_r&\vzero\cdots\vzero\end{bmatrix}\\
 &=AV\end{aligned}\]
-因为$V$为正交矩阵，故$U\Sigma V^T=AVV^T=A$.
+因为$V$为正交矩阵，故$U\Sigma V^\T =AVV^\T =A$.
 \end{analysis}
 \begin{myalgorithm}[奇异值分解]
 分为以下几个步骤
 \begin{enumerate}
 	\itemsep -3pt
-	\item 对$A^TA$正交对角化
+	\item 对$A^\T A$正交对角化
 	\item 建立起$\Sigma$和$V$
 	\item 建立起$U$
 \end{enumerate}
@@ -100,44 +100,44 @@ $\{A\vu_1,\dots,A\vu_r\}$是$\opcol A$正交基，将其标准化，得$\{\vu_1,
 
 \subsection{二次型}
 \begin{definition}[二次型]
-$Q(\vx)=\vx^TA\vx$，其中$A$是对称矩阵
+$Q(\vx)=\vx^\T A\vx$，其中$A$是对称矩阵
 \end{definition}
 将二次型合并为矩阵的写法，平方项放对角线，交叉项取一半对称写. 以三元二次型为例，观察下面各个元素的去向.
-\[\begin{aligned}Q(\vx)=\vx^TA\vx&=\begin{bmatrix}x_1&x_2&x_3\end{bmatrix}\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\
+\[\begin{aligned}Q(\vx)=\vx^\T A\vx&=\begin{bmatrix}x_1&x_2&x_3\end{bmatrix}\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\
 &=a_{11}x_1^2+a_{22}x_2^2+a_{33}x_3^2+(a_{12}+a_{21})x_1x_2+(a_{13}+a_{31})x_1x_3+(a_{23}+a_{32})x_2x_3\end{aligned}\]
 \begin{theorem}[主轴定理]
-$\vx=P\vb{y}$，存在$P$将二次型$\vx^TA\vx$转为$\vb{y}^TD\vb{y}$，其中$P$的列（$A$的单位特征向量）称为$\vx^TA\vx$的主轴.
+$\vx=P\vy$，存在$P$将二次型$\vx^\T A\vx$转为$\vy^\T D\vy$，其中$P$的列（$A$的单位特征向量）称为$\vx^\T A\vx$的主轴.
 \end{theorem}
 \begin{myalgorithm}[标准型变换]
-将矩阵$A$\textbf{正交对角化}后，得到$A=PDP^{-1}$，做变换$\vx=P\vb{y}$，可得$\vx^TA\vx=\vb{y}^TD\vb{y}$，由于$D$为对角矩阵，由上面的分析即可知变换后的二次型不存在交叉项，这种形式称为\textbf{标准型}. 又$\vx=P\vy$，令$\vy=\vb{e}_i$（变换后的主轴在坐标轴上），可得$\vx=\vu_i$，即原来的主轴为$P$的列，也即$A$的特征向量.
+将矩阵$A$\textbf{正交对角化}后，得到$A=PDP^{-1}$，做变换$\vx=P\vy$，可得$\vx^\T A\vx=\vy^\T D\vy$，由于$D$为对角矩阵，由上面的分析即可知变换后的二次型不存在交叉项，这种形式称为\textbf{标准型}. 又$\vx=P\vy$，令$\vy=\ve_i$（变换后的主轴在坐标轴上），可得$\vx=\vu_i$，即原来的主轴为$P$的列，也即$A$的特征向量.
 \end{myalgorithm}
 \begin{definition}
 对于二次型$Q(\vx)$
 \begin{enumerate}
 	\itemsep -3pt
-	\item 若$Q(\vx)>0\;\forall \vx\ne\vb{0}$，正定$\iff\forall\lambda>0$；$Q(\vx)\geq0\;\forall \vx\ne\vb{0}$，半正定
-	\item 若$Q(\vx)<0\;\forall \vx\ne\vb{0}$，负定$\iff\forall\lambda<0$；$Q(\vx)\leq0\;\forall \vx\ne\vb{0}$，半负定
+	\item 若$Q(\vx)>0\;\forall \vx\ne\vzero$，正定$\iff\forall\lambda>0$；$Q(\vx)\geq0\;\forall \vx\ne\vzero$，半正定
+	\item 若$Q(\vx)<0\;\forall \vx\ne\vzero$，负定$\iff\forall\lambda<0$；$Q(\vx)\leq0\;\forall \vx\ne\vzero$，半负定
 	\item $Q(\vx)$正负值都有，不定
 \end{enumerate}
 \end{definition}
 \begin{analysis}
-对二次型进行标准型变换使其没有交叉项，$Q(\vx)=\vx^TA\vx=\vb{y}^TD\vb{y}=\lambda_1y_1^2+\cdots+\lambda_ny_n^2$，进而得证.
+对二次型进行标准型变换使其没有交叉项，$Q(\vx)=\vx^\T A\vx=\vy^\T D\vy=\lambda_1y_1^2+\cdots+\lambda_ny_n^2$，进而得证.
 \end{analysis}
 \begin{proposition}
 \begin{enumerate}
 \itemsep -3pt
-\item $B$为$m\times n$矩阵，$B^TB$为半正定；若$B$为方阵且可逆，则$B^TB$正定.
+\item $B$为$m\times n$矩阵，$B^\T B$为半正定；若$B$为方阵且可逆，则$B^\T B$正定.
 \begin{analysis}
-$\vx^T(B^TB)\vx=\|B\vx\|\geq 0$，可逆则$B\vx=\vb{0}$只有平凡解.
+$\vx^\T (B^\T B)\vx=\|B\vx\|\geq 0$，可逆则$B\vx=\vzero$只有平凡解.
 \end{analysis}
-\item $A$为方阵且正定，那么存在一个正定方阵$B$使得$A=B^TB$
+\item $A$为方阵且正定，那么存在一个正定方阵$B$使得$A=B^\T B$
 \end{enumerate}
 \end{proposition}
 \begin{proposition}
 $A,B$均为方阵，且特征值均为正数，则$A+B$的特征值也全为正数.
 \end{proposition}
 \begin{analysis}
-$\vx^TA\vx>0,\vx^TB\vx>0\implies\vx^T(A+B)\vx>0$
+$\vx^\T A\vx>0,\vx^\T B\vx>0\implies\vx^\T (A+B)\vx>0$
 \end{analysis}
 
 \subsection{带约束的最值问题}
@@ -151,5 +151,5 @@ $\vx^TA\vx>0,\vx^TB\vx>0\implies\vx^T(A+B)\vx>0$
 $A$为$m\times n$矩阵，$\disp\min_{\|\vx\|=1}\|A\vx\|=\lambda_{\min}$，$\disp\max_{\|\vx\|=1}\|A\vx\|=\lambda_{\max}$
 \end{theorem}
 \begin{analysis}
-$\|A\vx\|^2=(A\vx)^TA\vx=\vx^T(A^TA)\vx$进而转化为二次型. 实际上$\|A\vx\|\leq\lambda\|x\|$.
+$\|A\vx\|^2=(A\vx)^\T A\vx=\vx^\T (A^\T A)\vx$进而转化为二次型. 实际上$\|A\vx\|\leq\lambda\|x\|$.
 \end{analysis}

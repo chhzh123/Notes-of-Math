@@ -6,7 +6,7 @@
 \begin{enumerate}
 	\itemsep -2pt
 	\item $\lambda$称为$A$的\textbf{特征值}，$\mathbf{x}$称为关于$\lambda$的\textbf{特征向量}
-	\item $\mathrm{Nul}\,(A-\lambda I)$称为$A$关于$\lambda$的\textbf{特征空间}
+	\item $\opnul (A-\lambda I)$称为$A$关于$\lambda$的\textbf{特征空间}
 	\item $\det\,(A-\lambda I)$称为$A$的\textbf{特征多项式}
 	\item $\lambda$的\textbf{代数重数}是它在特征多项式中作为根的重数，\textbf{几何重数}是它对应的特征空间的维度
 \end{enumerate}
@@ -22,16 +22,16 @@
 $\lambda_1,\cdots,\lambda_r$是$n\times n$矩阵$A$不同的特征值，则其对应的特征向量$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性无关.
 \end{theorem}
 \begin{analysis}
-反证，假设$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性相关.令$p$是最小的下标使得$\vb{v}_{p+1}$是之前向量的线性组合，即
-\begin{equation}\label{eq1} c_1\vb{v}_1+\cdots+c_p\vb{v}_p=\vb{v}_{p+1}\quad\end{equation}
+反证，假设$\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}$线性相关.令$p$是最小的下标使得$\vv_{p+1}$是之前向量的线性组合，即
+\begin{equation}\label{eq1} c_1\vv_1+\cdots+c_p\vv_p=\vv_{p+1}\quad\end{equation}
 左右同乘$A$，得
-\[c_1A\vb{v}_1+\cdots+c_pA\vb{v}_p=A\vb{v}_{p+1}\]
+\[c_1A\vv_1+\cdots+c_pA\vv_p=A\vv_{p+1}\]
 进而
-\begin{equation}\label{eq2} c_1\lambda_1\vb{v}_1+\cdots+c_p\lambda_p\vb{v}_p=\lambda_{p+1}\vb{v}_{p+1}\end{equation}
+\begin{equation}\label{eq2} c_1\lambda_1\vv_1+\cdots+c_p\lambda_p\vv_p=\lambda_{p+1}\vv_{p+1}\end{equation}
 将(\ref{eq1})式同乘$\lambda_{p+1}$，并与(\ref{eq2})式相减得
-\[c_1(\lambda_1-\lambda_{p+1})\vb{v}_1+\cdots+c_p(\lambda_p-\lambda_{p+1})\vb{v}_p=\vb{0}\]
+\[c_1(\lambda_1-\lambda_{p+1})\vv_1+\cdots+c_p(\lambda_p-\lambda_{p+1})\vv_p=\vzero\]
 由于$\{\mathbf{v}_1,\cdots,\mathbf{v}_p\}$线性无关，则它们的权重$c_i(\lambda_i-\lambda_{p+1})=0,\,i=1,\dots,p$.而$A$的特征值均不同，故$\lambda_i-\lambda_{p+1}\ne 0$，因而$c_i=0,\,i=1,\dots,p$.\\
-但由(\ref{eq1})又推出$\vb{v}_{p+1}=\vb{0}$，与特征向量的定义矛盾，故假设不成立.
+但由(\ref{eq1})又推出$\vv_{p+1}=\vzero$，与特征向量的定义矛盾，故假设不成立.
 \end{analysis}
 \begin{proposition}特征值与矩阵运算
 \begin{enumerate}
@@ -53,14 +53,14 @@ $\lambda_1,\cdots,\lambda_r$是$n\times n$矩阵$A$不同的特征值，则其�
 $n\times n$矩阵$A$可对角化当且仅当$A$有$n$个线性无关的特征向量.
 \end{theorem}
 \begin{analysis}\mbox{}\\
-$1\degree\,$必要性：$A$可对角化，即$A=PDP^{-1}$，$D$为对角矩阵，也即$AP=PD$.设$P=\bmat{\vb{v}_1}{\vb{v}_n}$，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$（注意这里$\vb{v}_i$只是$P$的列，还不是特征向量；同样$\lambda_i$也还不是$A$的特征值）.则
-\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=PD=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}\]
-进而$A\vb{v}_i=\lambda_i\vb{v}_i$，$\lambda_i$为$A$的特征值，又$\vb{v}_i\ne 0$，$\vb{v}_i$为$\lambda_i$对应的特征向量.\\
+$1\degree\,$必要性：$A$可对角化，即$A=PDP^{-1}$，$D$为对角矩阵，也即$AP=PD$.设$P=\bmat{\vv_1,\ldots,\vv_n}$，$D=\bmat{\lambda_1\ve_1,\ldots,\lambda_n\ve_n}$（注意这里$\vv_i$只是$P$的列，还不是特征向量；同样$\lambda_i$也还不是$A$的特征值）.则
+\[AP=\bmat{A\vv_1,\ldots,A\vv_n}=PD=\bmat{\lambda_1\vv_1,\ldots,\lambda_n\vv_n}\]
+进而$A\vv_i=\lambda_i\vv_i$，$\lambda_i$为$A$的特征值，又$\vv_i\ne 0$，$\vv_i$为$\lambda_i$对应的特征向量.\\
 由于$P$可逆，故$P$的列，也即$A$的特征向量线性无关.\\
-$2\degree\,$充分性：令$P=\bmat{\vb{v}_1}{\vb{v}_n}$，其中$\vb{v}_i$为$\lambda_i$对应的特征向量，$D=\bmat{\lambda_1\vb{e}_1}{\lambda_n\vb{e}_n}$，其中$\lambda_i$为$A$的特征向量.那么\\
-\[AP=\bmat{A\vb{v}_1}{A\vb{v}_n}=\bmat{\lambda_1\vb{v}_1}{\lambda_n\vb{v}_n}=PD\]
-因为$\vb{v}_i$线性无关，故$P$可逆，进而$A=PDP^{-1}$.\\
-注：从以上构造可以知道$\lambda$相同并不影响对角矩阵的构造，但是$\vb{v}$相同则无法保证线性无关.
+$2\degree\,$充分性：令$P=\bmat{\vv_1,\ldots,\vv_n}$，其中$\vv_i$为$\lambda_i$对应的特征向量，$D=\bmat{\lambda_1\ve_1,\ldots,\lambda_n\ve_n}$，其中$\lambda_i$为$A$的特征向量.那么\\
+\[AP=\bmat{A\vv_1,\ldots,A\vv_n}=\bmat{\lambda_1\vv_1,\ldots,\lambda_n\vv_n}=PD\]
+因为$\vv_i$线性无关，故$P$可逆，进而$A=PDP^{-1}$.\\
+注：从以上构造可以知道$\lambda$相同并不影响对角矩阵的构造，但是$\vv$相同则无法保证线性无关.
 \end{analysis}
 \begin{theorem}
 若$n\times n$矩阵$A$有$n$个不同的特征值，则$A$可对角化.
@@ -73,8 +73,8 @@ $2\degree\,$充分性：令$P=\bmat{\vb{v}_1}{\vb{v}_n}$，其中$\vb{v}_i$为$\
 	\itemsep -3pt
 	\item 找到$A$的特征值
 	\item 找到$A$的线性无关特征向量
-	\item 构造$P$，其中$P=\bmat{\mathbf{v}_1}{\mathbf{v}_n}$
-	\item 构造$D$，其中$D=\bmat{\lambda_1\mathbf{e}_1}{\lambda_n\mathbf{e}_n}$
+	\item 构造$P$，其中$P=\bmat{\mathbf{v}_1,\ldots,\mathbf{v}_n}$
+	\item 构造$D$，其中$D=\bmat{\lambda_1\mathbf{e}_1,\ldots,\lambda_n\mathbf{e}_n}$
 \end{enumerate}
 \end{myalgorithm}
 注：对角化不是唯一的，会随着特征值摆放位置、特征向量的不同而改变. 可逆与可对角化没有必然联系.
@@ -89,7 +89,7 @@ $A$是$n\times n$矩阵，$\lambda_1,\cdots,\lambda_p$是$A$不同的特征值�
 \end{theorem}
 \begin{theorem}[线性变换矩阵]
 \label{linear_trans_tot}
-$\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$为向量空间$V$的基，$\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_m\}$为向量空间$W$的基，线性变换$T:V\to W$，存在唯一$m\times n$矩阵$M$使得
+$\mathcal{B}=\{\vb_1,\dots,\vb_n\}$为向量空间$V$的基，$\mathcal{C}=\{\vb{c}_1,\dots,\vb{c}_m\}$为向量空间$W$的基，线性变换$T:V\to W$，存在唯一$m\times n$矩阵$M$使得
 \[[T(\vx)]_\mathcal{C}=M[\vx]_\mathcal{B},\,\forall\vx\in V\]
 其中
 \[M=\begin{bmatrix}[T(\mathbf{b}_1)]_\mathcal{C}&[T(\mathbf{b}_2)]_\mathcal{C}&\cdots&[T(\mathbf{b}_n)]_\mathcal{C}\end{bmatrix}\]
@@ -98,35 +98,35 @@ $\mathcal{B}=\{\vb{b}_1,\dots,\vb{b}_n\}$为向量空间$V$的基，$\mathcal{C}
 \begin{enumerate}
 	\itemsep -1pt
 	\item $T$的标准矩阵 (standard matrix for $T$)\\
-	$A=\bmat{T(\vb{e}_1)}{T(\vb{e}_n)}$，当$V=W=\rn,\mathcal{B}=\mathcal{C}=\mathcal{E}$（$\rn$中的标准基）
+	$A=\bmat{T(\ve_1),\ldots,T(\ve_n)}$，当$V=W=\rn,\mathcal{B}=\mathcal{C}=\mathcal{E}$（$\rn$中的标准基）
 	\item $T$的$\mathcal{B}$矩阵 (the matrix for $T$ relative to $\mathcal{B}$, or the $\mathcal{B}$-matrix for $T$)\\
-	$[T]_{\mathcal{B}}=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}$，当$V=W,\mathcal{B}=\mathcal{C}$
+	$[T]_{\mathcal{B}}=\bmat{[T(\mathbf{b}_1)]_\mathcal{B},\ldots,[T(\mathbf{b}_n)]_\mathcal{B}}$，当$V=W,\mathcal{B}=\mathcal{C}$
 	\item 坐标变换矩阵 (change-of-coordinates matrix)，右乘坐标可以将坐标变换成具体的$\vx$\\
-	$P_\mathcal{B}=\bmat{\vb{b}_1}{\vb{b}_n}$，当$V=W=\rn,\mathcal{C}=\mathcal{E}$，$T(\vx)=\vx$
+	$P_\mathcal{B}=\bmat{\vb_1,\ldots,\vb_n}$，当$V=W=\rn,\mathcal{C}=\mathcal{E}$，$T(\vx)=\vx$
 	\item 过渡矩阵/$\mathcal{B}$到$\mathcal{C}$的坐标变换矩阵 (change-of-coordinates matrix from $\mathcal{B}$ to $\mathcal{C}$)\\
-	$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\bmat{[\vb{b}_1]_{\mathcal{C}}}{[\vb{b}_n]_{\mathcal{C}}}$，当$V=W$，$T(\vx)=\vx$
+	$\underset{\mathcal{C}\gets \mathcal{B}}{P}=\bmat{[\vb_1]_{\mathcal{C}},\ldots,[\vb_n]_{\mathcal{C}}}$，当$V=W$，$T(\vx)=\vx$
 \end{enumerate}
 \end{theorem}
 \begin{analysis}
 $1\degree\;$存在性：
-\[\begin{aligned} [T(\vx)]_{\mathcal{C}}&= [T(x_1\vb{b}_1+\cdots+x_n\vb{b}_n)]_{\mathcal{C}}\\
-&= x_1[T(\vb{b}_1)]_{\mathcal{C}}+\cdots+x_n[T(\vb{b}_n)]_{\mathcal{C}}\\
-&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
-&= \bmat{[T(\vb{b}_1)]_{\mathcal{C}}}{[T(\vb{b}_n)]_{\mathcal{C}}}[\vx]_{\mathcal{B}}\\
+\[\begin{aligned} [T(\vx)]_{\mathcal{C}}&= [T(x_1\vb_1+\cdots+x_n\vb_n)]_{\mathcal{C}}\\
+&= x_1[T(\vb_1)]_{\mathcal{C}}+\cdots+x_n[T(\vb_n)]_{\mathcal{C}}\\
+&= \bmat{[T(\vb_1)]_{\mathcal{C}},\ldots,[T(\vb_n)]_{\mathcal{C}}}\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}\\
+&= \bmat{[T(\vb_1)]_{\mathcal{C}},\ldots,[T(\vb_n)]_{\mathcal{C}}}[\vx]_{\mathcal{B}}\\
 &= M[\vx]_{\mathcal{B}}
 \end{aligned}\]
 $2\degree\;$唯一性：
-设存在另一矩阵$M'$使得$[T(\vx)]_{\mathcal{C}}=M'[\vx]_{\mathcal{B}}$，故$M[\vx]_{\mathcal{B}}=M'[\vx]_{\mathcal{B}}$，令$\vx=\vb{b}_i$即得$M=M'$
+设存在另一矩阵$M'$使得$[T(\vx)]_{\mathcal{C}}=M'[\vx]_{\mathcal{B}}$，故$M[\vx]_{\mathcal{B}}=M'[\vx]_{\mathcal{B}}$，令$\vx=\vb_i$即得$M=M'$
 \end{analysis}
 \begin{proposition}
 若$A=PDP^{-1}$，$D$是$n\times n$的对角矩阵，若$\mathcal{B}$是$\opcol P$的一组基，则$D$是线性变换$\vx\mapsto A\vx$的$\mathcal{B}$-矩阵.
 \end{proposition}
 \begin{analysis}
 \[\begin{aligned}
-[T]_{\mathcal{B}}&=\bmat{[T(\mathbf{b}_1)]_\mathcal{B}}{[T(\mathbf{b}_n)]_\mathcal{B}}\\
-&=\bmat{[A\vb{b}_1]_\mathcal{B}}{[A\vb{b}_n]_\mathcal{B}}\\
-&=\bmat{P^{-1}A\vb{b}_1}{P^{-1}A\vb{b}_n}\quad\mbox{坐标变换}\\
-&=P^{-1}A\bmat{\vb{b}_1}{\vb{b}_n}\\
+[T]_{\mathcal{B}}&=\bmat{[T(\mathbf{b}_1)]_\mathcal{B},\ldots,[T(\mathbf{b}_n)]_\mathcal{B}}\\
+&=\bmat{[A\vb_1]_\mathcal{B},\ldots,[A\vb_n]_\mathcal{B}}\\
+&=\bmat{P^{-1}A\vb_1,\ldots,P^{-1}A\vb_n}\quad\mbox{坐标变换}\\
+&=P^{-1}A\bmat{\vb_1,\ldots,\vb_n}\\
 &=P^{-1}AP=D
 \end{aligned}\]
 求解方法$\begin{bmatrix}P&AP\end{bmatrix}\thicksim\begin{bmatrix}I&P^{-1}AP\end{bmatrix}$. 由上面分析知$D$不需是对角矩阵，只要$A$与$D$相似即可.
@@ -139,7 +139,7 @@ $2\degree\;$唯一性：
 \begin{tabular}{cp{1cm}<{\centering}p{1.4cm}<{\centering}}
 $\vx$ & $\xrightarrow{\quad\text{乘}A\quad}$ & $A\vx$\\
 $\xdownarrow{0.8cm}\mathllap{\scriptstyle\text{乘}P^{-1}\quad}$ &  & $\quad\mathrlap{\xuparrow{0.8cm}}{\scriptstyle\quad\text{乘}P}$\\
-$[\vb{x}]_{\mathcal{B}}$ & $\xrightarrow{\quad\text{乘}D\quad}$ & $[A\vb{x}]_{\mathcal{B}}$
+$[\vx]_{\mathcal{B}}$ & $\xrightarrow{\quad\text{乘}D\quad}$ & $[A\vx]_{\mathcal{B}}$
 \end{tabular}
 \end{center}
 \end{table}

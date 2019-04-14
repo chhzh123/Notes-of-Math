@@ -7,12 +7,12 @@
 	\item 解线性方程组（高斯消元法）
 	\item 方程组无解、唯一解、多解的判断，与主元列、主元位置的关系\\
 		解的\textbf{存在性}：看每一列是否都有主元位置\\
-		解的\textbf{唯一性}：看有无自由变元（$A\vx=\vb{0}$是否有\textbf{非平凡解}同样看自由变元）
-	\item \textbf{齐次方程}$A\vx=\vb{0}$解的参数表示\\
-		\textbf{非齐次方程}$A\vx=\vb{b}$解的形式为$\vx=\vb{p}+t\vb{v},t\in\mathbb{R}$，即非齐通解$=$齐通解$+$非齐特解，但要注意首先得有解\\
+		解的\textbf{唯一性}：看有无自由变元（$A\vx=\vzero$是否有\textbf{非平凡解}同样看自由变元）
+	\item \textbf{齐次方程}$A\vx=\vzero$解的参数表示\\
+		\textbf{非齐次方程}$A\vx=\vb$解的形式为$\vx=\vp+t\vv,t\in\mathbb{R}$，即非齐通解$=$齐通解$+$非齐特解，但要注意首先得有解\\
 		这两种方程的具体比较见\ref{nul_and_col}节
 	\item 线性相关与线性无关\\
-	要判定一组向量是线性相关还是线性无关，即判断$A\vx=\vb{0}$是否有非平凡解
+	要判定一组向量是线性相关还是线性无关，即判断$A\vx=\vzero$是否有非平凡解
 	\item 基本矩阵运算（加减乘除、求逆、转置）
 \end{enumerate}
 \begin{definition}[基本行变换/初等矩阵变换]
@@ -24,23 +24,23 @@
 \par 下面是线性无关线性相关一些常见的结论.
 \begin{theorem}
 \label{linear_relationship}
-$S=\{\vb{v}_1,\dots,\vb{v}_p\},|S|>1$
+$S=\{\vv_1,\dots,\vv_p\},|S|>1$
 \begin{partlist}
 	\item $S$线性相关，当且仅当至少有一向量可以表示为其他向量的线性组合（注意\textbf{不是}每一个）
-	\item 若$S$线性相关，$\vb{v}_1\ne 0$，那么$\exists\vb{v}_j,j>1$可以被表示为$\vb{v}_1,\dots,\vb{v}_{j-1}$的线性组合
+	\item 若$S$线性相关，$\vv_1\ne 0$，那么$\exists\vv_j,j>1$可以被表示为$\vv_1,\dots,\vv_{j-1}$的线性组合
 	\item 若$S$的子集$S'$线性相关，则$S$线性相关；若$S$线性无关，则$S'$线性无关（注意关系不能颠倒）
 	\item 初等行变换不改变\textbf{列}之间的线性相关关系
 \end{partlist}
 \end{theorem}
 \begin{analysis}
-记$A=\bmat{\vb{v}_1}{\vb{v}_n}$，$B\thicksim A$为$A$的阶梯形
+记$A=\bmat{\vv_1,\ldots,\vv_n}$，$B\thicksim A$为$A$的阶梯形
 \begin{partlist}
-	\item \label{enu1a}必要性：即$\exists c_1,\dots,c_n$不全为$0$，使得$c_1\vb{v}_1+\cdots+c_n\vb{v}_n=\vb{0}$.\\
-	不妨设$c_1\ne 0$，则$\vb{v}_1=(-\dfrac{c_2}{c_1})\vv_2+\cdots+(-\dfrac{c_n}{c_1})\vb{v}_n$，证毕.\\
-	充分性：不妨设$\vb{v}_1=c_2\vb{v}_2+\cdots+c_n\vb{v}_n$，移项得$(-1)\vb{v}_1+c_2\vb{v}_2+\cdots+c_n\vb{v}_n=\vb{0}$.
-	\item 用(\ref{enu1a})的结论，设$\vb{v}_p=c_1\vb{v}_1+\cdots+c_{p-1}\vb{v}_{p-1}+c_{p+1}\vb{v}_{p+1}+\cdots+c_n\vb{v}_n,p>1$，找出最大的$j$使得$c_j\ne 0$（$\vb{v}_p$的系数$c_p=-1$也计入），进而$c_1\vb{v}_1+\cdots+c_j\vb{v}_j=\vb{0}$，接下来证明方法与(\ref{enu1a})相同，$\vb{v}_j$即为所求.
+	\item \label{enu1a}必要性：即$\exists c_1,\dots,c_n$不全为$0$，使得$c_1\vv_1+\cdots+c_n\vv_n=\vzero$.\\
+	不妨设$c_1\ne 0$，则$\vv_1=(-\dfrac{c_2}{c_1})\vv_2+\cdots+(-\dfrac{c_n}{c_1})\vv_n$，证毕.\\
+	充分性：不妨设$\vv_1=c_2\vv_2+\cdots+c_n\vv_n$，移项得$(-1)\vv_1+c_2\vv_2+\cdots+c_n\vv_n=\vzero$.
+	\item 用(\ref{enu1a})的结论，设$\vv_p=c_1\vv_1+\cdots+c_{p-1}\vv_{p-1}+c_{p+1}\vv_{p+1}+\cdots+c_n\vv_n,p>1$，找出最大的$j$使得$c_j\ne 0$（$\vv_p$的系数$c_p=-1$也计入），进而$c_1\vv_1+\cdots+c_j\vv_j=\vzero$，接下来证明方法与(\ref{enu1a})相同，$\vv_j$即为所求.
 	\item 因两者互为逆否命题，故只用证前者，而前者通过不断扩充$S'$并令扩充部分的权重全为$0$即可.
-	\item $A\vx=\vb{0}$与$B\vx=\vb{0}$有相同的解，故线性相关关系不会改变.
+	\item $A\vx=\vzero$与$B\vx=\vzero$有相同的解，故线性相关关系不会改变.
 \end{partlist}
 \end{analysis}
 
@@ -56,9 +56,9 @@ $A$是$m\times n$矩阵，若存在$n\times m$矩阵$C$和$D$使得$CA=I_n$，$A
 \begin{analysis}
 这个定理告诉我们只有方阵才会存在逆，下面来证明.\\
 $1\degree\;$证明若$CA=I_n$，则$m\geq n$\\
-因为$CA\vx=I_n\vx=\vx=\vb{0}$，故$A\vx=\vb{0}$只有平凡解，没有自由变元，因此$m\geq n$.\\
+因为$CA\vx=I_n\vx=\vx=\vzero$，故$A\vx=\vzero$只有平凡解，没有自由变元，因此$m\geq n$.\\
 $2\degree\;$证明若$AD=I_m$，则$m\leq n$\\
-因为$AD\vb{b}=I_m\vb{b}=\vb{b}$，也即$\forall \vb{b}\in\mathbb{R}^m,\,A\vx=\vb{b}$都有解$\vx=D\vb{b}$，因此$m\leq n$.\\
+因为$AD\vb=I_m\vb=\vb$，也即$\forall \vb\in\mathbb{R}^m,\,A\vx=\vb$都有解$\vx=D\vb$，因此$m\leq n$.\\
 $3\degree\;$由上分析知，$m=n$.\\
 考虑乘积$CAD$，有$CAD=(CA)D=I_nD=D=C(AD)=CI_m=C$，故$C=D$.
 \end{analysis}
@@ -84,9 +84,9 @@ d&-b\\-c&a
 \begin{analysis}
 在命题\ref{row_redu_alg}中令$A\gets I,\,B\gets A,\,C\gets A^{-1}$即可.
 \end{analysis}
-若令$A^{-1}=\bmat{\vx_1}{\vx_n}$，那么也可以将上述求逆过程看成是解下面的这个方程组
-\[A\vx_1=\vb{e}_1,\quad A\vx_2=\vb{e}_2,\quad\dots,\quad A\vx_n=\vb{e}_n\]
-其说明的是矩阵$A$乘上$A^{-1}$的第$i$列，将得到$I_n$的第$i$列，也即$\vb{e}_i$.
+若令$A^{-1}=\bmat{\vx_1,\ldots,\vx_n}$，那么也可以将上述求逆过程看成是解下面的这个方程组
+\[A\vx_1=\ve_1,\quad A\vx_2=\ve_2,\quad\dots,\quad A\vx_n=\ve_n\]
+其说明的是矩阵$A$乘上$A^{-1}$的第$i$列，将得到$I_n$的第$i$列，也即$\ve_i$.
 \par 虽然只是变换了视角，但对于一些问题来说这种视角的变换是重要的.
 \newpage
 \begin{theorem}[可逆阵定理]
@@ -96,24 +96,24 @@ d&-b\\-c&a
 	\item $A$可逆
 	\item $A\thicksim I_n$
 	\item $A$有$n$个主元位置
-	\item $A\vx=\vb{0}$只有平凡解
+	\item $A\vx=\vzero$只有平凡解
 	\item $A$的列线性无关
 	\item $\vx\mapsto A\vx$是单射
-	\item $A\vx=\vb{b},\forall b\in\mathbb{R}^n$至少有一解
+	\item $A\vx=\vb,\forall b\in\mathbb{R}^n$至少有一解
 	\item $A$的列张成$\mathbb{R}^n$
 	\item $\vx\mapsto A\vx$是满射
 	\item $\exists\;n\times n\;C\,s.t.\,CA=I$
 	\item $\exists\;n\times n\;D\,s.t.\,AD=I$
-	\item $A^T$可逆
+	\item $A^\T$可逆
 	\item $A$的列构成$\rn$的一组基
 	\item $\opcol A=\rn$
 	\item $\opdim\opcol A=n$
 	\item $\oprank A=n$（满秩）
-	\item $\opnul A=\{\vb{0}\}$
+	\item $\opnul A=\{\vzero\}$
 	\item $\opdim\opnul A=0$
 	\item $0$\textbf{不是}$A$的特征值
 	\item $\det A\ne 0$
-	\item $(\opcol A)^\perp=\opnul A^T=\{\vb{0}\}$
+	\item $(\opcol A)^\perp=\opnul A^\T=\{\vzero\}$
 	\item $(\opnul A)^\perp=\oprow A=\rn$
 	\item $\oprow A=\rn$
 	\item $A$有$n$个非零奇异值
@@ -149,12 +149,12 @@ $C=AB\implies I=BC^{-1}A\implies A^{-1}=BC^{-1}$，$B$同理. 而后面一句为
 
 \subsection{分块矩阵}
 \par 需要知道矩阵乘法另外的表示方法
-\[AB=A\bmat{\vb{b}_1}{\vb{b}_n}=\bmat{A\vb{b}_1}{A\vb{b}_n}\]
+\[AB=A\bmat{\vb_1,\ldots,\vb_n}=\bmat{A\vb_1,\ldots,A\vb_n}\]
 类似地，分块矩阵有
-\[AB=\bmat{\vb{a}_1}{\vb{a}_n}\begin{bmatrix}\vb{b}_1\\\vdots\\\vb{b}_n\end{bmatrix}=\sum_{i=1}^n\vb{a}_i\vb{b}_i\]
+\[AB=\bmat{\va_1,\ldots,\va_n}\begin{bmatrix}\vb_1\\\vdots\\\vb_n\end{bmatrix}=\sum_{i=1}^n\va_i\vb_i\]
 注意区别正常的矩阵乘法（行乘列得到某一位置上的元素），分块矩阵乘法是列乘行得到矩阵.
 \par 分块矩阵的转置除了每一个矩阵转置外，大的矩阵内部也需要转，如
-\[A=\begin{bmatrix}A_{11}&A_{12}\\A_{21}&A_{22}\end{bmatrix}\implies A^T=\begin{bmatrix}A_{11}^T&A_{21}^T\\A_{12}^T&A_{22}^T\end{bmatrix}\]
+\[A=\begin{bmatrix}A_{11}&A_{12}\\A_{21}&A_{22}\end{bmatrix}\implies A^\T=\begin{bmatrix}A_{11}^\T&A_{21}^\T\\A_{12}^\T&A_{22}^\T\end{bmatrix}\]
 \par 分块矩阵求逆并不是每一块分别求逆简单合并即可，而是需要将逆设出来，乘开后通过对比系数来求. 如下面定理\ref{part_inverse}所示.
 \begin{theorem}
 \label{part_inverse}
@@ -190,7 +190,7 @@ $A=\begin{bmatrix}B&O \\ O&C\end{bmatrix}$，$B,C$均为方阵，则$A$可逆，
 \[A=\begin{bmatrix}1&0&0&\cdots&0\\1&1&0& &0\\1&1&1& &0\\\vdots& & &\ddots& &\\1&1&1&\cdots&1\end{bmatrix},\,\text{证明}B=\begin{bmatrix}1&0&0&\cdots&0\\-1&1&0& &0\\0&-1&1& &0\\\vdots& &\ddots &\ddots& &\\0& &\cdots&-1&1\end{bmatrix}\text{为$A$的逆}\]
 \end{example}
 \begin{analysis}
-递归定义分块矩阵：$A_{k+1}=\begin{bmatrix}1&\vb{0}^T\\\vb{v}&A_k\end{bmatrix},\,B_{k+1}=\begin{bmatrix}1&\vb{0}^T\\\vb{w}&B_k\end{bmatrix}$，并用数学归纳法可证.
+递归定义分块矩阵：$A_{k+1}=\begin{bmatrix}1&\vzero^\T\\\vv&A_k\end{bmatrix},\,B_{k+1}=\begin{bmatrix}1&\vzero^\T\\\vw&B_k\end{bmatrix}$，并用数学归纳法可证.
 \end{analysis}
 \begin{theorem}
 两个上（下）三角矩阵的乘积仍为上（下）三角
@@ -213,7 +213,7 @@ $A=\begin{bmatrix}B&O \\ O&C\end{bmatrix}$，$B,C$均为方阵，则$A$可逆，
 \subsection{行列式}
 \begin{proposition}[行列式的基本运算]\mbox{}\par
 \begin{enumerate}
-	\item $\det A^T=\det A$
+	\item $\det A^\T=\det A$
 	\item $\det AB=(\det A)(\det B)=\det BA$
 	\item \label{det3}$\det A^{-1}=\dfrac{1}{\det A}$
 	\item $\det A^k=(\det A)^k$（如果把矩阵的逆看成$-1$次幂，那就是\ref{det3}式）
@@ -232,24 +232,24 @@ $A$为$n\times n$的矩阵，称$C_{ij}=(-1)^{i+j}\det A_{ij}$为$(i,j)$的代�
 \end{theorem}
 特别地，若$A$是三角矩阵，则$\det A=$主对角线上元素的积（因对第一行或第一列展开，形式不变）.
 \begin{theorem}[克莱姆(Cramer)法则]
-$A\vx=\vb{b}$，则$\vx_i=\dfrac{\det A_i(\vb{b})}{\det A}$，其中\[\det A_i(\vb{b})=\Big[\vb{a}_1\quad\cdots\quad\vb{b}^{\disp\swarrow\raisebox{0.5em}{$\mathrm{col}\;i$}}\quad\cdots\quad\vb{a}_n\Big]\]
+$A\vx=\vb$，则$\vx_i=\dfrac{\det A_i(\vb)}{\det A}$，其中\[\det A_i(\vb)=\Big[\va_1\quad\cdots\quad\vb^{\disp\swarrow\raisebox{0.5em}{$\mathrm{col}\;i$}}\quad\cdots\quad\va_n\Big]\]
 \end{theorem}
 \begin{analysis}直接构造
-\[AI_i(\vb{b})=A\begin{bmatrix}\vb{e}_1&\cdots&\vb{b}&\cdots&\vb{e}_n\end{bmatrix}=\begin{bmatrix}A\vb{a}_1&\cdots& A\vb{b}&\cdots& A\vb{a}_n\end{bmatrix}\]
+\[AI_i(\vb)=A\begin{bmatrix}\ve_1&\cdots&\vb&\cdots&\ve_n\end{bmatrix}=\begin{bmatrix}A\va_1&\cdots& A\vb&\cdots& A\va_n\end{bmatrix}\]
 左右两边取$\det$得
-\[\det AI_i(\vb{b})=(\det A)(\det I_i(\vb{b}))=(\det A)\vx_i=\det A_i(\vb{b})\]
+\[\det AI_i(\vb)=(\det A)(\det I_i(\vb))=(\det A)\vx_i=\det A_i(\vb)\]
 \end{analysis}
 \begin{theorem}
 若$A$可逆，则$A^{-1}=\dfrac{1}{\det A}\mathrm{adj}\,A$，其中共轭/伴随矩阵$(\mathrm{adj}\,A)_{ij}=C_{ji}$\\
 注意：共轭矩阵元素下标与代数余子式下标不同.
 \end{theorem}
-\begin{analysis}求逆算法换个角度思考，记$B=A^{-1}$的第$j$列为$\vb{b}_j$，则$A\vb{b}_j=\vb{e}_j$，\\
-又记第$i$个元素为$b_{ij}$，则由克莱姆法则，$b_{ij}=\dfrac{\det A_i(\vb{e}_j)}{\det A}$，分子
-\[\det A_i(\vb{e}_j)=(-1)^{j+i}\det A_{ji}=C_{ji}\]
+\begin{analysis}求逆算法换个角度思考，记$B=A^{-1}$的第$j$列为$\vb_j$，则$A\vb_j=\ve_j$，\\
+又记第$i$个元素为$b_{ij}$，则由克莱姆法则，$b_{ij}=\dfrac{\det A_i(\ve_j)}{\det A}$，分子
+\[\det A_i(\ve_j)=(-1)^{j+i}\det A_{ji}=C_{ji}\]
 （对第$i$列进行展开，除了第$j$行为$1$，其余行均为$0$），得证.
 \end{analysis}
 \begin{theorem}[行列式的线性性]
-记$T:\rn\to\mathbb{R}$，$T(\vx)=\det\begin{bmatrix}\vb{a}_1&\cdots&\vb{a}_{j-1}&\vx&\vb{a}_{j+1}&\cdots&\vb{a}_n\end{bmatrix}$，则$T$为线性变换.\\
+记$T:\rn\to\mathbb{R}$，$T(\vx)=\det\begin{bmatrix}\va_1&\cdots&\va_{j-1}&\vx&\va_{j+1}&\cdots&\va_n\end{bmatrix}$，则$T$为线性变换.\\
 注：这里的线性性只是针对行列式中的一列可变来说的，若整个行列式都可变，则不一定有$\det (A+B)=\det A+\det B$.
 \end{theorem}
 \begin{theorem}[线性变换与体积变化]
