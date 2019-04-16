@@ -88,45 +88,44 @@ $x^\star$最优，$Ax^\star=b,\forall y Ay=b$
 \end{analysis}
 
 \subsection{线性规划}
-\[\begin{aligned}
-&\min &c^\T\vx+\vd\\
-&\text{s.t.} & G\vx\leq\vh\\
-& & A\vx=\vb
-\end{aligned}\]
-\[\begin{aligned}
-&\min &c^\T\vx+\vd\\
-&\text{s.t.} & G\vx+\vs=\vh\\\
-& & A\vx=\vb\\
-& & \vs\geq 0
-\end{aligned}\]
+\begin{mini*}
+	{}{c^\T\vx+\vd}{}{}
+	\addConstraint{G\vx}{\leq\vh}
+	\addConstraint{A\vx}{\vb}
+\end{mini*}
+\begin{mini*}
+	{}{c^\T\vx+\vd}{}{}
+	\addConstraint{G\vx+\vs}{\vh}
+	\addConstraint{\vs}{\geq 0}
+\end{mini*}
 $\vs$为松弛变量(slack variable)\\
 用$\vx^+$和$\vx^-$拆分，得到$\vx=\vx^+-\vx^-,\vx^+\geq 0,\vx^-\geq 0,\vs\geq 0$
 
 \begin{example}[食谱问题]
 $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j},\ldots,a_{mj}$，食物量$x_1,\ldots,x_n$，价格$c_1,\ldots,c_n$
-\[\begin{aligned}
-& \min & \sum_{i=1}^n c_jx_j\\
-& \text{s.t.} & \sum_{j=1}^n a_{ij}x_j\geq b_i\\
-& & x_j\geq 0
-\end{aligned}\]
+\begin{mini*}
+	{}{\sum_{i=1}^n c_jx_j}{}{}
+	\addConstraint{\sum_{j=1}^n a_{ij}x_j}{\geq b_i}
+	\addConstraint{x_j}{\geq 0}
+\end{mini*}
 其中$i=1,\ldots,m,j=1,\ldots,n$
 \end{example}
 
 % 3.21
 线性分数规划
-\[\begin{aligned}
-& \min & f_0(x)=\frac{c^\T x+d}{e^\T x+f}, \dom f=\{x \mid e^\T x + f >0 \}\\
-& \text{s.t.} & Gx\leq h\\
-& & Ax=b
-\end{aligned}\]
+\begin{mini*}
+	{}{f_0(x)=\frac{c^\T x+d}{e^\T x+f}, \dom f=\{x \mid e^\T x + f >0 \}}{}{}
+	\addConstraint{Gx}{\leq h}
+	\addConstraint{Ax}{=b}
+\end{mini*}
 等价于
-\[\begin{aligned}
-	& \min & c^\T y+dz\\
-	& \text{s.t.} & Gy-hz\leq 0\\
-	& & Ay-bz= 0\\
-	& & e^\T y+fz=1\\
-	& z\geq 0
-\end{aligned}\]
+\begin{mini*}
+	{}{c^\T y+dz}{}{}
+	\addConstraint{Gy-hz}{\leq 0}
+	\addConstraint{Ay-bz}{=0}
+	\addConstraint{e^\T y+fz}{=1}
+	\addConstraint{z}{\geq 0}
+\end{mini*}
 \begin{analysis}
 	证明两个问题等价，$P_0$与$P_1$\\
 	若$x$在$P_0$内可行
@@ -140,24 +139,24 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 \end{analysis}
 
 二次规划(Quadratic Programming)
-\[\begin{aligned}
-	& \min & \frac{1}{2}x^\T px+q^\T+r,\;p\succ 0\\
-	& \text{s.t.} & Gx\leq h\\
-	& & Ax=b
-\end{aligned}\]
+\begin{mini*}
+	{}{\frac{1}{2}x^\T px+q^\T+r,\;p\succ 0}{}{}
+	\addConstraint{Gx}{\leq h}
+	\addConstraint{Ax}{=b}
+\end{mini*}
 
 二次约束二次规划(QCQP)
-\[\begin{aligned}
-	& \min & \frac{1}{2}p_0x+q_0^\T x+r_0,p\succ 0\\
-	& \text{s.t.} & \frac{1}{2}x^\T p_ix+q_i^\T x+r_i\leq 0,i=1,\ldots,m,p_i\succ 0\\
-	& & Ax=b
-\end{aligned}\]
+\begin{mini*}
+	{}{\frac{1}{2}p_0x+q_0^\T x+r_0,p\succ 0}{}{}
+	\addConstraint{\frac{1}{2}x^\T p_ix+q_i^\T x+r_i}{\leq 0}{,i=1,\ldots,m,p_i\succ 0}
+	\addConstraint{Ax}{=b}
+\end{mini*}
 
 最小二乘问题
-\[\begin{aligned}
-	& \min_x & \frac{1}{2}\|Ax-b\|_2^2\\
-	& \text{s.t.} & b=Ax+e
-\end{aligned}\]
+\begin{mini*}
+	{x}{\frac{1}{2}\|Ax-b\|_2^2}{}{}
+	\addConstraint{Ax+e}{=b}
+\end{mini*}
 \[\frac{1}{2}(x^\T A^\T Ax-2b^\T Ax+b^\T b)\]
 
 一范数规范化最小二乘
@@ -168,53 +167,53 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 \[\|x\|_1=\vone^\T\vx^++\vone^\T\vx^-\]
 
 Basic Pursuit
-\[\begin{aligned}
-	& \min & \frac{1}{2}\|Ax-b\|_2^2\\
-	& \text{s.t.} & \|x\|_1\leq\eps_1
-\end{aligned}\]
+\begin{mini*}
+	{}{\frac{1}{2}\|Ax-b\|_2^2}{}{}
+	\addConstraint{\|x\|_1}{\leq\eps_1}
+\end{mini*}
 原式很难平衡两者，下式只需考虑$\|x\|_1$的影响
 
 岭回归(Ridge)：所有$x$差距不要太大
 \[\min\frac{1}{2}\|Ax-b\|_2^2+\frac{1}{2}\lambda_2\|x\|_2^2\]
-\[\begin{aligned}
-	& \min & \frac{1}{2}\|Ax-b\|_2^2\\
-	& \text{s.t.} & \|x\|_2^2\leq\eps_2
-\end{aligned}\]
+\begin{mini*}
+	{}{\frac{1}{2}\|Ax-b\|_2^2}{}{}
+	\addConstraint{\|x\|_2^2}{\leq\eps_2}
+\end{mini*}
 
 投资组合问题(portfolio optimization)：
 初始价格$x_1,\ldots,x_n$，最终价格$P_1x_1,\ldots,P_nx_n$
-\[\begin{aligned}
-	& \max & P_1x_1+\cdots+P_nx_n\\
-	& \text{s.t.} & x_1+\cdots+x_n=B\\
-	& & x_1,\ldots,x_n\geq 0
-\end{aligned}\]
+\begin{maxi*}
+	{}{P_1x_1+\cdots+P_nx_n}{}{}
+	\addConstraint{x_1+\cdots+x_n}{=B}
+	\addConstraint{}{x_1,\ldots,x_n\geq 0}
+\end{maxi*}
 
 $\bar{P}=\E{P}$已知，$\Sigma=\Var{P}$
-\[\begin{aligned}
-	& \min & x^\T\Sigma x\\
-	& \text{s.t.} & p^\T x\geq r_{\min}\\
-	& & x_1+\cdots+x_n=B\\
-	& & x_1,\ldots,x_n\geq 0
-\end{aligned}\]
+\begin{mini*}
+	{}{x^\T\Sigma x}{}{}
+	\addConstraint{p^\T x}{\geq r_{\min}}
+	\addConstraint{x_1+\cdots+x_n}{=B}
+	\addConstraint{}{x_1,\ldots,x_n\geq 0}
+\end{mini*}
 
 % 3.26
 半定规划(semi-definite programming, SDP)（矩阵意义下的线性规划问题）：% 通信
 $X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
-\[\begin{aligned}
-	& \min & \optr(CX)\\
-	& \text{s.t.} & \optr(A_i X)=b_i,i=1,\ldots,p\\
-	& & X\succeq 0
-\end{aligned}\]
+\begin{mini*}
+	{}{\optr(CX)}{}{}
+	\addConstraint{\optr(A_i X)}{=b_i}{,i=1,\ldots,p}
+	\addConstraint{X}{\succeq 0}
+\end{mini*}
 
 \begin{example}[谱范数极小化问题]
 	矩阵多项式$A(x)=A_0+x_1A_1+\cdots+x_nA_n,A_i\in\rr^{p\times q}$
 	\[\min_x\|A(x)\|_2\]
 	谱范数代表$A(x)$的最大奇异值\footnote{谱范数是诱导范数，F-范数(Frobenias)$\|A(x)\|_F$才算是矩阵意义下的2范数}
 \end{example}
-\[\begin{aligned}
-	& \min_{x,s} & S\\
-	& \text{s.t.} & A^\T (x)A(x)\preceq SI
-\end{aligned}\]
+\begin{mini*}
+	{x,s}{S}{}{}
+	\addConstraint{A^\T (x)A(x)}{\preceq SI}
+\end{mini*}
 
 \begin{example}[最快分布式线性平均]
 	\[x(t) = Px(t-1)\]

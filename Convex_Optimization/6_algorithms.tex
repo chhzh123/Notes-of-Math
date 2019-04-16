@@ -70,7 +70,72 @@ $\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
     \[x^\star=\arg\min_x f_0(x)\]
     存在且有限，$f_0(x^\star)$有限
     \item[1.] Lipschitz连续梯度
-    \[\exists L>0,\norm{\nabla f_0(x)-\nabla f_0(y)}\leq L\norm{x-y},\forall x,y\]
+    \[\exists L\geq 0,\norm{\nabla f_0(x)-\nabla f_0(y)}\leq L\norm{x-y},\forall x,y\]
+    等价定义：
+    \begin{itemize}
+        \item[a.]若$f_0(x)$二阶可微
+    \[\nabla^2f_0(x)\preceq LI,\forall x\]
+        \item[b.] 下界
+    \[\lrang{\nabla f_0(x)-\nabla f_0(y),x-y}\geq\frac{1}{L}\norm{\nabla f_0(x)-\nabla f_0(y)}^2\]
+        \item[c.] 上界
+    \[\lrang{\nabla f_0(x)-\nabla f_0(y),x-y}\leq L\norm{x-y}\]
+        \item[d.] 当函数为凸时
+    \[0\leq f_0(y)-f_0(x)-\lrang{\nabla,y-x}\leq\frac{L}{2}\norm{x-y}_2^2\]
+    \end{itemize}
     \item[2.] 强凸性(strong convexity)
     \[\exists\mu>0:\;f_0(y)\geq f_0(x)+\lrang{\nabla f_0(x),y-x}+\frac{\mu}{2}\norm{x-y}_2^2,\forall x,y\]
+    二阶可微情况下的等价定义
+    \[\nabla^2 f(x)\succeq \mu I\]
 \end{itemize}
+\begin{example}
+    \[\begin{aligned}
+        f_0(x) &= \vone^\T x\qquad & L &= 0 & \text{\xmark}\\
+        f_0(x) &= \frac{1}{2}\norm{x}_2^2 & L &=1 & \mu=1\\
+        f_0(x) &= \frac{1}{4}\norm{x}_2^4 & \text{\xmark} & &\text{\xmark}
+    \end{aligned}\]
+\end{example}
+
+区别于严格凸(strictly convex)，强凸一定是严格凸
+\begin{theorem}
+    严格凸函数只有一个最小值点
+\end{theorem}
+\begin{analysis}
+    反证法，假设$x,y$均为最小值点，且$x\ne y$
+    \[f_0(y)>f_0(x)+\lrang{\nabla f_0(x),x-y}=f_0(x)\]
+\end{analysis}
+
+\begin{theorem}
+    若$f_0(x)$有Lipschitz连续梯度，常数$L$，若$\alpha\in(0,\frac{2}{L})$，则有
+    \[\begin{aligned}
+        f_0(\iter{x}{k})-f_0(x^\star)&\leq 2(f_0(x^0)-f_0(x^\star))\norm{x^0-x^\star}^2\\
+        &=2\norm{x^0-x^\star}^2+k\alpha(2-L\alpha)(f_0(x^0)-f_0(x^\star)),\forall x^\star
+    \end{aligned}\]
+    即以$O(\frac{1}{k})$速度收敛
+\end{theorem}
+\begin{analysis}
+    $1\degree$ 点的单调性：与任意$x^\star$的距离在缩小
+    \[\norm{\iter{x}{k+1}-x^\star}^2\leq\norm{\iter{x}{k}-x^\star}^2,\forall x^\star\]
+    \[\begin{aligned}
+        LHS &= \norm{\iter{x}{k}-x^\star-\alpha\nabla f_0(x^k)}^2\\
+        &=\norm{x^k-x^\star}^2-2\alpha\lrang{x^k-x^\star,\nabla f_0(x^k)}+\alpha^2\norm{\nabla f_0(x^k)}\\
+        &\leq \norm{\iter{x}{k}-x^\star}^2+\alpha(\alpha-\frac{2}{L})\norm{\nabla f_0(\iter{x}{k})}^2\qquad\text{注意到$\nabla f_0(x^\star)=0$，利用Lipschitz连续梯度}\\
+        &\leq \norm{\iter{x}{k}-x^\star}^2
+    \end{aligned}\]
+    $2\degree$ 函数值的单调性：$f_0(\iter{x}{k+1})\leq f_0(\iter{x}{k})$（注意下降可能非常缓慢，并不一定收敛）
+    \[\begin{aligned}
+        f_0(\iter{x}{k+1})&\leq f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),\iter{x}{k+1}-\iter{x}{k}}+\frac{L}{2}\norm{\iter{x}{k+1}-\iter{x}{k}}^2\\
+        &= f_0(\iter{x}{k})-\alpha(1-\frac{L\alpha}{2})\norm{\nabla f_0(\iter{x}{k})}^2\\
+        &\leq f_0(\iter{x}{k})
+    \end{aligned}\]
+    $3\degree$ 函数值的充分下降（即证明收敛性）
+    \[f_0(\iter{x}{k+1})-f_0(x^\star)\leq f_0(\iter{x}{k})-f_0(x^\star)-\omega\norm{\nabla f_0(\iter{x}{k})}^2\]
+    \[\begin{aligned}
+        f_0(\iter{x}{k})-f_0(x^\star)\&leq \lrang{f_0(\iter{x}{k},\iter{x}{k}-x^\star)}\\
+        &=\lrang{\nabla f_0(\iter{x}{k})-\nabla f_0(x^\star),\iter{x}{k}-x^\star}\\
+        &\leq\norm{\nabla f_0(\iter{x}{k})-\nabla f_0(x^\star)}\norm{\iter{x}{k}-x^\star}\\
+        &\leq \norm{\nabla f_0(\iter{x}{k})}\norm{\iter{x}{k}-x^\star}
+    \end{aligned}\]
+    \[\iter{\Delta}{k+1}\leq \iter{\Delta}{k}-\frac{\omega}{\norm{x^0-x^\star}^2}(\iter{\Delta}{k})^2\]
+    \[\frac{1}{\iter{\Delta}{k+1}}\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{x^0-x^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}\]
+    错位相消可得结论$O(\frac{1}{k})$收敛速度
+\end{analysis}
