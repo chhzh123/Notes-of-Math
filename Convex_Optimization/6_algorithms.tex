@@ -107,8 +107,8 @@ $\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
 \begin{theorem}
     若$f_0(x)$有Lipschitz连续梯度，常数$L$，若$\alpha\in(0,\frac{2}{L})$，则有
     \[\begin{aligned}
-        f_0(\iter{x}{k})-f_0(x^\star)&\leq 2(f_0(x^0)-f_0(x^\star))\norm{x^0-x^\star}^2\\
-        &=2\norm{x^0-x^\star}^2+k\alpha(2-L\alpha)(f_0(x^0)-f_0(x^\star)),\forall x^\star
+        f_0(\iter{x}{k})-f_0(x^\star)&\leq \frac{2(f_0(x^0)-f_0(x^\star))\norm{x^0-x^\star}^2}
+        {2\norm{x^0-x^\star}^2+k\alpha(2-L\alpha)(f_0(x^0)-f_0(x^\star))},\forall x^\star
     \end{aligned}\]
     即以$O(\frac{1}{k})$速度收敛
 \end{theorem}
@@ -117,7 +117,7 @@ $\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
     \[\norm{\iter{x}{k+1}-x^\star}^2\leq\norm{\iter{x}{k}-x^\star}^2,\forall x^\star\]
     \[\begin{aligned}
         LHS &= \norm{\iter{x}{k}-x^\star-\alpha\nabla f_0(x^k)}^2\\
-        &=\norm{x^k-x^\star}^2-2\alpha\lrang{x^k-x^\star,\nabla f_0(x^k)}+\alpha^2\norm{\nabla f_0(x^k)}\\
+        &=\norm{\iter{x}{k}-x^\star}^2-2\alpha\lrang{x^k-x^\star,\nabla f_0(x^k)}+\alpha^2\norm{\nabla f_0(x^k)}\\
         &\leq \norm{\iter{x}{k}-x^\star}^2+\alpha(\alpha-\frac{2}{L})\norm{\nabla f_0(\iter{x}{k})}^2\qquad\text{注意到$\nabla f_0(x^\star)=0$，利用Lipschitz连续梯度}\\
         &\leq \norm{\iter{x}{k}-x^\star}^2
     \end{aligned}\]
@@ -130,7 +130,7 @@ $\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
     $3\degree$ 函数值的充分下降（即证明收敛性）
     \[f_0(\iter{x}{k+1})-f_0(x^\star)\leq f_0(\iter{x}{k})-f_0(x^\star)-\omega\norm{\nabla f_0(\iter{x}{k})}^2\]
     \[\begin{aligned}
-        f_0(\iter{x}{k})-f_0(x^\star)\&leq \lrang{f_0(\iter{x}{k},\iter{x}{k}-x^\star)}\\
+        f_0(\iter{x}{k})-f_0(x^\star)&\leq \lrang{f_0(\iter{x}{k},\iter{x}{k}-x^\star)}\\
         &=\lrang{\nabla f_0(\iter{x}{k})-\nabla f_0(x^\star),\iter{x}{k}-x^\star}\\
         &\leq\norm{\nabla f_0(\iter{x}{k})-\nabla f_0(x^\star)}\norm{\iter{x}{k}-x^\star}\\
         &\leq \norm{\nabla f_0(\iter{x}{k})}\norm{\iter{x}{k}-x^\star}
@@ -139,3 +139,121 @@ $\iter{d}{k}=-\nabla f_0(\iter{x}{k})$
     \[\frac{1}{\iter{\Delta}{k+1}}\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{x^0-x^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}\]
     错位相消可得结论$O(\frac{1}{k})$收敛速度
 \end{analysis}
+
+\begin{theorem}
+    若$f_0$有Lipschitz连续梯度，常数$L$，强凸函数$n$，步长$\alpha\in(0,\frac{2}{\mu+L}]$，则
+    \[\norm{\iter{x}{k}-x^\star}^2\leq\lrp{1-\frac{2\alpha\mu L}{\mu+L}}^k\norm{\iter{x}{0}-x^\star}^2\]
+\end{theorem}
+\begin{analysis}
+\[\begin{aligned}
+    \norm{\iter{x}{k}-x^\star}^2 &= \norm{\iter{x}{k}-\alpha\nabla f_0(\iter{x}{k})-x^\star}^2\\
+    &= \norm{\iter{x}{k}-x^\star}^2-2\alpha\lrang{\iter{x}{k}-x^\star,\nabla f_0(\iter{x}{k})}+\alpha^2\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\leq \norm{\iter{x}{k}-x^\star}^2-\frac{2\alpha}{\mu+L}\norm{\nabla f_0(x)}^2+\alpha^2\norm{\nabla f_0(\iter{x}{k})}^2 \qquad\text{内积不等式}\\
+    &\leq RHS
+\end{aligned}\]
+\[1-\frac{4\mu L}{(\mu+L)^2}=\frac{(L-\mu)^2}{(L+\mu)^2}=\frac{\lrp{\frac{L}{\mu}-1}^2}{\lrp{\frac{L}{\mu}+1}^2}\]
+$L$为Hessian矩阵的最大特征值，$\mu$为Hessian矩阵的最小特征值，则$\frac{L}{\mu}$为该矩阵的条件数
+\end{analysis}
+
+不同收敛速度
+\begin{itemize}
+    \item 次线性收敛
+    \item 线性收敛
+    \item 超线性收敛
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/linear.png}
+\end{figure}
+
+\begin{example}
+\[f_0(x)=\frac{1}{2}\norm{Ax-b}_2^2\]
+\end{example}
+\begin{analysis}
+    \[\iter{x}{0}\to\iter{x}{1}\]
+    \[\iter{x}{1}=\iter{x}{0}-\alpha(\iter{x}{0}-b)=b\]
+\end{analysis}
+
+条件数糟糕的病态矩阵收敛速度是非常糟糕的，会出现zig-zag的情况
+\[A=\bmat{1 & 0\\ 0 & 10^{-4}}\]
+可以通过预处理(precondition)来解决条件数糟糕的问题
+
+$f_0$，Lipschitz连续梯度($L$)，强凸($\mu$)，函数值收敛性
+\[\begin{aligned}
+    \tilde{f}_0(\iter{\alpha}{k})&=f_0(\iter{x}{k+1})=f_0(\iter{x}{k}-\iter{\alpha}{k}\nabla f_0(\iter{x}{k}))\\
+    &\leq f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),-\iter{\alpha}{k}\nabla f_0(\iter{x}{k})}+\frac{L}{2}\norm{-\iter{\alpha}{k}\nabla f_0(\iter{x}{k})}^2\\
+    &=f_0(\iter{x}{k})+\frac{L(\iter{\alpha}{k})^2-2\iter{\alpha}{k}}{2}\norm{\nabla f_0(\iter{x}{k})}^2
+\end{aligned}\]
+
+$\iter{\alpha}{k}=\iter{\alpha}{k}_{exact}$精确线搜索
+\[\begin{aligned}
+    &\tilde{f}_0(\frac{1}{L})=f_0(\iter{x}{k})-\frac{1}{2L}\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\tilde{f}_0(\iter{\alpha}{k}_{exact})\leq\tilde{f}_0(\frac{1}{L})\\
+    \implies&\tilde{f}_0(\iter{\alpha}{k}_{exact})-f_0(\iter{x}{k})-f_0(x^\star)-\frac{1}{2L}\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\leq (1-\frac{\mu}{L})(f_0(\iter{x}{k})+f_0(x^\star))
+\end{aligned}\]
+\[\begin{aligned}
+    f_0(x^\star)&\geq f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),x^\star-\iter{x}{k}}+\frac{\mu}{2}\norm{\iter{x}{k}-x^\star}^2\\
+    &\geq f_0(\iter{x}{k})-\frac{\mu}{2}\norm{\iter{x}{k}-x^\star}^2-\frac{1}{2\mu}\norm{\nabla f_0(\iter{x}{k})}^2+frac{\mu}{2}\norm{\iter{x}{k}-x^\star}^2\qquad ab\geq-\frac{\mu}{2}a^2-\frac{1}{2\mu}b^2\\
+    &= f_0(\iter{x}{k})-\frac{1}{2\mu}\norm{\nabla f_0(\iter{x}{k})}^2
+\end{aligned}\]
+\[f_0(\iter{x}{k}-f_0(x^\star)\leq\frac{1}{2\mu}\norm{\nabla f_0(\iter{x}{k})}^2\]
+
+Armijo Rule
+\[\tilde{f}_0(\iter{\alpha}{k})=f_0(\iter{x}{k+1})\leq f_0(\iter{x}{k})+\frac{L(\iter{\alpha}{k})^2-2\iter{\alpha}{k}}{2}\norm{\nabla f_0(\iter{x}{k})}^2\]
+\[\tilde{f}_0(\iter{\alpha}{k})=f_0(\iter{x}{k+1})\leq f_0(\iter{x}{k})-\nabla\iter{\alpha}{k}\norm{\nabla f_0(\iter{x}{k})}^2\]
+首先说明，若$0\leq\iter{\alpha}{k}\leq\frac{1}{L}$时，则
+\[\tilde{f}_0(\iter{\alpha}{k})\leq f_0(\iter{x}{k})-\gamma\iter{\alpha}{k}\norm{\nabla f_0(\iter{x}{k})}^2\]
+当$\iter{\alpha}{k}\in[0,\frac{1}{2}]$时，
+\[-\iter{\alpha}{k}+\frac{L}{2}(\iter{\alpha}{k})^2\leq -\frac{\iter{\alpha}{k}}{2}\iff \frac{L}{2}(\iter{\alpha}{k})^2\leq\frac{\iter{\alpha}{k}}{2}\iff L\cdot\iter{\alpha}{k}\leq 1\]
+\[\begin{aligned}
+    f_0(\iter{x}{k+1})&\leq f_0(\iter{x}{k})+\frac{L(\iter{\alpha}{k})^2-2\iter{\alpha}{k}}{2}\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\leq f_0(\iter{x}{k})-\frac{\iter{\alpha}{k}}{2}\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\leq f_0(\iter{x}{k})-\gamma\iter{\alpha}{k}\norm{\nabla f_0(\iter{x}{k})}^2
+\end{aligned}\]
+\[\begin{aligned}
+    &f_0(\iter{x}{k+1})\leq f_0(\iter{x}{k})-\min\{\gamma\alpha_{\max},\frac{\gamma\beta}{L}\}\norm{\nabla f_0(\iter{x}{k})}^2\\
+    &\implies f_0(\iter{x}{k+1})-f_0(x^\star)\leq\lrp{1-\min\{2\mu\gamma\alpha_{\max},\frac{2\mu\gamma\beta}{L}\}}(f_0(\iter{x}{k}-f_0(x^\star)))
+\end{aligned}\]
+
+梯度下降法的解释1
+\[\iter{x}{k+1}=\iter{x}{k}-\iter{\alpha}{k}\nabla f_0(\iter{x}{k})\]
+将$f_0$在$\iter{x}{k}$处进行一阶Taylor展开
+\[f_0(x)\approx f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),x-\iter{x}{k}}+\frac{1}{2\iter{\alpha}{k}}\norm{x-\iter{x}{k}}^2\]
+求梯度
+\[\begin{aligned}
+    \nabla f_0(\iter{x}{k})+\frac{1}{\iter{\alpha}{k}}(x-\iter{x}{k})&=0\\
+    \iter{\alpha}{k}\nabla f_0(\iter{x}{k})+x-\iter{x}{k}&=0\\
+    x=\iter{x}{k}&-\iter{\alpha}{k}\nabla f_0(\iter{x}{k})
+\end{aligned}\]
+
+解释2
+\[f_0(\iter{x}{k}+v)\approx f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),v}\]
+\[\iter{d}{k}=\arg\min_v\{\lrang{\nabla f_0(\iter{x}{k}),v}\mid \norm{v}=1\}\]
+若采用2-范数，可得标准化的负梯度方向(normalized negative gradient)
+\[\iter{d}{k}=\frac{-\nabla f_0(\iter{x}{k})}{\norm{\nabla f_0(\iter{x}{k}}_2}\]
+通过改变不同的范数，有不同的特性
+
+坐标下降法(coordinate descent/alternating direction)交替极小化
+\[\iter{d}{k}=\ve_{\mod{}{}}(k,n)\]
+注意，这里$x\in\rn$，$n \mod n = n$
+\[\iter{\alpha}{k}=\arg\min f_0(\iter{x}{k}+\alpha\iter{d}{k}),\alpha_{\max}\geq \alpha\geq \alpha_{\min}\]
+
+\subsection{非光滑优化问题}
+\[\min f_0(x),\qquad f_0\text{连续，凸，不可微}\]
+梯度\textbf{下降}法$\to$次梯度(subgradient)法$g_0(x)\in\partial f_0(x)$（注意凹函数则对应的是supgradient
+\[f_0(y)\geq f_0(x)+\lrang{g_0(x),y-x},\forall y\]
+$f(x)=|x|$在零点处次梯度为$[-1,1]$
+\[\iter{x}{k+1}=\iter{x}{k}-\iter{\alpha}{k}g_0(\iter{x}{k})\]
+只要有$0\in\partial f_0(x_0)$就有最优解$x=x_0$
+
+如果激活函数为非光滑的（如ReLU)，那么出来的函数也是非光滑的，就要用次梯度
+
+关键在于选择步长
+\begin{itemize}
+    \item 固定步长$\iter{\alpha}{k}=\alpha$
+    \item 不可加但平方可加
+    \[\sum_{k=0}^\infty(\iter{\alpha}{k})^2<\infty\qquad \sum_{k=0}^\infty \iter{\alpha}{k}=\infty\]
+    \item 不可加递减
+    \[\sum_{k=0}^\infty\iter{\alpha}{k}=0\qquad\lim_{k\to\infty}\iter{\alpha}{k}\to 0\]
+\end{itemize}
