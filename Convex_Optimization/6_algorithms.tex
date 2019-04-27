@@ -240,8 +240,10 @@ Armijo Rule
 \[\iter{\alpha}{k}=\arg\min f_0(\iter{x}{k}+\alpha\iter{d}{k}),\alpha_{\max}\geq \alpha\geq \alpha_{\min}\]
 
 \subsection{非光滑优化问题}
+\subsubsection{次梯度法}
 \[\min f_0(x),\qquad f_0\text{连续，凸，不可微}\]
-梯度\textbf{下降}法$\to$次梯度(subgradient)法$g_0(x)\in\partial f_0(x)$（注意凹函数则对应的是supgradient
+梯度\textbf{下降}法$\to$次梯度(subgradient)法\\
+$g_0(x)\in\partial f_0(x)$（注意凹函数则对应的是supgradient）
 \[f_0(y)\geq f_0(x)+\lrang{g_0(x),y-x},\forall y\]
 $f(x)=|x|$在零点处次梯度为$[-1,1]$
 \[\iter{x}{k+1}=\iter{x}{k}-\iter{\alpha}{k}g_0(\iter{x}{k})\]
@@ -252,8 +254,151 @@ $f(x)=|x|$在零点处次梯度为$[-1,1]$
 关键在于选择步长
 \begin{itemize}
     \item 固定步长$\iter{\alpha}{k}=\alpha$
-    \item 不可加但平方可加
-    \[\sum_{k=0}^\infty(\iter{\alpha}{k})^2<\infty\qquad \sum_{k=0}^\infty \iter{\alpha}{k}=\infty\]
-    \item 不可加递减
+    \item 不可加但平方可加，如$\frac{1}{k}$
+    \[\sum_{k=0}^\infty \iter{\alpha}{k}=\infty\qquad\sum_{k=0}^\infty(\iter{\alpha}{k})^2<\infty\]
+    \item 不可加递减，如$\frac{1}{\sqrt{k}}$
     \[\sum_{k=0}^\infty\iter{\alpha}{k}=0\qquad\lim_{k\to\infty}\iter{\alpha}{k}\to 0\]
+\end{itemize}
+
+\[\inf_{i=0,\ldots,k}(f_0(\iter{x}{i})-f_0(x^\star))\]
+\[\iter{\bar{x}}{k}:=\frac{\sum_{i=0}^k\iter{\alpha}{i}\iter{x}{i}}{\sum_{i=0}^k\iter{\alpha}{i}}\]
+\[f_0(\iter{\bar{x}}{k})-f_0(x^\star)\]
+
+假设函数Lipschitz连续
+\[\exists G>0,\forall x,y:\;\norm{f_0(x)-f_0(y)}\leq G\norm{x-y}\]
+$\forall x^\star$最优
+\[\begin{aligned}
+    &\qquad\norm{\iter{x}{k+1}-x^\star}^2=\norm{\iter{x}{k}-\iter{\alpha}{k}g_0(\iter{x}{k})-x^\star}^2\\
+    &=\norm{\iter{x}{k}-x^\star}^2-2\lrang{\iter{\alpha}{k}g_0(\iter{x}{k}),\iter{x}{k}-x^\star}+(\iter{\alpha}{k})^2\norm{g_0(\iter{x}{k})}^2\\
+    &\leq \norm{\iter{x}{k}-x^\star}^2-2(\iter{\alpha}{k})^2(f_0(\iter{x}{k})-f_0(x^\star))+(\iter{\alpha}{k})^2 G^2\\
+    &\implies \norm{\iter{x}{k+1}-x^\star}^2\leq \norm{\iter{x}{0}-x^\star}^2-2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{x}{i})-f_0(x^\star))+\sum_{i=0}^k(\iter{\alpha}{i})^2 G^2\\
+    &\implies 2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{x}{i})-f_0(x^\star))\leq \norm{\iter{x}{0}-x^\star}^2+\sum_{i=0}^k(\iter{\alpha}{i})^2G^2
+\end{aligned}\]
+\[\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{x}{i})-f_0(x^\star))\geq\lrp{\sum_{i=0}^k\iter{\alpha}{i}}\inf_{i=0,\ldots,k}(f_0(\iter{x}{i})-f_0(x^\star))\]
+\[\implies\inf_{i=0,\ldots,k}(f_0(\iter{x}{i})-f_0(x^\star))\leq\frac{\norm{\iter{x}{0}-x^\star}^2+G^2\sum_{i=0}^k(\iter{\alpha}{i})^2}{2\sum_{i=0}^k\iter{\alpha}{i}}\]
+这是一个紧的界
+\begin{itemize}
+    \item 固定步长得到上界$\frac{G^2\alpha}{2}$，以$f(x)=|x|$为例
+    \item 不可加平方可加一定收敛，若步长为$\frac{1}{k}$，收敛速度为$\frac{1}{\log k}$（幂级数积分取上下界$\sum_{i=0}^k\frac{1}{i}=O(\log k)$）
+    \item 不可加平方不可加同样收敛，若步长为$\frac{1}{\sqrt{k}}$，收敛速度为$O(\frac{\log k}{\sqrt{k}})$，可以证明在该假设下该收敛速度最优
+\end{itemize}
+
+\[\lim_{k\to\infty}\inf_{i=0,\ldots,k}\lrp{f_0(\iter{x}{i})-f_0(x^\star)}=0\]
+\[\forall \eps>0,\exists N_1\in\zz, \iter{\alpha}{i}\leq\frac{\eps}{G^2},\forall i>N_1\]
+\[\exists N_2\in\zz:\sum_{i=0}^k\iter{\alpha}{i}\geq\frac{1}{\eps}\lrp{\norm{\iter{x}{0}-x^\star}^2+G^2\sum_{i=0}^{N_1}(\iter{\alpha}{i})^2},\forall k>N_2\]
+另$N=\max\{N_1,N_2\},\forall k>N$
+\[\frac{\norm{\iter{x}{0}-x^\star}^2+G^2\sum_{i=0}^{N_1}(\iter{\alpha}{i})^2}{2\sum_{i=0}^k\iter{\alpha}{i}}+\frac{\norm{\iter{x}{0}-x^\star}^2+G^2\sum_{i=N_1+1}^{k}(\iter{\alpha}{i})^2}{2\sum_{i=0}^{N_1}\iter{\alpha}{i}+2\sum_{i=N_1+1}^{k}\iter{\alpha}{i}}\leq\frac{\eps}{2}+\frac{\eps}{2}=\eps\]
+\[\text{第二项}\leq\frac{G^2\sum_{i=N_1+1}^k\iter{\alpha}{i}\frac{\eps}{G^2}}{2\sum_{i=0}^{N_1}\iter{\alpha}{i}+2\sum_{i=N_1+1}^{k}\iter{\alpha}{i}}\leq\frac{\eps}{2}\]
+实际上这个假设一般情况下不成立，但是我们只需保证在优化路径上成立即可，也有设置$x$有界的
+
+\subsubsection{邻近点梯度法(proximal gradient method)}
+有\textbf{结构}，不可微
+
+\[\min f_0(x)=s(x)+r(x)\]
+\begin{itemize}
+    \item s: smooth，可微，易求导
+    \item r: regularization，不可微，易求邻近点投影
+\end{itemize}
+
+\[r(x),\hat{x}\cdot\alpha>0\]
+邻近点投影(proximal mapping)
+\[\min_x r(x)+\frac{1}{2\alpha}\norm{x-\hat{x}}^2\]
+\begin{example}[LASSO]
+    \[f_0(x)=\frac{1}{2}\norm{y-Ax}^2+\lambda\norm{x}_1\]
+\end{example}
+\begin{analysis}
+    本来想优化0-范数，但因为不好做，故变为优化1-范数
+    \[\arg\min\lambda\norm{x}_1+\frac{1}{2\alpha}\norm{x-\hat{x}}^2\]
+    Hessian矩阵是单位阵，好解得多
+    \[\lambda\sum_{i=1}^n\norm{x_i}+\frac{1}{2\alpha}\sum_{i=1}^n(x_i-\hat{x}_i)^2\]
+    由于每一维并没有耦合在一起，因此相当于每一个维度都最优化
+    \[\arg\min\lambda |x_i|+\frac{1}{2\alpha}(x_i-\hat{x}_i)^2\] % 考试！
+    \[0\in\lambda\partial|x_i|+\frac{1}{\alpha}(x_i-\hat{x}_i)\]
+    \begin{enumerate}
+        \item 若$x_i>0$，则
+        \[0=\lambda+\frac{1}{\alpha}(x_i-\hat{x}_i)\]
+        \[\implies x_i=\hat{x}_i-\alpha\lambda,\hat{x}_i>\alpha\lambda\]
+        \item 若$x_i<0$，则
+        \[0=-\lambda+\frac{1}{\alpha}(x_i-\hat{x}_i)\]
+        \[\implies x_i=\hat{x}_i+\alpha\lambda,\hat{x}_i<\alpha\lambda\]
+        \item 若$x_i=0$，则
+        \[0\in[-\lambda,\lambda]-\frac{1}{\alpha}\hat{x}_i\implies 0\in[-\lambda-\frac{1}{\alpha}\hat{x}_i,\lambda-\frac{1}{\alpha}\hat{x}_i]\]
+        \[0\geq -\lambda-\frac{1}{\alpha}\hat{x}_i\implies \hat{x}_i\geq -\lambda\alpha,\hat{x}_i\leq\lambda\alpha\]
+    \end{enumerate}
+    画软门限(soft thresholding)图，横轴$\hat{x}_i$，纵轴$x_i$
+    \begin{itemize}
+        \item $\iter{x}{k+\frac{1}{2}}=\iter{x}{k}-\alpha A^\T (A\iter{x}{k}-y)$
+        \item $\iter{x}{k}=\arg\min_x\lambda\norm{x}_1+\frac{1}{2\alpha}\norm{x-\iter{x}{\frac{1}{2}}}^2$
+    \end{itemize}
+    即ISTA算法
+\end{analysis}
+
+\begin{example}[盒限制(box constrained)优化问题]
+\[f_0(x)=s(x)+\sum_{i=1}^nI(x_i\in[l_i,u_i])\]
+\end{example}
+\begin{analysis}
+\[\begin{aligned}
+    \qquad\arg\min r(x)+\frac{1}{2\alpha}\norm{x-\hat{x}}^2\\
+    &=\arg\min\frac{1}{2\alpha}\norm{x-\hat{x}}^2\\
+    &\text{s.t.}\forall i, x_i\in[l_i,u_i]
+\end{aligned}\]
+如果有约束$x\in\sC$
+\begin{itemize}
+    \item $\iter{x}{k+\frac{1}{2}}=\iter{x}{k}-\alpha\nabla S(\iter{x}{k})$
+    \item $\iter{x}{k+1}=\arg\min_x I_\sC(\iter{x}{k+\frac{1}{2}})+\frac{1}{2\alpha}\norm{x-\iter{x}{k+\frac{1}{2}}}^2=\arg\min_x\frac{1}{2\alpha}\norm{x-\iter{x}{k+\frac{1}{2}}}^2,x\in\sC$
+    \item 相当于做投影，故称投影梯度法
+\end{itemize}
+\end{analysis}
+
+\[\iter{x}{k+\frac{1}{2}}=\iter{x}{k}-\alpha\nabla S(\iter{x}{k})\]
+\[\iter{x}{k}=\arg\min_x r(x)+\frac{1}{2\alpha}\norm{x-\iter{x}{k+\frac{1}{2}}}^2\]
+\[\begin{aligned}
+    0&\in\partial r(\iter{x}{k+1})+\frac{1}{\alpha}(\iter{x}{k+1}-\iter{x}{k+\frac{1}{2}})\\
+    0&=\partial r(\iter{x}{k+1})+\frac{1}{\alpha}(\iter{x}{k+1}-\iter{x}{k}+\alpha\nabla S(\iter{x}{k}))\\
+    \iter{x}{k+1}&=\iter{x}{k}-\alpha\nabla S(\iter{x}{k})-\alpha\partial r(\iter{x}{k+1})
+\end{aligned}\]
+数值计算：显式方法（次梯度法）$\to$隐式方法（邻近点梯度法---需要先知道下一步信息，但是这是可以做的，因为有邻近点）
+
+收敛性能与梯度下降法类似
+
+\begin{example}[矩阵补全]
+    $Y\in\rr^{m\times n},\{Y_{ij},(i,j)\in\Omega\}$
+    \[\min_B\frac{1}{2}\sum_{(i,j)\in\Omega}(Y_{ij}-B_{ij})^2+\lambda\oprank(B)\]
+\end{example}
+\begin{analysis}
+    同LASSO，由于矩阵的秩（奇异值向量0-范数）不好求，改为矩阵的和范数$\norm{\cdot}$（奇异值向量1-范数），即
+    \[\min_B\frac{1}{2}\sum_{(i,j)\in\Omega}(Y_{ij}-B_{ij})^2+\lambda\norm{B}_\star\]
+    \[\norm{B}_\star:=\sum_{i=1}^n\sigma_i(B)\]
+    \[\min\frac{1}{2}\norm{P_\Omega(B-Y)}_F^2+\lambda\norm{B}_\star\]
+    其中$P_\Omega$为$0$，若原矩阵中该项不存在；存在的话则保持不变
+    \[\nabla B(\frac{1}{2}\norm{P_\Omega}(B-Y)_F^2)=P_\Omega(B-Y)\]
+    对$B$做奇异值分解，$U$为酉矩阵
+    \[\partial\norm{B}_\star=\{UDV^\T, B=U\Sigma V^\T, d=\partial\norm{\sigma}_1\}\]
+    \begin{itemize}
+        \item $\iter{B}{k+\frac{1}{2}}=B^k-\alpha P_\Omega(B^k-Y)$
+        \item $\iter{B}{k+1}=\arg\min_B\lambda\norm{B}_\star+\frac{1}{2\alpha}\norm{B-\iter{B}{k+\frac{1}{2}}}_F^2$
+    \end{itemize}
+    \[0\in\lambda\partial\norm{B}_\star+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})\]
+    \[0\in[\lambda UDV^\T+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})]\]
+    \[B=U\Sigma V^\T,\;d=\partial\norm{\sigma}_1\]
+    \[0\in\{\lambda UDV^\T +\frac{1}{\alpha}(V\Sigma V^\T-\iter{B}{k+\frac{1}{2}})\}\]
+    \[\exists V,0=\alpha\lambda UDV^\T+V\Sigma V^\T-\iter{B}{k+\frac{1}{2}}\]
+    \[\iter{B}{k+\frac{1}{2}}=U(\alpha\lambda D+\Sigma)V^\T\]
+    对$\iter{B}{k+\frac{1}{2}}$进行奇异值分解
+    \[\iter{B}{k+\frac{1}{2}}=U\iter{\Sigma}{k+\frac{1}{2}}V\]
+    \[T_i=\alpha\lambda d_i+\sigma_i\]
+    若$\sigma_i\ne 0\implies \tau_i=\alpha\lambda+\sigma_i$\\
+    若$\sigma_i=0\implies \tau_i\in[-\alpha\lambda+\sigma_i,\alpha\lambda+\sigma_i]$\\
+    \[\begin{cases}
+        \sigma_i=\tau_i-\alpha\lambda & \tau_i>\alpha\lambda\\
+        \sigma_i=0 & \tau_i\leq\alpha\lambda
+    \end{cases}\]
+    该算法称为矩阵软门限(soft thresholding)算法
+\end{analysis}
+
+一阶方法总结：
+\begin{itemize}
+    \item 梯度下降法
+    \item 次梯度法：在随机/不确定性优化问题中很有效
+    \item 邻近点梯度法
 \end{itemize}

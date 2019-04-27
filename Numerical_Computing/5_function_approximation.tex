@@ -1,0 +1,77 @@
+% !TEX root = main.tex
+
+\section{函数逼近}
+用函数$f(x)$和$p(x)$的最大误差
+\[\norm{p-f}_\infty=\max_{a\leq x\leq b}|p(x)-f(x)|\]
+作为度量逼近函数$p(x)$对被逼近函数$f(x)$的逼近程度。
+若存在一个函数序列满足$\lim_{n\to\infty}\norm{p_n(x)-f(x)}_\infty=0$，则意味着序列$\{p_n(x)\}$在区间$[a,b]$上一致收敛至$f(x)$。
+序列$\{p_n(x)\}$对$f(x)$的逼近称为\textbf{一致逼近}。
+
+也可用积分$\norm{p-f}_2=\lrp{\int_a^b(p(x)-f(x))^2\diff x}^{\frac{1}{2}}$作为度量函数。
+若存在一个函数序列满足$\lim_{n\to\infty}\norm{p_n(x)-f(x)}_2=0$，则意味着序列$\{p_n(x)\}$在区间$[a,b]$上平方收敛至$f(x)$。
+序列$\{p_n(x)\}$对$f(x)$的逼近称为\textbf{平方逼近}。
+
+\subsection{内积与正交多项式}
+\begin{definition}[权函数]
+    设$[a,b]$为有限或无限区间，$\rho(x)$是定义在$[a,b]$上的非负函数，$\intab{a}{b}{x^k\rho(x)}$对$k=0,1,\ldots$都存在，且对非负的$f(x)\in C[a,b]$\footnote{$C[a,b]$表示区间$[a,b]$上连续函数的全体}，若$\intab{a}{b}{f(x)\rho(x)}=0$，则$f(x)\equiv 0$，称$\rho(x)$为$[a,b]$上的权函数，其刻画了点$x$在$[a,b]$上的重要性
+\end{definition}
+\begin{definition}[内积]
+    设$f(x),g(x)\in C[a,b]$，$\rho(x)$为$[a,b]$上的权函数，则函数$f(x)$和$g(x)$的内积为
+    \[\lrang{f,g}:=\intab{a}{b}{\rho(x)f(x)g(x)}\]
+\end{definition}
+定义了内积的线性空间称为内积空间。
+内积需满足
+\begin{enumerate}
+    \item $\lrang{f,g}=\lrang{g,f}$
+    \item $\lrang{c_1f+c_2g,h}=c_1\lrang{f,h}+c_2\lrang{g,h}$, $c_1,c_2$为常数
+    \item $\lrang{f,f}\geq 0\iff f\equiv 0,\lrang{f,f}=0$
+\end{enumerate}
+
+\begin{definition}[范数]
+对内积空间$C[a,b]$中的每一个函数$f(x)$，都赋予一个数值
+\[\norm{f}=\sqrt{\int{a}{b}{\rho(x)[f(x)]^2}}\]
+\end{definition}
+范数需满足
+\begin{enumerate}
+    \item $\norm{f}\geq 0$，当且仅当$f\equiv 0$时，$\norm{f}=0$
+    \item $\norm{cf}=|c|\cdot\norm{f}$，$c$是常数
+    \item $\norm{f+g}\leq\norm{f}+\norm{g}$
+\end{enumerate}
+
+正交函数系
+\begin{definition}[正交]
+    设$f(x),g(x)\in C[a,b]$，$\rho(x)$为$[a,b]$上的权函数，若内积
+    \[\lrang{f,g}=\intab{a}{b}{\rho(x)f(x)g(x)}=0\]
+    则称$f(x),g(x)$在$[a,b]$上带权$\rho(x)$正交
+\end{definition}
+
+\subsubsection{勒让德多项式}
+勒让德(Legendre)多项式是区间$[-1,1]$上权函数$\rho(x)=1$的正交多项式
+\[P_0(x)=1,\qquad P_n(x)=\frac{1}{2^nn!}\frac{\diff^n}{\diff x^n}(x^2-1)^n\]
+勒让德多项式有许多重要的性质
+\begin{enumerate}
+    \item 正交性
+\[\lrang{P_n,P_m}=\intab{-1}{1}{P_n(x)P_m(x)}=\begin{cases}0&m\ne n\\\frac{2}{2n+1}&m=n\end{cases}\]
+    \item 递推公式
+    \[(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x),P_0(x)=1,P_1(x)=x\]
+\end{enumerate}
+
+\subsubsection{切比雪夫多项式}
+切比雪夫(Chebyshev)多项式为区间$[-1,1]$上关于权函数$\rho(x)=\frac{1}{\sqrt{1-x^2}}$的正交多项式
+\[T_n(x)=\cos(n\arccos x)\]
+\begin{enumerate}
+    \item 正交性
+\[\lrang{T_n,T_m}=\intab{-1}{1}{\frac{T_n(x)P_m(x)}{\sqrt{1-x^2}}}=\begin{cases}0&m\ne n\\\frac{\pi}{2}&m=n\ne 0\\\pi&m=n=0\end{cases}\]
+    \item 递推公式
+\[T_{n+1}(x)=2xT_n(x)-T_{n-1}(x),T_0(x)=1,T_1(x)=x\]
+    \item 奇偶性
+\[T_n(-x)=(-1)^nT_n(x)\]
+    \item $T_n(x)$在$(-1,1)$内的$n$个零点为$x_k=\cos\frac{2k-1}{2n}\pi$，在$[-1,1]$上有$n+1$个极值点$y_k=\cos\frac{k}{n}\pi$
+    \item $T_n(x)$的最高次幂$x^n$的系数为$2^{n-1},n\geq 1$
+\end{enumerate}
+
+\subsubsection{其他正交多项式}
+\begin{enumerate}
+    \item 拉盖尔(Laguerre)多项式
+    \item 埃尔米特(Hermite)多项式
+\end{enumerate}
