@@ -402,3 +402,231 @@ $\forall x^\star$最优
     \item 次梯度法：在随机/不确定性优化问题中很有效
     \item 邻近点梯度法
 \end{itemize}
+
+\subsection{二阶优化方法}
+\subsubsection{牛顿法}
+牛顿法(Newton's method)：要求$f_0(x)$二阶可微，强凸
+\[\min f_0(\iter{x}{k}+v)\approx\min_{\norm{v}=1}f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),v}\]
+\[\begin{aligned}
+    &\approx\min_v f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),v}+\frac{1}{2}v^\T \nabla^2f(\iter{x}{k})v\\
+    &\implies \nabla f_(\iter{x}{k})+\nabla^2f(\iter{x}{k})v=0\\
+    &\implies v=-(\nabla^2f(\iter{x}{k}))^{-1}\nabla f_0(\iter{x}{k})\to\text{牛顿方向}
+\end{aligned}\]
+\[\begin{aligned}
+    \iter{d}{k}&=-(\nabla^2f(\iter{x}{k}))^{-1}\nabla f_0(\iter{x}{k})\\
+    \iter{x}{k+1}&=\iter{x}{k}-\iter{\alpha}{k}(\nabla f(\iter{x}{k}))^{-1}\nabla f_0(\iter{x}{k})
+\end{aligned}\]
+其中$\iter{\alpha}{k}$为搜索步长。
+看下降方向只要看其与负梯度方向是否小于90度
+\[\begin{aligned}
+    \qquad& -\nabla f_0(\iter{x}{k}),-(\nabla^2 f_0(\iter{x}{k}))^{-1}\nabla f_0(\iter{x}{k})\\
+    =&\nabla^\T f_0(\iter{x}{k})(\nabla^2 f_0(\iter{x}{k}))^{-1}\nabla f_0(\iter{x}{k})
+\end{aligned}\]
+
+假设$\nabla^2f(x)$Lipschitz连续
+\begin{itemize}
+    \item 若$\norm{\nabla f_0(\iter{x}{k})}_2>\eta$，阻尼(damped)牛顿段\\
+用Armijo Rule算步长，$\exists\gamma>0$，$f_0(\iter{x}{k+1})-f_0(\iter{x}{k})\leq-\gamma$
+    \item 若$\norm{\nabla f_0(\iter{x}{k})}_2\leq\eta$，纯牛顿段\\
+$\alpha=1,f_0(\iter{x}{k+1})-f_0(x^\star)\leq\Delta(\frac{1}{2})^{2^k},\exists\Delta>0$，超线性收敛
+\end{itemize}
+多了二阶信息，往最优解跑的速度会越来越快
+
+\begin{example}
+    $\min\frac{1}{2}x^\T px+q^\T r+c,P\succ 0$
+\end{example}
+\begin{analysis}
+    对于二阶强凸问题，只需1步到达最优解；但用梯度下降法，与条件数相关
+\end{analysis}
+与Newton-Raphson算法的联系，将其扩展至高维的凸问题
+\[\iter{x}{k+1}=\iter{x}{k}-\frac{g(\iter{x}{k})}{g'(\iter{x}{k})}\]
+
+\subsubsection{拟牛顿法}
+拟牛顿法(quasi-Newton)：希望像一阶算法一样好算，又像二阶算法一样收敛快
+\begin{enumerate}
+    \item 构造$(\nabla^2f_0(\iter{x}{k}))^{-1}$的近似矩阵$\iter{G}{k}$（直接的想法）
+    \item 构造$\nabla^2f_0(\iter{x}{k})$的近似矩阵$\iter{B}{k}$，且容易求逆
+\end{enumerate}
+在$x=k+1$点处做Taylor展开
+\[\begin{aligned}
+    \qquad & f_0(x)\approx\nabla f_0(\iter{x}{k+1})+\lrang{\nabla f_0(\iter{x}{k+1}),x-\iter{x}{k+1}}+\frac{1}{2}(x-\iter{x}{k+1})^\T\nabla^2 f_0(\iter{x}{k+1})(x-\iter{x}{k+1})\\
+    \implies&\nabla f_0(x)\approx\nabla f_0(\iter{x}{k+1})+\nabla^2 f_0(\iter{x}{k+1})(x-\iter{x}{k+1})\\
+    \implies&\nabla f_0(\iter{x}{k})\approx\nabla f_0(\iter{x}{k+1})+\nabla^2 f_0(\iter{x}{k+1})(\iter{x}{k}-\iter{x}{k+1})\\
+    \implies&\nabla f_0(\iter{x}{k})-\nabla f_0(\iter{x}{k+1})\approx\nabla^2 f_0(\iter{x}{k+1})(\iter{x}{k}-\iter{x}{k+1})
+\end{aligned}\]
+\[\begin{aligned}
+    \iter{q}{k}&=\nabla f_0(\iter{x}{k+1})-\nabla f_0(\iter{x}{k})\\
+    \iter{p}{k}&=\iter{x}{k+1}-\iter{x}{k}
+\end{aligned}\]
+\[\begin{cases}
+    \iter{q}{k}=\iter{B}{k+1}\iter{p}{k}\\
+    \iter{p}{k}=\iter{G}{k+1}\iter{q}{k}
+\end{cases}\]
+\begin{enumerate}
+\item 近似$\iter{G}{k}$
+\[\iter{G}{k+1}=\iter{G}{k}+\Delta\iter{G}{k}\]
+\begin{itemize}
+    \item [a.]秩1校正（希望$G$中不要有太多元素，故用低秩矩阵做近似）
+    \[\Delta\iter{G}{k}=\iter{\alpha}{k}\iter{z}{k}(\iter{z}{k})^\T\]
+    \[\iter{p}{k}=\iter{G}{k+1}\iter{q}{k}=\iter{G}{k}\iter{q}{k}+\iter{\alpha}{k}\iter{z}{k}(\iter{z}{k})^\T\iter{q}{k}\]
+    \[\implies\Delta\iter{G}{k}=\frac{(\iter{p}{k}-\iter{G}{k}\iter{q}{k})(\iter{p}{k}-\iter{G}{k}\iter{q}{k})^\T}{(\iter{q}{k})^\T(\iter{p}{k}-\iter{G}{k}\iter{q}{k})}\]
+    稳定性很有问题，分母接近0的时候，越接近最优解越不稳定
+    \item [b.]秩2校正(Dandon-Fletcher-Power, DFP)
+    \[\Delta\iter{G}{k}=\frac{\iter{p}{k}(\iter{p}{k})^\T}{(\iter{p}{k})^\T\iter{q}{k}}-\frac{\iter{G}{k}\iter{q}{k}(\iter{q}{k})^\T\iter{G}{k}}{(\iter{q}{k})^\T\iter{G}{k}\iter{q}{k}}\]
+    前后项都为秩1矩阵，数值稳定性强
+\end{itemize}
+\item 近似$\iter{B}{k}$(Broyden-Fletcher-Goldfarb-Shermo, BFGS)
+\[\iter{B}{k+1}=\iter{B}{k}+\frac{\iter{q}{k}(\iter{q}{k})^\T}{(\iter{q}{k})^\T\iter{p}{k}}-\frac{\iter{B}{k}\iter{p}{k}(\iter{p}{k})^\T\iter{B}{k}}{(\iter{p}{k})^\T\iter{B}{k}\iter{p}{k}}\]
+\end{enumerate}
+\begin{itemize}
+    \item 拟牛顿法以后可能很有用，因为结合一二阶优化优点
+    \item 找核心问题（Hessian矩阵难算），然后就去解决
+    \item 用\textbf{结构信息}，都对结构进行限制（一股脑就用Adam优化器，这是不对的，要分析问题结构）
+\end{itemize}
+
+有限内存(limited memory)---LM-BFGS
+
+\subsection{有约束优化方法}
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{x}{\in C}
+\end{mini*}
+变为
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{A x}{=b}
+\end{mini*}
+本质上都是在考虑它的KKT条件
+\[\begin{cases}
+    A x^\star=b\\
+    \nabla f_0(x^\star)+A^\T v^\star=0
+\end{cases}\]
+\begin{mini*}
+    {}{\frac{1}{2}x^\T px+q^\T x+r,P\succeq 0}{}{}
+    \addConstraint{Ax}{=b}
+\end{mini*}
+等价于KKT条件
+\[\begin{cases}
+    A x^\star=b\\
+    p x^\star+q+A^\T v^\star=0
+\end{cases}\]
+等价于
+\[\bmat{P & A^\T\\A & \vzero}\bmat{x^\star \\v^\star}=\bmat{-q\\b}\]
+
+\subsubsection{约束满足的牛顿法}
+若方程组非线性，那就做一个线性化
+\begin{argmini*}
+{d}{f_0(\iter{x}{k}+d)=\iter{d}{k}}{}{}
+\addConstraint{A(\iter{x}{k}+d)}{=b}
+\end{argmini*}
+近似等价于（二阶近似Taylor展开）
+\begin{argmini*}
+{d}{f_0(\iter{x}{k})+\lrang{\nabla f_0(\iter{x}{k}),d}+\frac{1}{2}d^\T\nabla^\T f_0(\iter{x}{k})d=\iter{d}{k}}{}{}
+\addConstraint{A(\iter{x}{k}+d)}{=b}
+\end{argmini*}
+写出问题关于d的KKT条件，可得等价条件
+\[\bmat{\nabla f_0(\iter{x}{k}) & A^\T\\ A & \vzero}\bmat{\iter{d}{k}\\\iter{v}{k}}=\bmat{-\nabla f_0(\iter{x}{k})\\b-A\iter{x}{k}}\]
+若$\iter{x}{0}$可行，$A\iter{x}{0}=b$，之后的$\iter{x}{k+1}=\iter{x}{k}+\iter{\alpha}{k}\iter{d}{k}$也可行。
+即为。
+
+\subsubsection{拉格朗日乘子法/对偶分解法}
+\[L(x,v)=f_0(x)+\lrang{Ax-b,v}\]
+更新原变量和对偶变量
+\[\begin{cases}
+    \iter{x}{k+1}=\arg\min_x L(x,\iter{v}{k})\\
+    \iter{v}{k+1}=\iter{v}{k}+\iter{\alpha}{k}(A\iter{x}{k+1}-b)
+\end{cases}\]
+$\iter{\alpha}{k}$可以是固定步长，也可以是递减步长
+
+即为\textbf{找鞍点}，$x$方向上找最小值，本来$v$方向上要找最大值，但容易到正无穷。因此换种方法$\iter{v}{k}$做一个保守的计算，每一步都走一个很小的步长。
+
+\begin{example}
+    \begin{mini*}
+        {}{\frac{1}{2}x^2}{}{}
+        \addConstraint{x}{=1}
+    \end{mini*}
+\end{example}
+\begin{analysis}
+    \[\begin{aligned}
+        L(x,v)&=\frac{1}{2}x^2+v(x-1)\\
+        &=\frac{1}{2}x^2+vx-v
+    \end{aligned}\]
+\end{analysis}
+
+\bigskip
+\textbf{对偶次梯度法}：$v$才是最关键的，只是在寻找最优$v$的时候顺带找到了$x$（收敛到$v^\star$的同时也找到了$x^\star$）
+\[D(v)=\inf_x L(x,v)\]
+$D(v)$为凹函数，关注$-D(v)$
+\[\begin{cases}
+    -(A\iter{x}{k+1}-b)\\
+    \iter{x}{k+1}=\arg\min_x L(x,\iter{v}{k})
+\end{cases}\]
+\[\iter{v}{k+1}=\iter{v}{k}-\iter{\alpha}{k}(-(A\iter{x}{k+1})-b)\]
+
+若$f_0(x)$为凸，若$\hat{x}=\arg\min_x L(x,\hat{\lambda})$，则$-(A\hat{x}-b)$为$-D(\lambda)$在$\hat{\lambda}$的次梯度
+\[\forall v:\;-D(\lambda)\geq -D(\hat{\lambda})+\lrang{v-\hat{\lambda},g(\hat{\lambda})}\]
+\[\begin{aligned}
+    D(v)&=\inf_x L(x,v)\\
+    &=\inf_x f_0(x)+\lrang{v,Ax+b}\\
+    &\leq f_0(\hat{x})+\lrang{v,A\hat{x}-b}\\
+    &=f_0(\hat{x})+\lrang{\lambda,A\hat{x}-b}+\lrang{v-\hat{\lambda},A\hat{x}-b}\\
+    &=D(\hat{\lambda})+\lrang{v-\hat{\lambda},A\hat{x}-b}
+\end{aligned}\]
+\[-D(v)\geq -D(\hat{\lambda})+\lrang{v-\hat{\lambda},-(A\hat{x}-b)}\]
+进而得到$-(A\hat{x}-b)$就是一个次梯度
+
+这个算法一般来说性能不好，在机器学习里面很多时候都被乱用，有时候可以，有时候不行。
+\par 在什么情况下它是好用的？对偶函数是可微的，采用固定步长。
+\par 对偶函数$D(v)$何时可微？
+
+任何$-D(\lambda)$都具有$-(A\hat{x}-b)$的形式，得到当$f_0(x)$\textbf{严格凸}时，$f_0(x)+\lrang{\hat{\lambda},Ax-b}$严格凸，进而$D(v)$可微
+
+\bigskip
+\textbf{原对偶次梯度法}：计算量出在$\iter{x}{k+1}$，那么想办法近似
+\[\begin{cases}
+    \iter{x}{k+1}&=\iter{x}{k}-\iter{\alpha}{k}\partial_x L(x,\iter{v}{k})\\
+    \iter{v}{k+1}&=\iter{v}{k}+\iter{\alpha}{k}\partial_v L(\iter{x}{k+1},v)\\
+    &\iter{v}{k}+\iter{\alpha}{k}(A\iter{x}{k+1}-b)
+\end{cases}\]
+
+$\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等待
+\[\iter{v}{k}+\iter{\alpha}{k}(A\iter{x}{k}-b)\]
+
+由于两个方向都不精确，故收敛性质糟糕。
+
+\bigskip
+\textbf{增广(augmented)拉格朗日法}：当函数不是严格凸时，依然能得到很好的效果
+\begin{mini*}
+    {}{f_0(x)}{}{}
+    \addConstraint{Ax}{=b}
+\end{mini*}
+\[L(x,v)=f_0(x)+\lrang{v,Ax-b}\]
+\[L_c(x,v)=f_0(x)+\lrang{v,Ax-b}+\frac{c}{2}\norm{Ax-b}^2,c>0\]
+增广拉格朗日函数是另一个问题的拉格朗日函数
+\begin{mini*}
+    {}{f_0(x)+\frac{c}{2}\norm{Ax-b}^2}{}{}
+    \addConstraint{Ax}{=b}
+\end{mini*}
+两个问题的原对偶最优解相同
+
+设$(x^\star,v^\star)$为原问题最优解
+\[\begin{cases}
+    Ax^\star=b\\
+    \pd{L(x,v^\star)}{x}\Big|_{x=x^\star}=0
+\end{cases}\]
+\[\begin{cases}
+    Ax^\star=b\\
+    \pd{L_c(x,v^\star)}{x}\Big|_{x=x^\star}=0
+\end{cases}\]
+\[\nabla_x)(f_0(x)+\lrang{v^\star,Ax-b})\Big|_{x=x^\star}=0\]
+\[\begin{aligned}
+    \qquad&\nabla_x)(f_0(x)+\lrang{v^\star,Ax-b}+\frac{c}{2}\norm{Ax-b}^2)\Big|_{x=x^\star}=0\\
+    =&\nabla_x(\frac{c}{2}\norm{Ax-b}^2)\\
+    =&cA^\T(Ax-b)\Big|_{x=x^\star}=0
+\end{aligned}\]
+
+\[\begin{cases}
+    \iter{x}{k+1}=\arg\min_x L_c(x,\iter{v}{k})\\
+    \iter{v}{k+1}=\iter{v}{k}+c(A\iter{x}{k+1}-b)
+\end{cases}\]
+只要原问题是凸问题，无论$c$怎么取（$c$刚好就是固定步长），该算法总是可以收敛（不考虑计算精度的问题），只是收敛速度不同
