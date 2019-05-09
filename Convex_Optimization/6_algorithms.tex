@@ -594,8 +594,7 @@ $\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等�
 
 由于两个方向都不精确，故收敛性质糟糕。
 
-\bigskip
-\textbf{增广(augmented)拉格朗日法}：当函数不是严格凸时，依然能得到很好的效果
+\subsubsection{增广(augmented)拉格朗日法}：当函数不是严格凸时，依然能得到很好的效果
 \begin{mini*}
     {}{f_0(x)}{}{}
     \addConstraint{Ax}{=b}
@@ -630,3 +629,117 @@ $\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等�
     \iter{v}{k+1}=\iter{v}{k}+c(A\iter{x}{k+1}-b)
 \end{cases}\]
 只要原问题是凸问题，无论$c$怎么取（$c$刚好就是固定步长），该算法总是可以收敛（不考虑计算精度的问题），只是收敛速度不同
+
+% 考试必考手算原变量和对偶变量
+\begin{example}
+    \begin{mini*}
+        {}{\frac{1}{2}x_1^2+\frac{1}{2}x_2^2}{}{}
+        \addConstraint{x_1}{=1}
+    \end{mini*}
+\end{example}
+\begin{analysis}
+    \[L(x,v)=\frac{1}{2}x_1^2+\frac{1}{2}x_2^2+v(x_1-1)\]
+    \[\pd{L(x,v^\star)}{x}\Big|_{x=x^\star}=0=\bmat{x_1+v^\star\\x_2}\]
+    增广拉格朗日法
+    \[L_{c^k}(x,v)=\frac{1}{2}x_1^2+\frac{1}{2}x_2^2+v(x_1-1)+\frac{c^k}{2}(x_1-1)^2\]
+    \[\iter{x}{k+1}=\arg\min L_{c^k}(x,\iter{v}{k})\]
+    \[\begin{cases}
+        x_1+\iter{v}{k}+\iter{c}{k}(x_1-1)=0\\
+        x_2=0
+    \end{cases}\]
+    \[\iter{x}{k+1}=\bmat{\frac{\iter{c}{k}-\iter{v}{k}}{\iter{c}{k}+1}\\0}\]
+    \[\begin{aligned}
+        \iter{v}{k+1}&=\iter{v}{k}+\iter{c}{k}(\iter{x_1}{k+1}-1)\\
+        &=\iter{v}{k}+\iter{c}{k}\lrp{\frac{\iter{c}{k}-\iter{v}{k}}{\iter{c}{k}+1}-1}\\
+        &=\frac{\iter{v}{k}}{\iter{c}{k}+1}-\frac{\iter{c}{k}}{\iter{c}{k}+1}
+    \end{aligned}\]
+    \[\iter{v}{k+1}-v^\star=\iter{v}{k+1}+1=\frac{\iter{v}{k}}{\iter{c}{k}+1}+\frac{1}{\iter{c}{k}+1}=\frac{\iter{v}{k}-v^\star}{\iter{c}{k}+1}\]
+    可以看出取一个固定步长，且大于零，增广拉格朗日的收敛是非常好的（线性收敛）\\
+    对于特殊的一些非凸问题，增广拉格朗日也是有效的，如把问题改成
+    \[\min -\frac{1}{2}x_1^2+\frac{1}{2}x_2^2\]
+\end{analysis}
+
+\subsubsection{交替方向乘子法}
+交替方向乘子法(alternating direction method of multipliers)同样探究\textbf{有结构}的优化问题。
+\begin{mini*}
+    {}{f_1(x)+f_2(x)}{}{}
+    \addConstraint{Ax+By}{=0}
+\end{mini*}
+\[L_c(x,y,v)=f_1(x)+f_2(y)+\lrang{v,Ax+By}+\frac{c}{2}\norm{Ax+By}_2^2\]
+\[\begin{cases}
+    (\iter{x}{k+1},\iter{y}{k+1})=\arg\min_{x,y}L_c(x,y,\iter{v}{k})\\
+    \iter{v}{k+1}=\iter{v}{k}+c(A\iter{x}{k+1}+B\iter{y}{k+1})
+\end{cases}\]
+由于在$\norm{Ax+By}_2^2$中，$x$和$y$结合在一起，不好优化，故用交替的方法（选主元）来解决
+\[\begin{cases}
+    \iter{x}{k+1}=\arg\min_{x}L_c(x,\iter{y}{k},\iter{v}{k})\\
+    \qquad=\arg\min_x f_1(x)+\lrang{\iter{v}{k},Ax}+\frac{c}{2}\norm{Ax+B\iter{y}{k}}_2^2\\
+    \qquad\iff\arg\min_x f_1(x)+\frac{c}{2}\norm{Ax+B\iter{y}{k}+\frac{\iter{v}{k}}{c}}_2^2\qquad\text{配方，关于$\iter{y}{k}$的项为常数项，可忽略}\\
+    \iter{y}{k+1}=\arg\min_{y}L_c(\iter{x}{k+1},y,\iter{v}{k})\\
+    \qquad\iff\arg\min_y f_1(x)+\frac{c}{2}\norm{A\iter{x}{k+1}+By+\frac{\iter{v}{k}}{c}}_2^2\\
+    \iter{v}{k+1}=\iter{v}{k}+c(A\iter{x}{k+1}+B\iter{y}{k+1})
+\end{cases}\]
+两块的算法依然具有很好的收敛性，但是多块的交替方向乘子法不一定可以收敛。
+
+\begin{example}[LASSO]
+    \[\min\frac{1}{2}\norm{Ax-b}_2^2+v\norm{x}_1\]
+\end{example}
+\begin{analysis}
+    写成交替方向乘子法的格式
+    \begin{mini*}
+        {}{\frac{1}{2}\norm{Ax-b}_2^2+v\norm{y}_1}{}{}
+        \addConstraint{x-y}{=0}
+    \end{mini*}
+    \[\begin{cases}
+        \iter{x}{k+1}=\arg\min_x\frac{1}{2}\norm{Ax-b}_2^2+\frac{c}{2}\norm{x-\iter{y}{k}+\frac{\iter{v}{k}}{c}}_2^2\\
+        \iter{x}{k+1}=\arg\min_y v\norm{y}_1+\frac{c}{2}\norm{\iter{x}{k+1}-y+\frac{\iter{v}{k}}{c}}_2^2\\
+        \iter{v}{k+1}=\iter{v}{k}+c(\iter{x}{k+1}-\iter{y}{k+1})
+    \end{cases}\]
+    对于$x$可以求出显式解
+    \[\begin{aligned}
+        &\qquad A^\T(Ax-b)+c(x-\iter{y}{k}+\frac{\iter{v}{k}}{c})\\
+        &\implies (A^\T A+cI)x=A^\T b+c\iter{y}{k}-\iter{v}{k}\\
+    \end{aligned}\]
+    同样对于$y$也可以求出显式解
+\end{analysis}
+
+\subsubsection{并行优化}
+\begin{center}
+    \begin{tikzcd}
+        & \text{master }g(x)\arrow{dl}\arrow{d}\arrow{dr} & \\
+        \text{worker1 }f_1(x) & \text{worker2 }f_2(x) & \text{worker3 }f_3(x)
+    \end{tikzcd}
+\end{center}
+\[\min_x g(x)+\sum_{i=1}^N f_i(x)\]
+针对LASSO问题，每个人都有一个样本$(A_i,b_i)$，最小化样本之和，以及正则化项
+\[\begin{cases}
+    (A_1,b_1)\implies\frac{1}{2}\norm{A_1 x-b_1}_2^2\\
+    \vdots\\
+    (A_n,b_n)\implies\frac{1}{2}\norm{A_N x-b_N}_2^2\\
+    g(x)=v\norm{x}_1
+\end{cases}\]
+原问题即为
+\[\min_x v\norm{x}_1+\frac{c}{2}\norm{\bmat{A_1 & \cdots & A_N}x-\bmat{b_1 & \cdots & b_N}}_2^2\]
+
+\textbf{并行梯度下降法}
+\[\begin{cases}
+    \iter{x}{k+\frac{1}{2}}=\iter{x}{k}-\alpha\sum_{i=1}^N\nabla f_i(\iter{x}{k})\\
+    \iter{x}{k+1}=\arg\min g(x)+\frac{1}{2\alpha}\norm{x-\iter{x}{k+\frac{1}{2}}}_2^2
+\end{cases}\]
+计算简单，只需求梯度，但所有梯度类问题都依赖于条件数。通信开销大。
+
+\textbf{对偶分解法}
+\begin{mini*}
+    {}{\sum_{i=1}^N f_i(x_i)+g(z)}{}{}
+    \addConstraint{x_i}{=z,\forall i}
+\end{mini*}
+\[\begin{cases}
+    L(x,z,v)=\sum{i=1}^N f_i(x_i)+g(z)+\sum_{i=1}^N\lrang{v_i,x_i z}
+\end{cases}\]
+\[(\iter{x}{k+1},\iter{z}{k+1})=\arg\min_{x,z}L(x,z,\iter{v}{k})\]
+\[\implies\begin{cases}
+    \iter{x_i}{k+1}=\arg\min_{x_i} f_i(x_i)+\lrang{\iter{v_i}{k},x_i}\\
+    \iter{z}{k+1}=\arg\min_{z_i} g(z)-\sum_{i=1}^N\lrang{\iter{v_i}{k},z}\\
+    \iter{v_i}{k+1}=\iter{v_i}{k}+\alpha\lrang{\iter{x_i}{k+1},\iter{z}{k+1}}
+\end{cases}\]
+不依赖于条件数，但每一步都需要求解一个最优解，不一定好求。通信开销小，但拉格朗日类方法收敛性差。
