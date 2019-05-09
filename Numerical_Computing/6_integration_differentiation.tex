@@ -1,0 +1,85 @@
+% !TEX root = main.tex
+
+\section{数值积分与数值微分}
+\subsection{基本公式}
+中点公式
+\[\begin{aligned}
+    I&=\intab{a}{b}{f(x)}\approx(b-a)f\lrp{\frac{a+b}{2}}\\
+    R&=\frac{1}{24}(b-a)^3f''(\xi)
+\end{aligned}\]
+梯形公式（一次插值）
+\[\begin{aligned}
+    I&=\intab{a}{b}{f(x)}\approx\frac{1}{2}(b-a)[f(a)+f(b)]\\
+    R&=-\frac{1}{12}(b-a)^3f''(\xi)
+\end{aligned}\]
+辛普森公式（二次插值）
+\[\begin{aligned}
+    I&=\intab{a}{b}{f(x)}\approx\frac{1}{6}(b-a)[f(a)+4f\lrp{\frac{a+b}{2}}+f(b)]\\
+    R&=-\frac{(b-a)^5}{2880}f^{(4)}(\xi)
+\end{aligned}\]
+通常记
+\[I[f]=\intab{a}{b}{f(x)}\approx\sum_{i=0}^n\omega_i f(x_i)=Q[f]\]
+为求积公式，其中$x_i$为求积节点，$\omega_i$为求积系数，误差/余项则记为
+\[R[f]=I[f]-Q[f]\]
+\begin{definition}[代数精度]
+    对所有次数小于等于$m$的多项式$f(x)$，等式
+    \[\intab{a}{b}{f(x)}=\sum_{i=0}^n\omega_i f(x_i)\]
+    成立，但对于$m+1$次的某个多项式不精确成立，则称该求积公式代数精度为$m$次。
+\end{definition}
+
+记
+\[x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})\]
+由定积分性质
+\[\intab{a}{b}{f(x)}=\sum_{i=0}^{n-1}\intab{x_i}{x_{i+1}}{f(x)}\]
+进而每一个小段都可以用前面的基本公式，进而得到复合积分公式。
+
+复合中点公式
+\[M_n:=\sum_{i=0}^{n-1}hf\lrp{x_{i+\frac{1}{2}}}\]
+复合梯形公式
+\[T_n:=\frac{h}{2}[f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\]
+复合辛普森公式
+\[S_n:=\frac{h}{6}[f(a)+4\sum_{i=0}^{n-1}f(x_{i+\frac{1}{2}})+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\]
+
+\subsection{牛顿-科茨公式}
+直接用$n$次的拉格朗日函数代替被积函数，即得牛顿-科茨(Newton-Cotes)公式
+\[Q=(b-a)\sum_{i=0}^n\frac{(-1)^{n-i}}{ni!(n-i)!}\lrp{\intab{0}{n}\Pi_{j=0,j\ne i}^n(t-j)\diff t}f(x_i)=\sum_{i=0}^n\omega_if(x_i)\]
+科茨系数
+\[C_i^{(n)}\frac{(-1)^{n-i}}{ni!(n-i)!}\intab{0}{n}\Pi_{j=0,j\ne i}^n(t-j)\diff t\]
+有以下性质
+\begin{itemize}
+    \item \[\sum_{i=0}^nC_{i}^{(n)}=1\]
+    \item $C_i^{(n)}$对$i$有对称性：$C_i^{(n)}=C_{n-1}^{(n)}$
+    \item $n\geq 8$科茨系数有正有负，求积公式稳定性得不到保证，故一般不采用太高阶
+\end{itemize}
+\begin{theorem}
+    当$n$为奇数时，牛顿-科茨公式代数精度至少为$n$次；而当$n$为偶数时，代数精度至少为$n+1$次
+\end{theorem}
+
+\subsection{高斯公式}
+高斯公式非等分节点
+\[I[f]=\intab{a}{b}{\rho(x)f(x)}\approx\sum_{i=0}^n\omega_if(x_i)\]
+\begin{definition}
+    若对于节点$x_i\in[a,b]$及求积系数$\omega_i$，上述求积公式代数精度为$2n+1$，则称节点$x_i$为高斯点，$\omega_i$为高斯系数
+\end{definition}
+
+几种常见的高斯公式如下
+\begin{enumerate}
+    \item 高斯-勒让德(Legendre)多项式：$\rho\equiv 1,[a,b]=[-1,1]$
+    \item 高斯-切比雪夫公式：$\rho(x)=\frac{1}{\sqrt{1-x^2}},[a,b]=[-1,1]$
+    \item 高斯-拉盖尔公式：$\rho(x)=\ee^{-x},[a,b]=[0,\infty)$
+    \item 高斯-埃尔米特(Hermite)公式：$\rho(x)=\ee^{-x^2},(a,b)=(-\infty,+\infty)$
+\end{enumerate}
+第一步都先变换积分区间，然后查表代入$x_i$和$\omega_i$
+
+\subsection{多重积分}
+记$\omega_i,\omega_j$分别为$x,y$方向的求积系数
+\[I=\iint_Omega f(x,y)\diff x\diff y\approx\sum_{i=0}^n\sum_{j=0}^m\omega_{ij}f(x_i,y_j)\]
+
+\subsection{数值微分}
+利用拉格朗日函数可以做线性、二次和高次插值，得到微分近似公式
+
+两点公式：向前差商公式和向后差商公式
+\[\begin{cases}
+    f'(x_0)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
+    f'(x_1)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
+\end{cases}\]
