@@ -1,53 +1,88 @@
 % !TEX root = main.tex
 
 \section{数值积分与数值微分}
+只要$\disp\max_{a\leq x\leq b}|f(x)-P_n(x)|\leq\eps$，就有误差估计
+\[\lrabs{\intab{a}{b}{f(x)}-\intab{a}{b}{P_n(x)}}\leq (b-a)\eps\]
+
 \subsection{基本公式}
-中点公式
+\begin{itemize}
+\item 中点公式
 \[\begin{aligned}
     I&=\intab{a}{b}{f(x)}\approx(b-a)f\lrp{\frac{a+b}{2}}\\
     R&=\frac{1}{24}(b-a)^3f''(\xi)
 \end{aligned}\]
-梯形公式（一次插值）
+\item 梯形公式（一次插值）
 \[\begin{aligned}
     I&=\intab{a}{b}{f(x)}\approx\frac{1}{2}(b-a)[f(a)+f(b)]\\
     R&=-\frac{1}{12}(b-a)^3f''(\xi)
 \end{aligned}\]
-辛普森公式（二次插值）
+\item 辛普森公式（二次插值）
 \[\begin{aligned}
-    I&=\intab{a}{b}{f(x)}\approx\frac{1}{6}(b-a)[f(a)+4f\lrp{\frac{a+b}{2}}+f(b)]\\
+    I&=\intab{a}{b}{f(x)}\approx\frac{1}{6}(b-a)\left[f(a)+4f\lrp{\frac{a+b}{2}}+f(b)\right]\\
     R&=-\frac{(b-a)^5}{2880}f^{(4)}(\xi)
 \end{aligned}\]
+\end{itemize}
+\begin{analysis}
+    误差公式的推导通常\textbf{在某一点处展开}，然后结合\textbf{积分第一中值定理}计算。
+    如下例计算中点公式误差，由泰勒公式
+    \[f(x)=f\lrp{\frac{a+b}{2}}+f'\lrp{\frac{a+b}{2}}\lrp{x-\frac{a+b}{2}}+\frac{1}{2}f''(\eta(x))\lrp{x-\frac{a+b}{2}}^2,\eta(x)\in(a,b)\]
+    左右两边积分，连续用两次积分第一中值定理有
+    \[\begin{aligned}
+        \intab{a}{b}{f(x)}&=\int_a^b f\lrp{\frac{a+b}{2}}\diff x+f'\lrp{\frac{a+b}{2}}\int_a^b\lrp{x-\frac{a+b}{2}}\diff x+\frac{1}{2}\int_a^b f''(\eta(x))\lrp{x-\frac{a+b}{2}}^2\diff x,\eta(x)\in(a,b)\\
+        &=(b-a)f\lrp{\frac{a+b}{2}}+0+\frac{1}{2}f''(\xi)\int_a^b \lrp{x-\frac{a+b}{2}}^2\diff x,\xi\in(a,b)\\
+        &=\frac{1}{24}(b-a)^3
+    \end{aligned}\]
+\end{analysis}
+
 通常记
 \[I[f]=\intab{a}{b}{f(x)}\approx\sum_{i=0}^n\omega_i f(x_i)=Q[f]\]
 为求积公式，其中$x_i$为求积节点，$\omega_i$为求积系数，误差/余项则记为
 \[R[f]=I[f]-Q[f]\]
 \begin{definition}[代数精度]
-    对所有次数小于等于$m$的多项式$f(x)$，等式
+    对\textbf{所有}次数小于等于$m$的多项式$f(x)$，等式
     \[\intab{a}{b}{f(x)}=\sum_{i=0}^n\omega_i f(x_i)\]
     成立，但对于$m+1$次的某个多项式不精确成立，则称该求积公式代数精度为$m$次。
 \end{definition}
+对于使代数精度尽可能高的题目，都是令$f(x)=1,x,x^2,\ldots$（相当于取特殊值），然后左右两边相等解方程组。
 
 记
 \[x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})\]
 由定积分性质
 \[\intab{a}{b}{f(x)}=\sum_{i=0}^{n-1}\intab{x_i}{x_{i+1}}{f(x)}\]
 进而每一个小段都可以用前面的基本公式，进而得到复合积分公式。
+记$h=\frac{b-a}{n}$，则
+\begin{itemize}
+\item 复合中点公式
+\[\begin{aligned}
+    M_n&:=\sum_{i=0}^{n-1}hf\lrp{x_{i+\frac{1}{2}}}\\
+    R_M&=\sum_{i=0}^{n-1}\frac{1}{24}h^3f''(\xi_i)
+\end{aligned}\]
+\item 复合梯形公式
+\[\begin{aligned}
+    T_n&:=\frac{h}{2}[f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\\
+    R_T&=-\frac{1}{12}(b-a)h^2f''(\eta),\eta\in(a,b)
+\end{aligned}\]
+\item 复合辛普森公式
+\[\begin{aligned}
+    S_n&:=\frac{h}{6}\left[f(a)+4\sum_{i=0}^{n-1}f(x_{i+\frac{1}{2}})+2\sum_{i=1}^{n-1}f(x_i)+f(b)\right]\\
+    R_S&=-\frac{1}{2880}(b-a)h^4f^{(4)}(\eta)
+\end{aligned}\]
+\end{itemize}
 
-复合中点公式
-\[M_n:=\sum_{i=0}^{n-1}hf\lrp{x_{i+\frac{1}{2}}}\]
-复合梯形公式
-\[T_n:=\frac{h}{2}[f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\]
-复合辛普森公式
-\[S_n:=\frac{h}{6}[f(a)+4\sum_{i=0}^{n-1}f(x_{i+\frac{1}{2}})+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\]
+龙贝格(Romberg)求积方法
+\[T_n^{(m)}=\frac{T_{2n}^{(m-1)}-2^{-2(m-1)}T_n^{(m-1)}}{1-2^{-2(m-1)}}\]
+可证$T_n^{(m)}(m\leq n)$的计算精度为$O(h^{2m})$
 
 \subsection{牛顿-科茨公式}
 直接用$n$次的拉格朗日函数代替被积函数，即得牛顿-科茨(Newton-Cotes)公式
-\[Q=(b-a)\sum_{i=0}^n\frac{(-1)^{n-i}}{ni!(n-i)!}\lrp{\intab{0}{n}\Pi_{j=0,j\ne i}^n(t-j)\diff t}f(x_i)=\sum_{i=0}^n\omega_if(x_i)\]
-科茨系数
-\[C_i^{(n)}\frac{(-1)^{n-i}}{ni!(n-i)!}\intab{0}{n}\Pi_{j=0,j\ne i}^n(t-j)\diff t\]
-有以下性质
+\[\begin{aligned}
+    Q&=(b-a)\sum_{i=0}^n\frac{(-1)^{n-i}}{ni!(n-i)!}\lrp{\intabu{0}{n}{\Pi_{j=0,j\ne i}^n(t-j)}{t}}f(x_i)\\
+    &=\sum_{i=0}^n(b-a)C_i^{(n)} f(x_i)\\
+    &=\sum_{i=0}^n\omega_if(x_i)
+\end{aligned}\]
+其中$C_i^{(n)}$为科茨系数，有以下性质
 \begin{itemize}
-    \item \[\sum_{i=0}^nC_{i}^{(n)}=1\]
+    \item $\disp\sum_{i=0}^nC_{i}^{(n)}=1$
     \item $C_i^{(n)}$对$i$有对称性：$C_i^{(n)}=C_{n-1}^{(n)}$
     \item $n\geq 8$科茨系数有正有负，求积公式稳定性得不到保证，故一般不采用太高阶
 \end{itemize}
@@ -56,11 +91,16 @@
 \end{theorem}
 
 \subsection{高斯公式}
-高斯公式非等分节点
-\[I[f]=\intab{a}{b}{\rho(x)f(x)}\approx\sum_{i=0}^n\omega_if(x_i)\]
+前面的方法都基于等分节点，而高斯公式则基于\textbf{非等分}节点
 \begin{definition}
-    若对于节点$x_i\in[a,b]$及求积系数$\omega_i$，上述求积公式代数精度为$2n+1$，则称节点$x_i$为高斯点，$\omega_i$为高斯系数
+    若对于节点$x_i\in[a,b]$及求积系数$\omega_i$，求积公式
+    \[I[f]=\intab{a}{b}{\rho(x)f(x)}\approx\sum_{i=0}^n\omega_if(x_i)\]
+    的代数精度为$2n+1$，则称节点$x_i$为高斯点，$\omega_i$为高斯系数
 \end{definition}
+\begin{theorem}
+    $x_i$是求积公式的高斯点的充分必要条件是，多项式$\Pi(x)=\Pi_{i=0}^n(x-x_i)$与任意次数不超过$n$的多项式$q(x)$关于权函数$\rho(x)$正交，即
+    \[\intab{a}{b}{\rho(x)\Pi(x)q(x)}=0\]
+\end{theorem}
 
 几种常见的高斯公式如下
 \begin{enumerate}
@@ -78,8 +118,15 @@
 \subsection{数值微分}
 利用拉格朗日函数可以做线性、二次和高次插值，得到微分近似公式
 
-两点公式：向前差商公式和向后差商公式
+两点公式：向前差商公式和向后差商公式，误差均为$O(h)$，精度都一阶
 \[\begin{cases}
     f'(x_0)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
     f'(x_1)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
+\end{cases}\]
+
+三点求导公式：其中第二条为中心差商公式，精度均为二阶
+\[\begin{cases}
+    f'(x_0)=\frac{1}{2h}[-3f(x_0)+4f(x_1)-f(x_2)]+\frac{h^2}{3}\iter{f}{3}(\xi)\\
+    f'(x_1)=\frac{1}{2h}[-f(x_0)+f(x_2)]-\frac{h^2}{6}\iter{f}{3}(\xi)\\
+    f'(x_2)=\frac{1}{2h}[f(x_0)-4f(x_1)+3f(x_2)]+\frac{h^2}{3}\iter{f}{3}(\xi)
 \end{cases}\]
