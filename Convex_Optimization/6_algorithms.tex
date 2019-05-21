@@ -660,7 +660,7 @@ $\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等�
 \end{analysis}
 
 \subsubsection{交替方向乘子法}
-交替方向乘子法(alternating direction method of multipliers)同样探究\textbf{有结构}的优化问题。
+交替方向乘子法(alternating direction method of multipliers, ADMM)同样探究\textbf{有结构}的优化问题。
 \begin{mini*}
     {}{f_1(x)+f_2(x)}{}{}
     \addConstraint{Ax+By}{=0}
@@ -733,9 +733,7 @@ $\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等�
     {}{\sum_{i=1}^N f_i(x_i)+g(z)}{}{}
     \addConstraint{x_i}{=z,\forall i}
 \end{mini*}
-\[\begin{cases}
-    L(x,z,v)=\sum{i=1}^N f_i(x_i)+g(z)+\sum_{i=1}^N\lrang{v_i,x_i z}
-\end{cases}\]
+\[L(x,z,v)=\sum_{i=1}^N f_i(x_i)+g(z)+\sum_{i=1}^N\lrang{v_i,x_i z}\]
 \[(\iter{x}{k+1},\iter{z}{k+1})=\arg\min_{x,z}L(x,z,\iter{v}{k})\]
 \[\implies\begin{cases}
     \iter{x_i}{k+1}=\arg\min_{x_i} f_i(x_i)+\lrang{\iter{v_i}{k},x_i}\\
@@ -743,3 +741,86 @@ $\iter{v}{k+1}$需要等待$\iter{x}{k+1}$，将其换成下式可以不用等�
     \iter{v_i}{k+1}=\iter{v_i}{k}+\alpha\lrang{\iter{x_i}{k+1},\iter{z}{k+1}}
 \end{cases}\]
 不依赖于条件数，但每一步都需要求解一个最优解，不一定好求。通信开销小，但拉格朗日类方法收敛性差。
+
+\textbf{增广拉格朗日函数}
+\[\sum_{i=1}^nf_i(x_i)+g(z)+\sum_{i=1}^n\lrang{\lambda_i,x-z}+\frac{c}{2}\sum_{i=1}^n\norm{x_i-z}^2\]
+正则项会产生$x_i$和$z$的交叉项，不好处理
+
+注意到$x_i$之间是没有依赖的，故采用交替方向乘子法，加了增广项，可用固定步长达到最优解
+\[\begin{cases}
+    \iter{x_i}{k+1}&=\arg\min f_0(x_i)+\lrang{\lambda_i^k,x_i}+\frac{c}{2}\norm{x_i-\iter{z}{k}}^2\\
+    \iter{z}{k+1}&=\arg\min g(z)-\lrang{\sum_{i=1}^n\iter{\lambda_i}{k},z}+\frac{c}{2}\sum_{i=1}^n\norm{\iter{x_i}{k+1}-z}^2\\
+    \iter{\lambda}{k+1}&=\iter{\lambda}{k}+c(\iter{x_i}{k+1}-\iter{z}{k+1})
+\end{cases}\]
+每次要多传一倍的变量，以通信量开销换性能提升
+
+\textbf{无中心分布式优化}
+考虑无向图
+\begin{center}
+    \begin{tikzcd}
+        & o\arrow{r}\arrow{ld}\arrow{rd} & o\arrow{d}\\
+        o\arrow{rd} & & o\arrow{ld}\arrow{d}\\
+        & o\arrow{uu} & o\arrow{l}
+    \end{tikzcd}
+\end{center}
+每个结点自己优化，协同决策
+\[\min\sum_{i=1}^n f_i(x)\]
+梯度下降法，但由于去中心，$\iter{x}{k}$无处摆放
+\[\iter{x}{k+1}=\iter{x}{k}-\iter{\alpha}{k}\sum_{i=1}^n\nabla f_i(\iter{x}{k})\]
+那就每一个点分配一个本地变量$x_i$，对邻居的更新做一个加权平均
+\[\iter{x}{k+1}=\sum_{i=1}^n\omega_{ij}\iter{x_j}{k}-\iter{\alpha}{k}\sum_{i=1}^n\omega_{ij}\nabla f_j(\iter{x_j}{k})\]
+其中
+\[\begin{cases}
+    \omega_{ij}\ne 0 & (i,j)\in E, i=j\\
+    \omega_{ij}=0 & \text{otherwise}
+\end{cases}\]
+\[W=\bmat{\omega_{ij}},W=W^\T,W\vone=\vone\]
+
+在不可信的系统里面，存在个人隐私等信息，故更激进些，采用自己的梯度进行更新（在本地进行梯度下降），在无人机系统中非常常见
+\[\iter{x_i}{k+1}=\sum_{i=1}\omega_{ij}\iter{x_j}{k}-\iter{\alpha}{k}\nabla f_i(\iter{x_i}{k})\]
+非常糟糕的算法，如果采用固定步长，则找不到最优解
+\begin{analysis}
+反证法，假设$\iter{x_i}{k}\to x^\star$，将$x^\star$代入
+\[x^\star=\sum_{j=1}^n\omega_{ij}x^\star-\alpha\nabla f_i(x^\star)\iff \nabla f_i(x^\star)=0\]
+但原问题最优解
+\[\sum_{i=1}^n\nabla f_i(x^\star)=0\]
+与上面的式子不等价
+\end{analysis}
+
+改成有约束优化的形式
+\begin{mini*}
+    {}{\sum_{i=1}^n f_i(x_i)}{}{}
+    \addConstraint{x_1=x_2=\cdots=x_n}
+\end{mini*}
+写出拉格朗日函数，对偶分解法
+\[\sum_{i=1}^nf_i(x_i)+\sum_{(i,j)\in E}\lrang{\lambda_{ij},x_i-x_j}\]
+别人的东西都在对偶变量中体现，求同存异
+\[\begin{cases}
+    \iter{x_i}{k+1}=\arg\min f_i(x_i)+\sum_{(i,j)\in E}(\iter{\lambda_{ij}}{k},x_i)-\sum_{(j,i)\in E}\lrang{\lambda_{ij},x_i}\\
+    \iter{\lambda_{ij}}{k+1}=\iter{\lambda_{ij}}{k}+\iter{\alpha}{k}(\iter{x_i}{k+1}-\iter{x_j}{k+1})-\sum_{(j,i)\in E}\lrang{\iter{\lambda_{ij}},x_i}
+\end{cases}\]
+依然要采用递减步长，才能保证收敛
+
+\begin{center}
+    \begin{tikzcd}
+        x_i\arrow[bend left]{rr}{z_{ij}} & & x_j\arrow[bend left]{ll}{z_{ji}}
+    \end{tikzcd}
+\end{center}
+\begin{mini*}
+    {}{\sum_{i=1}^n f_i(x_i)}{}{}
+    \addConstraint{x_i}{=z_{ij},\forall (i,j)\in E}
+    \addConstraint{x_j}{=z_{ji},\forall (i,j)\in E}
+\end{mini*}
+可分线性约束，进而可以用交替方向乘子法
+
+\[\begin{aligned}
+    \sum_{i=1}^nf_i(x_i)&+\sum_{(i,j)\in E}\lrp{\lrang{\alpha_{ij},x_i-z_j}+\lrang{\beta_{ij},x_j-z_{ji}}}\\
+    &+\sum_{(i,j)\in E}\frac{c}{2}\lrp{\norm{x_i-z_{ij}}^2+\norm{x_j-z_{ij}}^2}
+\end{aligned}\]
+\[\begin{cases}
+    \iter{x_i}{k+1}&=\arg\min f_i(x_i)+\sum_{(i,j)\in E}\lrang{\iter{\alpha_{ij}{k}},x_i}+\sum_{(i,j)\in E}\lrang{\iter{\beta_{ji}}{k},x_i}\\
+    \qquad&+\frac{c}{2}\sum_{(i,j)\in E}\norm{x_i-\iter{z_j}{k}}^2+\frac{c}{2}\sum_{(i,j)\in E}\norm{x_i-\iter{z_{ji}}{k}}^2\\
+    \iter{z_j}{k+1}&=\cdots\\
+    \iter{\alpha_{ij}}{k+1}&=\cdots\\
+    \iter{\beta_{ij}}{k+1}&=\cdots
+\end{cases}\]

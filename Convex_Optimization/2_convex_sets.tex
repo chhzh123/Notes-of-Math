@@ -44,16 +44,16 @@
 若方程特解为$\vx_0$，则$\va\perp(\vx-\vx_0)$
 \end{definition}
 \begin{definition}[欧式球(Euclidean ball)]
-\[B(x_c,r)=\{x\mid\|x-x_c\|_2\leq r\}\]
+\[B(\vx_c,r)=\{\vx\mid\|\vx-\vx_c\|_2\leq r\}\]
 范数(norm)球可类似定义
 \end{definition}
 \begin{definition}[椭球(ellipsoid)]
-\[\eps(x_c,P)=\{x\mid(x-x_c)^\T P^{-1}(x-x_c)\leq 1\},P\succ 0\]
-其中$P\succ 0$代表$P$\textbf{对称}且正定($P=P^T$)
+\[\eps(\vx_c,P)=\{\vx\mid(\vx-\vx_c)^\T P^{-1}(\vx-\vx_c)\leq 1\},P\succ 0\]
+其中$P\succ 0$表示$P$\textbf{对称}($P=P^T$)\textbf{且正定}，或记为$P\in\bbs_{++}$
 \end{definition}
 \begin{analysis}
 % https://ljk.imag.fr/membres/Anatoli.Iouditski/cours/convex/chapitre_3.pdf
-定义内积$\lrang{x^\T P^{-1}y}$（需证满足内积条件），进而P-范数$\|x\|_P:=\sqrt{x^\T Px}$是范数，而椭球不过是P-范数意义下的球，由定理得椭球是凸的
+定义内积$\lrang{x^\T, P^{-1}y}$（需证满足内积条件），进而$\|\vx\|_p:=\sqrt{\vx^\T P\vx}$是范数，而椭球不过是$p$-范数意义下的球，由定理得椭球是凸的
 \end{analysis}
 \begin{definition}[多面体(polyhedron)]
 \[P=\{\vx\mid\va_i^\T\vx\leq b_i,\vc_j^\T\vx=d_j,i=1,\ldots,m,j=1,\ldots,p\}\]
@@ -72,38 +72,38 @@
 \[f:\rn\mapsto\rr^m\quad f(\vx)=A\vx+\vb,A\in\rr^{m\times n},\vb\in\rr^m\]
 性质如下：
 \begin{itemize}
-	\item $S\subset\rn$为凸$\implies f(S)=\{f)\vx\mid\vx\in S\}$为凸
+	\item $S\subset\rn$为凸$\implies f(S)=\{f(\vx)\mid\vx\in S\}$为凸
 	\item $C\subset\rr^m$为凸$\implies f^{-1}(C)=\{\vx\in\rn\mid f(\vx)\in C\}$为凸
 \end{itemize}
 \end{definition}
 \begin{example}
-两个集合的和$S_1+S_2=\{x+y\mid x\in S_1,y\in S_2\}$保凸
+两个集合的和$S_1+S_2=\{\vx+\vy\mid \vx\in S_1,\vy\in S_2\}$保凸
 \end{example}
 \begin{analysis}
-直积$S_1\times S_2=\{(x,y)\mid x\in S_1,y\in S_2\}$显然可以保凸（相当于在两个集合同时画线）\\
-令$A=\bmat{I & I},\vx=\bmat{x & y}^\T,\vb=0$，由仿射函数性质知
+直积$S_1\times S_2=\{(\vx,\vy)\mid \vx\in S_1,\vy\in S_2\}$显然可以保凸（相当于在两个集合同时画线）\\
+令$A\gets\bmat{I & I},\vx\gets\bmat{\vx & \vy}^\T,\vb\gets 0$，由仿射函数性质知
 \end{analysis}
 
 \begin{definition}[透视(perspective)函数\footnote{$+$代表$\geq 0$，$++$代表$>0$}]
 透视函数$P:\rr^{n+1}\mapsto\rn,\dom P=\rn\times\rr_{++}$定义如下
-\[P(z,t)=\dfrac{z}{t},z\in\rn,t\in\rr_{++}\]
+\[P(\vz,t)=\dfrac{\vz}{t},\vz\in\rn,t\in\rr_{++}\]
 反透视函数
-\[P^{-1}(c):=\lrb{(x,t)\in\rr^{n+1}\mid\frac{x}{t}\in c,t>0}\]
+\[P^{-1}(c):=\lrb{(\vx,t)\in\rr^{n+1}\Big|\frac{\vx}{t}\in c,t>0}\]
 \end{definition}
 
 若$c\in\dom P$为凸，则$P(c):=\{P(x),x\in c\}$为凸；反透视函数仍保持$c$的凸性。
 
-考虑$\rr^{n+1}$内的线段，$x=(\widetilde{x}\in\rn,x_{n+1}\in\rr_{++}),y=(\widetilde{y},y_{n+1})$
+考虑$\rr^{n+1}$内的线段，$\vx=(\widetilde{\vx}\in\rn,\vx_{n+1}\in\rr_{++}),\vy=(\widetilde{\vy},\vy_{n+1})$
 则经过透视函数仍是线段
 \begin{analysis}
-\[P(\theta x+(1-\theta)y)=\frac{\theta\widetilde{x}+(1-\theta)\widetilde{y}}{\theta x_{n+1}+(1-\theta y_{n+1})}=\frac{\theta x_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{x}}{x_{n+1}}+\frac{(1-\theta)y_{n+1}}{\theta x_{n+1}+(1-\theta)y_{n+1}}\frac{\widetilde{y}}{y_{n+1}}\]
+\[P(\theta \vx+(1-\theta)\vy)=\frac{\theta\widetilde{\vx}+(1-\theta)\widetilde{\vy}}{\theta \vx_{n+1}+(1-\theta \vy_{n+1})}=\frac{\theta \vx_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vx}}{\vx_{n+1}}+\frac{(1-\theta)\vy_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vy}}{\vy_{n+1}}\]
 \end{analysis}
 
 \begin{definition}[线性分数函数]
 仿射函数
-\[g(x)=\bmat{A\\C^\T}x+\bmat{b\\d},A\in\rr^{m\times n},b\in\rm,c\in\rn,d\in\rr\]
-线性分数函数$f:\rn\mapsto\rm=p\circ g$
-\[f(x)=\frac{Ax+b}{c^\T x+d},\dom f=\{x\mid c^\T+d>0\}\]
+\[g(\vx)=\bmat{A\\\vc^\T}\vx+\bmat{\vb\\\vd},A\in\rr^{m\times n},\vb\in\rm,\vc\in\rn,\vd\in\rr\]
+线性分数函数$f:\rn\mapsto\rr^m=p\circ g$
+\[f(\vx)=\frac{A\vx+\vb}{\vc^\T \vx+\vd},\dom f=\lrb{\vx\mid \vc^\T+\vd>0}\]
 \end{definition}
 
 保凸性

@@ -2,6 +2,7 @@
 
 \section{凸函数} % 3.5
 \begin{definition}[凸函数]
+	凸函数的几种基本定义如下
 \begin{enumerate}
 	\item $f:\rn\to\rr$为凸$\iff\dom f$为凸且$\forall x,y\in\dom f,\theta\in[0,1]$
 \[f(\theta x+(1-\theta)y)\leq\theta f(x)+(1-\theta)f(y)\]
@@ -11,51 +12,50 @@
 \end{itemize}
 	\item 高维定义：
 $f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
-\[\forall x\in\dom f,v\in\rn:g(t):=f(x+tv)\text{为凸，}\dom g=\{t\mid x+tv\in\dom f\}\]
+\[\forall \vx\in\dom f,\vv\in\rn:g(t):=f(\vx+t\vv)\text{为凸，}\dom g=\{t\mid \vx+t\vv\in\dom f\}\]
 相当于每一个剖面上的低维函数都是凸的
-	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(x)=[\nabla f(x)]^\T$}
-	\[f(y)\geq f(x)+\nabla^\T f(x)(y-x)\]
+	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(\vx)=[\nabla f(\vx)]^\T$, $\nabla^2 f(\vx)$为$f(\vx)$的Hessian矩阵}
+	\[f(\vy)\geq f(\vx)+\nabla^\T f(\vx)(\vy-\vx)\]
 	\item 二阶条件：% 3.7
 	$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
-	\[\forall x\in\dom f:\nabla^2 f(x) \succeq 0\]
+	\[\forall \vx\in\dom f:\nabla^2 f(\vx) \succeq 0\]
 	\begin{itemize}
-		\item 凹函数：$\nabla^2 f(x)\preceq 0$
-		\item 严格凸：\textcolor{red}{$\impliedby$}$\nabla^2 f(x)\succ 0$，反例$f(x)=x^4$（在一个点斜率不变并不要紧）
+		\item 凹函数：$\nabla^2 f(\vx)\preceq 0$
+		\item 严格凸：\textcolor{red}{$\impliedby$}$\nabla^2 f(\vx)\succ 0$，反例$f(x)=x^4$（在一个点斜率不变并不要紧）
 	\end{itemize}
 \end{enumerate}
 \end{definition}
 
 \begin{example}
-$f(x)=a^\T x+b$
+$f(\vx)=\va^\T \vx+\vb$
 \end{example}
 \begin{analysis}
-有$\nabla f(x)=a$，进而
-\[f(y)=a^\T y+b\geq a^\T x+b+a^\T(y-x)=a^\T y+b\]
+有$\nabla f(\vx)=\va$，进而\footnote{$\lrang{\va,\vx}=\va_1\vx_1+\cdots+\va_n\vx_n\implies\nabla_\vx f(\vx)=\bmat{\pd{f(\vx)}{\vx_1}\\\vdots\\\pd{f(\vx)}{\vx_n}}=\bmat{\va_1\\\vdots\\\va_n}=\va$}
+\[f(\vy)=\va^\T \vy+\vb\geq \va^\T \vx+\vb+\va^\T(\vy-\vx)=\va^\T \vy+\vb\]
 \end{analysis}
 
 \begin{definition}[凸函数的扩展(extended-value)]
 尽管凸函数的定义域为凸，但往往不好处理，那就将其扩展到全空间。
-$x\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
-\[\widetilde{f}(x)=\begin{cases}f(x)&x\in\dom f\\+\infty&x\notin\dom f\end{cases}\]
+$\vx\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
+\[\widetilde{f}(\vx)=\begin{cases}f(\vx)&\vx\in\dom f\\+\infty&\vx\notin\dom f\end{cases}\]
 \end{definition}
 
 指示/示信(indicator)函数不一定是凸的
-\[f(x)=\begin{cases}0&x\in C\\ +\infty & x\notin C\end{cases}\]
+\[f(\vx)=\begin{cases}0&\vx\in \sC\\ +\infty & \vx\notin \sC\end{cases}\]
 
 \begin{theorem}
-若$f$为凸，可微，则$\exists x\in\dom f,\nabla f(x)=0$
+若$f$为凸，可微，则$\exists \vx\in\dom f,\nabla f(\vx)=0$
 \end{theorem}
 
 \begin{example}
-二次函数$f(x)=\dfrac{1}{2}x^\T Px+q^\T x+r$，$P\in S^n$（对称矩阵），$q^\T\in\rn$，$r\in\rr$
+二次函数$f(\vx)=\dfrac{1}{2}\vx^\T P\vx+\vq^\T \vx+r$，$P\in \bbs^n$（对称矩阵），$\vq^\T\in\rn$，$r\in\rr$
 \end{example}
 \begin{analysis}
-$\nabla^2 f(x)=P$\\
-$P\in S^n_+$凸，$P\in S_{++}^n$严格凸
+$\nabla^2 f(\vx)=P$，$P\in \bbs^n_+$凸，$P\in \bbs_{++}^n$严格凸\footnote{由二次型理论(Taylor展开)，$\nabla^2 (x^\T P\vx)=P+P^\T$，又由于$P\in\bbs^n$，$\nabla^2 f(\vx)=\frac{1}{2}\cdot 2P=P$，具体推导过程可见\url{https://math.stackexchange.com/questions/239207/hessian-matrix-of-a-quadratic-form}}
 \end{analysis}
 
 \begin{example}
-$f(x)=\dfrac{1}{x^2},\dom f=\lrb{x\in\rr,x\ne 0}$
+$f(x)=\dfrac{1}{x^2},\;\dom f=\lrb{x\in\rr,x\ne 0}$
 \end{example}
 \begin{analysis}
 注意$\dom f$不是凸集
@@ -82,57 +82,61 @@ $f(x)=\dfrac{1}{x^2},\dom f=\lrb{x\in\rr,x\ne 0}$
 极大值函数的解析近似是$f(x)=\log(\ee^{x_1}+\cdots+\ee^{x_n})$
 \[\max\{x_1,\ldots,x_n\}\leq f(x)\leq\max\{x_1,\ldots,x_n\}+\log n\]
 \begin{analysis}
-\[\pd{f}{x_i}=\frac{\ee^{x_i}}{\ee^{x_i}+\cdots+\ee^{x_n}}\]
-\[\pddxy{f}{x_i}{x_j}=\begin{cases}\frac{-\ee^{x_i}\ee^{x_i}}i=j\\i\ne j\end{cases}\]
-\[z:=\bmat{\ee^{x_1}&\cdots&\ee^{x_n}}^\T\]
+\[\pd{f}{x_i}=\frac{\ee^{x_i}}{\ee^{x_1}+\cdots+\ee^{x_n}}\]
+\[\pddxy{f}{x_i}{x_j}=\begin{cases}\frac{-\ee^{x_i}\ee^{x_j}}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i\ne j\\ \frac{-\ee^{x_i}(\ee^{x_1}+\cdots+\ee^{x_{i-1}}+\ee^{x_{i+1}}+\cdots+\ee^{x_n})}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i=j\end{cases}\]
+\[\vz:=\bmat{\ee^{x_1}&\cdots&\ee^{x_n}}^\T\]
 求Hessian矩阵
-\[H=\frac{1}{(\vone^\T z)^2}(-z\cdot z^\T+(\vone^\T z)\opdiag(z))\]
+\[H=\frac{1}{(\vone^\T \vz)^2}(-\vz\cdot \vz^\T+(\vone^\T \vz)\opdiag(\vz))\]
 将前面常量丢弃
-\footnote{$H$半正定，则$\forall v\in\rn:v^\T Hv\geq 0$}
-\[a_i:=v_i\sqrt{z_i}=\bmat{a_1&\cdots&a_n}^\T,b_i=\sqrt{z_i}\]
+\footnote{$H$半正定，则$\forall \vv\in\rn:\;\vv^\T H\vv\geq 0$}
+\[\va_i:=\vv_i\sqrt{\vz_i}=\bmat{a_1&\cdots&a_n}^\T,b_i=\sqrt{\vz_i}\]
 \[\begin{aligned}
-v^\T Hv&=(\mathbbm{1}^\T z)v^\T \opdiag(z)v-v^\T zz^\T v\\
+\vv^\T H\vv&=(\mathbbm{1}^\T \vz)\vv^\T \opdiag(\vz)\vv-\vv^\T zz^\T v\\
 &=(\sum_i z_i)(\sum_i v_i^2 z_i)-(\sum_i v_i z_i)^2\\
-&=(b^\T b)(a^\T a)-(a^\T b)^2\qquad\text{Cauchy}\\
+&=(\vb^\T \vb)(\va^\T \va)-(\va^\T \vb)^2\qquad\text{Cauchy}\\
 &\geq 0
 \end{aligned}\]
 \end{analysis}
 
 \begin{definition}[范数]
-$p(x)$为范数
+$\norm{\cdot}$为范数需要满足以下三个条件
 \begin{enumerate}
-	\item $p(ax)=|a|p(x)$
-	\item $p(x+y)\leq p(x)+p(y)$
-	\item $p(x)=0\iff x=0$
+	\item $\norm{a\vx}=|a|\norm{\vx}$
+	\item $\norm{\vx+\vy}\leq \norm{\vx}+\norm{\vy}$
+	\item $\norm{\vx}=0\iff \vx=\vzero$
 \end{enumerate}
-零范数$\|x\|_0$：非零元素数目，是伪范数（不符合第一个定义）
+零范数$\|\vx\|_0$：非零元素数目，是伪范数（不符合第一个定义）
 \end{definition}
-$\rn$中的范数都是凸函数，正则化！
+\begin{theorem}
+$\rn$中的范数都是凸函数，因而常常用来正则化！
+\end{theorem}
 \begin{analysis}
-\[\forall x,y,\theta\in[0,1]
-p(\theta x+(1-\theta)y)\leq p(\theta x)+p((1-\theta)y)
-\leq \theta p(x)+(1-\theta)p(y)\]
+\[\forall \vx,\vy,\theta\in[0,1]
+\norm{\theta \vx+(1-\theta)\vy}\leq \norm{\theta \vx}+\norm{(1-\theta)\vy)}\leq \theta \norm{x}+(1-\theta)\norm{y}\]
 \end{analysis}
 
 % 3.12
-行列式的对数$f(x)=\log\det(x),\dom f=S_{++}^n$
-$n=1$凹函数
-证$n>1$也为凹，用高维定义
+\begin{example}
+行列式的对数$f(\vx)=\log\det(\vx),\dom f=\bbs_{++}^n$，$n=1$凹函数，证明$n>1$也为凹
+\end{example}
+\begin{analysis}
+用高维定义
 \[\begin{aligned}
-g(t)&=f(z+tv)\\
-&=\log\det(z+tv)\\
-&=\log\det(z^{1/2}(I+tz^{1/2}vz^{-1/2})z^{1/2},\quad z^{1/2}\in S_{++}^n,z^{1/2}z^{1/2}=z\\
-&=\log\det(z)+\log\det(I+tz^{1/2}vz^{-1/2})\\
-&=\log\det(z)+\sum_{i=1}^n\log(1+t\lambda_i),\quad \lambda_i=z^{-1/2}vz^{1/2}\text{的特征值}
+g(t)&:=f(\vz+t\vv)\\
+&=\log\det(\vz+t\vv)\\
+&=\log\det(\vz^{1/2}(I+t\vz^{1/2}\vv\vz^{-1/2})\vz^{1/2},\quad \vz^{1/2}\in \bbs_{++}^n,\vz^{1/2}\vz^{1/2}=\vz\\
+&=\log\det(\vz)+\log\det(I+t\vz^{1/2}\vv\vz^{-1/2})\\
+&=\log\det(\vz)+\sum_{i=1}^n\log(1+t\lambda_i),\quad \lambda_i\text{为}\vz^{-1/2}\vv\vz^{1/2}\text{的特征值}
 \end{aligned}\]
 \[\begin{aligned}
 g'(t)&=\sum_{i=1}^n\frac{\lambda_i}{1+t\lambda_i}\\
 g''(t)&=\sum_{i=1}^n-\frac{\lambda_i^2}{(1+t\lambda_i)^2}
 \end{aligned}\]
-补充证明：对对称阵特征值分解$tz^{1/2}vz^{1/2}=tQ\Lambda Q^\T$，对角阵$\Lambda$即为
+补充证明：对对称阵进行特征值分解$t\vz^{1/2}\vv\vz^{1/2}=tQ\Lambda Q^\T$，对角阵$\Lambda$即为
 $QQ^\T=I$，Q为酉矩阵
-\[I+tz^{-1/2}vz^{-1/2}=QQ^\T+tQ\Lambda Q^\T=Q(I+t\Lambda)Q^\T\]
-\[\log\det(I+tz^{-1/2}vz^{-1/2})=\log\det(Q)+\log\det(I+t\Lambda)+\log\det(Q^\T)\]
+\[I+t\vz^{-1/2}\vv\vz^{-1/2}=QQ^\T+tQ\Lambda Q^\T=Q(I+t\Lambda)Q^\T\]
+\[\log\det(I+t\vz^{-1/2}\vv\vz^{-1/2})=\log\det(Q)+\log\det(I+t\Lambda)+\log\det(Q^\T)\]
+\end{analysis}
 
 保持函数凸性
 \begin{itemize}
@@ -140,17 +144,17 @@ $QQ^\T=I$，Q为酉矩阵
 	\[f:=\sum_{i=1}^m w_if_i,w_i\geq 0\]
 	\item 非负积分$f(x,y)$对$y\in A$均为凸（$A$不一定为凸），$w(y)\geq 0$
 	\[g(x):=\int_{y\in A}w(y)f(x,y)\diff y\]
-	\item 仿射映射$f:\rn\mapsto\rr$为凸，$A\in\rr^{m\times n},b\in\rn$，$\dom g=\{x\mid Ax+b\in\dom f\}$
-	\[g(x):=f(Ax+b)\]
+	\item 仿射映射$f:\rn\mapsto\rr$为凸，$A\in\rr^{m\times n},\vb\in\rn$，$\dom g=\{\vx\mid A\vx+\vb\in\dom f\}$
+	\[g(\vx):=f(A\vx+\vb)\]
 	\begin{analysis}
 	\begin{itemize}
 		\item $\dom f$为凸，则$\dom g$为凸
-		\item $\forall x,y\in\dom g,\forall\theta\in[0,1]$
+		\item $\forall \vx,\vy\in\dom g,\forall\theta\in[0,1]$
 		\[\begin{aligned}
-		g(\theta x+(1-\theta)y)&=f(A(\theta x+(1-\theta)y)+b)\\
-		&=f(\theta(Ax+b)+(1-\theta)(Ay+b))\\
-		&\leq\theta f(Ax+b)+(1-\theta)f(Ay+b)\\
-		&=\theta g(x)+(1-\theta)g(y)
+		g(\theta \vx+(1-\theta)\vy)&=f(A(\theta \vx+(1-\theta)\vy)+\vb)\\
+		&=f(\theta(A\vx+\vb)+(1-\theta)(A\vy+\vb))\\
+		&\leq\theta f(A\vx+\vb)+(1-\theta)f(A\vy+\vb)\\
+		&=\theta g(\vx)+(1-\theta)g(\vy)
 		\end{aligned}\]
 		\item 其实只是在定义域上改变，而不是改变值域，因而函数凸性不会改变
 	\end{itemize}

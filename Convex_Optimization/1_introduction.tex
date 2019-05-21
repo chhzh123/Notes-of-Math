@@ -23,10 +23,10 @@
 电影很多，但类型不多，关联关系有限$\to$\textbf{近似低秩}\footnote{$A$的秩等于非零奇异值$\sqrt{\mathop{eig}(A^\T A)}$数目}\\
 低秩本来需要最小化$\vz$的非零奇异值数目$\|\vz\|_0$，但是非凸的；
 转化为最小化\emph{和范数}\footnote{矩阵所有奇异值之和}$\|\vz\|_\star$
-\[\begin{aligned}
-\min& \;&\|\vz\|_\star&:=\|\vz\|_1\\
-\text{s.t.}& \;&\vz_{ij}&=\vM_{ij},\;(i,j)\in\Omega
-\end{aligned}\]
+\begin{mini*}
+{}{\norm{\vz}_\star:=\norm{\vz}_1}{}{}
+\addConstraint{\vz_{ij}}{=\vM_{ij},\;(i,j)\in\Omega}
+\end{mini*}
 \end{itemize}
 \end{example}
 
