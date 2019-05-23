@@ -1,0 +1,73 @@
+% !TEX root = main.tex
+
+\section{大数据中的优化问题与算法}
+$n$个样本，每个样本为$f_i(x)$\\
+有限和优化问题
+\begin{mini*}
+    {x}{\frac{1}{n}\sum_{i=1}^nf_i(x)}{}{}
+\end{mini*}
+等价于期望极小化问题
+\begin{mini*}
+    {x}{\E{f_i(x,\xi)}}{}{}
+\end{mini*}
+
+\[\iter{x}{k+1}=\iter{x}{k}-\alpha\frac{1}{n}\sum_{i=1}^n\nabla f_i(\iter{x}{k})\]
+将$k$改为$\iter{i}{k}$，随机梯度下降(Stochastic gradient descent, SGD)，取了一个无偏的估计[Bottou, NIPS 2010]
+\[\iter{x}{k+1}=\iter{x}{k}-\iter{\alpha}{k}\nabla f_{\iter{i}{k}}(\iter{x}{k})\]
+注意这里需要采用变步长，否则无法收敛到最优解
+\[\begin{cases}
+    \iter{x}{k+1}=\iter{x}{k}-\alpha\nabla f_{\iter{i}{k}}(\iter{x}{k})\\
+    x^\star=x^\star-\alpha\nabla f_{\iter{i}{k}}(x^\star)
+\end{cases}\implies\nabla f_{\iter{i}{k}}(x^\star)=0\]
+
+若问题强凸，$O(\frac{1}{k})\to O(\frac{1}{k})$；
+凸，$O(\frac{1}{\sqrt{k}})\to O(\frac{1}{\sqrt{k}})$
+
+梯度噪声的问题：选的随机梯度与真正的全梯度不同
+
+\subsection{方差消减}
+方差消减(Variance Reduction)：挑选样本数目增大时，方差会减小
+\begin{enumerate}
+\item 小批量(mini-batch)
+\item SURG、SAG、SAGA
+\[\iter{x}{k+1}=\iter{x}{k}-\frac{\alpha}{n}\sum_{i=1}^n\iter{y_i}{k}\]
+对于每一个样本都存储一个梯度值
+\[\iter{y_i}{k}=\begin{cases}
+    \nabla f_i(\iter{x}{k}) & i=\iter{i}{k}\\
+    \iter{y_i}{k-1} & i\ne\iter{i}{k}
+\end{cases}\]
+当时间足够长，每一个里面都存在最优梯度
+\[x^\star=x^\star-\frac{\alpha}{n}\sum_{i=1}^n\nabla f_i(x^\star)\]
+用空间换时间
+\end{enumerate}
+
+\subsection{深度神经网络}
+\begin{mini*}
+    {}{\sum_{i=1}^S \iter{E}{i}}{}{}
+\end{mini*}
+其中，
+\[\iter{E}{i}=\frac{1}{2}\norm{\iter{x_n}{i}-\iter{Y}{i}}^2\]
+为损失函数，$x_n$为第$n$层的网络输出$f_n(x_{n-1},\omega_n)$，与有限和优化问题相同
+
+反向传播算法(Back propagation)：自底向上求出$E$相对于$x_n$和$w_n$的梯度
+\[\begin{cases}
+    \pd{\iter{E}{i}}{\iter{x_n}{i}}=\iter{x_n}{i}-\iter{Y}{i}\\
+    \pd{\iter{E}{i}}{w_n}=\pd{\iter{E}{i}}{\iter{x_n}{i}}\pd{\iter{x_n}{i}}{w_n}
+=\pd{\iter{E}{i}}{\iter{x_n}{i}}\pd{f_n(\iter{x_n}{i},w_n)}{w_n}
+\end{cases}\]
+
+\subsection{在线优化}
+在线优化(Online Learning)：样本不是已有的，而是依照时间给出的
+\begin{mini*}
+    {}{\frac{1}{T}\sum_{t=1}^T f_t(x)}{}{}
+\end{mini*}
+
+\[x_{t+1}=x_t-\alpha_t\nabla f_t(x_t)\]
+Regret分析：将当前值丢进下一刻的优化函数中，如果优化效果好，说明有预测能力
+
+\subsection{动态优化}
+动态优化问题
+\begin{mini*}
+    {}{f_t(x)}{}{}
+\end{mini*}
+\[x_t=x_{t-1}-\alpha\nabla f_t(x_{t-1})\]
