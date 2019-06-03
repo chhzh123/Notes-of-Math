@@ -71,3 +71,26 @@ Regret分析：将当前值丢进下一刻的优化函数中，如果优化效�
     {}{f_t(x)}{}{}
 \end{mini*}
 \[x_t=x_{t-1}-\alpha\nabla f_t(x_{t-1})\]
+
+
+\subsection{Nesterov加速}
+Nesterov加速$\min f(x)$：$O\lrp{\frac{1}{k^2}}$
+\[\begin{aligned}
+    \iter{x}{k+1}&=\iter{y}{k}-\frac{1}{L}\nabla f(\iter{y}{k})\\
+    \iter{y}{k+1}&=(1-\iter{\gamma}{k})\iter{x}{k+1}+\iter{\gamma}{k}\iter{x}{k}\\
+    \iter{\beta}{k}&=\frac{1+\sqrt{1+4(\iter{\beta}{k-1})^2}}{2},\;\iter{\beta}{0}=0\\
+    \iter{\gamma}{k}&=\frac{1-\iter{\beta}{k}}{\iter{\beta}{k+1}}
+\end{aligned}\]
+构造两个序列，$y$为辅助序列，利用问题本身\textbf{历史信息}，做一个凸组合（先跳一步，从$\iter{y}{k}$开始做梯度下降）。
+权重为$\gamma$，不同时刻权重不同，引入$\beta$系数。
+
+Trick：为避免权重趋于0（$x$和$y$趋同），加速了$n$步后重新设置$\beta$为$0$。
+
+梯度下降相当于对$f$做一个二阶近似，二阶Taylor展开。
+\begin{center}
+    \begin{tikzcd}
+        \quad\arrow{r}{\iter{x}{k}} & f(x)\arrow{r} & \nabla f(\iter{x}{k})
+    \end{tikzcd}
+\end{center}
+
+Nesterov加速是针对确定性优化问题，而机器学习是随机优化问题。
