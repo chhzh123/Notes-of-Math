@@ -1,0 +1,78 @@
+% !TEX root = main.tex
+
+\newpage
+\appendix
+\section{矩阵微积分}
+\subsection{实值函数对向量的导数}
+设$f(\vx):\rr^n\mapsto\rr$，劈形算子$\nabla$默认对$\vx$求导，可以得到以下公式。
+\begin{enumerate}
+\item $\nabla (\vv^\T\vx)=\vv$
+\begin{analysis}
+    展开，对每一个元素讨论
+    \[\pd{\vv^\T\vx}{x_i}=\pd{\sum_{i=1}^n v_i x_i}{x_i}=v_i\]
+\end{analysis}
+\item $\nabla\norm{\vx}_2^2=\nabla(\vx^\T\vx)=2\vx$
+\begin{analysis}
+    法一：考虑每一元素
+    \[\pd{\vx^\T\vx}{x_i}=\pd{\sum_{i=1}^n x_i^2}{x_i}=2x_i\]
+    法二：变量多次出现的求导法则，下标$c$代表视为常数
+    \[\nabla(\vx^\T\vx)=\nabla(\vx_c^\T\vx)+\nabla(\vx^\T\vx_c)=2\nabla(\vx_c^\T\vx)=2\vx_c=2\vx\]
+\end{analysis}
+\item $\nabla(\vx^\T A\vx)=(A+A^\T)\vx$
+\begin{analysis}
+    变量多次出现的求导法则
+    \[\begin{aligned}
+        LHS&=\nabla(\vx_c^\T A\vx)+\nabla(\vx^\T A\vx_c)\\
+        &=\nabla((A^\T\vx_c)^\T\vx)+\nabla((A\vx_c)^\T \vx)\\
+        &=A^\T\vx_c+A\vx_c\\
+        &=RHS
+    \end{aligned}\]
+\end{analysis}
+\item $\nabla\lrp{\frac{1}{2}\norm{A\vx-\vb}_2^2}=A^\T(A\vx-\vb)$
+\begin{analysis}
+    法一：展开括号，逐一求导
+    \[\begin{aligned}
+        LHS&=\frac{1}{2}(\nabla((A\vx-\vb)^\T(A\vx-\vb)))\\
+        &=\frac{1}{2}(\nabla(\vx^\T A^\T A\vx)-\nabla(\vx^\T A^\T\vb)-\nabla(\vb^\T A\vx)+\nabla(\vb^\T\vb))\\
+        &=\frac{1}{2}((A^\T A+(A^\T A)^T)\vx-A^\T\vb-A^\T\vb)\\
+        &=A^\T(A\vx-\vb)\\
+        &=RHS
+    \end{aligned}\]
+    法二：线性变换的求导公式
+    \[\begin{aligned}
+        LHS&=\frac{1}{2}A^\T\nabla_{A\vx-\vb}\norm{A\vx-\vb}_2^2\\
+        &=A^\T(A\vx-\vb)\\
+        &=RHS
+    \end{aligned}\]
+\end{analysis}
+\end{enumerate}
+
+\subsection{向量值函数对向量的导数}
+设$\vf:\rn\mapsto\rr^m$，则劈形算子
+\[\nabla_{\vx}\vf=\pd{\vf}{\vx}=\left[\pd{\vf}{\vx}\right]_{ij}=\left[\pd{f_i}{x_j}\right]\]
+得到一个$m\times n$的矩阵，即为雅可比(Jacobi)矩阵
+\begin{enumerate}
+    \item $\nabla_\vx(A\vx)=A$
+    \begin{analysis}
+        进而由乘法法则可以推出
+        \[\begin{aligned}
+            \nabla\vx^T\vx&=(\nabla \vx^\T)\vx+\vx^\T(\nabla \vx)\\
+            &=(\nabla (I\vx)^\T)\vx+\vx^\T(\nabla I\vx)\\
+            &=I\vx+\vx^\T I\\
+            &=2\vx
+        \end{aligned}\]
+    \end{analysis}
+    \item $\nabla^2 f=\nabla(\nabla f)$：Hessian矩阵
+    \begin{analysis}
+        Hessian矩阵其实是$\vx$到$\nabla f$的Jacobi矩阵
+        \[(\nabla^2 f)_{ij}=\pddxy{f}{x_i}{x_j}=\pddxy{f}{\vx}{\vx^\T}=\pddxy{f}{\vx^\T}{\vx}\]
+    \end{analysis}
+\end{enumerate}
+
+\section{参考资料}
+\begin{enumerate}
+    \item \emph{Convex optimization}, Stephen Boyd and Lieven Vandenberghe
+    \item 凸优化（2018年秋季-北京大学），\url{http://bicmr.pku.edu.cn/~wenzw/opt-2018-fall.html}
+    \item 机器学习中的矩阵/向量求导，\url{https://zhuanlan.zhihu.com/p/25063314}
+    \item 矩阵求导术，\url{https://zhuanlan.zhihu.com/p/24709748}
+\end{enumerate}
