@@ -4,20 +4,21 @@
 \begin{definition}[凸函数]
 	凸函数的几种基本定义如下
 \begin{enumerate}
-	\item $f:\rn\to\rr$为凸$\iff\dom f$为凸且$\forall x,y\in\dom f,\theta\in[0,1]$
-\[f(\theta x+(1-\theta)y)\leq\theta f(x)+(1-\theta)f(y)\]
+	\item $f:\rn\to\rr$为凸$\iff\dom f$为凸，且
+\[\forall \vx,\vy\in\dom f,\theta\in[0,1]:\;f(\theta \vx+(1-\theta)\vy)\leq\theta f(\vx)+(1-\theta)f(\vy)\]
 \begin{itemize}
 	\item 严格凸：$\theta\in(0,1)$，不等式不能取等
 	\item 凹函数：若$-f$为凸
 \end{itemize}
 	\item 高维定义：
-$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
+$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸，且
 \[\forall \vx\in\dom f,\vv\in\rn:g(t):=f(\vx+t\vv)\text{为凸，}\dom g=\{t\mid \vx+t\vv\in\dom f\}\]
-相当于每一个剖面上的低维函数都是凸的
-	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(\vx)=[\nabla f(\vx)]^\T$, $\nabla^2 f(\vx)$为$f(\vx)$的Hessian矩阵}
+相当于每一个剖面上的低维函数都是凸的（固定$\vx$和$\vv$变化$t$看凸性，则$\vx+t\vv$在一条直线上/超平面上移动）
+	\item 一阶条件(first-order condition)\footnote{$\nabla^\T f(\vx)=[\nabla f(\vx)]^\T$, $\nabla^2 f(\vx)$为$f(\vx)$的Hessian矩阵，其他关于矩阵微积分的知识请见附录\ref{appendix:matrix}节}
 	\[f(\vy)\geq f(\vx)+\nabla^\T f(\vx)(\vy-\vx)\]
+	即Taylor公式一阶展开
 	\item 二阶条件：% 3.7
-	$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
+	$f:\rn\mapsto\rr$为凸$\iff\dom f$为凸，且
 	\[\forall \vx\in\dom f:\nabla^2 f(\vx) \succeq 0\]
 	\begin{itemize}
 		\item 凹函数：$\nabla^2 f(\vx)\preceq 0$
@@ -30,7 +31,7 @@ $f:\rn\mapsto\rr$为凸$\iff\dom f$为凸
 $f(\vx)=\va^\T \vx+\vb$
 \end{example}
 \begin{analysis}
-有$\nabla f(\vx)=\va$，进而\footnote{$\lrang{\va,\vx}=\va_1\vx_1+\cdots+\va_n\vx_n\implies\nabla_\vx f(\vx)=\bmat{\pd{f(\vx)}{\vx_1}\\\vdots\\\pd{f(\vx)}{\vx_n}}=\bmat{\va_1\\\vdots\\\va_n}=\va$}
+有$\nabla f(\vx)=\va$，进而
 \[f(\vy)=\va^\T \vy+\vb\geq \va^\T \vx+\vb+\va^\T(\vy-\vx)=\va^\T \vy+\vb\]
 \end{analysis}
 
@@ -40,7 +41,7 @@ $\vx\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
 \[\widetilde{f}(\vx)=\begin{cases}f(\vx)&\vx\in\dom f\\+\infty&\vx\notin\dom f\end{cases}\]
 \end{definition}
 
-指示/示信(indicator)函数不一定是凸的
+注意指示/示性(indicator)函数不一定是凸的
 \[f(\vx)=\begin{cases}0&\vx\in \sC\\ +\infty & \vx\notin \sC\end{cases}\]
 
 \begin{theorem}
@@ -48,10 +49,11 @@ $\vx\in\dom f\subset\rn, \dom\widetilde{f}=\rn$，会有
 \end{theorem}
 
 \begin{example}
-二次函数$f(\vx)=\dfrac{1}{2}\vx^\T P\vx+\vq^\T \vx+r$，$P\in \bbs^n$（对称矩阵），$\vq^\T\in\rn$，$r\in\rr$
+二次函数$f(\vx)=\dfrac{1}{2}\vx^\T P\vx+\vq^\T \vx+r$，$P\in \bbs^n$（对称矩阵），$\vq\in\rn$，$r\in\rr$
 \end{example}
 \begin{analysis}
-$\nabla^2 f(\vx)=P$，$P\in \bbs^n_+$凸，$P\in \bbs_{++}^n$严格凸\footnote{由二次型理论(Taylor展开)，$\nabla^2 (x^\T P\vx)=P+P^\T$，又由于$P\in\bbs^n$，$\nabla^2 f(\vx)=\frac{1}{2}\cdot 2P=P$，具体推导过程可见\url{https://math.stackexchange.com/questions/239207/hessian-matrix-of-a-quadratic-form}}
+$\nabla f(\vx)=\frac{1}{2}(P+P^\T)\vx+\vq\implies\nabla^2 f(\vx)=P$\\
+故$P\in \bbs^n_+$，$f(\vx)$为凸；$P\in \bbs_{++}^n$，$f(\vx)$严格凸
 \end{analysis}
 
 \begin{example}
@@ -60,7 +62,10 @@ $f(x)=\dfrac{1}{x^2},\;\dom f=\lrb{x\in\rr,x\ne 0}$
 \begin{analysis}
 注意$\dom f$不是凸集
 \end{analysis}
+
+常见的凸函数例子如下
 \begin{itemize}
+	\item 仿射函数$f(x)=ax+b$
 	\item 指数函数$f(x)=\ee^{ax}$
 	\item 幂函数$f(x)=x^a$
 	\item 绝对值的幂函数$f(x)=|x|^p,x\in\rr,p>0$：$p\in[1,+\infty)$凸，$p\in(0,1)$既不凸又不凹
@@ -75,44 +80,40 @@ $f(x)=\dfrac{1}{x^2},\;\dom f=\lrb{x\in\rr,x\ne 0}$
 	\item 极大值函数$f(x)=\max\lrb{x_1,\ldots,x_n},x\in\rn$
 \end{itemize}
 
-\begin{definition}[解析近似]
-无穷阶可微
-\end{definition}
-
-极大值函数的解析近似是$f(x)=\log(\ee^{x_1}+\cdots+\ee^{x_n})$
-\[\max\{x_1,\ldots,x_n\}\leq f(x)\leq\max\{x_1,\ldots,x_n\}+\log n\]
+\begin{example}
+极大值函数的解析近似\footnote{即无穷阶可微}是$f(x)=\log(\ee^{x_1}+\cdots+\ee^{x_n})$
+\[\max\{x_1,\ldots,x_n\}\leq f(\vx)\leq\max\{x_1,\ldots,x_n\}+\log n\]
+\end{example}
 \begin{analysis}
-\[\pd{f}{x_i}=\frac{\ee^{x_i}}{\ee^{x_1}+\cdots+\ee^{x_n}}\]
-\[\pddxy{f}{x_i}{x_j}=\begin{cases}\frac{-\ee^{x_i}\ee^{x_j}}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i\ne j\\ \frac{-\ee^{x_i}(\ee^{x_1}+\cdots+\ee^{x_{i-1}}+\ee^{x_{i+1}}+\cdots+\ee^{x_n})}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i=j\end{cases}\]
+\[\begin{aligned}
+\pd{f}{x_i}&=\frac{\ee^{x_i}}{\ee^{x_1}+\cdots+\ee^{x_n}}\\
+\pddxy{f}{x_i}{x_j}&=
+\begin{cases}
+\frac{-\ee^{x_i}\ee^{x_j}}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i\ne j\\
+\frac{\ee^{x_i}(\ee^{x_1}+\cdots+\ee^{x_{i-1}}+\ee^{x_{i+1}}+\cdots+\ee^{x_n})}{(\ee^{x_1}+\cdots+\ee^{x_n})^2} & i=j
+\end{cases}
+\end{aligned}\]
 \[\vz:=\bmat{\ee^{x_1}&\cdots&\ee^{x_n}}^\T\]
 求Hessian矩阵
-\[H=\frac{1}{(\vone^\T \vz)^2}(-\vz\cdot \vz^\T+(\vone^\T \vz)\opdiag(\vz))\]
+\[H=\frac{1}{(\vone^\T \vz)^2}((\vone^\T \vz)\opdiag(\vz)-\vz \vz^\T)\]
 将前面常量丢弃
-\footnote{$H$半正定，则$\forall \vv\in\rn:\;\vv^\T H\vv\geq 0$}
-\[\va_i:=\vv_i\sqrt{\vz_i}=\bmat{a_1&\cdots&a_n}^\T,b_i=\sqrt{\vz_i}\]
 \[\begin{aligned}
-\vv^\T H\vv&=(\mathbbm{1}^\T \vz)\vv^\T \opdiag(\vz)\vv-\vv^\T zz^\T v\\
+\vv^\T H\vv&=(\mathbbm{1}^\T \vz)\vv^\T \opdiag(\vz)\vv-\vv^\T \vz\vz^\T \vv\\
 &=(\sum_i z_i)(\sum_i v_i^2 z_i)-(\sum_i v_i z_i)^2\\
+&\qquad\mbox{令$\va_i:=\vv_i\sqrt{\vz_i}=\bmat{a_1&\cdots&a_n}^\T,b_i:=\sqrt{\vz_i}$}\\
 &=(\vb^\T \vb)(\va^\T \va)-(\va^\T \vb)^2\qquad\text{Cauchy}\\
 &\geq 0
 \end{aligned}\]
+由二阶条件知$f(\vx)$为凸函数
 \end{analysis}
 
-\begin{definition}[范数]
-$\norm{\cdot}$为范数需要满足以下三个条件
-\begin{enumerate}
-	\item $\norm{a\vx}=|a|\norm{\vx}$
-	\item $\norm{\vx+\vy}\leq \norm{\vx}+\norm{\vy}$
-	\item $\norm{\vx}=0\iff \vx=\vzero$
-\end{enumerate}
-零范数$\|\vx\|_0$：非零元素数目，是伪范数（不符合第一个定义）
-\end{definition}
 \begin{theorem}
-$\rn$中的范数都是凸函数，因而常常用来正则化！
+$\rn$中的范数都是凸函数（因而常常用来正则化！）
 \end{theorem}
 \begin{analysis}
-\[\forall \vx,\vy,\theta\in[0,1]
-\norm{\theta \vx+(1-\theta)\vy}\leq \norm{\theta \vx}+\norm{(1-\theta)\vy)}\leq \theta \norm{x}+(1-\theta)\norm{y}\]
+	由三角不等式
+\[\forall \vx,\vy,\theta\in[0,1]:\;
+\norm{\theta \vx+(1-\theta)\vy}\leq \norm{\theta \vx}+\norm{(1-\theta)\vy}\leq \theta \norm{x}+(1-\theta)\norm{y}\]
 \end{analysis}
 
 % 3.12
@@ -124,7 +125,7 @@ $\rn$中的范数都是凸函数，因而常常用来正则化！
 \[\begin{aligned}
 g(t)&:=f(\vz+t\vv)\\
 &=\log\det(\vz+t\vv)\\
-&=\log\det(\vz^{1/2}(I+t\vz^{1/2}\vv\vz^{-1/2})\vz^{1/2},\quad \vz^{1/2}\in \bbs_{++}^n,\vz^{1/2}\vz^{1/2}=\vz\\
+&=\log\det(\vz^{1/2}(I+t\vz^{1/2}\vv\vz^{-1/2})\vz^{1/2}),\quad \vz^{1/2}\in \bbs_{++}^n,\vz^{1/2}\vz^{1/2}=\vz\\
 &=\log\det(\vz)+\log\det(I+t\vz^{1/2}\vv\vz^{-1/2})\\
 &=\log\det(\vz)+\sum_{i=1}^n\log(1+t\lambda_i),\quad \lambda_i\text{为}\vz^{-1/2}\vv\vz^{1/2}\text{的特征值}
 \end{aligned}\]
@@ -134,8 +135,10 @@ g''(t)&=\sum_{i=1}^n-\frac{\lambda_i^2}{(1+t\lambda_i)^2}
 \end{aligned}\]
 补充证明：对对称阵进行特征值分解$t\vz^{1/2}\vv\vz^{1/2}=tQ\Lambda Q^\T$，对角阵$\Lambda$即为
 $QQ^\T=I$，Q为酉矩阵
-\[I+t\vz^{-1/2}\vv\vz^{-1/2}=QQ^\T+tQ\Lambda Q^\T=Q(I+t\Lambda)Q^\T\]
-\[\log\det(I+t\vz^{-1/2}\vv\vz^{-1/2})=\log\det(Q)+\log\det(I+t\Lambda)+\log\det(Q^\T)\]
+\[\begin{aligned}
+	I+t\vz^{-1/2}\vv\vz^{-1/2}&=QQ^\T+tQ\Lambda Q^\T=Q(I+t\Lambda)Q^\T\\
+	\log\det(I+t\vz^{-1/2}\vv\vz^{-1/2})&=\log\det(Q)+\log\det(I+t\Lambda)+\log\det(Q^\T)
+\end{aligned}\]
 \end{analysis}
 
 保持函数凸性
@@ -162,20 +165,19 @@ $QQ^\T=I$，Q为酉矩阵
 	\item 两个函数的极大值函数，$f_1,f_2$为凸
 	\[f(x):=\max\{f_1(x),f_2(x)\},\dom f=\dom f_1\cap\dom f_2\]
 	\item 任意个凸函数极大值函数为凸
-	\[f(x)=\max\{a_1^\T x+b_1,\ldots,a_m^\T+b_m\}\]
-	\item 无限个凸函数，$y\in A$，$f(x,y)$对于$x$为凸，则
-	\[g(x):=\sup_{y\in A} f(x,y)\]
+	\[f(x)=\max\{\va_1^\T \vx+\vb_1,\ldots,\va_m^\T+\vb_m\}\]
+	\item 无限个凸函数，$y\in A$，$f(x,y)$对于$x$为凸，则$g(x)=\sup_{y\in A} f(x,y)$为凸
 	\begin{example}
 	点$x$到集合$\sC$的最远距离
 	\[f(x)=\sup_{y\in A}\|x-y\|\]
 	位移对于范数凸性不会有影响
 	\end{example}
 	\begin{example}
-	$x\in\rn$，$x[i]$为第$i$大元素，$x[1]\geq x[2]\geq\cdots\geq x[r]\geq\cdots\geq x[n]$
-	\[f(x):=\sum_{i=1}^r x[i]\]
+	$\vx\in\rn$，$x[i]$为第$i$大元素，$x[1]\geq x[2]\geq\cdots\geq x[r]\geq\cdots\geq x[n]$
+	\[f(\vx):=\sum_{i=1}^r x[i]\]
 	\begin{itemize}
-	\item $r=1$：$f(x)=x[1]=\max\{x_1,\ldots,x_n\}$，每一项都是$\ve_i^\T x_i$
-	\item $r>1$：$f(x)=\max\{x_{i_1}+\cdots+x_{i_r}\mid 1\leq i_1<i_2<\cdots<i_r\leq n\}$
+	\item $r=1$：$f(\vx)=x[1]=\max\{x_1,\ldots,x_n\}$，每一项都是$\ee_i^\T x_i$
+	\item $r>1$：$f(\vx)=\max\{x_{i_1}+\cdots+x_{i_r}\mid 1\leq i_1<i_2<\cdots<i_r\leq n\}$
 	\end{itemize}
 	\end{example}
 	\item 函数的组合：$h:\rr^k\mapsto\rr,g:\rn\mapsto\rr^k$
@@ -207,7 +209,7 @@ $QQ^\T=I$，Q为酉矩阵
 \end{itemize}
 
 \begin{definition}[$\alpha$次水平集($\alpha$-sub level set)]
-$f:\rn\mapsto\rr$，$C_\alpha=\{x\in\dom f\mid f(x)\leq\alpha\}$
+$f:\rn\mapsto\rr$，$C_\alpha=\{\vx\in\dom f\mid f(\vx)\leq\alpha\}$
 \end{definition}
 \begin{definition}[拟凸函数(quasi-convex)]
 $\alpha$次水平集为凸集$\iff$$f$为拟凸函数

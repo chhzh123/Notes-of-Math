@@ -1,358 +1,389 @@
 % !TEX root = main.tex
 
 \section{对偶理论}
-拉格朗日函数(Lagrangian function)
-\[L(x,\lambda,v)=f_0(x)+\sum_{i=1}^m\lambda_if_i(x)+\sum_{i=1}^pv_ih_i(x),\dom L=D\times \rr^m\times \rr^p\]
-拉格朗日乘子(multiplier)
+\subsection{拉格朗日对偶}
+\begin{definition}[拉格朗日函数(Lagrangian function)]
+$f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约束，后者等式约束。
+\[\begin{aligned}
+    L(\vx,\vlambda,\vv)&=f_0(\vx)+\sum_{i=1}^m\lambda_if_i(\vx)+\sum_{i=1}^pv_ih_i(\vx)\\
+    &=f_0(\vx) + \vlambda^\T \vf(\vx)+\vv^\T \vh(\vx),\;\dom L=\sD\times \rr^m\times \rr^p
+\end{aligned}\]
+\end{definition}
+
+\begin{definition}[拉格朗日乘子(multiplier)]
+    包括原变量和对偶变量
 \begin{itemize}
-\item 原变量(primal variable)：$\lambda=\bmat{\lambda_1 & \cdots & \lambda_m}^\T$
-\item 对偶变量(dual variable)：$v=\bmat{v_1 & \cdots & v_p}^\T$
+\item 原变量(primal variable)：$\vlambda=\bmat{\lambda_1 & \cdots & \lambda_m}^\T$
+\item 对偶变量(dual variable)：$\vv=\bmat{v_1 & \cdots & v_p}^\T$
+\end{itemize}
+\end{definition}
+
+\begin{definition}[拉格朗日对偶函数]
+\[\begin{aligned}
+    g(\vlambda,\vv)&=\inf_{\vx\in\sD} L(\vx,\vlambda,\vv)\\
+    &=\inf_{\vx\in\sD}\lrp{f_0(\vx)+\sum_{i=1}^m\lambda_if_i(\vx)+\sum_{i=1}^pv_ih_i(\vx)}
+\end{aligned}\]
+注意遍历域是$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$，而不是可行解集$\sX$。
+\end{definition}
+
+有以下两点性质：
+\begin{itemize}
+    \item $g(\vlambda,\vv)$一定是关于$\vlambda$和$\vv$的凹函数（关于$\vlambda$和$\vv$的仿射函数，注意$\vx$为常数）
+    \item $\forall\vlambda\geq 0,\forall \vv:\;g(\vlambda,\vv)\leq vp^\star$
 \end{itemize}
 
-拉格朗日对偶函数
-\[\begin{aligned}
-    g(\lambda,v)&=\inf_{x\in\sD} L(x,\lambda,v)\\
-    &=\inf_{x\in\sD}\lrp{f_0(x)+\sum_{i=1}^m\lambda_if_i(x)+\sum_{i=1}^pv_ih_i(x)}
-\end{aligned}\]
-注意遍历域是$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$，而不是可行解集$\sX$\\
-\begin{itemize}
-    \item $g(\lambda,v)$一定是关于$\lambda$和$v$的凹函数（关于$\lambda$和$v$的仿射函数，注意$x$为常数）
-    \item $\forall\lambda\geq 0,\forall v,g(\lambda,v)\leq P^\star$\\
-    对偶(dual)问题
+\begin{definition}[对偶(dual)问题]
     \begin{maxi*}
-        {}{g(\lambda,v)}{}{}
-        \addConstraint{\lambda}{\geq 0}
+        {}{g(\vlambda,\vv)}{}{}
+        \addConstraint{\vlambda}{\geq 0}
     \end{maxi*}
-    其最优解记为$D^\star$，则$D^\star\leq P^\star$，即给出了原问题的一个最优下界
-\end{itemize}
-
-$x^\star$原问题最优解
-\[\sum_{i=1}^m\lambda_i f_0(x^\star)+\sum_{i=1}^p v_i h_i(x^\star)\leq 0\]
-\[L(x^\star,\lambda,v)=f_0(x^\star)+(\cdots)\leq P^\star\]
-\[g(\lambda,v)=\inf_{x\in\sD} L(x,\lambda,v)\leq L(x^\star,\lambda,v)\leq P^\star\]
-
-\begin{example}
-\begin{mini*}
-    {}{x^\T x}{}{}
-    \addConstraint{Ax}{=b}
-\end{mini*}
-\end{example}
+    其最优解记为$\vd^\star$，则$\vd^\star\leq \vp^\star$，即给出了原问题(primal)的一个最优下界
+\end{definition}
 \begin{analysis}
-\[L(x,v)=x^\T x+v^\T(Ax-b)\]
-\[\begin{aligned}
-    g(v)&=\inf_{x\in\sD} L(x,v)\\
-    &=\inf_{x\in\sD} x^\T x+v^\T A x-v^\T b\\
-    &=(-\frac{A^\T v}{2})^\T(-\frac{A^\T v}{2})+v^\T A(-\frac{A^\T v}{2})-v^\T b\\
-    &=-\frac{1}{4}v^\T AA^\T v-b^\T v
-\end{aligned}\]
-补充求梯度：$2x+A^\T v=0\implies x=-\frac{A^\T v}{2}$
-
-因而得到对偶问题
-\[\max_v-\frac{1}{4}v^\T AA^\T v-b^\T v\]
+    记$\vx^\star$为原问题最优解，由优化问题定义有
+    \[\sum_{i=1}^m\lambda_i f_0(\vx^\star)+\sum_{i=1}^p v_i h_i(\vx^\star)\leq 0\]
+    又$P^\star=f_0(\vx^\star)$为原问题最优解
+    \[L(\vx^\star,\vlambda,\vv)=f_0(\vx^\star)+\lrp{\sum_{i=1}^m\lambda_i f_0(\vx^\star)+\sum_{i=1}^p v_i h_i(\vx^\star)}\leq \vp^\star\]
+    进而推出
+    \[g(\vlambda,\vv)=\inf_{\vx\in\sD} L(\vx,\vlambda,\vv)\leq L(\vx^\star,\vlambda,\vv)\leq \vp^\star\]
 \end{analysis}
 
-\begin{example}
+\begin{example}[最小二乘]
 \begin{mini*}
-    {}{c^\T x}{}{}
-    \addConstraint{Ax}{=b}
-    \addConstraint{x}{\geq 0}
+    {}{\norm{\vx}_2=\vx^\T \vx}{}{}
+    \addConstraint{A\vx}{=\vb}
 \end{mini*}
 \end{example}
 \begin{analysis}
-    注意$\lambda$前面符号，要化为一般形式
-    \[L(x,\lambda,v)=c^\T x-\lambda^\T x+v^\T(Ax-b)\]
+\[\begin{aligned}
+    L(\vx,\vv)&=\vx^\T \vx+\vv^\T(A\vx-\vb)\\
+    g(\vv)&=\inf_{\vx\in\sD} L(\vx,\vv)\\
+    &=\inf_{\vx\in\sD} \lrp{\vx^\T \vx+\vv^\T A \vx-\vv^\T \vb}\qquad\mbox{求最小值相当于求导/求梯度代入}\\
+    &=\lrp{-\frac{A^\T \vv}{2}}^\T\lrp{-\frac{A^\T \vv}{2}}+\vv^\T A\lrp{-\frac{A^\T \vv}{2}}-\vv^\T \vb\\
+    &=-\frac{1}{4}\vv^\T A A^\T \vv-\vb^\T \vv
+\end{aligned}\]
+\par 补充求梯度：$\nabla_\vx L(\vx,\vv)=2\vx+(\vv^\T A)^\T=0\implies \vx=-\frac{A^\T \vv}{2}$
+\par 因而得到对偶问题
+\[\max_\vv\lrp{-\frac{1}{4}\vv^\T A A^\T \vv-\vb^\T \vv}\]
+\end{analysis}
+
+\begin{example}[标准线性规划]
+\begin{mini*}
+    {}{\vc^\T \vx}{}{}
+    \addConstraint{A\vx}{=\vb}
+    \addConstraint{\vx}{\geq 0}
+\end{mini*}
+\end{example}
+\begin{analysis}
+    $1\degree$ \textcolor{red}{注意$\vlambda$前面符号}，要化为一般形式
+    \[L(\vx,\vlambda,\vv)=\vc^\T \vx-\vlambda^\T \vx+\vv^\T(A\vx-\vb)\]
     \[\begin{aligned}
-        g(\lambda,v)&=\inf_x L(x,\lambda,v)\\
-        &=\inf_x(c-\lambda+A^\T v)^\T x-v^\T b\\
-        &=\begin{cases}-\infty&c-\lambda+A^\T v\ne 0\\-v^\T b&c-\lambda+A^\T v=0\end{cases}
+        g(\vlambda,\vv)&=\inf_\vx L(\vx,\vlambda,\vv)\\
+        &=\inf_\vx(\vc-\vlambda+A^\T \vv)^\T \vx-\vv^\T \vb\\
+        &=\begin{cases}-\infty & \vc-\vlambda+A^\T \vv\ne 0\\
+        -\vv^\T \vb & \vc-\vlambda+A^\T \vv=0\end{cases}
     \end{aligned}\]
-    对偶问题，由于要极大，故不考虑负无穷部分
+    由于要极大，故不考虑负无穷部分，得到对偶问题如下
     \begin{maxi*}
-        {\lambda,v}{-v^\T b}{}{}
-        \addConstraint{c-\lambda+A^\T v}{=0}
-        \addConstraint{\lambda}{\geq 0}
+        {\vlambda,\vv}{-\vv^\T \vb}{}{}
+        \addConstraint{\vc-\vlambda+A^\T \vv}{=0}
+        \addConstraint{\vlambda}{\geq 0}
     \end{maxi*}
-    逆过来求解
+    $2\degree$ 考虑对偶问题的对偶，先将对偶问题变为极小化问题
     \begin{mini*}
-        {}{b^\T v}{}{}
-        \addConstraint{A^\T v+c}{\geq 0}
+        {}{\vb^\T \vv}{}{}
+        \addConstraint{A^\T \vv+\vc}{\geq 0}
     \end{mini*}
-    \[L(v,\lambda)=b^\T v-\lambda^\T(A^\T v+c)\]
+    \[L(\vv,\vlambda)=\vb^\T \vv-\vlambda^\T(A^\T \vv+\vc)\]
     \[\begin{aligned}
-        g(\lambda)&=\inf_v L(v,\lambda)\\
-        &=\inf(b-A\lambda)^\T v-\lambda^\T c\\
+        g(\vlambda)&=\inf_v L(\vv,\vlambda)\\
+        &=\inf(\vb-A\vlambda)^\T \vv-\vlambda^\T \vc\\
         &=\begin{cases}
-            -\lambda^\T c & b-A\lambda =0\\
-            -\infty & b-A\lambda\ne 0
+            -\vlambda^\T \vc & \vb-A\vlambda =0\\
+            -\infty & \vb-A\vlambda\ne 0
         \end{cases}
     \end{aligned}\]
+    得到新的对偶问题
     \begin{maxi*}
-        {}{-\lambda^\T c}{}{}
-        \addConstraint{b-A\lambda}{=0}
-        \addConstraint{\lambda}{\geq 0}
+        {}{-\vlambda^\T \vc}{}{}
+        \addConstraint{\vb-A\vlambda}{=0}
+        \addConstraint{\vlambda}{\geq 0}
     \end{maxi*}
     对偶的对偶不一定回去，线性规划才满足
 \end{analysis}
 % 对偶支撑向量机(SVM) 升变量维度，降约束维度
 
-\begin{example}
+\begin{example}[二路分划(two-way partitioning)]
+    非凸问题，考虑可行解集有$2^n$个离散点，将$\{1,\ldots,n\}$分划到两个集合中，$W_{ij}$是将$i,j$指派到同一个集合的开销，$-W_{ij}$是将$i,j$指派到不同集合的开销
 \begin{mini*}
-    {}{x^\T wx}{}{}
+    {}{\vx^\T W\vx}{}{}
     \addConstraint{x_i}{=\pm 1,}{\quad i=1,\ldots,n}
 \end{mini*}
 \end{example}
 \begin{analysis}
-    \[L(x,v)=x^\T wx+\sum_{i=1}^n v_i(x_i^2-1)\]
+    变为平方等式约束
     \[\begin{aligned}
-        g(v)&=\inf_x L(x,v)\\
-        &=\inf_x x^\T wx+\sum_{i=1}^n v_ix_i^2-\sum_{i=1}^n v_i\\
-        &=\inf_x x^\T\lrp{w+\opdiag v}x-\vone^\T v
-        &=\begin{cases}-\vone^\T v & w+\opdiag(v)\succeq 0\\-\infty&\text{otherwise}\end{cases}
+        L(\vx,\vv)&=\vx^\T W\vx+\sum_{i=1}^n v_i(x_i^2-1)\\
+        g(\vv)&=\inf_x L(\vx,\vv)\\
+        &=\inf_x \lrp{\vx^\T W\vx+\sum_{i=1}^n v_ix_i^2-\sum_{i=1}^n v_i}\\
+        &=\inf_x \lrp{\vx^\T\lrp{W+\opdiag \vv}\vx-\vone^\T \vv}\\
+        &=\begin{cases}-\vone^\T \vv & W+\opdiag(\vv)\succeq 0\\-\infty&\text{otherwise}\end{cases}
     \end{aligned}\]
-    补充求梯度：$2(w+\opdiag(v))x=0$
+    其中
+    \[\opdiag\vv=\bmat{v_1 & \cdots & 0\\\vdots & \ddots & \vdots\\0 & \cdots & v_n}\]
+    得到对偶问题如下
     \begin{maxi*}
-        {v}{-\vone^\T v}{}{}
-        \addConstraint{w+\opdiag(v)}{\succeq 0}
+        {\vv}{-\vone^\T \vv}{}{}
+        \addConstraint{W+\opdiag(\vv)}{\succeq 0}
     \end{maxi*}
 \end{analysis}
 
-\begin{definition}[函数的共轭]
-    $f:\rn\mapsto\rr,f^\star(y)=\sup_{x\in\dom f}(y^\T x-f(x))$，
-    几何意义即到不同斜率直线的距离最大值
+\begin{definition}[函数的共轭(conjugate)]
+    $f:\rn\mapsto\rr,f^\star(\vy)=\sup_{\vx\in\dom f}(\vy^\T \vx-f(\vx))$，
+    几何意义即到不同斜率直线的距离最大值，例子如最大熵
+    \[f_0(\vx)=\sum_{i=1}^nx_i\log x_i,\;f_0^\star(\vy)=\sum_{i=1}^n\ee^{y_i-1}\]
 \end{definition}
+\begin{example}[共轭函数]
 \begin{mini*}
-    {}{f_0(x)}{}{}
-    \addConstraint{Ax}{\leq b}
-    \addConstraint{cx}{=d}
+    {}{f_0(\vx)}{}{}
+    \addConstraint{A\vx}{\leq \vb}
+    \addConstraint{C\vx}{=\vd}
 \end{mini*}
+\end{example}
+\begin{analysis}
 \[\begin{aligned}
-    L(x,\lambda,v)&=f_0(x)+\lambda^\T(Ax-b)+v^\T(cx-d)\\
-    &=f_0(x)+(A^\T\lambda+c^\T v)^\T x-\lambda^\T b-v^\T d\\
-    g(\lambda,v)&=\inf_x f_0(x)+(A^\T\lambda+c^\T v)^\T x-\lambda^\T b-v^\T d\\
-    &=-\sup_x-(A^\T\lambda+c^\T v)^\T x-f_0\\
-    &=-f_0^\star(-(A^\T\lambda+c^\T v))-\lambda^\T b-v^\T d
+    L(\vx,\vlambda,\vv)&=f_0(\vx)+\vlambda^\T(A\vx-\vb)+\vv^\T(C\vx-\vd)\\
+    &=f_0(\vx)+(A^\T\vlambda+C^\T \vv)^\T \vx-\vlambda^\T \vb-\vv^\T \vd\\
+    g(\vlambda,\vv)&=\inf_x \lrp{f_0(\vx)+(A^\T\vlambda+C^\T \vv)^\T \vx-\vlambda^\T \vb-\vv^\T \vd}\\
+    &=-\sup_\vx\lrp{-(A^\T\vlambda+C^\T \vv)^\T \vx-f_0(\vx)}-\vlambda^\T \vb-\vv^\T \vd\\
+    &=-f_0^\star(-(A^\T\vlambda+C^\T \vv))-\vlambda^\T \vb-\vv^\T \vd
 \end{aligned}\]
+\end{analysis}
 
-对偶间隙(duality gap)：$p^\star-d^\star\geq 0$
+\subsection{强弱对偶}
+\begin{definition}[对偶间隙(duality gap)]
+    $\vp^\star-\vd^\star\geq 0$
 \begin{itemize}
     \item 弱对偶：严格大于0
     \item 强对偶：对偶间隙为0
 \end{itemize}
+\end{definition}
 
 \begin{enumerate}
-    \item 对于非凸问题，\textbf{通常}$p^\star\ne d^\star$
-    \item 对于凸问题，若slater条件满足，$p^\star=d^\star$
+    \item 对于非凸问题，\textbf{通常}$\vp^\star\ne \vd^\star$
+    \item 对于凸问题，若slater条件满足，$\vp^\star=\vd^\star$
 \end{enumerate}
 
 \begin{definition}[相对内点(relative interior)]
-    \[\mathop{relint} D=\{x\in D\mid B(x,r)\cap\opaff D\subset v,\exists r>0\}\]
+    \[\mathop{relint} \sD=\{\vx\in \sD\mid B(\vx,r)\cap\opaff \sD\subset \vv,\exists r>0\}\]
 \end{definition}
 
 \begin{theorem}[Slater条件]
+强对偶对于下列凸问题成立
 \begin{mini*}
-    {}{f_0(x)}{}{}
-    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
-    \addConstraint{Ax}{=b}
+    {}{f_0(\vx)}{}{}
+    \addConstraint{f_i(\vx)}{\leq 0}{,\quad i=1,\ldots,m}
+    \addConstraint{A\vx}{=\vb}
 \end{mini*}
-$\exists x\in\mathop{relint} D$使得$f_i(x)<0,i=1,\ldots,m,Ax=b$
+若它严格可行，即
+\[\exists \vx\in\mathop{relint} \sD,\;\text{s.t.}\;f_i(\vx)<0,\;i=1,\ldots,m,\;A\vx=\vb\]
 \end{theorem}
+
 \begin{example}
     二次规划(QP)
     \begin{mini*}
-        {}{x^\T x}{}{}
-        \addConstraint{Ax}{=b}
+        {}{\vx^\T \vx}{}{}
+        \addConstraint{A\vx}{=\vb}
     \end{mini*}
-    Slater条件$\{x\mid Ax=b\}$非空
+    Slater条件$\{\vx\mid A\vx=\vb\}$非空
 \end{example}
-\begin{example}
-    二次约束二次规划(QCQP)
+\begin{example}[二次约束二次规划(QCQP)]
     \begin{mini*}
-        {}{\frac{1}{2}x^\T P_0 x+q_0^\T+r_0}{}{}
-        \addConstraint{\frac{1}{2}x^\T P_i x+q_i^\T x+r_i}{\leq 0}{,\quad i=1,\ldots,m}
+        {}{\frac{1}{2}\vx^\T P_0 \vx+\vq_0^\T+r_0}{}{}
+        \addConstraint{\frac{1}{2}\vx^\T P_i \vx+\vq_i^\T \vx+r_i}{\leq 0}{,\quad i=1,\ldots,m}
     \end{mini*}
-    $P_0,\ldots,P_i$半正定
+    $P_0,\ldots,P_m$半正定
 \end{example}
 
-凸问题+Slater条件$\implies p^\star=d^\star$，但有可能不满足Slater条件也依然强对偶
+凸问题+Slater条件$\implies \vp^\star=\vd^\star$，但有可能不满足Slater条件也依然强对偶
 \begin{example}
 \begin{mini*}
-    {}{x,x\in\rr}{}{}
-    \addConstraint{x}{leq 0}
+    {}{x,\;x\in\rr}{}{}
+    \addConstraint{x}{\leq 0}
     \addConstraint{-x}{\leq 0}
 \end{mini*}
 \end{example}
 \begin{analysis}
-    \[L(x,\lambda_1,\lambda_2)=x+\lambda_1 x-\lambda_2 x=(1+\lambda_1-\lambda_2)x\]
-\[g(\lambda_1,\lambda_2)=\inf_{x\in\rr}(1+\lambda_1-\lambda_2)x=
-\begin{cases}0& 1+\lambda_1-\lambda_2=0\\ -\infty &\text{otherwise}\end{cases}\]
+    \[\begin{aligned}
+        L(x,\lambda_1,\lambda_2)&=x+\lambda_1 x-\lambda_2 x=(1+\lambda_1-\lambda_2)x\\
+        g(\lambda_1,\lambda_2)&=\inf_{x\in\rr}(1+\lambda_1-\lambda_2)x=
+    \begin{cases}0& 1+\lambda_1-\lambda_2=0\\ -\infty &\text{otherwise}\end{cases}
+    \end{aligned}\]
+    \par 得到对偶问题
     \begin{maxi*}
         {\lambda_1,\lambda_2}{0}{}{}
         \addConstraint{1+\lambda_1-\lambda_2}{=0}
     \end{maxi*}
-\[\implies p^\star=d^\star=0\]
+    \par 可以推出$\vp^\star=\vd^\star=0$
 \end{analysis}
 
-置信域问题
+\begin{example}[置信域问题]
 \begin{mini*}
-    {}{x^\T Ax+b^\T x}{}{}
-    \addConstraint{x^\T x}{\leq 1}
+    {}{\vx^\T A\vx+\vb^\T \vx}{}{}
+    \addConstraint{\vx^\T \vx}{\leq 1}
     \addConstraint{A}{\nsucceq 0}
 \end{mini*}
-依然可以得到$p^\star=d^\star$
+依然可以得到$\vp^\star=\vd^\star$
+\end{example}
 
-几何解释
-\begin{mini*}
-    {}{f_0(x)}{}{}
-    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
-\end{mini*}
-
-\[G=\{(f_1(x),f_0(x))\mid x\in\sD\}\]
-\[g(\lambda)=\inf\{t+\lambda u\mid(u,t)\in G\}\]
-\[L(x,\lambda)=f_0(x)+\lambda f_1(x)\]
-\[g(\lambda)=\inf_{x\in\sD}\{f_0(x)+\lambda f_1(x)\}\]
-
-\[p^\star=\inf\{t\mid(u,t)\in G,u\leq 0\}\]
-\[\lambda\geq 0,\max g(\lambda)\]
-
+\subsection{对偶问题的几种解释}
+\subsubsection{几何解释}
+考虑问题只有一个约束$f_1(\vx)\leq 0$，记$\sG=\{(f_1(\vx),f_0(\vx))\mid \vx\in\sD\}$，则对偶函数
+\[\begin{aligned}
+    g(\vlambda)&=\inf\{t+\vlambda u\mid(u,t)\in G\}\\
+    \vp^\star&=\inf\{t\mid(u,t)\in G,u\leq 0\}
+\end{aligned}\]
+\[\max\; g(\vlambda),\;\vlambda\geq 0\]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{fig/dual-geo.PNG}
+\end{figure}
 注意问题必须要有可行解
 
-经济学解释：满足原材料约束下，利润最多
+\subsubsection{经济学解释}
+满足原材料约束下，利润最多
 价格$\lambda_i\geq 0$
-\[g(\lambda)=\inf_x f_(x)+\lambda_1 f_1(x)+\cdots+\lambda_m f_m(x)=\inf_x L(x,\lambda)\]
-则$g(\lambda)$为对偶函数，市场$p^\star$损失最小（$g(\lambda)\leq p^\star$）
-\[d^\star=\sup_{lambda\geq 0}g(\lambda)\]
-市场平衡点，均衡市场$p^\star=d^\star$，最优/影子价格$\lambda^\star$
+\[g(\vlambda)=\inf_\vx \lrp{f_0(\vx)+\lambda_1 f_1(\vx)+\cdots+\lambda_m f_m(\vx)}=\inf_\vx L(\vx,\vlambda)\]
+则$g(\vlambda)$为对偶函数，市场$\vp^\star$损失最小（$g(\vlambda)\leq \vp^\star$）
+\[\vd^\star=\sup_{\vlambda\geq 0}g(\vlambda)\]
+市场平衡点，均衡市场$\vp^\star=\vd^\star$，最优/影子价格$\vlambda^\star$
 
-多目标优化解释
+\subsubsection{多目标优化解释}
 \[\begin{cases}
-    \min f_0(x) & 1\\
-    \min f_1(x) & \lambda_1\\
+    \min f_0(\vx) & 1\\
+    \min f_1(\vx) & \lambda_1\\
     \vdots & \vdots\\
-    \min f_m(x) & \lambda_m
+    \min f_m(\vx) & \lambda_m
 \end{cases}\]
-\[\min_x f_0(x)+\lambda_1 f_1(x)+\cdots+\lambda_m f_m(x)\]
+\[\min_\vx f_0(\vx)+\lambda_1 f_1(\vx)+\cdots+\lambda_m f_m(\vx)\]
 
-鞍点(saddle point)解释
-\[f(w,z),w\in S_w,z\in S_z\]
+\subsubsection{鞍点(saddle point)解释}
+\[f(\vw,\vz),\vw\in S_w,\vz\in S_z\]
 极小极大不等式
-\[\sup_{z\in S_z}\inf_{w\in S_w} f(wz)\leq \inf_{w\in S_w}\sup_{z\in S_z}f(w,z)\]
-若有$(\tilde{w},\tilde{z})$使得
+\[\sup_{\vz\in S_z}\inf_{\vw\in S_w} f(\vw,\vz)\leq \inf_{\vw\in S_w}\sup_{\vz\in S_z}f(\vw,\vz)\]
+若有$(\tilde{\vw},\tilde{\vz})$使得
 \[\begin{aligned}
-    (\tilde{w},\tilde{z})&=\arg\max_{z\in S_z}\min_{w\in S_w} f(w,z)
-    (\tilde{w},\tilde{z})&=\arg\min_{w\in S_w}\max_{z\in S_z} f(w,z)
+    (\tilde{\vw},\tilde{\vz})&=\argmax_{\vz\in S_z}\min_{\vw\in S_w} f(\vw,\vz)\\
+    (\tilde{\vw},\tilde{\vz})&=\argmin_{\vw\in S_w}\max_{\vz\in S_z} f(\vw,\vz)
 \end{aligned}\]
-则$(\tilde{w},\tilde{z})$为鞍点
+则$(\tilde{\vw},\tilde{\vz})$为鞍点
 
 有下面不等式成立
-\[f((\tilde{w},z))\leq f(\tilde{w},\tilde{z})\leq f(w,\tilde{z}),\forall z\in S_z,w\in S_w\]
+\[f(\tilde{\vw},\vz)\leq f(\tilde{\vw},\tilde{\vz})\leq f(\vw,\tilde{\vz}),\forall \vz\in S_z,\vw\in S_w\]
 即从一个方向望过去是最小，从另一个方向望过去是最大
 
+\[L(\vx,\vlambda)=f_0(\vx)+\sum_{i=1}^m\lambda_i f_i(\vx)\]
 \[\begin{aligned}
-    &L(x,\lambda)&=f_0(x)+\sum_{i=1}^m\lambda_i f_i(x)\\
-    \implies&\sup_{\lambda\geq 0}L(x,\lambda)&=\sup_{\lambda\geq 0}\{f_0(x)+\sum_{i=1}^m\lambda_if_i(x)\}\\
-    &&=\begin{cases}f_0(x)&f_i(x)\leq 0,i=1,\ldots,m\\+\infty&\text{otherwise}\end{cases}\\
-    \implies& p^\star&=\inf_x\{f_0(x)\mid f_i(x)\leq 0,i=1,\ldots,m\}=\inf_x\sup_{\lambda\geq 0}L(x,\lambda)
+    \implies& \sup_{\vlambda\geq 0}L(\vx,\vlambda)=\sup_{\vlambda\geq 0}\lrb{f_0(\vx)+\sum_{i=1}^m\lambda_if_i(\vx)}=
+    \begin{cases}f_0(\vx)&f_i(\vx)\leq 0,i=1,\ldots,m\\+\infty&\text{otherwise}\end{cases}\\
+    \implies& p^\star =\inf_x\lrb{f_0(\vx)\mid f_i(\vx)\leq 0,i=1,\ldots,m}=\inf_x\sup_{\vlambda\geq 0}L(\vx,\vlambda)
 \end{aligned}\]
-\[d^\star=\sup_{\lambda\geq 0}g(\lambda)=\sup_{\lambda\geq 0}\inf_x L(x,\lambda)\implies p^\star\geq d^\star\]
+\[\vd^\star=\sup_{\vlambda\geq 0}g(\vlambda)=\sup_{\vlambda\geq 0}\inf_\vx L(\vx,\vlambda)\implies \vp^\star\geq \vd^\star\]
 
-如果$L(x,\lambda)$有鞍点，则必有$p^\star=d^\star$
+如果$L(\vx,\vlambda)$有鞍点，则必有$\vp^\star=\vd^\star$
 
-鞍点在无约束优化问题中是很糟糕的点（所有方向上梯度为0），但是有约束优化问题则是非常好的点
+鞍点在无约束优化问题中是很糟糕的点（所有方向上梯度为0），但是有约束优化问题中则是非常好的点。
 
-若$(\tilde{x},\tilde{\lambda})$为$L(x,\lambda)$鞍点$\iff p^\star=d^\star$且$\tilde{x},\tilde{\lambda}$为原对偶问题最优解
-$\implies$若为鞍点，$p^\star=d^\star$
-\[\sup_{\lambda\geq 0}\inf_x L(x,\lambda)=\inf_x\sup_{\lambda\geq 0}L(x,\lambda)\]
-已知$(\tilde{x},\tilde{\lambda})$为左边最优
+若$(\tilde{\vx},\tilde{\vlambda})$为$L(\vx,\vlambda)$鞍点$\iff \vp^\star=\vd^\star$且$\tilde{\vx},\tilde{\vlambda}$为原对偶问题最优解
+$\implies$若为鞍点，$\vp^\star=\vd^\star$
+\[\sup_{\vlambda\geq 0}\inf_\vx L(\vx,\vlambda)=\inf_\vx\sup_{\vlambda\geq 0}L(\vx,\vlambda)\]
+已知$(\tilde{\vx},\tilde{\vlambda})$为左边最优
 \[\begin{aligned}
-    \tilde{\lambda}&=\arg\max_{\lambda\geq 0}\inf_x L(x,\lambda)\\
-    \tilde{x}&=\arg\inf_x\sup_{\lambda\geq 0}L(x,\lambda)
+    \tilde{\vlambda}&=\argmax_{\vlambda\geq 0}\inf_\vx L(\vx,\vlambda)\\
+    \tilde{\vx}&=\arginf_\vx\sup_{\vlambda\geq 0}L(\vx,\vlambda)
 \end{aligned}\]
-则$\tilde{\lambda}$对偶最优，$\tilde{x}$为原问题最优
+则$\tilde{\vlambda}$对偶最优，$\tilde{\vx}$为原问题最优
 
 % 4.4
-\begin{mini*}
-    {}{f_0(x)}{}{}
-    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
-\end{mini*}
 \begin{theorem}
-    $(\tilde{x},\tilde{\lambda})$为拉格朗日函数鞍点$\iff p^\star=d^\star$，且$(\tilde{x},\tilde{\lambda})$为原对偶的最优解
+    $(\tilde{\vx},\tilde{\vlambda})$为拉格朗日函数鞍点$\iff \vp^\star=\vd^\star$，且$(\tilde{\vx},\tilde{\vlambda})$为原对偶的最优解
 \end{theorem}
 \begin{analysis}
-    右推左，$(\tilde{x},\tilde{\lambda})$原对偶可行
-    \[f_i(\tilde{x})\leq 0,i=1,\ldots,m,\tilde{\lambda}\geq 0\]
-    因$p^\star=d^\star$，有
+    右推左，$(\tilde{\vx},\tilde{\vlambda})$为原对偶问题可行解
+    \[f_i(\tilde{\vx})\leq 0,i=1,\ldots,m,\tilde{\vlambda}\geq 0\]
+    因$\vp^\star=\vd^\star$，有
     \[\begin{aligned}
-        f_0(\tilde{x})&=g(\tilde{\lambda})\\
-        &=\inf_x\{f_0(x)+\sum_{i=1}^m\tilde{\lambda}_i f_i(x)\}\\
-        \leq & f_0(\tilde{x})+\sum_{i=1}^m\tilde{\lambda}_i f_i(\tilde{x})\\
-        \leq & f_0(\tilde{x})
+        f_0(\tilde{\vx})&=g(\tilde{\vlambda})\\
+        &=\inf_x\lrb{f_0(\vx)+\sum_{i=1}^m\tilde{\vlambda}_i f_i(\vx)}\\
+        &\leq f_0(\tilde{\vx})+\sum_{i=1}^m\tilde{\vlambda}_i f_i(\tilde{\vx})\\
+        &\leq f_0(\tilde{\vx})
     \end{aligned}\]
-    进而不等号都得为等号
+    进而不等号都得为等号，还可得到
     \begin{enumerate}
-        \item $\inf_x L(x,\tilde{\lambda})=L(\tilde{x},\tilde{\lambda})$
-        \item $f_0(\tilde{x})=\sup_{\lambda\geq 0}\{f_0(\tilde{x})+\sum_{i=1}^m\lambda_i f_i(\tilde{x})\}=\sup_{\lambda\geq 0}L(\tilde{x},\lambda)$
+        \item $\disp \inf_x L(\vx,\tilde{\vlambda})=L(\tilde{\vx},\tilde{\vlambda})$
+        \item $\disp f_0(\tilde{\vx})=\sup_{\vlambda\geq 0}\lrb{f_0(\tilde{\vx})+\sum_{i=1}^m\lambda_i f_i(\tilde{\vx})}=\sup_{\vlambda\geq 0}L(\tilde{\vx},\vlambda)$
     \end{enumerate}
-    \[\implies L(\tilde{x},\tilde{\lambda})=\sup_{\lambda\geq 0}L(\tilde{x},\lambda)\]
-    \[\implies (\tilde{x},\tilde{\lambda})\text{是}L(x,\lambda)\text{的鞍点}\]
+    进而
+    \[L(\tilde{\vx},\tilde{\vlambda})=\sup_{\vlambda\geq 0}L(\tilde{\vx},\vlambda)\]
+    故右推左成立
 \end{analysis}
 
-一般优化问题的对偶理论
+\subsection{一般优化问题的对偶理论}
 \begin{mini*}
-    {}{f_0(x)}{}{}
-    \addConstraint{f_i(x)}{\leq 0}{,\quad i=1,\ldots,m}
-    \addConstraint{h_i(x)}{=0}{,\quad i=1,\ldots,p}
+    {}{f_0(\vx)}{}{}
+    \addConstraint{f_i(\vx)}{\leq 0}{,\quad i=1,\ldots,m}
+    \addConstraint{h_i(\vx)}{=0}{,\quad i=1,\ldots,p}
 \end{mini*}
 不一定是凸问题，但$p^\star=d^\star$，最优解满足什么条件？
 
-对偶问题
+设其对偶问题为下式
 \begin{maxi*}
-    {}{g(\lambda,v)}{}{}
-    \addConstraint{\lambda}{\geq 0}
+    {}{g(\vlambda,\vv)}{}{}
+    \addConstraint{\vlambda}{\geq 0}
 \end{maxi*}
 \begin{analysis}
-    设$(x^\star,\lambda^\star,v^\star)$为原对偶最优解，则$(x^\star,\lambda^\star,v^\star)$为原对偶可行解
-    \[f_i(x^\star)\leq 0,i=1,\ldots,m,\quad h_i(x^\star)=0,i=1,\ldots,p,\quad\lambda^\star\geq 0\]
+    设$(\vx^\star,\vlambda^\star,\vv^\star)$为原对偶最优解，则$(\vx^\star,\vlambda^\star,\vv^\star)$为原对偶可行解
+    \[f_i(\vx^\star)\leq 0,i=1,\ldots,m,\quad h_i(\vx^\star)=0,i=1,\ldots,p,\quad\vlambda^\star\geq 0\]
     \[\begin{aligned}
-        p^\star=d^\star\implies f_0(x^\star)&=g(\lambda^\star,v^\star)\\
-        &=\inf_x\{f_0(x)+\sum_{i=1}^m\lambda_i^\star f_i(x)+\sum_{i=1}^pv_i^\star h_i(x)\}\\
-        &\leq f_0(x^\star)+\sum_{i=1}^m\lambda_i^\star f_i(x^\star)+\sum_{i=1}^pv_i^\star h_i(x^\star)\\
-        &\leq f_0(x^\star)
+        \vp^\star=\vd^\star\implies f_0(\vx^\star)&=g(\vlambda^\star,\vv^\star)\\
+        &=\inf_\vx\lrb{f_0(\vx)+\sum_{i=1}^m\lambda_i^\star f_i(\vx)+\sum_{i=1}^pv_i^\star h_i(\vx)}\qquad\mbox{将$\inf$拆掉}\\
+        &\leq f_0(\vx^\star)+\sum_{i=1}^m\lambda_i^\star f_i(\vx^\star)+\sum_{i=1}^pv_i^\star h_i(\vx^\star)\qquad\mbox{原问题约束}\\
+        &\leq f_0(\vx^\star)
     \end{aligned}\]
-    同上理，不等号全取等
+    同上理，不等号全取等，有
     \begin{enumerate}
-        \item $\lambda_i^\star f_i(x^\star)=0,\forall i=1,\ldots,m$
-        \item $x^\star=\arg\min_x L(x,\lambda^\star,v^\star)$
+        \item $\lambda_i^\star f_i(\vx^\star)=0,\forall i=1,\ldots,m$
+        \item $\disp \vx^\star=\argmin_\vx L(\vx,\vlambda^\star,\vv^\star)$
     \end{enumerate}
     若$f_0,f_i,h_i$均可微，则必要条件为
-    \[\pd{L(x,\lambda^\star,v^\star)}{x}\Big|_{x=x^\star}=0\]
+    \[\pd{L(\vx,\vlambda^\star,\vv^\star)}{\vx}\Big|_{\vx=\vx^\star}=0\]
 \end{analysis}
-可微优化问题的KKT(Karush-Kuhn-Tucker)条件
+\begin{theorem}[KKT条件]
+可微优化问题的KKT(Karush-Kuhn-Tucker)条件如下
 \begin{itemize}
-    \item $f_i(x^\star)\leq 0,i=1,\ldots,m$ primal feasibility
-    \item $h_i(x^\star)=0,i=1,\ldots,p$ primal feasibility
-    \item $\lambda^\star\geq 0$ dual feasibility
-    \item $\lambda_i^\star f_i(x^\star)=0, i=1,\ldots,m$ complementarity slackness(对偶互斥条件)
-    \item $\pd{L(x,\lambda^\star,v^\star)}{x}\Big|_{x=x^\star}=0$ stablity
+    \item 原始可行性(primal feasibility)：$f_i(\vx^\star)\leq 0,i=1,\ldots,m$
+    \item 原始可行性(primal feasibility)：$h_i(\vx^\star)=0,i=1,\ldots,p$
+    \item 对偶可行性(dual feasibility)：$\vlambda^\star\geq \vzero$
+    \item 对偶互斥条件(complementarity slackness)：$\lambda_i^\star f_i(\vx^\star)=0, i=1,\ldots,m$
+    \item 稳定性(stablity)：$\pd{L(\vx,\vlambda^\star,\vv^\star)}{\vx}\Big|_{\vx=\vx^\star}=0$
 \end{itemize}
-
-\begin{theorem}
-若原问题为凸，则KKT条件为\textbf{充要条件}
+若原问题为凸，则KKT条件为最优解的\textbf{充要条件}
 \end{theorem}
 \begin{analysis}
     必要性已证，证明充分性\\
-    若$(\tilde{x},\tilde{\lambda},\tilde{v})$满足KKT条件$\implies(\tilde{x},\tilde{\lambda},\tilde{v})$最优
-    $\tilde{x}$为原问题可行解，$(\tilde{\lambda},\tilde{v})$为对偶问题可行解\\
-    证明思路：$g(\tilde{\lambda},\tilde{v})=f_0(\tilde{x})$\\
-    $L(x,\tilde{\lambda},\tilde{v})$为$x$的凸函数，则$\tilde{x}$使$L(x,\tilde{\lambda},\tilde{v})$最小
+    若$(\tilde{\vx},\tilde{\vlambda},\tilde{\vv})$满足KKT条件$\implies(\tilde{\vx},\tilde{\vlambda},\tilde{\vv})$最优，
+    其中，$\tilde{\vx}$为原问题可行解，$(\tilde{\vlambda},\tilde{\vv})$为对偶问题可行解\\
+    证明思路：$g(\tilde{\vlambda},\tilde{\vv})=f_0(\tilde{\vx})$\\
+    $L(\vx,\tilde{\vlambda},\tilde{\vv})$为$\vx$的凸函数，则$\tilde{\vx}$使$L(\vx,\tilde{\vlambda},\tilde{\vv})$最小
     \[\begin{aligned}
-        g(\tilde{\lambda},\tilde{v})&=\inf_x L(x,\tilde{\lambda},\tilde{v})\\
-        &=L(\tilde{x},\tilde{\lambda},\tilde{v})\\
-        &=f_0(\tilde{x})+\sum_{i=1}^m\tilde{\lambda}_if_i(\tilde{x})+\sum_{i=1}^p\tilde{v_i}h_i(\tilde{x})\\
-        &=f_0(\tilde{x})
+        g(\tilde{\vlambda},\tilde{\vv})&=\inf_vx L(\vx,\tilde{\vlambda},\tilde{\vv})\\
+        &=L(\tilde{\vx},\tilde{\vlambda},\tilde{\vv})\\
+        &=f_0(\tilde{\vx})+\sum_{i=1}^m\tilde{\lambda}_if_i(\tilde{\vx})+\sum_{i=1}^p\tilde{v_i}h_i(\tilde{\vx})\\
+        &=f_0(\tilde{\vx})
     \end{aligned}\]
 \end{analysis}
 
-\begin{example}[Waterfilling算法]
+\begin{example}[Water-filling]
     共$n$个信道(channel)
     \begin{center}
         \begin{tikzcd}
@@ -360,28 +391,30 @@ $\implies$若为鞍点，$p^\star=d^\star$
         \end{tikzcd}
     \end{center}
     \begin{mini*}
-        {}{-\sum_{i=1}^n\log(\alpha_i+x_i)}{}{}
-        \addConstraint{x}{\geq 0}
-        \addConstraint{\vone^\T}{=1}
+        {}{-\sum_{i=1}^n\log(\alpha_i+x_i),\alpha_i>0}{}{}
+        \addConstraint{\vx}{\geq \vzero}
+        \addConstraint{\vone^\T\vx}{=1}
     \end{mini*}
 \end{example}
 \begin{analysis}
-    KKT条件
+    拉格朗日函数，注意$\vlambda^\T\vx$项符号
+    \[L(x,\lambda,v)=-\sum_{i=1}^n\log(\alpha_i+x_i)-\vlambda^\T \vx + v(\vone^\T \vx-1)\]
+    KKT条件如下
     \begin{itemize}
-        \item $x^\star\geq 0$
-        \item $\vone^\T x^\star=1$
-        \item $\lambda^\star\geq 0$
-        \item $x_i^\star\lambda_i^\star=0,\forall i$
+        \item 原始可行性：$\vx^\star\geq 0$
+        \item 原始可行性：$\vone^\T \vx^\star=1$
+        \item 对偶可行性：$\vlambda^\star\geq \vzero$
+        \item 对偶互斥条件：$\lambda_i^\star x_i^\star=0,\forall i$
+        \item 稳定性条件：
+        \[\lrp{\pd{L(\vx,\vlambda,v)}{\vx}}_i=-\frac{1}{\alpha_i+x_i}-\lambda_i+v\]
+        \[\begin{aligned}
+            \qquad&-\frac{1}{\alpha_i+x_i^\star}-\lambda_i^\star+v^\star=0,\forall i\\
+            \implies& v^\star=\frac{1}{\alpha_i+x_i^\star}+\lambda_i^\star,i=1,\ldots,n
+        \end{aligned}\]
     \end{itemize}
-\[\begin{aligned}
-    L(x,\lambda,v)=-\sum_{i=1}^n\log(\alpha_i+x_i)-\lambda^\T x+v(\vone^\T x-1)
-\end{aligned}\]
-\[\lrp{\pd{L(x,\lambda,v)}{x}}_i=-\frac{1}{\alpha_i+x_i}-\lambda_i+v\]
-\[-\frac{1}{\alpha_i+x_i^\star}-\lambda_i^\star+v^\star=0,\forall i\]
-\[\implies v^\star\frac{1}{\alpha_i+x_i^\star},i=1,\ldots,n\]
-\[x_i^\star\lrp{v^\star-\frac{1}{\alpha_i+x_i^\star}}=0,i=1,\ldots,n\]
-若$v^\star>\frac{1}{\alpha_i}\implies x_i^\star=0$\\
-若$v^\star<\frac{1}{\alpha_i}$
+若$v^\star\geq \frac{1}{\alpha_i}$，则
+\[x_i^\star=0,\;\lambda_i=v-\frac{1}{\alpha_i}\]
+若$v^\star<\frac{1}{\alpha_i}$，则
 \[\frac{1}{\alpha_i}>v^\star\geq\frac{1}{\alpha_i+x_i^\star}\]
 进而
 \[\begin{aligned}
@@ -389,19 +422,34 @@ $\implies$若为鞍点，$p^\star=d^\star$
     v^\star&=\frac{1}{\alpha_i+x_i^\star}\\
     x_i^\star&=\frac{1}{v^\star}-\alpha_i
 \end{aligned}\]
-\[\implies x_i^\star=\max\{0,\frac{1}{v^\star}-\alpha_i\}\]
+\[\implies x_i^\star=\max\lrb{0,\frac{1}{v^\star}-\alpha_i}\]
 结合$\sum_i x_i^\star=1$，即注水算法
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fig/water-filling.PNG}
+\end{figure}
+$n$个块，每块高度为$\alpha_i$，用单位水量填充面积，最终的高度为$1/v^\star$
 \end{analysis}
 
-Motivation：误差，调整参数测灵敏度
+\begin{definition}[扰动(perturbed)问题]
 \begin{mini*}
     {}{f_0(x)}{}{}
     \addConstraint{f(x)}{\leq u_i}{,\quad i=1,\ldots,m}
     \addConstraint{h_i(x)}{= w_i}{,\quad i=1,\ldots,p}
 \end{mini*}
-新问题的最优解记为$p^\star(\vu,\vw)$
+新问题的最优解记为$\vp^\star(\vu,\vw)$
+\end{definition}
+\begin{theorem}
+若原始问题为凸，则$\vp^\star(\vu,\vw)$是$(u,w)$的凸函数
+\end{theorem}
+% \begin{analysis}
+%     \[\begin{aligned}
+%         \vp^\star(\vu,\vw)&=\inf_\vx\lrb{f_0(\vx)\mid f_i(\vx)\leq u_i,h_i(\vx)=w_i}\\
+%         &=\inf_\vx S(\vx,\vu,\vw):=f_0(\vx)\\
+%         \dom S=\lrb{x\in\dom f_0,f_i(\vx)\leq u_i,h_i(\vx)=\vw_i}
+%     \end{aligned}\]
+%     需证明$S(\vx,\vu,\vw)$为$(\vx,\vu,\vw)$的凸函数
+% \end{analysis}
 
-性质：若原始问题为凸，则$p^\star(\vu,\vw)$是$(u,w)$的凸函数
-
-布尔线性规划问题做松弛(relaxation)
-\[x_i\in\{0,1\}\implies 1\geq x_i\geq 0\]
+% 布尔线性规划问题做松弛(relaxation)
+% \[x_i\in\{0,1\}\implies 1\geq x_i\geq 0\]

@@ -3,6 +3,47 @@
 \newpage
 \appendix
 \section{矩阵微积分}
+\label{appendix:matrix}
+\subsection{基本矩阵知识}
+\begin{definition}[正定(positive definite)矩阵]
+若矩阵$A$满足
+\[\forall\;\vz\ne 0:\;\vz^\T A\vz>0\]
+则称$A$为正定矩阵。
+\end{definition}
+\begin{definition}[合同(congruent)矩阵]
+    若存在可逆矩阵$C$使得$C^\T AC=B$，则称$A$为$B$合同，记作$A\backsimeq B$
+\end{definition}
+\begin{definition}[主子式]
+    从$n$阶矩阵中选取行号和列号相同的$i$列，行列交汇处的元素形成的行列式称为$n$阶矩阵的一个$i$阶主子式。如果挑选$1-i$行和$1-i$列，则成为该矩阵的$i$阶\textbf{顺序}主子式。
+\end{definition}
+正定矩阵$A$的等价命题如下
+\begin{itemize}
+    \item $A$的所有顺序主子式均为正
+    \item $A$的所有主子式均为正
+    \item $A$的特征值均为正
+\end{itemize}
+
+\begin{definition}[向量范数]
+    $\norm{\cdot}$为范数需要满足以下三个条件
+    \begin{enumerate}
+        \item 数乘：$\norm{a\vx}=|a|\norm{\vx}$
+        \item 零元：$\norm{\vx}=0\iff \vx=\vzero$
+        \item 三角不等式：$\norm{\vx+\vy}\leq \norm{\vx}+\norm{\vy}$
+    \end{enumerate}
+\end{definition}
+\begin{itemize}
+\item 0-范数：非零元素数目，是伪范数（不符合第一个定义）
+\item 1-范数：绝对值之和
+\item 2-范数：欧几里得距离
+\item p-范数：p次方之和的p次根
+\item 无穷范数：最大值
+\end{itemize}
+
+\begin{definition}[Taylor公式]
+对$f(\vx)$在点$\vx_0$处展开有
+\[f(\vx)=f(\vx_0)+(\vx-\vx_0)^\T\nabla f(\vx_0)+\frac{1}{2!}(\vx-\vx_0)^\T \nabla^2(\vx)(\vx-\vx_0)+\cdots\]
+\end{definition}
+
 \subsection{实值函数对向量的导数}
 设$f(\vx):\rr^n\mapsto\rr$，劈形算子$\nabla$默认对$\vx$求导，可以得到以下公式。
 \begin{enumerate}
@@ -54,7 +95,7 @@
 \begin{enumerate}
     \item $\nabla_\vx(A\vx)=A$
     \begin{analysis}
-        进而由乘法法则可以推出
+        基于此式，由乘法法则可以推出
         \[\begin{aligned}
             \nabla\vx^T\vx&=(\nabla \vx^\T)\vx+\vx^\T(\nabla \vx)\\
             &=(\nabla (I\vx)^\T)\vx+\vx^\T(\nabla I\vx)\\
@@ -76,3 +117,9 @@
     \item 机器学习中的矩阵/向量求导，\url{https://zhuanlan.zhihu.com/p/25063314}
     \item 矩阵求导术，\url{https://zhuanlan.zhihu.com/p/24709748}
 \end{enumerate}
+
+% 作业：
+% 2.1 2.2 2.5 2.7 2.10 2.16 2.18 2.19
+% 3.1 3.2 3.5 3.13 3.18 3.21 3.33 3.36 3.43
+% 4.3 4.9 4.22 4.24 4.29 4.62
+% 5.5 5.20 5.27

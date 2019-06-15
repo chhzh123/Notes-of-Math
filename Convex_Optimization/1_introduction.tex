@@ -3,9 +3,9 @@
 \section{简介} % Lec 1 - 2.26
 \subsection{优化概述}
 优化(optimization)：从一个\emph{可行解}的集合中寻找出\emph{最好}的元素
-\begin{example}
 \begin{itemize}
-\item 最小二乘线性拟合（凸问题）
+\item 最小二乘法（凸问题）
+\[\min\;\norm{A\vx-\vb}_2^2\]
 \item 深度神经网络（非凸，见下）
 \[\begin{aligned}
 \vx_1^{(i)}&=f_1(\vx_0^{(i)},\vw_1)\\
@@ -18,17 +18,16 @@
 \[\|\Phi\|_{TV}=\sum_y\sum_x\sqrt{(\Phi(x,y)-\Phi(x,y-1))^2+(\Phi(x,y)-\Phi(x-1,y))^2}\]
 可得优化目标：近似自然图像，而且跟原图不能差太远
 \[\min(\|\Phi\|_{TV}+\lambda\|\Phi-\Phi_0\|_F^2)\]
-\item 推荐系统：Netflix问题\\
-矩阵横向为用户，纵向为电影，值为评分值($1\thicksim 5$)，问题是把矩阵补全，这样就可以做推荐了$\to$低秩矩阵补全\\
+\item 推荐系统：Netflix问题$\to$低秩矩阵补全\\
+矩阵横向为用户，纵向为电影，值为评分值($1\thicksim 5$)，问题是把矩阵补全，这样就可以做推荐了\\
 电影很多，但类型不多，关联关系有限$\to$\textbf{近似低秩}\footnote{$A$的秩等于非零奇异值$\sqrt{\mathop{eig}(A^\T A)}$数目}\\
 低秩本来需要最小化$\vz$的非零奇异值数目$\|\vz\|_0$，但是非凸的；
-转化为最小化\emph{和范数}\footnote{矩阵所有奇异值之和}$\|\vz\|_\star$
+转化为最小化\textbf{和范数}\footnote{矩阵所有奇异值之和}$\|\vz\|_\star$
 \begin{mini*}
 {}{\norm{\vz}_\star:=\norm{\vz}_1}{}{}
-\addConstraint{\vz_{ij}}{=\vM_{ij},\;(i,j)\in\Omega}
+\addConstraint{\vz_{ij}}{=M_{ij},\;(i,j)\in\Omega}
 \end{mini*}
 \end{itemize}
-\end{example}
 
 \subsection{分类}
 \begin{itemize}
@@ -41,7 +40,7 @@
 \begin{itemize}
 \item Newton-Raphson算法：求零点，等价于求$\min f^2(x)$
 \item Gauss-Seidel算法：求解线性方程组$A\vx=\vb$，等价于求$\min \|A\vx-\vb\|_2^2$
-\item Lagrange
+\item Lagrange：法国
 \item Kantoronc：苏联，线性规划，诺贝尔经济学奖
 \item Dantzig：美国，优化决策，线性规划单纯形
 \item Von Neumann：线性规划问题对偶理论

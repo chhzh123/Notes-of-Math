@@ -13,7 +13,7 @@
 用定义易证线性方程组的解集$\mathcal{C}=\{\vx\mid A\vx=\vb\}$是仿射集；
 反过来，每一个仿射集都可以用线性方程组的解集表示
 \end{example}
-\item 仿射组合
+\item 仿射组合（多点扩展）
 \[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},\theta_1,\ldots,\theta_k\in\rr,{\color{red}{\theta_1+\cdots+\theta_k=1}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
 \item 仿射包(hull)：所有仿射组合的集合
 \[\opaff\mathcal{C}:=\{\theta_1 x_1+\cdots+\theta_k x_k\mid\forall x_1,\ldots,x_k\in\mathcal{C},\theta_1+\cdots+\theta_k=1\}\]
@@ -81,7 +81,7 @@
 \end{example}
 \begin{analysis}
 直积$S_1\times S_2=\{(\vx,\vy)\mid \vx\in S_1,\vy\in S_2\}$显然可以保凸（相当于在两个集合同时画线）\\
-令$A\gets\bmat{I & I},\vx\gets\bmat{\vx & \vy}^\T,\vb\gets 0$，由仿射函数性质知
+令$A\gets\bmat{I & I},\vx\gets\bmat{\vx & \vy}^\T,\vb\gets 0$，由仿射函数性质得证
 \end{analysis}
 
 \begin{definition}[透视(perspective)函数\footnote{$+$代表$\geq 0$，$++$代表$>0$}]
@@ -89,14 +89,12 @@
 \[P(\vz,t)=\dfrac{\vz}{t},\vz\in\rn,t\in\rr_{++}\]
 反透视函数
 \[P^{-1}(c):=\lrb{(\vx,t)\in\rr^{n+1}\Big|\frac{\vx}{t}\in c,t>0}\]
+凸集经过透视函数和反透视函数依然是凸集
 \end{definition}
-
-若$c\in\dom P$为凸，则$P(c):=\{P(x),x\in c\}$为凸；反透视函数仍保持$c$的凸性。
-
+\begin{analysis}
 考虑$\rr^{n+1}$内的线段，$\vx=(\widetilde{\vx}\in\rn,\vx_{n+1}\in\rr_{++}),\vy=(\widetilde{\vy},\vy_{n+1})$
 则经过透视函数仍是线段
-\begin{analysis}
-\[P(\theta \vx+(1-\theta)\vy)=\frac{\theta\widetilde{\vx}+(1-\theta)\widetilde{\vy}}{\theta \vx_{n+1}+(1-\theta \vy_{n+1})}=\frac{\theta \vx_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vx}}{\vx_{n+1}}+\frac{(1-\theta)\vy_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vy}}{\vy_{n+1}}\]
+\[P(\theta \vx+(1-\theta)\vy)=\frac{\theta\widetilde{\vx}+(1-\theta)\widetilde{\vy}}{\theta \vx_{n+1}+(1-\theta) \vy_{n+1}}=\frac{\theta \vx_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vx}}{\vx_{n+1}}+\frac{(1-\theta)\vy_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vy}}{\vy_{n+1}}\]
 \end{analysis}
 
 \begin{definition}[线性分数函数]
