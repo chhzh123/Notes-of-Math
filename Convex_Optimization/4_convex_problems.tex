@@ -14,18 +14,19 @@
 	\item 目标/损失函数$f_0:\rn\mapsto \rr$
 	\item 不等式约束函数$f_i:\rn\mapsto \rr$
 	\item 等式约束函数$h_j:\rn\mapsto\rr$
-	\item 域$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$
+	\item 定义域$\sD=\bigcap_{i=0}^m\dom f_i\cap\bigcap_{i=1}^p\dom h_i$（注意不一定可行）
 	\item 可行解$\sX=\{\vz\mid f_i(\vz)\leq 0,h_j(\vz)=0,i=1,\ldots,m,j=1,\ldots,p\}$
-	\item 最优值$P^\star=\inf\{f_0(\vx)\mid \vx\in \sX\}$
+	\item 最优值(primal) $p^\star=\inf\{f_0(\vx)\mid \vx\in \sX\}$
 	\item 最优解$\vx^\star\iff\forall \vz\in\rn,\vz\in\sX:\;f_0(\vz)\geq f_0(\vx^\star)$
-	\item 最优解集$X^\star=\{\vx^\star\mid f_0(\vx^\star)=P^\star,\vx^\star\in \sS\}$
-	\item $\eps$-次优解集$X_\eps=\{\vx\mid f_0(\vx)\leq P^\star+\eps, \vx\in \sX\}$
+	\item 最优解集$\sX^\star=\{\vx^\star\mid f_0(\vx^\star)=p^\star,\vx^\star\in \sS\}$
+	\item $\eps$-次优解集$\sX_\eps=\{\vx\mid f_0(\vx)\leq p^\star+\eps, \vx\in \sX\}$
 	\item 局部最优$\exists R>0,f_0(\vx)=\inf\{f_0(\vz)\mid \vx\in\sX, \vz\in\sX,\|\vx-\vz\|\leq R\}$，即邻域内下确界
-	\item 局部最优解集$x_{local}=\{\vx\mid\vx\text{为局部最优}\}$
+	\item 局部最优解集$\vx_{local}=\{\vx\mid\vx\text{为局部最优}\}$
 \end{itemize}
 
 狭义定义：$f_i(\vx),i=0,1,\ldots$为凸函数，$h_i(\vx)$为仿射函数
 \begin{example}
+	将问题变换为标准型
 \begin{mini*}
 	{}{f_0(x)=x_1^2+x_2^2}{}{}
 	\addConstraint{f_1(x)}{=\frac{x_1}{1+x_2^2}\leq 0}{\implies x_1\leq 0}
@@ -41,67 +42,106 @@
 若$\vx$为局部最优
 \[\exists R>0:\;f_0(\vx)=\inf\{f_0(\vz)\mid \vz\in\sX,\vx\in\sX,\|\vx-\vz\|_2\leq R\}\]
 反证法，设$\vx$不是全局最优，$\vy$为全局最优，即$f_0(\vx)>f_0(\vy)$\\
-取$\vz=\theta \vx+(1-\theta)\vy$为$\vx,\vy$连线上一点，令$\theta=\frac{R}{2\|\vy-\vx\|_2}$，使$\vz$能够落在$\vx$的邻域内
-\[\|\vz-\vx\|_2=\frac{R\|\vy-\vx\|_2}{2\|\vy-\vx\|_2}=\frac{R}{2}\]
+取$\vz=(1-\theta)\vx+ \theta\vy$为$\vx,\vy$连线上一点，令$\theta=\frac{R}{2\|\vy-\vx\|_2}$，使$\vz$能够落在$\vx$的邻域内
+\[\|\vz-\vx\|_2=(1-\theta)\norm{\vy-\vx}=\frac{R}{2}\]
 由$\|\vz-\vx\|_2\leq R\implies f_0(\vx)\leq f_0(\vz)$，又结合$f_0(\vx)>f_0(\vy)$，有
 \[f_0(\vz)\leq\theta f_0(\vx)+(1-\theta)f_0(\vy)<\theta f_0(\vz)+(1-\theta)f_0(\vz)=f_0(\vz)\]
 左边第一个不等号由凸函数定义，第二个不等号由推导出的条件，故矛盾
 \end{analysis}
 
+\begin{theorem}
 对于可微凸目标函数$f_0(\vx)$，最优解满足以下条件
 \begin{itemize}
-	\item 无约束$\min f_0(\vx)$，只需$\nabla f_0(\vx^\star)=0$
+	\item 无约束问题$\min f_0(\vx)$，$\vx^\star$为最优解，当且仅当$\vx^\star\in\sX$，且
+	\[\nabla f_0(\vx^\star)=0\]
 	\begin{analysis}
 	由凸函数的性质
 	\[\forall \vx,\vy:\;f_0(\vy)\geq f_0(\vx)+\lrang{\nabla f_0(\vx),\vy-\vx}\]
 	进而
 	\[f_0(\vy)\geq f_0(\vx^\star)+\lrang{\nabla f_0(\vx^\star),\vy-\vx}=f_0(\vx^\star)\]
 	\end{analysis}
-	\item 有约束$\min f_0(\vx),\,s.t.\,\vx\in\sX$
+	\item 有约束问题$\min f_0(\vx),\,s.t.\,\vx\in\sX$，$\vx^\star$为最优解，当且仅当$\vx^\star\in\sX$，且
 	\[\forall \vy\in \sX:\lrang{\nabla f_0(\vx^\star),\vy-\vx^\star}\geq 0\]
+	相当于$-\nabla f_0(\vx)$在$\vx$上定义了可行解集的支撑超平面
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.4\linewidth]{fig/optimal_criterion_diff.PNG}
 	\end{figure}
 \end{itemize}
+\end{theorem}
 
-\begin{example}
-等式约束 $\min f_0(\vx),\dom f_0\subset\rn$，$f_0$可微，使得$A\vx=\vb$
+\begin{example}[等式约束]
+	设$f_0$可微，
+	\begin{mini*}
+		{}{f_0(\vx)}{}{}
+		\addConstraint{A\vx}{=\vb}
+	\end{mini*}
 \end{example}
 \begin{analysis}
-$\vx^\star$最优，$A\vx^\star=\vb$，最优解需满足
+设$\vx^\star$为最优解，有$A\vx^\star=\vb$，则最优解需满足
 \[\forall \vy, A\vy=\vb:\;\lrang{\nabla f_0(\vx^\star),\vy-\vx^\star}\geq 0\]
-从而
+对$\vy$进行改写
 \[\begin{cases} \vy=\vx^\star+\vv\\A\vv=\vzero\end{cases},\vv\in\opnul A\]
-即
+故最优解条件变为
 \[\forall \vv\in\opnul A:\;\lrang{\nabla f_0(\vx^\star),\vv}\geq 0\]
 那么
 \begin{enumerate}
-	\item $\opnul A=\{\vzero\}$
+	\item $A$可逆，$\opnul A=\{\vzero\}$
 	\item $A$不可逆，$\nabla f_0(\vx^\star)\perp\opnul A$
 \end{enumerate}
 \end{analysis}
 
-\begin{example}
-正约束$\min f_0(\vx),s.t.\,\vx\geq\vzero$
+\begin{example}[非负约束]
+	设$f_0$可微，
+	\begin{mini*}
+		{}{f_0(\vx)}{}{}
+		\addConstraint{\vx}{\succeq\vzero}
+	\end{mini*}
 \end{example}
 \begin{analysis}
-若$\vx^\star$最优$\iff \vx^\star\geq \vzero,\forall \vy\geq \vzero,\lrang{\nabla f_0(\vx^\star),\vy-\vx^\star}\geq 0
-\iff \lrang{\nabla f_0(\vx^\star),\vy}\geq\lrang{\nabla f_0(\vx^\star),\vx^\star}$
+最优性条件为
+\[\vx^\star\succeq \vzero,\forall \vy\succeq \vzero:\;\lrang{\nabla f_0(\vx^\star),\vy-\vx^\star}\geq 0
+\iff \lrang{\nabla f_0(\vx^\star),\vy}\geq\lrang{\nabla f_0(\vx^\star),\vx^\star}\]
 \begin{enumerate}
-\item 若$\nabla f_0(\vx^\star)\ngeq 0$，则存在矛盾（负数行乘上正无穷），故$\nabla f_0(\vx^\star)\geq 0$
-\item 令$\vy=0$，有$0\geq \lrang{\nabla f_0(\vx^\star),\vx^\star}
-\implies\sum_{i=1}^n(\nabla f_0(\vx^\star))_ix_i^\star\leq 0$\\
-前面$\geq 0$，进而互补松弛条件
-\item $\vx^\star\geq 0$
+\item 若$\nabla f_0(\vx^\star)\prec 0$，则存在矛盾（$\vy-\vx$全为正），故$\nabla f_0(\vx^\star)\succeq 0$
+\item 取$\vy=\vzero$，有
+\[0\geq \lrang{\nabla f_0(\vx^\star),\vx^\star}
+\implies\sum_{i=1}^n(\nabla f_0(\vx^\star))_ix_i^\star\leq 0
+\implies (\nabla f_0(\vx^\star))_i x_i^\star = 0\]
+得到\textbf{互补松弛条件}，即$\vx$与$\nabla f_0(\vx^\star)$的稀疏模式必须是互补的\\
+总结来说，最优性条件为
+\[\vx^\star\succeq \vzero\qquad \nabla f_0(\vx^\star)\succeq \vzero\qquad(\nabla f_0(\vx^\star))_i x_i^\star=0,i=1,\ldots,n\]
 \end{enumerate}
 \end{analysis}
 
 \subsection{线性规划}
+当目标函数和约束函数都是仿射时，问题称为线性规划(Linear Programming, LP)
 \begin{mini*}
-	{}{\vc^\T\vx+\vd}{}{}
-	\addConstraint{G\vx}{\leq\vh}
+	{}{\vc^\T\vx+d}{}{}
+	\addConstraint{G\vx}{\preceq\vh}
 	\addConstraint{A\vx}{=\vb}
+\end{mini*}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\linewidth]{fig/LP.PNG}
+\end{figure}
+
+通过引入松弛变量，对原问题进行变换
+\begin{mini*}
+	{}{\vc^\T\vx+d}{}{}
+	\addConstraint{G\vx+\vs}{=\vh}
+	\addConstraint{A\vx}{=\vb}
+	\addConstraint{\vs}{\succeq \vzero}
+\end{mini*}
+
+进一步，将$\vx$表示为两个非负变量$\vx^+$和$\vx^-$的差，即$\vx=\vx^+ +\vx^-$，得到\textbf{标准型线性规划问题}（不等式都是分量的非负约束）
+\begin{mini*}
+	{}{\vc^\T\vx^+-\vc^\T\vx^-+d}{}{}
+	\addConstraint{G\vx^+-G\vx^-+\vs}{=\vh}
+	\addConstraint{A\vx^+-A\vx^-}{=\vb}
+	\addConstraint{\vx^+}{\succeq \vzero}
+	\addConstraint{\vx^-}{\succeq \vzero}
+	\addConstraint{\vs}{\succeq \vzero}
 \end{mini*}
 
 \begin{example}[食谱问题]
@@ -116,16 +156,17 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 
 % 3.21
 \begin{example}[线性分数规划]
+	拟凸优化问题
 \begin{mini*}
 	{}{f_0(\vx)=\frac{\vc^\T \vx+d}{\ve^\T \vx+f}, \dom \vf=\{\vx \mid \ve^\T \vx + f >0 \}}{}{}
-	\addConstraint{G\vx}{\leq \vh}
+	\addConstraint{G\vx}{\preceq \vh}
 	\addConstraint{A\vx}{=\vb}
 \end{mini*}
 等价于
 \begin{mini*}
-	{}{\vc^\T \vy+dz}{}{}
-	\addConstraint{G\vy-hz}{\leq 0}
-	\addConstraint{A\vy-bz}{=0}
+	{\vy,z}{\vc^\T \vy+dz}{}{}
+	\addConstraint{G\vy-\vh z}{\preceq 0}
+	\addConstraint{A\vy-\vb z}{=0}
 	\addConstraint{\ve^\T \vy+fz}{=1}
 	\addConstraint{z}{\geq 0}
 \end{mini*}
@@ -143,21 +184,23 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 \end{analysis}
 
 \subsection{二次规划}
-二次规划(Quadratic Programming)
+当凸优化问题的目标函数为（凸）二次型且约束函数为仿射时，该问题称为二次规划(Quadratic Programming, QP)
 \begin{mini*}
 	{}{\frac{1}{2}\vx^\T P\vx+\vq^\T\vx+r,\;P\succ 0}{}{}
-	\addConstraint{G\vx}{\leq h}
+	\addConstraint{G\vx}{\preceq \vh}
 	\addConstraint{A\vx}{=\vb}
 \end{mini*}
+其中$P\in \mathbb{S}_+^n,G\in\rr^{m\times n},A\in\rr^{p\times n}$
 
-二次约束二次规划(QCQP)
+若不等式约束也是（凸）二次型，则成为二次约束二次规划(QCQP)
 \begin{mini*}
 	{}{\frac{1}{2}\vx^\T P_0\vx+\vq_0^\T \vx+r_0,P_0\succ 0}{}{}
-	\addConstraint{\frac{1}{2}\vx^\T P_i\vx+\vq_i^\T \vx+r_i}{\leq 0}{,i=1,\ldots,m,P_i\succ 0}
+	\addConstraint{\frac{1}{2}\vx^\T P_i\vx+\vq_i^\T \vx+r_i}{\leq 0}{,i=1,\ldots,m}
 	\addConstraint{A\vx}{=\vb}
 \end{mini*}
+其中$P_i\in\mathbb{S}_+^n$
 
-\begin{example}[最小二乘问题]
+\begin{example}[最小二乘问题的改写]
 \begin{mini*}
 	{\vx}{\frac{1}{2}\|A\vx-\vb\|_2^2}{}{}
 	\addConstraint{A\vx+\ve}{=\vb}
@@ -176,6 +219,7 @@ Basic Pursuit
 原式很难平衡两者，下式只需考虑$\|\vx\|_1$的影响\\
 采用岭回归(Ridge)：所有$\vx$差距不要太大
 \[\min\frac{1}{2}\|A\vx-\vb\|_2^2+\frac{1}{2}\lambda_2\|\vx\|_2^2\]
+可得类似的问题改写
 \begin{mini*}
 	{}{\frac{1}{2}\|A\vx-\vb\|_2^2}{}{}
 	\addConstraint{\|\vx\|_2^2}{\leq\eps_2}
@@ -195,13 +239,19 @@ $\bar{P}=\E{P}$已知，$\Sigma=\Var{P}$
 \begin{mini*}
 	{}{\vx^\T\Sigma \vx}{}{}
 	\addConstraint{\vp^\T \vx}{\geq r_{\min}}
-	\addConstraint{x_1+\cdots+x_n}{=B}
-	\addConstraint{x_1,\ldots,x_n}{\geq 0}
+	\addConstraint{\vone^T\vx}{=1}{,\vx\succeq\vzero}
 \end{mini*}
 \end{analysis}
 
+二次锥规划问题(SOCP)
+\begin{mini*}
+	{}{\vf^\T\vx}{}{}
+	\addConstraint{\norm{A_i\vx+\vb_i}_2}{\leq \vc_i^\T\vx+\vd_i}
+	\addConstraint{F\vx}{=\vg}
+\end{mini*}
+
 % 3.26
-\subsection{半定规划}
+\subsection{广义不等式约束}
 半定规划(semi-definite programming, SDP)为矩阵意义下的线性规划问题：% 通信
 $X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
 \begin{mini*}
@@ -215,16 +265,23 @@ $X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
 	\[\min_\vx\|A(\vx)\|_2\]
 	谱范数代表$A(\vx)$的最大奇异值\footnote{谱范数是诱导范数，F-范数(Frobenias)$\|A(\vx)\|_F$才算是矩阵意义下的2范数}
 \end{example}
-\begin{mini*}
-	{x,s}{S}{}{}
-	\addConstraint{A^\T (\vx)A(\vx)}{\preceq SI}
-\end{mini*}
+\begin{analysis}
+	这是一个$q\times q$矩阵不等式约束的凸优化问题
+	\begin{mini*}
+		{x,s}{s}{}{}
+		\addConstraint{A^\T (\vx)A(\vx)}{\preceq sI}
+	\end{mini*}
+\end{analysis}
 
 \begin{example}[最快分布式线性平均]
+	图的最速混合Markov链
 	\[\vx(t) = P\vx(t-1)\]
+	其中$P$为邻接矩阵
 	\[P=\bmat{P_{11} & \cdots & P_{1n}\\\vdots & \ddots & \vdots\\P_{n1} & \cdots & P_{nn}},P\vone=\vone\]
 	其中$(i,j)\in E$或$i=j$，$P_{ij}\ne 0$；否则$P_{ij}=0$\\
-	$P=P^\T,P_{ij}=P_{ji}$，$P_{ij}>0,P\succeq 0, P_{ij}\geq 0$\\
+	$P=P^\T,P_{ij}=P_{ji}$，$P_{ij}>0,P\succeq 0, P_{ij}\geq 0$
+\end{example}
+\begin{analysis}
 	只要图是连通图，则一定会收敛\\
 	收敛速度与第二大[特征值绝对值]有关
 	\[1=\lambda_1\geq\lambda_2\geq \cdots\geq \lambda_n\geq -1\]
@@ -239,14 +296,12 @@ $X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
 		\addConstraint{P_{ij}}{= 0,\quad (i,j)\ne E\land i\ne j}
 		\addConstraint{-tI}{\preceq P-\frac{1}{n}\vone\vone^\T\preceq tI}
 	\end{mini*}
-\end{example}
+\end{analysis}
 
 \subsection{多目标优化问题}
 帕累托最优解：若有另一解在某个指标上更好，则必有指标更差
 
-帕累托最优值/帕累托最优面
-
-$\min f_{01}$与$\min f_{02}$的交点为理想点(oracle)
+帕累托最优值/帕累托最优面：$\min f_{01}$与$\min f_{02}$的交点为理想点(oracle)
 
 若$f_{01}(x),\ldots,f_{0q}(x)$为凸，$\sX$为凸
 \begin{mini*}[2]

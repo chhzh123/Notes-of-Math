@@ -2,9 +2,64 @@
 
 \newpage
 \appendix
-\section{矩阵微积分}
-\label{appendix:matrix}
-\subsection{基本矩阵知识}
+\section{线性代数基础}
+\subsection{内积与范数}
+\begin{definition}[标准内积]
+    标准向量内积
+    \[\forall \vx,\vy\in\rn:\;\lrang{\vx,\vy}=\vx^\T\vy=\sum_{i=1}^n x_iy_i\]
+    标准矩阵内积
+    \[\forall X,Y\in\rr^{m\times n}=\optr(X^\T Y)=\sum_{i=1}^m\sum_{j=1}^n X_{ij}Y_{ij}\]
+\end{definition}
+\begin{definition}[向量范数]
+    $\norm{\cdot}$为范数需要满足以下三个条件
+    \begin{enumerate}
+        \item 齐次：$\norm{a\vx}=|a|\norm{\vx}$
+        \item 正定：$\norm{\vx}\geq 0\iff \vx=\vzero$时取等
+        \item 三角不等式：$\norm{\vx+\vy}\leq \norm{\vx}+\norm{\vy}$
+    \end{enumerate}
+\end{definition}
+常见的向量范数如下，注意每个元素都要加\textbf{绝对值}
+\begin{itemize}
+\item 0-范数：非零元素数目，是伪范数（不符合第一个定义）
+\item 1-范数：绝对值之和
+\[\norm{\vx}_1=|x_1|+|x_2|+\cdots+|x_n|\]
+\item 2-范数：欧几里得距离
+\[\norm{\vx}_2=\sqrt{\sum_{i=1}^n |x_i|^2}\]
+\item p-范数：p次方之和的p次根
+\[\norm{\vx}_p=\sqrt[p]{\sum_{i=1}^n |x_i|^p}\]
+\item 无穷范数(Chebyshev)：最大值
+\[\norm{\vx}_\infty=\max\{|x_1|,\ldots,|x_n|\}\]
+\end{itemize}
+\begin{definition}[矩阵的范数]
+    对于$n$阶方阵$A$，若对应非负实数$\norm{A}$，满足
+    \begin{enumerate}
+        \item $\norm{A}\geq 0$，当且仅当$A=\vzero$时等号成立
+        \item 对任意$\alpha\in\rr$，$\norm{\alpha A}=|\alpha|\cdot\norm{A}$
+        \item 对任意两个$n$阶方阵$A$和$\vB$，满足三角不等式$\norm{A+\vB}\leq\norm{A}+\norm{\vB}$
+        \item 对任意两个$n$阶方阵$A$和$\vB$，满足矩阵乘法要求$\norm{A\vB}\leq\norm{A}\cdot\norm{\vB}$
+    \end{enumerate}
+    则称$\norm{A}$为方阵$A$的矩阵范数。
+\end{definition}
+
+记$\rho(A)=\max_{1\leq i\leq n}|\lambda_i|$为$A$的谱半径，这里$\lambda_i$为$A$的特征值，则常见的矩阵范数定义如下
+\begin{itemize}
+    \item 1-范数：绝对值之和
+    \[\norm{A}_1=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|\]
+    \item 2-范数/谱范数：$A^\T A$的谱半径
+    \[\norm{A}_2=\sqrt{\rho(A^\T A)}\]
+    \item 无穷范数：最大值
+    \[\norm{A}_\infty=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|\]
+    \item Frobenius(F-)范数：注意F-范数才是向量2-范数的直接推广
+    \[\norm{X}_F=\lrp{\optr(X^T X)}^{1/2}=\lrp{\sum_{i=1}^m\sum_{j=1}^n X_{ij}^2}^{1/2}\]
+\end{itemize}
+
+\subsection{二次型}
+\begin{definition}[二次型]
+$Q(\vx)=\vx^\T A\vx$，其中$A$是对称矩阵\\
+将二次型合并为矩阵的写法，平方项放对角线，交叉项取一半对称写. 以三元二次型为例，观察下面各个元素的去向.
+\[\begin{aligned}Q(\vx)=\vx^\T A\vx&=\begin{bmatrix}x_1&x_2&x_3\end{bmatrix}\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}\\
+&=a_{11}x_1^2+a_{22}x_2^2+a_{33}x_3^2+(a_{12}+a_{21})x_1x_2+(a_{13}+a_{31})x_1x_3+(a_{23}+a_{32})x_2x_3\end{aligned}\]
+\end{definition}
 \begin{definition}[正定(positive definite)矩阵]
 若矩阵$A$满足
 \[\forall\;\vz\ne 0:\;\vz^\T A\vz>0\]
@@ -14,7 +69,7 @@
     若存在可逆矩阵$C$使得$C^\T AC=B$，则称$A$为$B$合同，记作$A\backsimeq B$
 \end{definition}
 \begin{definition}[主子式]
-    从$n$阶矩阵中选取行号和列号相同的$i$列，行列交汇处的元素形成的行列式称为$n$阶矩阵的一个$i$阶主子式。如果挑选$1-i$行和$1-i$列，则成为该矩阵的$i$阶\textbf{顺序}主子式。
+    从$n$阶矩阵中选取行号和列号相同的$i$列，行列交汇处的元素形成的行列式称为$n$阶矩阵的一个$i$阶主子式。如果挑选$1\thicksim i$行和$1\thicksim i$列，则成为该矩阵的$i$阶\textbf{顺序}主子式。
 \end{definition}
 正定矩阵$A$的等价命题如下
 \begin{itemize}
@@ -23,22 +78,35 @@
     \item $A$的特征值均为正
 \end{itemize}
 
-\begin{definition}[向量范数]
-    $\norm{\cdot}$为范数需要满足以下三个条件
-    \begin{enumerate}
-        \item 数乘：$\norm{a\vx}=|a|\norm{\vx}$
-        \item 零元：$\norm{\vx}=0\iff \vx=\vzero$
-        \item 三角不等式：$\norm{\vx+\vy}\leq \norm{\vx}+\norm{\vy}$
-    \end{enumerate}
-\end{definition}
+关于可逆矩阵的性质如下：
 \begin{itemize}
-\item 0-范数：非零元素数目，是伪范数（不符合第一个定义）
-\item 1-范数：绝对值之和
-\item 2-范数：欧几里得距离
-\item p-范数：p次方之和的p次根
-\item 无穷范数：最大值
+    \item 可逆矩阵即非奇异(non-singular)矩阵
+    \item 行列式为$0$
+    \item 满秩
 \end{itemize}
 
+\subsection{特征值分解}
+\begin{definition}[谱分解/特征值分解]
+假设$A\in\bbs^n$，则$A$可被分解为$A=Q\Lambda Q^T$，其中$Q\in\rr^{n\times n}$为正交矩阵，满足$Q^\T Q=I$，而$\Lambda=\opdiag(\lambda_1,\ldots,\lambda_n)$
+\end{definition}
+
+利用特征值可将行列式和迹表示成
+\[\det A=\prod_{i=1}^n\lambda_i\qquad\optr A=\sum_{i=1}^n\lambda_i\]
+而谱范数和F-范数同样可表示为
+\[\norm{A}_2=\max_{i=1,\ldots,n}|\lambda_i|=\max\{\lambda_1,-\lambda_n\}\qquad\norm{A}_F=\lrp{\sum_{i=1}^n\lambda_i^2}^{1/2}\]
+
+最大和最小特征值满足
+\[\lambda_{\max}(A)=\sup_{\vx\ne\vzero}\frac{\vx^\T A\vx}{\vx^\T\vx}\qquad\lambda_{\min}(A)=\inf_{\vx\ne\vzero}\frac{\vx^\T A\vx}{\vx^\T\vx}\]
+特别地，对于任意$\vx$，有
+\[\lambda_{\min}(A)\vx^\T\vx\leq\vx^\T A\vx\leq\lambda_{\max}(A)\vx^\T\vx\]
+
+令$A\in\bbs_+^n$的特征值分解为$A=Q\opdiag(\lambda_1,\ldots,\lambda_n)Q^\T$，则定义$A$的（对称）平方根为
+\[A^{1/2}=Q\opdiag(\lambda_1^{1/2},\ldots,\lambda_n^{1/2})Q^\T\]
+平方根$A^{1/2}$是矩阵方程$X^2=A$的唯一的对称半正定的解
+
+\section{矩阵微积分}
+\label{appendix:matrix}
+\subsection{基本定义}
 \begin{definition}[Taylor公式]
 对$f(\vx)$在点$\vx_0$处展开有
 \[f(\vx)=f(\vx_0)+(\vx-\vx_0)^\T\nabla f(\vx_0)+\frac{1}{2!}(\vx-\vx_0)^\T \nabla^2(\vx)(\vx-\vx_0)+\cdots\]
@@ -116,6 +184,7 @@
     \item 凸优化（2018年秋季-北京大学），\url{http://bicmr.pku.edu.cn/~wenzw/opt-2018-fall.html}
     \item 机器学习中的矩阵/向量求导，\url{https://zhuanlan.zhihu.com/p/25063314}
     \item 矩阵求导术，\url{https://zhuanlan.zhihu.com/p/24709748}
+    \item \emph{The Matrix Cookbook}, Kaare Brandt Petersen, Michael Syskind Pedersen
 \end{enumerate}
 
 % 作业：

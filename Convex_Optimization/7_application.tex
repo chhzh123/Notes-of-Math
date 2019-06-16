@@ -8,7 +8,7 @@
         \text{worker1 }f_1(\vx) & \text{worker2 }f_2(\vx) & \text{worker3 }f_3(\vx)
     \end{tikzcd}
 \end{center}
-\[\min_x\; g(\vx)+\sum_{i=1}^N f_i(\vx)\]
+\[\min_\vx\; g(\vx)+\sum_{i=1}^N f_i(\vx)\]
 
 针对LASSO问题，每个人都有一个样本$(A_i,\vb_i)$，最小化样本之和，以及正则化项
 \[\begin{cases}
@@ -23,7 +23,7 @@
 \subsubsection{并行梯度下降法}
 \[\begin{cases}
     \iter{\vx}{k+\frac{1}{2}}=\iter{\vx}{k}-\alpha\sum_{i=1}^N\nabla f_i(\iter{\vx}{k})\\
-    \iter{\vx}{k+1}=\arg\min g(\vx)+\frac{1}{2\alpha}\norm{\vx-\iter{\vx}{k+\frac{1}{2}}}_2^2
+    \iter{\vx}{k+1}=\argmin_\vx g(\vx)+\frac{1}{2\alpha}\norm{\vx-\iter{\vx}{k+\frac{1}{2}}}_2^2
 \end{cases}\]
 计算简单，只需求梯度，但所有梯度类问题都依赖于条件数。通信开销大。
 
@@ -33,7 +33,7 @@
     \addConstraint{\vx_i}{=\vz,\forall i}
 \end{mini*}
 \[L(\vx,\vz,\vv)=\sum_{i=1}^N f_i(\vx_i)+g(\vz)+\sum_{i=1}^N\lrang{\vv_i,\vx_i \vz}\]
-\[(\iter{\vx}{k+1},\iter{\vz}{k+1})=\arg\min_{\vx,\vz}L(\vx,\vz,\iter{v}{k})\]
+\[(\iter{\vx}{k+1},\iter{\vz}{k+1})=\arg\min_{\vx,\vz}L(\vx,\vz,\iter{\vv}{k})\]
 \[\implies\begin{cases}
     \iter{\vx_i}{k+1}=\arg\min_{\vx_i} f_i(\vx_i)+\lrang{\iter{\vv_i}{k},\vx_i}\\
     \iter{\vz}{k+1}=\arg\min_{\vz_i} g(\vz)-\sum_{i=1}^N\lrang{\iter{\vv_i}{k},\vz}\\
@@ -42,14 +42,14 @@
 不依赖于条件数，但每一步都需要求解一个最优解，不一定好求。通信开销小，但拉格朗日类方法收敛性差。
 
 \subsubsection{增广拉格朗日函数}
-\[\sum_{i=1}^nf_i(\vx_i)+g(\vz)+\sum_{i=1}^n\lrang{\lambda_i,\vx-\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\vx_i-\vz}^2\]
+\[\sum_{i=1}^nf_i(\vx_i)+g(\vz)+\sum_{i=1}^n\lrang{\vlambda_i,\vx-\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\vx_i-\vz}^2\]
 正则项会产生$\vx_i$和$\vz$的交叉项，不好处理
 
 注意到$\vx_i$之间是没有依赖的，故采用交替方向乘子法，加了增广项，可用固定步长达到最优解
 \[\begin{cases}
-    \iter{\vx_i}{k+1}&=\arg\min f_0(\vx_i)+\lrang{\iter{\lambda_i}{k},\vx_i}+\frac{c}{2}\norm{\vx_i-\iter{\vz}{k}}^2\\
-    \iter{\vz}{k+1}&=\arg\min g(\vz)-\lrang{\sum_{i=1}^n\iter{\lambda_i}{k},\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\iter{\vx_i}{k+1}-\vz}^2\\
-    \iter{\lambda}{k+1}&=\iter{\lambda}{k}+c(\iter{\vx_i}{k+1}-\iter{\vz}{k+1})
+    \iter{\vx_i}{k+1}&=\arg\min f_0(\vx_i)+\lrang{\iter{\vlambda_i}{k},\vx_i}+\frac{c}{2}\norm{\vx_i-\iter{\vz}{k}}^2\\
+    \iter{\vz}{k+1}&=\arg\min g(\vz)-\lrang{\sum_{i=1}^n\iter{\vlambda_i}{k},\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\iter{\vx_i}{k+1}-\vz}^2\\
+    \iter{\vlambda}{k+1}&=\iter{\vlambda}{k}+c(\iter{\vx_i}{k+1}-\iter{\vz}{k+1})
 \end{cases}\]
 每次要多传一倍的变量，以通信量开销换性能提升
 
@@ -95,8 +95,8 @@
 \[\sum_{i=1}^nf_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\vlambda_{ij},\vx_i-\vx_j}\]
 别人的东西都在对偶变量中体现，求同存异
 \[\begin{cases}
-    \iter{\vx_i}{k+1}=\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}(\iter{\vlambda_{ij}}{k},\vx_i)-\sum_{(j,i)\in E}\lrang{\vlambda_{ij},\vx_i}\\
-    \iter{\vlambda_{ij}}{k+1}=\iter{\vlambda_{ij}}{k}+\iter{\alpha}{k}(\iter{\vx_i}{k+1}-\iter{\vx_j}{k+1})-\sum_{(j,i)\in E}\lrang{\iter{\vlambda_{ij}}{k}\vx_i}
+    \iter{\vx_i}{k+1}=\disp\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}(\iter{\vlambda_{ij}}{k},\vx_i)-\sum_{(j,i)\in E}\lrang{\vlambda_{ij},\vx_i}\\
+    \iter{\vlambda_{ij}}{k+1}=\disp\iter{\vlambda_{ij}}{k}+\iter{\alpha}{k}(\iter{\vx_i}{k+1}-\iter{\vx_j}{k+1})-\sum_{(j,i)\in E}\lrang{\iter{\vlambda_{ij}}{k}\vx_i}
 \end{cases}\]
 依然要采用递减步长，才能保证收敛
 
@@ -117,7 +117,7 @@
     &+\sum_{(i,j)\in E}\frac{c}{2}\lrp{\norm{\vx_i-\vz_{ij}}^2+\norm{\vx_j-\vz_{ij}}^2}
 \end{aligned}\]
 \[\begin{cases}
-    \iter{\vx_i}{k+1}&=\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\iter{\alpha_{ij}{k}},\vx_i}+\sum_{(i,j)\in E}\lrang{\iter{\vbeta_{ji}}{k},\vx_i}\\
+    \iter{\vx_i}{k+1}&=\disp\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\iter{\alpha_{ij}{k}},\vx_i}+\sum_{(i,j)\in E}\lrang{\iter{\vbeta_{ji}}{k},\vx_i}\\
     \qquad&+\frac{c}{2}\sum_{(i,j)\in E}\norm{\vx_i-\iter{\vz_j}{k}}^2+\frac{c}{2}\sum_{(i,j)\in E}\norm{\vx_i-\iter{\vz_{ji}}{k}}^2\\
     \iter{\vz_j}{k+1}&=\cdots\\
     \iter{\valpha_{ij}}{k+1}&=\cdots\\
@@ -170,13 +170,13 @@ $n$个样本，每个样本为$f_i(\vx)$
 \end{mini*}
 其中，
 \[\iter{E}{i}=\frac{1}{2}\norm{\iter{\vx_n}{i}-\iter{Y}{i}}^2\]
-为损失函数，$\vx_n$为第$n$层的网络输出$f_n(\vx_{n-1},\omega_n)$，与有限和优化问题相同
+为损失函数，$\vx_n$为第$n$层的网络输出$f_n(\vx_{n-1},\vw_n)$，与有限和优化问题相同
 
-反向传播算法(Back propagation)：自底向上求出$E$相对于$\vx_n$和$w_n$的梯度
+反向传播算法(Back propagation)：自底向上求出$E$相对于$\vx_n$和$\vw_n$的梯度
 \[\begin{cases}
     \pd{\iter{E}{i}}{\iter{\vx_n}{i}}=\iter{\vx_n}{i}-\iter{Y}{i}\\
-    \pd{\iter{E}{i}}{w_n}=\pd{\iter{E}{i}}{\iter{\vx_n}{i}}\pd{\iter{\vx_n}{i}}{w_n}
-=\pd{\iter{E}{i}}{\iter{\vx_n}{i}}\pd{f_n(\iter{\vx_n}{i},w_n)}{w_n}
+    \pd{\iter{E}{i}}{\vw_n}=\pd{\iter{E}{i}}{\iter{\vx_n}{i}}\pd{\iter{\vx_n}{i}}{\vw_n}
+=\pd{\iter{E}{i}}{\iter{\vx_n}{i}}\pd{f_n(\iter{\vx_n}{i},\vw_n)}{\vw_n}
 \end{cases}\]
 
 \subsection{在线优化}
@@ -185,6 +185,7 @@ $n$个样本，每个样本为$f_i(\vx)$
     {}{\frac{1}{T}\sum_{t=1}^T f_t(\vx)}{}{}
 \end{mini*}
 
+迭代格式为
 \[\vx_{t+1}=\vx_t-\alpha_t\nabla f_t(\vx_t)\]
 Regret分析：将当前值丢进下一刻的优化函数中，如果优化效果好，说明有预测能力
 
@@ -198,12 +199,12 @@ Regret分析：将当前值丢进下一刻的优化函数中，如果优化效�
 
 \subsection{Nesterov加速}
 Nesterov加速$\min f(\vx)$：$O\lrp{\frac{1}{k^2}}$
-\[\begin{aligned}
-    \iter{\vx}{k+1}&=\iter{\vy}{k}-\frac{1}{L}\nabla f(\iter{\vy}{k})\\
-    \iter{\vy}{k+1}&=(1-\iter{\vgamma}{k})\iter{\vx}{k+1}+\iter{\vgamma}{k}\iter{\vx}{k}\\
-    \iter{\vbeta}{k}&=\frac{1+\sqrt{1+4(\iter{\vbeta}{k-1})^2}}{2},\;\iter{\vbeta}{0}=0\\
-    \iter{\vgamma}{k}&=\frac{1-\iter{\vbeta}{k}}{\iter{\vbeta}{k+1}}
-\end{aligned}\]
+\[\begin{cases}
+    \iter{\vx}{k+1}=\iter{\vy}{k}-\frac{1}{L}\nabla f(\iter{\vy}{k})\\
+    \iter{\vy}{k+1}=(1-\iter{\vgamma}{k})\iter{\vx}{k+1}+\iter{\vgamma}{k}\iter{\vx}{k}\\
+    \iter{\vbeta}{k}=\frac{1+\sqrt{1+4(\iter{\vbeta}{k-1})^2}}{2},\;\iter{\vbeta}{0}=0\\
+    \iter{\vgamma}{k}=\frac{1-\iter{\vbeta}{k}}{\iter{\vbeta}{k+1}}
+\end{cases}\]
 构造两个序列，$\vy$为辅助序列，利用问题本身\textbf{历史信息}，做一个凸组合（先跳一步，从$\iter{\vy}{k}$开始做梯度下降）。
 权重为$\vgamma$，不同时刻权重不同，引入$\vbeta$系数。
 

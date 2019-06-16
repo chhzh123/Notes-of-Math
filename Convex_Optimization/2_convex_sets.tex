@@ -1,6 +1,7 @@
 % !TEX root = main.tex
 
 \section{凸集} % Lec 2 - 2.28
+\subsection{基本概念}
 \begin{definition}
 一些集合概念如下
 \begin{itemize}
@@ -24,24 +25,30 @@
 \end{aligned}\]
 \item 凸组合
 \[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},{\color{red}{\theta_1,\ldots,\theta_k\in[0,1],\theta_1+\cdots+\theta_k=1}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
+\begin{analysis}
+	由两点推多点可用数学归纳法
+	\[(1-\theta_{k+1})\lrp{\frac{\theta_1}{1-\theta_{k+1}}x_1+\cdots+\frac{\theta_k}{1-\theta_{k+1}}x_k}+\theta_{k+1}x_{k+1}\in\sC\]
+\end{analysis}
 \item 凸包：最小的凸集
 \[\opconv\mathcal{C}:=\{\theta_1 x_1+\cdots+\theta_k x_k\mid\forall x_1,\ldots,x_k\in\mathcal{C},\theta_1,\ldots,\theta_k\in[0,1],\theta_1+\cdots+\theta_k=1\}\]
 \item 凸锥(convex cone)
 \[\mathcal{C}\text{为凸锥}\iff\forall x_1,x_2\in\mathcal{C},\theta_1,\theta_2\geq 0,\theta_1 x_1+\theta_2 x_2\in\mathcal{C}\]
-除了\textbf{空集}的凸锥都得包含\textbf{原点}（取$\theta_1=\theta_2=0$）
+相当于$x_1$和$x_2$所夹的\textbf{正向区域}都在$\sC$内，除了\textbf{空集}的凸锥都得包含\textbf{原点}（取$\theta_1=\theta_2=0$）
 \item 凸锥组合/非负线性组合：
 \[\forall x_1,x_2,\ldots,x_k\in\mathcal{C},{\color{red}{\theta_1,\ldots,\theta_k\geq 0}}:\;\theta_1 x_1+\cdots+\theta_k x_k\in\mathcal{C}\]
 \item 凸锥包：类似前面定义
 \end{itemize}
 \end{definition}
-由上面的定义易知，仿射组合/凸锥组合（强条件）一定是凸组合。
+由上面的定义易知，\textbf{仿射组合/凸锥组合（强条件）一定是凸组合}。
 
 \begin{definition}[超平面(hyperplane)与半空间(halfspace)]
 超平面都是比原空间低一维
 \[\{\vx\mid \va^\T\vx=b,\vx,\va\in\rn,b\in\rr,\va\ne 0\}\]
 超平面将空间划分为两个部分，即半空间
 \[\{\vx\mid \va^\T\vx\leq b,\va\ne 0\}\]
-若方程特解为$\vx_0$，则$\va\perp(\vx-\vx_0)$
+若方程特解为$\vx_0$，则$\va\perp(\vx-\vx_0)$\\
+注：想一下二维的情况，$a_1x_1+a_2x_2=b$就是一条直线\\
+Voronoi描述：$\{x\mid\norm{x-a}_2\leq\norm{x-b}_2\}$为半空间，展开实际上为中位线描述
 \end{definition}
 \begin{definition}[欧式球(Euclidean ball)]
 \[B(\vx_c,r)=\{\vx\mid\|\vx-\vx_c\|_2\leq r\}\]
@@ -53,21 +60,56 @@
 \end{definition}
 \begin{analysis}
 % https://ljk.imag.fr/membres/Anatoli.Iouditski/cours/convex/chapitre_3.pdf
-定义内积$\lrang{x^\T, P^{-1}y}$（需证满足内积条件），进而$\|\vx\|_p:=\sqrt{\vx^\T P\vx}$是范数，而椭球不过是$p$-范数意义下的球，由定理得椭球是凸的
+定义内积$\lrang{x^\T, P^{-1}y}$（需证满足内积条件），进而$\|\vx\|_p:=\sqrt{\vx^\T P^{-1}\vx}$是范数，而椭球不过是$p$-范数意义下的球，由定理得椭球是凸的
 \end{analysis}
 \begin{definition}[多面体(polyhedron)]
+	由超平面和半空间组成的集合
 \[P=\{\vx\mid\va_i^\T\vx\leq b_i,\vc_j^\T\vx=d_j,i=1,\ldots,m,j=1,\ldots,p\}\]
+或用紧凑表示法\footnote{这里$\vu\succeq \vv$为向量/分量不等式，即$\forall i:\;u_i\geq v_i$}
+\[P=\{\vx\mid A\vx\leq \vb,C\vx=\vd\}\]
 \end{definition}
 \begin{example}
-\begin{itemize}
-	\item 空集、点、$\rn$空间均为仿射
-	\item 任意直线为仿射；若过原点则为凸锥
-	\item $\rn$空间的子空间\footnote{零元、加法封闭、数乘封闭}为仿射和凸锥
-	\item 超平面为仿射
-	\item 半空间、欧式球、椭球、多面体为凸集
-\end{itemize}
+	常见几何图形凸性分类如下，考虑\textbf{直线、正向区域和线段}很快可得出结论
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}\hline
+			 & 仿射 & 凸锥 & 凸集\\\hline
+			空集 & \cmark & \xmark & \cmark\\\hline
+			点 & \cmark & \xmark & \cmark\\\hline
+			直线 & \cmark & （过原点）\cmark & \cmark\\\hline
+			$\rn$空间 & \cmark & \xmark & \cmark\\\hline
+			$\rn$空间的子空间\footnote{零元、加法封闭、数乘封闭} & \cmark & \cmark & \cmark\\\hline
+			超平面 & \cmark & \xmark & \cmark\\\hline
+			半空间 & \xmark & \xmark & \cmark\\\hline
+			欧式球 & \xmark & \xmark & \cmark\\\hline
+			椭球 & \xmark & \xmark & \cmark\\\hline
+			多面体 & \xmark & \xmark & \cmark\\\hline
+		\end{tabular}
+	\end{center}
 \end{example}
 
+\begin{theorem}
+	一个集合是凸集当且仅当它与任意直线的交是凸的
+\end{theorem}
+\begin{analysis}
+	充分性：直线为凸，凸集交凸集为凸\\
+	必要性：取过$x_1,x_2$的直线，集合与该直线交为凸，则$x_1,x_2$的凸组合都在集合内，由$x_1,x_2$的任意性，该集合是凸的
+\end{analysis}
+\begin{example}
+	若$A\succeq 0$，则二次不等式的解集
+	\[\sC=\{\vx\in\rn\mid \vx^\T A\vx+\vb^\T\vx+c\leq 0,A\in\mathbb{S}^n,\vb\in\rn,c\in\rr\}\]
+	为凸集
+\end{example}
+\begin{analysis}
+	考虑直线\footnote{此为直线的参数方程}$\{\hat{\vx}+t\vv\mid t\in\rr\}$，有
+	\[(\hat{\vx}+t\vv)^\T A(\hat{\vx}+t\vv)+\vb^\T(\hat{\vx}+t\vv)+c=\alpha t^2+\beta t+\gamma\]
+	交集为$\{\hat{\vx}+t\vv\mid\alpha t^2+\beta t+\gamma\leq 0\}$\\
+	由$A\succeq 0\implies\alpha=\vv^\T A\vv\geq 0$，即与任意直线交为凸，故$\sC$为凸集
+\end{analysis}
+
+\subsection{保凸运算}
+\begin{itemize}
+	\item 凸集的交：如超平面与半空间的交为多面体
+	\item 仿射、逆仿射：如伸缩平移
 \begin{definition}[仿射函数]
 \[f:\rn\mapsto\rr^m\quad f(\vx)=A\vx+\vb,A\in\rr^{m\times n},\vb\in\rr^m\]
 性质如下：
@@ -83,31 +125,34 @@
 直积$S_1\times S_2=\{(\vx,\vy)\mid \vx\in S_1,\vy\in S_2\}$显然可以保凸（相当于在两个集合同时画线）\\
 令$A\gets\bmat{I & I},\vx\gets\bmat{\vx & \vy}^\T,\vb\gets 0$，由仿射函数性质得证
 \end{analysis}
+\begin{example}
+	两个集合的部分和$S=\{(x,y_1+y_2)\mid(x,y_1)\in S_1,(x,y_2)\in S_2,x\in\rn,y_i\in\rr^m\}$保凸
+\end{example}
 
+	\item 透视函数：对向量进行规范化，使得最后一维分量为$1$并舍弃
 \begin{definition}[透视(perspective)函数\footnote{$+$代表$\geq 0$，$++$代表$>0$}]
 透视函数$P:\rr^{n+1}\mapsto\rn,\dom P=\rn\times\rr_{++}$定义如下
 \[P(\vz,t)=\dfrac{\vz}{t},\vz\in\rn,t\in\rr_{++}\]
 反透视函数
-\[P^{-1}(c):=\lrb{(\vx,t)\in\rr^{n+1}\Big|\frac{\vx}{t}\in c,t>0}\]
+\[P^{-1}(\sC):=\lrb{(\vx,t)\in\rr^{n+1}\Big|\frac{\vx}{t}\in \sC,t>0}\]
 凸集经过透视函数和反透视函数依然是凸集
 \end{definition}
 \begin{analysis}
 考虑$\rr^{n+1}$内的线段，$\vx=(\widetilde{\vx}\in\rn,\vx_{n+1}\in\rr_{++}),\vy=(\widetilde{\vy},\vy_{n+1})$
 则经过透视函数仍是线段
-\[P(\theta \vx+(1-\theta)\vy)=\frac{\theta\widetilde{\vx}+(1-\theta)\widetilde{\vy}}{\theta \vx_{n+1}+(1-\theta) \vy_{n+1}}=\frac{\theta \vx_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vx}}{\vx_{n+1}}+\frac{(1-\theta)\vy_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vy}}{\vy_{n+1}}\]
+\[\begin{aligned}
+	P(\theta \vx+(1-\theta)\vy)&=\frac{\theta\widetilde{\vx}+(1-\theta)\widetilde{\vy}}{\theta \vx_{n+1}+(1-\theta) \vy_{n+1}}\\
+	&=\frac{\theta \vx_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vx}}{\vx_{n+1}}+\frac{(1-\theta)\vy_{n+1}}{\theta \vx_{n+1}+(1-\theta)\vy_{n+1}}\frac{\widetilde{\vy}}{\vy_{n+1}}\\
+	&=\mu P(\vx)+(1-\mu)P(\vy)
+\end{aligned}\]
 \end{analysis}
 
+	\item 线性分数函数
 \begin{definition}[线性分数函数]
 仿射函数
-\[g(\vx)=\bmat{A\\\vc^\T}\vx+\bmat{\vb\\\vd},A\in\rr^{m\times n},\vb\in\rm,\vc\in\rn,\vd\in\rr\]
+\[g(\vx)=\bmat{A\\\vc^\T}\vx+\bmat{\vb\\\vd},A\in\rr^{m\times n},\vb\in\rr^m,\vc\in\rn,d\in\rr\]
 线性分数函数$f:\rn\mapsto\rr^m=p\circ g$
-\[f(\vx)=\frac{A\vx+\vb}{\vc^\T \vx+\vd},\dom f=\lrb{\vx\mid \vc^\T+\vd>0}\]
+\[f(\vx)=\frac{A\vx+\vb}{\vc^\T \vx+\vd},\dom f=\lrb{\vx\mid \vc^\T\vx+d>0}\]
 \end{definition}
 
-保凸性
-\begin{itemize}
-	\item 凸集的交
-	\item 仿射、逆仿射
-	\item 透视函数
-	\item 线性分数函数
 \end{itemize}

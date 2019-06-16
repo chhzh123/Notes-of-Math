@@ -141,19 +141,19 @@ log-barrier函数
     $2\degree$ 函数值的单调性：$f_0(\iter{\vx}{k+1})\leq f_0(\iter{\vx}{k})$（注意下降可能非常缓慢，并不一定收敛）
     \[\begin{aligned}
         f_0(\iter{\vx}{k+1})&\leq f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\iter{\vx}{k+1}-\iter{\vx}{k}}+\frac{L}{2}\norm{\iter{\vx}{k+1}-\iter{\vx}{k}}^2\\
-        &= f_0(\iter{\vx}{k})-\alpha(1-\frac{L\alpha}{2})\norm{\nabla f_0(\iter{\vx}{k})}^2\\
+        &= f_0(\iter{\vx}{k})-\alpha\lrp{1-\frac{L\alpha}{2}}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
         &\leq f_0(\iter{\vx}{k})
     \end{aligned}\]
     $3\degree$ 函数值的充分下降（即证明收敛性）
     \[f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq f_0(\iter{\vx}{k})-f_0(\vx^\star)-\omega\norm{\nabla f_0(\iter{\vx}{k})}^2\]
     \[\begin{aligned}
-        f_0(\iter{\vx}{k})-f_0(\vx^\star)&\leq \lrang{f_0(\iter{\vx}{k},\iter{\vx}{k}-\vx^\star)}\\
+        f_0(\iter{\vx}{k})-f_0(\vx^\star)&\leq \lrang{f_0(\iter{\vx}{k}),\iter{\vx}{k}-\vx^\star}\\
         &=\lrang{\nabla f_0(\iter{\vx}{k})-\nabla f_0(\vx^\star),\iter{\vx}{k}-\vx^\star}\\
-        &\leq\norm{\nabla f_0(\iter{\vx}{k})-\nabla f_0(\vx^\star)}\norm{\iter{\vx}{k}-\vx^\star}\\
+        &\leq\norm{\nabla f_0(\iter{\vx}{k})-\nabla f_0(\vx^\star)}\norm{\iter{\vx}{k}-\vx^\star}\qquad\mbox{Cauchy}\\
         &\leq \norm{\nabla f_0(\iter{\vx}{k})}\norm{\iter{\vx}{k}-\vx^\star}
     \end{aligned}\]
-    \[\iter{\Delta}{k+1}\leq \iter{\Delta}{k}-\frac{\omega}{\norm{\vx^0-\vx^\star}^2}(\iter{\Delta}{k})^2\]
-    \[\frac{1}{\iter{\Delta}{k+1}}\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{\vx^0-\vx^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}\]
+    \[\iter{\Delta}{k+1}\leq \iter{\Delta}{k}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}(\iter{\Delta}{k})^2\]
+    \[\frac{1}{\iter{\Delta}{k+1}}\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}\]
     错位相消可得结论$O(\frac{1}{k})$收敛速度
 \end{analysis}
 
@@ -201,10 +201,9 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \begin{itemize}
 \item $\iter{\alpha}{k}=\iter{\alpha}{k}_{exact}$精确线搜索
 \[\begin{aligned}
-    &\tilde{f}_0(\frac{1}{L})=f_0(\iter{\vx}{k})-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
-    &\tilde{f}_0(\iter{\alpha}{k}_{exact})\leq\tilde{f}_0(\frac{1}{L})\\
+    &\tilde{f}_0(\iter{\alpha}{k}_{exact})\leq\tilde{f}_0(\frac{1}{L})=f_0(\iter{\vx}{k})-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
     \implies&\tilde{f}_0(\iter{\alpha}{k}_{exact})-f_0(\iter{\vx}{k})-f_0(\vx^\star)-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2
-    \leq (1-\frac{\mu}{L})(f_0(\iter{\vx}{k})+f_0(\vx^\star))
+    \leq \lrp{1-\frac{\mu}{L}}(f_0(\iter{\vx}{k})+f_0(\vx^\star))
 \end{aligned}\]
 \[\begin{aligned}
     f_0(\vx^\star)&\geq f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vx^\star-\iter{\vx}{k}}+\frac{\mu}{2}\norm{\iter{\vx}{k}-\vx^\star}^2\\
@@ -227,7 +226,7 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \end{aligned}\]
 \[\begin{aligned}
     &f_0(\iter{\vx}{k+1})\leq f_0(\iter{\vx}{k})-\min\lrb{\gamma\alpha_{\max},\frac{\gamma\beta}{L}}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
-    &\implies f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\lrp{1-\min\lrb{2\mu\gamma\alpha_{\max},\frac{2\mu\gamma\beta}{L}}}(f_0(\iter{\vx}{k})-f_0(\vx^\star))
+    \implies& f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\lrp{1-\min\lrb{2\mu\gamma\alpha_{\max},\frac{2\mu\gamma\beta}{L}}}(f_0(\iter{\vx}{k})-f_0(\vx^\star))
 \end{aligned}\]
 \end{itemize}
 
@@ -245,8 +244,8 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \end{aligned}\]
 
 \item 解释二
-\[f_0(\iter{\vx}{k}+v)\approx f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),v}\]
-\[\iter{\vd}{k}=\argmin_v\{\lrang{\nabla f_0(\iter{\vx}{k}),v}\mid \norm{v}=1\}\]
+\[f_0(\iter{\vx}{k}+\vv)\approx f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vv}\]
+\[\iter{\vd}{k}=\argmin_\vv\{\lrang{\nabla f_0(\iter{\vx}{k}),\vv}\mid \norm{\vv}=1\}\]
 若采用2-范数，可得标准化的负梯度方向(normalized negative gradient)
 \[\iter{\vd}{k}=\frac{-\nabla f_0(\iter{\vx}{k})}{\norm{\nabla f_0(\iter{\vx}{k})}_2}\]
 通过改变不同的范数，有不同的特性
@@ -283,36 +282,37 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
     \[\sum_{k=0}^\infty\iter{\alpha}{k}=0\qquad\lim_{k\to\infty}\iter{\alpha}{k}\to 0\]
 \end{itemize}
 
-考虑收敛速度
+考虑次梯度法的\textbf{收敛速度}
 \[\inf_{i=0,\ldots,k}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\]
 % \[\iter{\bar{\vx}}{k}:=\frac{\sum_{i=0}^k\iter{\alpha}{i}\iter{\vx}{i}}{\sum_{i=0}^k\iter{\alpha}{i}}\]
 % \[f_0(\iter{\bar{\vx}}{k})-f_0(\vx^\star)\]
 
 假设函数Lipschitz连续
-\[\exists G>0,\forall \vx,y:\;\norm{f_0(\vx)-f_0(y)}\leq G\norm{\vx-y}\]
-$\forall \vx^\star$最优
+\[\exists G>0,\forall \vx,\vy:\;\norm{f_0(\vx)-f_0(\vy)}\leq G\norm{\vx-\vy}\]
+对任意最优解$\vx^\star$，有
 \[\begin{aligned}
-    &\quad\norm{\iter{\vx}{k+1}-\vx^\star}^2=\norm{\iter{\vx}{k}-\iter{\alpha}{k}g_0(\iter{\vx}{k})-\vx^\star}^2\\
-    &=\norm{\iter{\vx}{k}-\vx^\star}^2-2\lrang{\iter{\alpha}{k}g_0(\iter{\vx}{k}),\iter{\vx}{k}-\vx^\star}+(\iter{\alpha}{k})^2\norm{g_0(\iter{\vx}{k})}^2\qquad\mbox{拆平方}\\
-    &\leq \norm{\iter{\vx}{k}-\vx^\star}^2-2(\iter{\alpha}{k})^2(f_0(\iter{\vx}{k})-f_0(\vx^\star))+(\iter{\alpha}{k})^2 G^2\\
-    &\implies \norm{\iter{\vx}{k+1}-\vx^\star}^2\leq \norm{\iter{\vx}{0}-\vx^\star}^2-2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))+\sum_{i=0}^k(\iter{\alpha}{i})^2 G^2\\
-    &\implies 2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\leq \norm{\iter{\vx}{0}-\vx^\star}^2+\sum_{i=0}^k(\iter{\alpha}{i})^2G^2
+    &\norm{\iter{\vx}{k+1}-\vx^\star}^2=\norm{\iter{\vx}{k}-\iter{\alpha}{k}g_0(\iter{\vx}{k})-\vx^\star}^2\\
+    =&\norm{\iter{\vx}{k}-\vx^\star}^2-2\lrang{\iter{\alpha}{k}g_0(\iter{\vx}{k}),\iter{\vx}{k}-\vx^\star}+(\iter{\alpha}{k})^2\norm{g_0(\iter{\vx}{k})}^2\qquad\mbox{拆平方}\\
+    \leq& \norm{\iter{\vx}{k}-\vx^\star}^2-2(\iter{\alpha}{k})^2(f_0(\iter{\vx}{k})-f_0(\vx^\star))+(\iter{\alpha}{k})^2 G^2\qquad\mbox{多次迭代}\\
+    \implies& \norm{\iter{\vx}{k+1}-\vx^\star}^2\leq \norm{\iter{\vx}{0}-\vx^\star}^2-2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))+\sum_{i=0}^k(\iter{\alpha}{i})^2 G^2\\
+    \implies& 2\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\leq \norm{\iter{\vx}{0}-\vx^\star}^2+\sum_{i=0}^k(\iter{\alpha}{i})^2G^2\\
+    &\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\geq\lrp{\sum_{i=0}^k\iter{\alpha}{i}}\inf_{i=0,\ldots,k}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\\
+    \implies&\inf_{i=0,\ldots,k}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\leq\frac{\disp\norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=0}^k(\iter{\alpha}{i})^2}{\disp 2\sum_{i=0}^k\iter{\alpha}{i}}
 \end{aligned}\]
-\[\sum_{i=0}^k\iter{\alpha}{i}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\geq\lrp{\sum_{i=0}^k\iter{\alpha}{i}}\inf_{i=0,\ldots,k}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\]
-\[\implies\inf_{i=0,\ldots,k}(f_0(\iter{\vx}{i})-f_0(\vx^\star))\leq\frac{\disp\norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=0}^k(\iter{\alpha}{i})^2}{\disp 2\sum_{i=0}^k\iter{\alpha}{i}}\]
+
 这是一个紧的界
 \begin{itemize}
     \item 固定步长得到上界$\frac{G^2\alpha}{2}$，以$f(\vx)=|\vx|$为例
     \item 不可加平方可加一定收敛，若步长为$\frac{1}{k}$，收敛速度为$\frac{1}{\log k}$（幂级数积分取上下界$\sum_{i=0}^k\frac{1}{i}=O(\log k)$）
-    \item 不可加平方不可加同样收敛，若步长为$\frac{1}{\sqrt{k}}$，收敛速度为$O(\frac{\log k}{\sqrt{k}})$，可以证明在该假设下该收敛速度最优
+    \item 不可加平方不可加同样收敛，若步长为$\frac{1}{\sqrt{k}}$，收敛速度为$O\lrp{\frac{\log k}{\sqrt{k}}}$，可以证明在该假设下该收敛速度最优
 \end{itemize}
 
 \[\lim_{k\to\infty}\inf_{i=0,\ldots,k}\lrp{f_0(\iter{\vx}{i})-f_0(\vx^\star)}=0\]
-\[\forall \eps>0,\exists N_1\in\zz, \iter{\alpha}{i}\leq\frac{\eps}{G^2},\forall i>N_1\]
-\[\exists N_2\in\zz:\sum_{i=0}^k\iter{\alpha}{i}\geq\frac{1}{\eps}\lrp{\norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=0}^{N_1}(\iter{\alpha}{i})^2},\forall k>N_2\]
+\[\forall \eps>0,\exists N_1\in\zz, \forall i>N_1:\;\iter{\alpha}{i}\leq\frac{\eps}{G^2}\]
+\[\exists N_2\in\zz,\forall k>N_2:\;\sum_{i=0}^k\iter{\alpha}{i}\geq\frac{1}{\eps}\lrp{\norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=0}^{N_1}(\iter{\alpha}{i})^2}\]
 令$N=\max\{N_1,N_2\},\forall k>N$
 \[\dfrac{\disp \norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=0}^{N_1}(\iter{\alpha}{i})^2}{\disp 2\sum_{i=0}^k\iter{\alpha}{i}}+\dfrac{\disp \norm{\iter{\vx}{0}-\vx^\star}^2+G^2\sum_{i=N_1+1}^{k}(\iter{\alpha}{i})^2}{\disp 2\sum_{i=0}^{N_1}\iter{\alpha}{i}+2\sum_{i=N_1+1}^{k}\iter{\alpha}{i}}\leq\frac{\eps}{2}+\frac{\eps}{2}=\eps\]
-\[\text{第二项}\leq\dfrac{G^2\sum_{i=N_1+1}^k\iter{\alpha}{i}\frac{\eps}{G^2}}{2\sum_{i=0}^{N_1}\iter{\alpha}{i}+2\sum_{i=N_1+1}^{k}\iter{\alpha}{i}}\leq\frac{\eps}{2}\]
+\[\text{第二项}\leq\dfrac{\disp G^2\sum_{i=N_1+1}^k\iter{\alpha}{i}\frac{\eps}{G^2}}{\disp 2\sum_{i=0}^{N_1}\iter{\alpha}{i}+2\sum_{i=N_1+1}^{k}\iter{\alpha}{i}}\leq\frac{\eps}{2}\]
 实际上这个假设一般情况下不成立，但是我们只需保证在优化路径上成立即可，也有设置$\vx$有界的
 
 \subsubsection{邻近点梯度法(proximal gradient method)}
@@ -324,13 +324,13 @@ $\forall \vx^\star$最优
 \end{itemize}
 
 \begin{definition}[邻近点投影(proximal mapping)]
-    函数$r$和平衡参数$\lambda$的近端算子
+    函数$r$和平衡参数$\alpha$的近端算子
 \[\opprox_r \hat{\vx}=\argmin_\vx \lrp{r(\vx)+\frac{1}{2\alpha}\norm{\vx-\hat{\vx}}_2^2}\]
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\linewidth]{fig/prox.jpg}
 \end{figure}
-注：邻近点/近端投影字面上理解即对点$\hat{x}$关于$r$下降方向的邻近点。
+注：邻近点/近端投影字面上理解即对点$\hat{\vx}$关于$r$下降方向的邻近点。
 如上图，黑细线为$r$的水平集，黑粗线为定义域边界，蓝色点为$\hat{\vx}$，红色为作用该算子后的点，这些点都统一朝着函数最小的方法前进\footnote{详细见\url{https://zhuanlan.zhihu.com/p/37444622}}。
 \end{definition}
 邻近点梯度法迭代格式如下
@@ -448,8 +448,7 @@ $\forall \vx^\star$最优
     \end{cases}\]
     求次梯度
     \[0\in\lambda\partial\norm{B}_\star+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})\]
-    \[0\in\lrs{\lambda UDV^\T+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})}\]
-    \[B=U\Sigma V^\T,\;d=\partial\norm{\sigma}_1\]
+    \[0\in\lrs{\lambda UDV^\T+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})},\;B=U\Sigma V^\T,\;D=\partial\norm{\sigma}_1\]
     \[0\in\lrb{\lambda UDV^\T +\frac{1}{\alpha}(V\Sigma V^\T-\iter{B}{k+\frac{1}{2}})}\]
     \[\exists V:\;0=\alpha\lambda UDV^\T+V\Sigma V^\T-\iter{B}{k+\frac{1}{2}}\]
     \[\iter{B}{k+\frac{1}{2}}=U(\alpha\lambda D+\Sigma)V^\T\]
@@ -619,7 +618,7 @@ $\alpha=1,f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\Delta(\frac{1}{2})^{2^k},\exis
 \end{cases}\]
 $\iter{\alpha}{k}$可以是固定步长，也可以是递减步长
 
-即为\textbf{找鞍点}，$x$方向上找最小值，本来$\vv$方向上要找最大值，但容易到正无穷。因此换种方法$\iter{\vv}{k}$做一个保守的计算，每一步都走一个很小的步长。
+即为\textbf{找鞍点}，$\vx$方向上找最小值，本来$\vv$方向上要找最大值，但容易到正无穷。因此换种方法$\iter{\vv}{k}$做一个保守的计算，每一步都走一个很小的步长。
 
 \begin{example}
     \begin{mini*}
