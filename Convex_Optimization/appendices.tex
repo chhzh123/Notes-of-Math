@@ -3,6 +3,14 @@
 \newpage
 \appendix
 \section{线性代数基础}
+\subsection{非奇异矩阵}
+关于可逆矩阵的性质如下：
+\begin{itemize}
+    \item 可逆矩阵即非奇异(non-singular)矩阵
+    \item 行列式为$0$
+    \item 满秩
+\end{itemize}
+
 \subsection{内积与范数}
 \begin{definition}[标准内积]
     标准向量内积
@@ -71,6 +79,7 @@ $Q(\vx)=\vx^\T A\vx$，其中$A$是对称矩阵\\
 \begin{definition}[主子式]
     从$n$阶矩阵中选取行号和列号相同的$i$列，行列交汇处的元素形成的行列式称为$n$阶矩阵的一个$i$阶主子式。如果挑选$1\thicksim i$行和$1\thicksim i$列，则成为该矩阵的$i$阶\textbf{顺序}主子式。
 \end{definition}
+
 正定矩阵$A$的等价命题如下
 \begin{itemize}
     \item $A$的所有顺序主子式均为正
@@ -78,11 +87,11 @@ $Q(\vx)=\vx^\T A\vx$，其中$A$是对称矩阵\\
     \item $A$的特征值均为正
 \end{itemize}
 
-关于可逆矩阵的性质如下：
+半正定矩阵的等价命题如下
 \begin{itemize}
-    \item 可逆矩阵即非奇异(non-singular)矩阵
-    \item 行列式为$0$
-    \item 满秩
+    \item $A$的所有主子式非负
+    \item $A$的特征值均非负
+    \item 有实矩阵$C$使$A=C^\T C$
 \end{itemize}
 
 \subsection{特征值分解}
@@ -104,12 +113,65 @@ $Q(\vx)=\vx^\T A\vx$，其中$A$是对称矩阵\\
 \[A^{1/2}=Q\opdiag(\lambda_1^{1/2},\ldots,\lambda_n^{1/2})Q^\T\]
 平方根$A^{1/2}$是矩阵方程$X^2=A$的唯一的对称半正定的解
 
+\subsection{奇异值分解}
+\begin{definition}[奇异值分解(SVD)]
+    假设$A\in\rr^{m\times n},\oprank A=r$，那么$A$可被分解为$A=U\Sigma V^\T$，其中$U\in\rr^{m\times r}$，满足$U^\T U=I$，$V\in\rr^{n\times r}$满足$V^\T V=I$，而$\Sigma=\opdiag(\sigma_1,\ldots,\sigma_r)$满足
+    \[\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0\]
+    $U$的列向量被称为$A$的左奇异向量，$V$的列向量被称为右奇异向量，$\sigma_i$称为奇异值，进而奇异值分解可写成
+    \[A=\sum_{i=1}^r\sigma_i u_i v_i^\T\]
+    其中$u_i\in\rr^m$为左奇异向量，$v_i\in\rn$为右奇异向量
+\end{definition}
+
+最大最小奇异值可写为
+\[\begin{aligned}
+    \sigma_{\max}(A)&=\sup_{\vx,\vy\ne\vzero}\frac{\vx^\T A\vy}{\norm{\vx}_2\norm{\vy}_2}=\sup_{\vy\ne \vzero}\frac{\norm{A\vy}_2}{\norm{\vy}_2}\\
+    \sigma_{\min}(A)&=\begin{cases}
+        \sigma_r(A) & r=\min\{m,n\}\\
+        0 & r=\min\{m,n\}
+    \end{cases}
+\end{aligned}\]
+
+\begin{definition}[条件数]
+非奇异矩阵的$A\in\rr^{n\times n}$的条件数定义为
+\[\opcond(A)=\norm{A}_2\norm{A^{-1}}_2=\frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}\]
+\end{definition}
+
 \section{矩阵微积分}
 \label{appendix:matrix}
 \subsection{基本定义}
-\begin{definition}[Taylor公式]
-对$f(\vx)$在点$\vx_0$处展开有
-\[f(\vx)=f(\vx_0)+(\vx-\vx_0)^\T\nabla f(\vx_0)+\frac{1}{2!}(\vx-\vx_0)^\T \nabla^2(\vx)(\vx-\vx_0)+\cdots\]
+\begin{definition}[可微]
+    设$f:\rr^n\mapsto\rr^m$，若$f$在$\vx$处可微，则存在矩阵$Df(\vx)\in\rr^{m\times n}$满足
+    \[\lim_{\vz\in\dom f,\vz\ne\vx,\vz\to\vx}\frac{\norm{f(\vz)-f(\vx)-Df(\vx)(\vz-\vx)}_2}{\norm{\vz-\vx}_2}=0\]
+    则称$Df(\vx)$为$f$在$\vx$处的导数（或Jacobian矩阵，具有唯一性）。
+    若$\dom f$为开集，且$f$在定义域内处处可微，则称为可微函数，并将$\vz$的仿射函数
+    \[\hat{f}(\vx)=f(\vx)+Df(\vx)(\vz-\vx)\]
+    称为$f$在$\vx$处的一次逼近\\
+    通过推导可知
+    \[Df(\vx)_{ij}=\pd{f_i(\vx)}{x_j},\;i=1,\ldots,m,\;j=1,\ldots,n\]
+\end{definition}
+\begin{definition}[梯度]
+    对于实函数$f:\rm\mapsto\rr$，导数$Df(\vx)$是$1\times n$的矩阵，即行向量，它的转置称为函数的梯度$\nabla f(\vx)=Df(\vx)^\T$，为一个列向量，每一项是偏导数
+    \[\nabla f(\vx)_i=\pd{f(\vx)}{x_i},\;i=1,\ldots,n\]
+    一次逼近可改写为
+    \[f(\vx)+\nabla^\T f(\vx)(\vz-\vx)\]
+\end{definition}
+\begin{theorem}[链式法则]
+    设$f:\rn\mapsto\rr^m$在$\vx\in\opint\dom f$处可微，$g:\rr^m\mapsto\rr^p$在$f(\vx)\in\opint\dom g$处可微，定义复合函数为$h(\vz)=g(f(\vz))$，则$h$在$\vx$处可微，导数为
+    \[Dh(\vx)=Dg(f(\vx))Df(\vx)\]
+    注意是Jacobi矩阵才符合链式法则，不是梯度！
+\end{theorem}
+考虑复合仿射函数$g(\vx)=f(A\vx+\vb)$，由链式法则应该得到$Dg(\vx)=Df(A\vx+\vb)A$，当$f$为实函数时才有如下的梯度公式
+\[\nabla g(\vx)=A^\T\nabla f(A\vx+\vb)\]
+
+\begin{definition}[二阶导数]
+    如果$f$在$\vx$处二阶可微，则$f$在$\vx\in\opint\dom f$处的二阶导数或Hessian矩阵为
+    \[(\nabla^2 f(\vx))_{ij}=\pddxy{f(\vx)}{x_i}{x_j},\;i=1,\ldots,n,\;j=1,\ldots,n\]
+    进而得到二阶逼近（也是Taylor展开）
+    \[\hat{f}(\vx)=f(\vx)+\nabla f(\vx)^\T(\vz-\vx)+\frac{1}{2}(\vz-\vx)^\T\nabla^2 f(\vx)(\vz-\vx)\]
+    满足
+    \[\lim_{\vx\in\dom f,\vz\ne\vx,\vz\to\vx}\frac{|f(\vz)-\hat{f}(\vz)|}{\norm{\vz-\vx}_2^2}=0\]
+    与雅可比矩阵的关系
+    \[D\nabla f(\vx)=\nabla^2 f(\vx)\]
 \end{definition}
 
 \subsection{实值函数对向量的导数}

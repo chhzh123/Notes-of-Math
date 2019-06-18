@@ -3,7 +3,7 @@
 \section{凸函数} % 3.5
 \subsection{基本概念与性质}
 \begin{definition}[凸函数]
-	凸函数的几种基本定义如下
+	凸函数的几种基本定义如下，注意\textcolor{red}{凸函数的域都得是凸集}
 \begin{enumerate}
 	\item 原始定义：$f:\rn\to\rr$为凸$\iff\dom f$为凸，且
 \[\forall \vx,\vy\in\dom f,\theta\in[0,1]:\;f(\theta \vx+(1-\theta)\vy)\leq\theta f(\vx)+(1-\theta)f(\vy)\]
@@ -121,7 +121,7 @@ $f(x)=\dfrac{1}{x^2},\;\dom f=\lrb{x\in\rr,x\ne 0}$
 \end{analysis}
 	\item 二次线性分式函数$f(\vx,y)=x^2/y,(x,y)\in\rr^2,y>0$
 \begin{analysis}
-	由二阶条件
+	由二阶条件及半正定矩阵的分解判定法
 	\[\nabla^2f(\vx,y)=\frac{2}{y^3}\bmat{y^2 & -xy\\-xy & x^2}=\frac{2}{y^3}\bmat{y\\-x}\bmat{y\\-x}^\T\succeq 0\]
 \end{analysis}
 	\item 指数和的对数$f(\vx)=\log(\ee^{x_1}+\cdots+\ee^{x_n})$
@@ -138,11 +138,11 @@ $f(x)=\dfrac{1}{x^2},\;\dom f=\lrb{x\in\rr,x\ne 0}$
 \end{cases}
 \end{aligned}\]
 \[\vz:=\bmat{\ee^{x_1}&\cdots&\ee^{x_n}}^\T\]
-求Hessian矩阵
+得到Hessian矩阵
 \[\nabla^2f(\vx)=\frac{1}{(\vone^\T \vz)^2}((\vone^\T \vz)\opdiag(\vz)-\vz \vz^\T)\]
 将前面常量丢弃
 \[\begin{aligned}
-\vv^\T \nabla^2f(\vx)\vv&=(\mathbbm{1}^\T \vz)\vv^\T \opdiag(\vz)\vv-\vv^\T \vz\vz^\T \vv\\
+\vv^\T \nabla^2f(\vx)\vv&=(\vone^\T \vz)\vv^\T \opdiag(\vz)\vv-\vv^\T \vz\vz^\T \vv\\
 &=\lrp{\sum_i z_i}\lrp{\sum_i v_i^2 z_i}-\lrp{\sum_i v_i z_i}^2\\
 &\qquad\mbox{令$\va_i:=\vv_i\sqrt{\vz_i}=\bmat{a_1&\cdots&a_n}^\T,b_i:=\sqrt{\vz_i}$}\\
 &=(\vb^\T \vb)(\va^\T \va)-(\va^\T \vb)^2\qquad\text{Cauchy}\\
@@ -168,8 +168,11 @@ g(t)&:=f( Z+t V)\\
 &=\log\det( Z+t V)\\
 &=\log\det( Z^{1/2}(I+t Z^{-1/2} V Z^{-1/2}) Z^{1/2}),\quad  Z^{1/2}\in \bbs_{++}^n, Z^{1/2} Z^{1/2}= Z\\
 &=\log\det( Z)+\log\det(I+t Z^{-1/2} V Z^{-1/2})\\
-&=\log\det( Z)+\sum_{i=1}^n\log(1+t\lambda_i),\quad \lambda_i\text{为} Z^{-1/2} V Z^{-1/2}\text{的特征值}
+&=\log\det( Z)+\sum_{i=1}^n\log(1+t\lambda_i)
 \end{aligned}\]
+（注：$\lambda_i$为$Z^{-1/2} V Z^{-1/2}$的特征值，$1$为单位阵$I$的特征值，故可相加；
+又行列式等于特征值之积，故等式成立）
+
 因此下式成立
 \[\begin{aligned}
 g'(t)&=\sum_{i=1}^n\frac{\lambda_i}{1+t\lambda_i}\\
@@ -181,6 +184,11 @@ $QQ^\T=I$，Q为酉矩阵
 	I+t Z^{-1/2} V Z^{-1/2}&=QQ^\T+tQ\Lambda Q^\T=Q(I+t\Lambda)Q^\T\\
 	\log\det(I+t Z^{-1/2} V Z^{-1/2})&=\log\det(Q)+\log\det(I+t\Lambda)+\log\det(Q^\T)
 \end{aligned}\]
+类似可证：
+\begin{itemize}
+	\item $f(X)=\optr(X^{-1})$在$\dom f=\bbs_{++}^n$为凸函数
+	\item $f(X)=(\det X)^{1/n}$在$\dom f=\bbs_{++}^n$为凹函数
+\end{itemize}
 \end{analysis}
 \end{itemize}
 
@@ -217,10 +225,10 @@ $QQ^\T=I$，Q为酉矩阵
 	\end{example}
 	\item 任意个凸函数极大值函数为凸（分片线性函数）
 	\[f(x)=\max\{\va_1^\T \vx+\vb_1,\ldots,\va_m^\T+\vb_m\}\]
-	\item 无限个凸函数，$y\in A$，$f(x,y)$对于$x$为凸，则$g(x)=\sup_{y\in A} f(x,y)$为凸
+	\item 无限个凸函数，$\vy\in A$，$f(\vx,\vy)$对于$\vx$为凸，则$g(\vx)=\sup_{\vy\in A} f(\vx,\vy)$为凸
 	\begin{example}
 	点$\vx$到集合$\sC$的最远距离
-	\[f(\vx)=\sup_{\vy\in A}\|x-y\|\]
+	\[f(\vx)=\sup_{\vy\in A}\|\vx-\vy\|\]
 	位移对于范数凸性不会有影响
 	\end{example}
 
@@ -298,7 +306,7 @@ $QQ^\T=I$，Q为酉矩阵
 			按照定义进行拆分计算即可
 			\[\begin{aligned}
 				f^\star(\vy)&=\sup_\vx\sum_{i=1}^n x_i\log x_i\\
-				&=\sum_{i=1}^n\sup_{x_i}y_i x_i-x_i\log x_i\qquad\mbox{求导可得}\\
+				&=\sum_{i=1}^n\sup_{x_i}\lrp{y_i x_i-x_i\log x_i}\qquad\mbox{求导可得}\\
 				&=\sum_{i=1}^n\ee^{y_i-1}
 			\end{aligned}\]
 		\end{analysis}
@@ -344,8 +352,8 @@ $f:\rn\mapsto\rr$，$C_\alpha=\{\vx\in\dom f\mid f(\vx)\leq\alpha\}$
 	\end{figure}
 \end{example}
 
-凸函数与凸集联系
+凸函数、拟凸函数与凸集联系
 \begin{itemize}
 	\item 凸函数定义域为凸集，凸函数一定是拟凸函数
-	\item 凸函数的$\alpha$次水平集为凸集
+	\item 凸函数的次水平集为凸集，次水平集为凸集的为拟凸函数
 \end{itemize}

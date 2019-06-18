@@ -200,6 +200,17 @@ $m$种营养元素不小于$b_1,\ldots,b_m$，$n$种食物，单位含量$a_{1j}
 \end{mini*}
 其中$P_i\in\mathbb{S}_+^n$
 
+几类优化/规划问题对比如下
+\begin{center}
+\begin{tabular}{|c|c|c|c|}\hline
+	 & 目标函数 & 不等式约束 & 等式约束 \\\hline
+	凸优化 & 凸 & 凸 & 仿射\\\hline
+	线性规划 & 仿射 & 仿射 & 仿射 \\\hline
+	二次规划 & 二次型 & 仿射 & 仿射 \\\hline
+	二次约束二次规划 & 二次型 & 二次型 & 仿射\\\hline
+\end{tabular}
+\end{center}
+
 \begin{example}[最小二乘问题的改写]
 \begin{mini*}
 	{\vx}{\frac{1}{2}\|A\vx-\vb\|_2^2}{}{}
@@ -298,7 +309,7 @@ $X\in\rr^{n\times n},C\in\rr^{n\times n},A_i\in\rr^{n\times n},b_i\in\rr$
 	\end{mini*}
 \end{analysis}
 
-\subsection{多目标优化问题}
+\subsection{多目标优化}
 帕累托最优解：若有另一解在某个指标上更好，则必有指标更差
 
 帕累托最优值/帕累托最优面：$\min f_{01}$与$\min f_{02}$的交点为理想点(oracle)

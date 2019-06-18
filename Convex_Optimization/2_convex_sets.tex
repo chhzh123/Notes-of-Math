@@ -56,11 +56,10 @@ Voronoi描述：$\{x\mid\norm{x-a}_2\leq\norm{x-b}_2\}$为半空间，展开实�
 \end{definition}
 \begin{definition}[椭球(ellipsoid)]
 \[\eps(\vx_c,P)=\{\vx\mid(\vx-\vx_c)^\T P^{-1}(\vx-\vx_c)\leq 1\},P\succ 0\]
-其中$P\succ 0$表示$P$\textbf{对称}($P=P^T$)\textbf{且正定}，或记为$P\in\bbs_{++}$
+其中$P\succ 0$且对称($P=P^T$)，或记为$P\in\bbs_{++}$
 \end{definition}
 \begin{analysis}
-% https://ljk.imag.fr/membres/Anatoli.Iouditski/cours/convex/chapitre_3.pdf
-定义内积$\lrang{x^\T, P^{-1}y}$（需证满足内积条件），进而$\|\vx\|_p:=\sqrt{\vx^\T P^{-1}\vx}$是范数，而椭球不过是$p$-范数意义下的球，由定理得椭球是凸的
+定义内积$\lrp{\vx,\vy}=\vx^\T Q\vy$（其中$Q$为对称正定阵，满足内积条件：双线性、对称性、正定性），进而$\|\vx\|_Q:=\sqrt{\vx^\T Q\vx}$是范数，而椭球不过是$Q$-范数意义下的球，由定理得椭球是凸的\footnote{参见\url{https://ljk.imag.fr/membres/Anatoli.Iouditski/cours/convex/chapitre_3.pdf}}
 \end{analysis}
 \begin{definition}[多面体(polyhedron)]
 	由超平面和半空间组成的集合
@@ -87,6 +86,9 @@ Voronoi描述：$\{x\mid\norm{x-a}_2\leq\norm{x-b}_2\}$为半空间，展开实�
 	\end{center}
 \end{example}
 
+\subsection{保凸运算}
+\begin{itemize}
+	\item 凸集的交：如超平面与半空间的交为多面体
 \begin{theorem}
 	一个集合是凸集当且仅当它与任意直线的交是凸的
 \end{theorem}
@@ -106,9 +108,6 @@ Voronoi描述：$\{x\mid\norm{x-a}_2\leq\norm{x-b}_2\}$为半空间，展开实�
 	由$A\succeq 0\implies\alpha=\vv^\T A\vv\geq 0$，即与任意直线交为凸，故$\sC$为凸集
 \end{analysis}
 
-\subsection{保凸运算}
-\begin{itemize}
-	\item 凸集的交：如超平面与半空间的交为多面体
 	\item 仿射、逆仿射：如伸缩平移
 \begin{definition}[仿射函数]
 \[f:\rn\mapsto\rr^m\quad f(\vx)=A\vx+\vb,A\in\rr^{m\times n},\vb\in\rr^m\]
@@ -150,9 +149,9 @@ Voronoi描述：$\{x\mid\norm{x-a}_2\leq\norm{x-b}_2\}$为半空间，展开实�
 	\item 线性分数函数
 \begin{definition}[线性分数函数]
 仿射函数
-\[g(\vx)=\bmat{A\\\vc^\T}\vx+\bmat{\vb\\\vd},A\in\rr^{m\times n},\vb\in\rr^m,\vc\in\rn,d\in\rr\]
+\[g(\vx)=\bmat{A\\\vc^\T}\vx+\bmat{\vb\\d},A\in\rr^{m\times n},\vb\in\rr^m,\vc\in\rn,d\in\rr\]
 线性分数函数$f:\rn\mapsto\rr^m=p\circ g$
-\[f(\vx)=\frac{A\vx+\vb}{\vc^\T \vx+\vd},\dom f=\lrb{\vx\mid \vc^\T\vx+d>0}\]
+\[f(\vx)=\frac{A\vx+\vb}{\vc^\T \vx+d},\dom f=\lrb{\vx\mid \vc^\T\vx+d>0}\]
 \end{definition}
 
 \end{itemize}

@@ -46,7 +46,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
     又$p^\star=f_0(\vx^\star)$为原问题最优解，将$\vx^\star$代入Lagrange函数中
     \[L(\vx^\star,\vlambda,\vv)=f_0(\vx^\star)+\lrp{\sum_{i=1}^m\lambda_i f_0(\vx^\star)+\sum_{i=1}^p v_i h_i(\vx^\star)}\leq p^\star\]
     进而推出
-    \[g(\vlambda,\vv)=\inf_{\vx\in\sD} L(\vx,\vlambda,\vv)\leq L(\vx^\star,\vlambda,\vv)\leq p^\star\]
+    \[d^\star=g(\vlambda^\star,\vv^\star)=\inf_{\vx\in\sD} L(\vx,\vlambda^\star,\vv^\star)\leq L(\vx^\star,\vlambda^\star,\vv^\star)\leq p^\star\]
 \end{analysis}
 
 \begin{example}[最小二乘]
@@ -81,7 +81,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
     \[\begin{aligned}
         g(\vlambda,\vv)&=\inf_\vx L(\vx,\vlambda,\vv)\\
         &=\inf_\vx\lrp{(\vc-\vlambda+A^\T \vv)^\T \vx-\vv^\T \vb}\\
-        \quad\mbox{一次式应直接分拆变量和常量，由于$\vx$可以任取，故会到负无穷}
+        &\qquad\mbox{一次式应直接分拆变量和常量，由于$\vx$可以任取，故会到负无穷}\\
         &=\begin{cases}-\infty & \vc-\vlambda+A^\T \vv\ne 0\\
         -\vv^\T \vb & \vc-\vlambda+A^\T \vv=0\end{cases}
     \end{aligned}\]
@@ -109,7 +109,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
     \begin{maxi*}
         {}{-\vlambda^\T \vc}{}{}
         \addConstraint{\vb-A\vlambda}{=0}
-        \addConstraint{\vlambda}{\succeq 0}
+        \addConstraint{\vlambda}{\succeq \vzero}
     \end{maxi*}
     会发现，对偶的对偶不一定回去，线性规划才满足
 \end{analysis}
@@ -128,22 +128,26 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
         L(\vx,\vv)&=\vx^\T W\vx+\sum_{i=1}^n v_i(x_i^2-1)\\
         g(\vv)&=\inf_\vx L(\vx,\vv)\\
         &=\inf_\vx \lrp{\vx^\T W\vx+\sum_{i=1}^n v_ix_i^2-\sum_{i=1}^n v_i}\qquad\mbox{二次项放对角线}\\
-        &=\inf_\vx \lrp{\vx^\T\lrp{W+\opdiag \vv}\vx-\vone^\T \vv}\\
+        &=\inf_\vx \lrp{\vx^\T\lrp{W+\opdiag (\vv)}\vx-\vone^\T \vv}\\
         &=\begin{cases}-\vone^\T \vv & W+\opdiag(\vv)\succeq \vzero\\-\infty&\text{otherwise}\end{cases}
     \end{aligned}\]
     其中
-    \[\opdiag\vv=\bmat{v_1 & \cdots & 0\\\vdots & \ddots & \vdots\\0 & \cdots & v_n}\]
+    \[\opdiag(\vv)=\bmat{v_1 & \cdots & 0\\\vdots & \ddots & \vdots\\0 & \cdots & v_n}\]
     得到对偶问题如下
     \begin{maxi*}
         {\vv}{-\vone^\T \vv}{}{}
         \addConstraint{W+\opdiag(\vv)}{\succeq \vzero}
     \end{maxi*}
+    取$\vv=-\lambda_{\min}(W)\vone$，得到
+    \[W+\opdiag(\vv)=W-\lambda_{\min}(W)I\succeq 0\]
+    由此得到$p^\star$的一个下界
+    \[p^\star\geq -\vone^\T\vv=n\lambda_{\min}(W)\]
 \end{analysis}
 
 \begin{example}[共轭函数]
 \begin{mini*}
     {}{f_0(\vx)}{}{}
-    \addConstraint{A\vx}{\leq \vb}
+    \addConstraint{A\vx}{\preceq \vb}
     \addConstraint{C\vx}{=\vd}
 \end{mini*}
 \end{example}
@@ -157,7 +161,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
 \end{aligned}\]
 \end{analysis}
 
-\subsection{强弱对偶}
+\subsection{对偶间隙}
 \begin{definition}[对偶间隙(duality gap)]
     $p^\star-d^\star\geq 0$
 \begin{itemize}
@@ -195,13 +199,6 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
         \addConstraint{A\vx}{=\vb}
     \end{mini*}
     Slater条件$\{\vx\mid A\vx=\vb\}$非空
-\end{example}
-\begin{example}[二次约束二次规划(QCQP)]
-    \begin{mini*}
-        {}{\frac{1}{2}\vx^\T P_0 \vx+\vq_0^\T+r_0}{}{}
-        \addConstraint{\frac{1}{2}\vx^\T P_i \vx+\vq_i^\T \vx+r_i}{\leq 0}{,\quad i=1,\ldots,m}
-    \end{mini*}
-    $P_0,\ldots,P_m$半正定
 \end{example}
 
 凸问题+Slater条件$\implies p^\star=d^\star$，但有可能不满足Slater条件也依然强对偶，如下面的例子。
@@ -251,7 +248,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
     \centering
     \includegraphics[width=0.5\linewidth]{fig/dual-geo.PNG}
 \end{figure}
-注意问题必须要有可行解
+注意问题必须要有可行解！
 
 \subsubsection{经济学解释}
 满足原材料约束下，利润最多，价格$\lambda_i\geq 0$，极小化成本
@@ -272,6 +269,14 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
 \subsubsection{鞍点(saddle point)解释}
 考虑函数$f(\vw,\vz),\vw\in \sW,\vz\in \sZ$
 极小极大不等式
+\footnote{补充证明：$\vx_0$和$\vy_0$可看作常量
+\[\begin{aligned}
+    f(\vx_0,\vy_0)&\leq\sup_\vy f(\vx_0,\vy),\;\forall \vx_0,\vy_0\qquad\mbox{确保在$\vx$方向上的单调性}\\
+    \inf_\vx f(\vx,\vy_0)&\leq\inf_\vx\sup_\vy f(\vx,\vy),\;\forall\vy_0\\
+    \sup_\vy\inf_\vx f(\vx,\vy)&\leq \inf_\vx\sup_\vy f(\vx,\vy)
+\end{aligned}\]
+% https://math.stackexchange.com/questions/1116441/how-to-show-sup-inf-gx-y-leq-inf-sup-gx-y
+}
 \[\sup_{\vz\in \sZ}\inf_{\vw\in \sW} f(\vw,\vz)\leq \inf_{\vw\in \sW}\sup_{\vz\in \sZ}f(\vw,\vz)\]
 \begin{definition}[鞍点]
 若有$(\tilde{\vw},\tilde{\vz})$使得
@@ -284,6 +289,7 @@ $f_i(\vx)$和$h_j(\vx)$含义同\ref{sub:convex_opt_def}节，前者不等式约
 相当于从一个方向望过去是最小，从另一个方向望过去是最大
 \end{definition}
 
+考虑拉格朗日函数
 \[\begin{aligned}
     \qquad & L(\vx,\vlambda)=f_0(\vx)+\sum_{i=1}^m\lambda_i f_i(\vx)\\
     \implies& \sup_{\vlambda\succeq \vzero}L(\vx,\vlambda)=\sup_{\vlambda\succeq \vzero}\lrb{f_0(\vx)+\sum_{i=1}^m\lambda_if_i(\vx)}=
@@ -437,7 +443,7 @@ $n$个块，每块高度为$\alpha_i$，用单位水量填充面积，最终的�
 若原始问题为凸，则$p^\star(\vu,\vw)$是$(u,w)$的凸函数
 \end{theorem}
 \begin{theorem}
-    设$(\lambda^\star,\vv^\star)$为未被扰动的问题的对偶问题的最优解，则
+    设$(\vlambda^\star,\vv^\star)$为未被扰动的问题的对偶问题的最优解，则
     \[\forall\vu,\vw:\;p^\star(\vu,\vw)\geq p^\star(0,0)-\vlambda^{\star\T}\vu-\vv^{\star\T}\vw\]
 \end{theorem}
 \begin{analysis}
@@ -449,17 +455,5 @@ $n$个块，每块高度为$\alpha_i$，用单位水量填充面积，最终的�
 \end{analysis}
 \begin{theorem}
 若原始问题为凸，对偶间隙为0，$p^\star(\vu,\vw)$在$(0,0)$可微，则
-\[\lambda_i^\star=-\pd{p^\star(0,0)}{u_i}\qquad\vv_i^\star=-\pd{p^\star(0,0)}{w_i}\]
+\[\vlambda_i^\star=-\pd{p^\star(0,0)}{u_i}\qquad\vv_i^\star=-\pd{p^\star(0,0)}{w_i}\]
 \end{theorem}
-
-% \begin{analysis}
-%     \[\begin{aligned}
-%         \vp^\star(\vu,\vw)&=\inf_\vx\lrb{f_0(\vx)\mid f_i(\vx)\leq u_i,h_i(\vx)=w_i}\\
-%         &=\inf_\vx S(\vx,\vu,\vw):=f_0(\vx)\\
-%         \dom S=\lrb{x\in\dom f_0,f_i(\vx)\leq u_i,h_i(\vx)=\vw_i}
-%     \end{aligned}\]
-%     需证明$S(\vx,\vu,\vw)$为$(\vx,\vu,\vw)$的凸函数
-% \end{analysis}
-
-% 布尔线性规划问题做松弛(relaxation)
-% \[x_i\in\{0,1\}\implies 1\geq x_i\geq 0\]

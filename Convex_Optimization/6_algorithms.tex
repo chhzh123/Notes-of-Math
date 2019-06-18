@@ -15,7 +15,7 @@
 2$\degree$ 拉格朗日函数方法
 \[\begin{aligned}
     \qquad&L(\vx,\vv)=f_0(\vx)+\vv^\T(A\vx-\vb)\\
-    \implies& g(\vv)=\inf_x \lrp{f_0(\vx)+\vv^\T(A\vx-\vb)}\\
+    \implies& g(\vv)=\inf_\vx \lrp{f_0(\vx)+\vv^\T(A\vx-\vb)}\\
     \qquad& \vv=\lambda(A\tilde{\vx}-\vb)\\
     \implies & g(\lambda(A\tilde{\vx}-\vb))=\inf_\vx \lrp{f_0(\vx)+\lambda(A\tilde{\vx}-\vb)^\T(A\vx-\vb)}
 \end{aligned}\]
@@ -50,13 +50,13 @@ log-barrier函数
     \[\iter{\alpha}{k}=\argmin_{\alpha\geq 0} f_0(\iter{\vx}{k}+\alpha\iter{\vd}{k})\]
     \begin{enumerate}
         \item 黄金分割法(0.618法)/优选法求解线搜索问题：这样做的采样复杂度很低，之前算过的点很容易被再用！
-        \item 不精确线搜索(Armijo Rule)：一阶泰勒展开
+        \item 不精确线搜索(Armijo Rule)/回溯直线搜索：一阶泰勒展开
         \begin{algorithm}[H]
             \caption{不精确线搜索}
             \begin{algorithmic}[1]
-                \State{$\iter{\alpha}{k}=\alpha_{\text{max}}$}
+                \State{$\iter{\alpha}{k}=\alpha_{\text{max}},\mu\in(0,1/2)$}
                 \If{$f_0(\iter{\vx}{k}+\iter{\alpha}{k}\iter{\vd}{k})>f_0(\iter{\vx}{k})+\mu\iter{\alpha}{k}\lrang{\nabla f_0(\iter{\vx}{k}),\iter{\vd}{k}}$}
-                \State $\iter{\alpha}{k}\gets\iter{\alpha}{k}\beta,\beta\in(0,1)$
+                \State $\iter{\alpha}{k+1}\gets\iter{\alpha}{k}\beta,\beta\in(0,1)$
                 \Else
                 \State Stop
                 \EndIf
@@ -67,6 +67,7 @@ log-barrier函数
     \item 关键问题是选方向
 \end{enumerate}
 
+而针对不同的优化问题，核心关键点都在于\textcolor{red}{求解KKT条件}！
 
 \subsection{梯度下降法}
 取$\iter{\vd}{k}=-\nabla f_0(\iter{\vx}{k})$，则迭代格式为
@@ -84,18 +85,18 @@ log-barrier函数
     \item[0.] 基本假设：$f$为可微的凸函数，
     \[\vx^\star=\argmin_\vx f_0(\vx)\]
     存在且有限，$f_0(\vx^\star)$有限
-    \item[1.] Lipschitz连续梯度
+    \item[1.] Lipschitz连续梯度\footnote{一些基本性质可见\url{https://xingyuzhou.org/blog/notes/Lipschitz-gradient}}
     \[\exists L\geq 0,\forall \vx,\vy:\;\norm{\nabla f_0(\vx)-\nabla f_0(\vy)}\leq L\norm{\vx-\vy}\]
     等价定义：
     \begin{itemize}
         \item[a.]若$f_0(\vx)$二阶可微
-    \[\nabla^2f_0(\vx)\preceq LI,\forall \vx\]
+    \[\forall \vx:\;\nabla^2f_0(\vx)\preceq LI\]
         \item[b.] 下界
     \[\lrang{\nabla f_0(\vx)-\nabla f_0(\vy),\vx-\vy}\geq\frac{1}{L}\norm{\nabla f_0(\vx)-\nabla f_0(\vy)}^2\]
         \item[c.] 上界
-    \[\lrang{\nabla f_0(\vx)-\nabla f_0(\vy),\vx-\vy}\leq L\norm{\vx-\vy}\]
+    \[\lrang{\nabla f_0(\vx)-\nabla f_0(\vy),\vx-\vy}\leq L\norm{\vx-\vy}^2\]
         \item[d.] 当函数为凸时
-    \[0\leq f_0(\vy)-f_0(\vx)-\lrang{\nabla,\vy-\vx}\leq\frac{L}{2}\norm{\vx-\vy}_2^2\]
+    \[0\leq f_0(\vy)-f_0(\vx)-\lrang{\nabla f_0(\vx),\vy-\vx}\leq\frac{L}{2}\norm{\vx-\vy}_2^2\]
     \end{itemize}
     \item[2.] 强凸性(strong convexity)：即加了正则化项
     \[\exists\mu>0,\forall \vx,\vy:\;f_0(\vy)\geq f_0(\vx)+\lrang{\nabla f_0(\vx),\vy-\vx}+\frac{\mu}{2}\norm{\vx-\vy}_2^2\]
@@ -119,19 +120,20 @@ log-barrier函数
 \begin{analysis}
     反证法，假设$\vx,\vy$均为最小值点，且$\vx\ne \vy$
     \[f_0(\vy)>f_0(\vx)+\lrang{\nabla f_0(\vx),\vx-\vy}=f_0(\vx)\]
+    与$f_0(\vy)$的最小值矛盾
 \end{analysis}
 
 \begin{theorem}
     若$f_0(\vx)$有Lipschitz连续梯度，常数$L$，若$\alpha\in(0,\frac{2}{L})$，则有
     \[\begin{aligned}
-        f_0(\iter{\vx}{k})-f_0(\vx^\star)&\leq \frac{2(f_0(\vx^0)-f_0(\vx^\star))\norm{\vx^0-\vx^\star}^2}
-        {2\norm{\vx^0-\vx^\star}^2+k\alpha(2-L\alpha)(f_0(\vx^0)-f_0(\vx^\star))},\forall \vx^\star
+        \forall \vx^\star:\;f_0(\iter{\vx}{k})-f_0(\vx^\star)&\leq \frac{2(f_0(\iter{\vx}{0})-f_0(\vx^\star))\norm{\iter{\vx}{0}-\vx^\star}^2}
+        {2\norm{\iter{\vx}{0}-\vx^\star}^2+k\alpha(2-L\alpha)(f_0(\iter{\vx}{0})-f_0(\vx^\star))}
     \end{aligned}\]
     即以$O(\frac{1}{k})$速度收敛
 \end{theorem}
 \begin{analysis}
     $1\degree$ 点的单调性：与任意$\vx^\star$的距离在缩小
-    \[\norm{\iter{\vx}{k+1}-\vx^\star}^2\leq\norm{\iter{\vx}{k}-\vx^\star}^2,\forall \vx^\star\]
+    \[\forall \vx^\star:\;\norm{\iter{\vx}{k+1}-\vx^\star}^2\leq\norm{\iter{\vx}{k}-\vx^\star}^2\]
     \[\begin{aligned}
         LHS &= \norm{\iter{\vx}{k}-\vx^\star-\alpha\nabla f_0(\iter{\vx}{k})}^2\\
         &=\norm{\iter{\vx}{k}-\vx^\star}^2-2\alpha\lrang{\iter{\vx}{k}-\vx^\star,\nabla f_0(\vx^k)}+\alpha^2\norm{\nabla f_0(\iter{\vx}{k})}\\
@@ -152,8 +154,10 @@ log-barrier函数
         &\leq\norm{\nabla f_0(\iter{\vx}{k})-\nabla f_0(\vx^\star)}\norm{\iter{\vx}{k}-\vx^\star}\qquad\mbox{Cauchy}\\
         &\leq \norm{\nabla f_0(\iter{\vx}{k})}\norm{\iter{\vx}{k}-\vx^\star}
     \end{aligned}\]
-    \[\iter{\Delta}{k+1}\leq \iter{\Delta}{k}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}(\iter{\Delta}{k})^2\]
-    \[\frac{1}{\iter{\Delta}{k+1}}\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}\]
+    \[\begin{aligned}
+        \iter{\Delta}{k+1}&\leq \iter{\Delta}{k}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}(\iter{\Delta}{k})^2\\
+        \frac{1}{\iter{\Delta}{k+1}}&\leq\frac{1}{\iter{\Delta}{k+1}}-\frac{\omega}{\norm{\iter{\vx}{0}-\vx^\star}^2}\frac{\iter{\Delta}{k}}{\iter{\Delta}{k+1}}
+    \end{aligned}\]
     错位相消可得结论$O(\frac{1}{k})$收敛速度
 \end{analysis}
 
@@ -190,7 +194,7 @@ $L$为Hessian矩阵的最大特征值，$\mu$为Hessian矩阵的最小特征值�
 \[A=\bmat{1 & 0\\ 0 & 10^{-4}}\]
 可以通过预处理(precondition)来解决条件数糟糕的问题
 
-\bigskip
+\subsubsection{收敛性分析}
 $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数值收敛性}
 \[\begin{aligned}
     \tilde{f}_0(\iter{\alpha}{k})&=f_0(\iter{\vx}{k+1})=f_0(\iter{\vx}{k}-\iter{\alpha}{k}\nabla f_0(\iter{\vx}{k}))\\
@@ -201,7 +205,7 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \begin{itemize}
 \item $\iter{\alpha}{k}=\iter{\alpha}{k}_{exact}$精确线搜索
 \[\begin{aligned}
-    &\tilde{f}_0(\iter{\alpha}{k}_{exact})\leq\tilde{f}_0(\frac{1}{L})=f_0(\iter{\vx}{k})-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
+    &\tilde{f}_0(\iter{\alpha}{k}_{exact})\leq\tilde{f}_0\lrp{\frac{1}{L}}=f_0(\iter{\vx}{k})-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2\\
     \implies&\tilde{f}_0(\iter{\alpha}{k}_{exact})-f_0(\iter{\vx}{k})-f_0(\vx^\star)-\frac{1}{2L}\norm{\nabla f_0(\iter{\vx}{k})}^2
     \leq \lrp{1-\frac{\mu}{L}}(f_0(\iter{\vx}{k})+f_0(\vx^\star))
 \end{aligned}\]
@@ -238,9 +242,9 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \[f_0(\vx)\approx f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vx-\iter{\vx}{k}}+\frac{1}{2\iter{\alpha}{k}}\norm{\vx-\iter{\vx}{k}}^2\]
 求梯度
 \[\begin{aligned}
-    \nabla f_0(\iter{\vx}{k})+\frac{1}{\iter{\alpha}{k}}(\vx-\iter{\vx}{k})&=0\\
-    \iter{\alpha}{k}\nabla f_0(\iter{\vx}{k})+\vx-\iter{\vx}{k}&=0\\
-    \vx=\iter{\vx}{k}&-\iter{\alpha}{k}\nabla f_0(\iter{\vx}{k})
+    &\nabla f_0(\iter{\vx}{k})+\frac{1}{\iter{\alpha}{k}}(\vx-\iter{\vx}{k})=0\\
+    \implies &\iter{\alpha}{k}\nabla f_0(\iter{\vx}{k})+\vx-\iter{\vx}{k}=0\\
+    \implies &\vx=\iter{\vx}{k}-\iter{\alpha}{k}\nabla f_0(\iter{\vx}{k})
 \end{aligned}\]
 
 \item 解释二
@@ -254,14 +258,13 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 进而有\textbf{坐标下降法/交替极小化}(coordinate descent/alternating direction)
 \[\iter{\vd}{k}=\ve_{k \mod n}\]
 注意，这里$\vx\in\rn$，$n \mod n = n$
-\[\iter{\alpha}{k}=\arg\min f_0(\iter{\vx}{k}+\alpha\iter{\vd}{k}),\alpha_{\max}\geq \alpha\geq \alpha_{\min}\]
 
 
 \subsection{非光滑优化问题}
 \subsubsection{次梯度法}
 同样考虑$f_0$连续，凸，不可微
 \[\min\;f_0(\vx)\]
-梯度\textbf{下降}法$\to$次梯度(subgradient)法
+梯度\textbf{下降}法$\to$次梯度(subgradient)法\footnote{如果激活函数为非光滑的（如ReLU），那么出来的函数也是非光滑的，就要用次梯度}
 \begin{definition}[次梯度]
 若$g_0(\vx)\in\partial f_0(\vx)$（注意凹函数则对应的是supgradient）为$f_0(\vx)$的一个次梯度，则
 \[\forall \vy:\;f_0(\vy)\geq f_0(\vx)+\lrang{g_0(\vx),\vy-\vx}\]
@@ -269,7 +272,7 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 \end{definition}
 如$f(\vx)=|\vx|$在零点处次梯度为$[-1,1]$。
 
-次梯度法\footnote{如果激活函数为非光滑的（如ReLU），那么出来的函数也是非光滑的，就要用次梯度}迭代格式如下
+次梯度法迭代格式如下
 \[\iter{\vx}{k+1}=\iter{\vx}{k}-\iter{\alpha}{k}g_0(\iter{\vx}{k})\]
 只要有$0\in\partial f_0(\vx_0)$就有最优解$\vx=\vx_0$
 
@@ -302,7 +305,7 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
 
 这是一个紧的界
 \begin{itemize}
-    \item 固定步长得到上界$\frac{G^2\alpha}{2}$，以$f(\vx)=|\vx|$为例
+    \item 固定步长得到上界$\frac{G^2\alpha}{2}$，以$f(x)=|x|$为例
     \item 不可加平方可加一定收敛，若步长为$\frac{1}{k}$，收敛速度为$\frac{1}{\log k}$（幂级数积分取上下界$\sum_{i=0}^k\frac{1}{i}=O(\log k)$）
     \item 不可加平方不可加同样收敛，若步长为$\frac{1}{\sqrt{k}}$，收敛速度为$O\lrp{\frac{\log k}{\sqrt{k}}}$，可以证明在该假设下该收敛速度最优
 \end{itemize}
@@ -360,17 +363,17 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
     \[0\in\lrp{\partial_{x_i}p|x_i|+\frac{1}{\alpha}(x_i-\hat{x}_i)},\;\forall i\]
     对每一个$x_i$进行分类讨论
     \begin{itemize}
-        \item 若$x_i>0$，则$|x_i|$对于$|x_i|$可微，即$\partial_{x_i}|x_i|=1$，有
+        \item 若$x_i>0$，则$|x_i|$对于$x_i$可微，即$\partial_{x_i}|x_i|=1$，有
         \[p+\frac{1}{\alpha}(x_i-\hat{x}_i)=0\]
         整理得
         \[x_i=\hat{x}_i-\alpha p\]
         由于$x_i>0$，故$\hat{x}_i-\alpha p>0$，即$\hat{x}_i>\alpha p$
-        \item 若$x_i<0$，则$|x_i|$对于$|x_i|$可微，即$\partial_{x_i}|x_i|=-1$，有
+        \item 若$x_i<0$，则$|x_i|$对于$x_i$可微，即$\partial_{x_i}|x_i|=-1$，有
         \[-p+\frac{1}{\alpha}(x_i-\hat{x}_i)=0\]
         整理得
         \[x_i=\hat{x}_i+\alpha p\]
         由于$x_i<0$，故$\hat{x}_i+\alpha p<0$，即$\hat{x}_i<-\alpha p$
-        \item 若$x_i=0$，则$|x_i|$对于$|x_i|$不可微，需要求次梯度，$\partial_{x_i}|x_i|=[-1,1]$，即
+        \item 若$x_i=0$，则$|x_i|$对于$x_i$不可微，需要求次梯度，$\partial_{x_i}|x_i|=[-1,1]$，即
         \[0\in\left[-p-\frac{\hat{x}_i}{\alpha},p-\frac{\hat{x}_i}{\alpha}\right]\]
         那么，需要满足
         \[\begin{cases}
@@ -444,7 +447,7 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
     邻近点梯度迭代格式为
     \[\begin{cases}
         \iter{B}{k+\frac{1}{2}}=B^k-\alpha P_\Omega(B^k-Y)\\
-        \iter{B}{k+1}=\arg\min_B\lambda\norm{B}_\star+\frac{1}{2\alpha}\norm{B-\iter{B}{k+\frac{1}{2}}}_F^2
+        \iter{B}{k+1}=\arg\min_B\lrp{\lambda\norm{B}_\star+\frac{1}{2\alpha}\norm{B-\iter{B}{k+\frac{1}{2}}}_F^2}
     \end{cases}\]
     求次梯度
     \[0\in\lambda\partial\norm{B}_\star+\frac{1}{\alpha}(B-\iter{B}{k+\frac{1}{2}})\]
@@ -464,30 +467,20 @@ $f_0(\vx)$，Lipschitz连续梯度($L$)，强凸($\mu$)，考虑\textbf{函数�
     该算法称为矩阵软门限算法
 \end{analysis}
 
-一阶方法总结：
-\begin{itemize}
-    \item 梯度下降法
-    \item 次梯度法：在随机/不确定性优化问题中很有效
-    \item 邻近点梯度法
-\end{itemize}
-
-
 \subsection{二阶优化方法}
 \subsubsection{牛顿法}
 牛顿法(Newton's method)：要求$f_0(\vx)$二阶可微，强凸，考虑不同方向，用Taylor展开有
 \[\begin{aligned}
-    \min f_0(\iter{\vx}{k}+\vv)&\approx\min_{\norm{\vv}=1}f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vv}\\
-    &\approx\min_\vv f_0(\iter{\vx}{k})+\nabla f_0(\iter{\vx}{k})^\T\vv+\frac{1}{2}\vv^\T \nabla^2f_0(\iter{\vx}{k})\vv
+    \min f_0(\iter{\vx}{k}+\vd)&\approx\min_{\vd}\lrp{f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vd}}\\
+    &\approx\min_\vd \lrp{f_0(\iter{\vx}{k})+\nabla f_0(\iter{\vx}{k})^\T\vd+\frac{1}{2}\vd^\T \nabla^2f_0(\iter{\vx}{k})\vd}
 \end{aligned}\]
-求梯度有
+对$\vd$求梯度有
 \[\begin{aligned}
-    \qquad&\nabla f_0(\iter{\vx}{k})+\nabla^2f_0(\iter{\vx}{k})\vv=0\\
-    \implies& \vv=-(\nabla^2f_0(\iter{\vx}{k}))^{-1}\nabla f_0(\iter{\vx}{k})\to\text{牛顿方向}
+    \qquad&\nabla f_0(\iter{\vx}{k})+\nabla^2f_0(\iter{\vx}{k})\vd=0\\
+    \implies& \vd=-(\nabla^2f_0(\iter{\vx}{k}))^{-1}\nabla f_0(\iter{\vx}{k})\to\text{牛顿方向}
 \end{aligned}\]
-\[\begin{cases}
-    \iter{\vd}{k}=-(\nabla^2f_0(\iter{\vx}{k}))^{-1}\nabla f_0(\iter{\vx}{k})\\
-    \iter{\vx}{k+1}=\iter{\vx}{k}-\iter{\alpha}{k}(\nabla^2 f_0(\iter{\vx}{k}))^{-1}\nabla f_0(\iter{\vx}{k})
-\end{cases}\]
+得到牛顿法的迭代格式如下
+\[\iter{\vx}{k+1}=\iter{\vx}{k}-\iter{\alpha}{k}(\nabla^2 f_0(\iter{\vx}{k}))^{-1}\nabla f_0(\iter{\vx}{k})\]
 其中$\iter{\alpha}{k}$为搜索步长。
 
 看下降方向只要看其与负梯度方向是否小于90度
@@ -514,7 +507,7 @@ $\alpha=1,f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\Delta(\frac{1}{2})^{2^k},\exis
 \begin{analysis}
     对于二阶强凸问题，只需1步到达最优解；但用梯度下降法，与条件数相关
 \end{analysis}
-与Newton-Raphson算法的联系，将其扩展至高维的凸问题
+与Newton-Raphson算法的联系：将其扩展至高维的凸问题
 \[\iter{\vx}{k+1}=\iter{\vx}{k}-\frac{g(\iter{\vx}{k})}{g'(\iter{\vx}{k})}\]
 
 \subsubsection{拟牛顿法}
@@ -562,12 +555,8 @@ $\alpha=1,f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\Delta(\frac{1}{2})^{2^k},\exis
 
 有限内存(limited memory)---LM-BFGS
 
-\subsection{有约束优化方法}
-\begin{mini*}
-    {}{f_0(\vx)}{}{}
-    \addConstraint{\vx}{\in \sC}
-\end{mini*}
-可改写为
+\subsection{约束满足的牛顿法}
+考虑有约束优化问题
 \begin{mini*}
     {}{f_0(\vx)}{}{}
     \addConstraint{A \vx}{=\vb}
@@ -594,24 +583,21 @@ $\alpha=1,f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\Delta(\frac{1}{2})^{2^k},\exis
 \[\bmat{P & A^\T\\A & \vzero}\bmat{\vx^\star \\\vv^\star}=\bmat{-\vq\\\vb}\]
 \end{analysis}
 
-\subsubsection{约束满足的牛顿法}
-若方程组非线性，那就做一个线性化
+若方程组非线性，那就做一个线性化，近似等价于二阶近似的Taylor展开
 \begin{argmini*}
-{\vd}{f_0(\iter{\vx}{k}+\vd)=\iter{\vd}{k}}{}{}
+{\vd}{f_0(\iter{\vx}{k}+\vd)=\iter{\vd}{k}\approx f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vd}+\frac{1}{2}\vd^\T\nabla^2 f_0(\iter{\vx}{k})\vd=\iter{\vd}{k}}{}{}
 \addConstraint{A(\iter{\vx}{k}+\vd)}{=\vb}
 \end{argmini*}
-近似等价于（二阶近似Taylor展开）
-\begin{argmini*}
-{\vd}{f_0(\iter{\vx}{k})+\lrang{\nabla f_0(\iter{\vx}{k}),\vd}+\frac{1}{2}\vd^\T\nabla^\T f_0(\iter{\vx}{k})\vd=\iter{\vd}{k}}{}{}
-\addConstraint{A(\iter{\vx}{k}+\vd)}{=\vb}
-\end{argmini*}
-写出问题关于$\vd$的KKT条件，可得等价条件
-\[\bmat{\nabla f_0(\iter{\vx}{k}) & A^\T\\ A & \vzero}\bmat{\iter{\vd}{k}\\\iter{\vv}{k}}=\bmat{-\nabla f_0(\iter{\vx}{k})\\\vb-A\iter{\vx}{k}}\]
+
+写出问题关于$\vd$的KKT条件，可得约束满足牛顿法的迭代格式
+\[\bmat{\nabla^2 f_0(\iter{\vx}{k}) & A^\T\\ A & \vzero^\T}\bmat{\iter{\vd}{k}\\\iter{\vv}{k}}=\bmat{-\nabla f_0(\iter{\vx}{k})\\\vb-A\iter{\vx}{k}}\]
+
 若$\iter{\vx}{0}$可行，$A\iter{\vx}{0}=\vb$，之后的$\iter{\vx}{k+1}=\iter{\vx}{k}+\iter{\alpha}{k}\iter{\vd}{k}$也可行。
 
+\subsection{原对偶方法}
 \subsubsection{拉格朗日乘子法/对偶分解法}
-\[L(\vx,\vv)=f_0(\vx)+\lrang{A\vx-\vb,\vv}\]
-更新原变量和对偶变量
+\[L(\vx,\vv)=f_0(\vx)+\lrang{\vv,A\vx-\vb}\]
+更新原变量和对偶变量，迭代格式如下
 \[\begin{cases}
     \iter{\vx}{k+1}=\argmin_\vx L(\vx,\iter{\vv}{k})\\
     \iter{\vv}{k+1}=\iter{\vv}{k}+\iter{\alpha}{k}(A\iter{\vx}{k+1}-\vb)
@@ -619,6 +605,7 @@ $\alpha=1,f_0(\iter{\vx}{k+1})-f_0(\vx^\star)\leq\Delta(\frac{1}{2})^{2^k},\exis
 $\iter{\alpha}{k}$可以是固定步长，也可以是递减步长
 
 即为\textbf{找鞍点}，$\vx$方向上找最小值，本来$\vv$方向上要找最大值，但容易到正无穷。因此换种方法$\iter{\vv}{k}$做一个保守的计算，每一步都走一个很小的步长。
+实际上$A\vx-\vb$即为$\nabla_\vv L(\vx,\vv)$，故属于梯度上升法。
 
 \begin{example}
     \begin{mini*}
@@ -633,26 +620,25 @@ $\iter{\alpha}{k}$可以是固定步长，也可以是递减步长
     \end{aligned}\]
 \end{analysis}
 
-\subsection{对偶次梯度法}
-$\vv$才是最关键的，只是在寻找最优$\vv$的时候顺带找到了$\vx$（收敛到$\vv^\star$的同时也找到了$\vx^\star$）
+\subsubsection{原对偶次梯度法}
+$\vv$才是最关键的，只是在寻找最优$\vv$的时候顺带找到了$\vx$（收敛到$\vv^\star$的同时也找到了$\vx^\star$），考虑对偶函数
 \[D(\vv)=\inf_\vx L(\vx,\vv)\]
 $D(\vv)$为凹函数，关注$-D(\vv)$
 \[\begin{cases}
-    \iter{\vx}{k+1}=\argmin_x L(\vx,\iter{\vv}{k})\\
-    \iter{\vv}{k+1}=\iter{\vv}{k}-\iter{\alpha}{k}(-(A\iter{\vx}{k+1})-\vb)
+    \iter{\vx}{k+1}=\argmin_\vx L(\vx,\iter{\vv}{k})\\
+    \iter{\vv}{k+1}=\iter{\vv}{k}-\iter{\alpha}{k}(-(A\iter{\vx}{k+1}-\vb))
 \end{cases}\]
 
-若$f_0(\vx)$为凸，若$\hat{\vx}=\argmin_\vx L(\vx,\hat{\vlambda})$，则$-(A\hat{\vx}-\vb)$为$-D(\vlambda)$在$\hat{\vlambda}$的次梯度
-\[\forall \vv:\;-D(\vlambda)\geq -D(\hat{\vlambda})+\lrang{\vv-\hat{\vlambda},g(\hat{\vlambda})}\]
+若$f_0(\vx)$为凸，$\hat{\vx}=\argmin_\vx L(\vx,\hat{\vlambda})$
 \[\begin{aligned}
-    D(\vv)&=\inf_x L(\vx,\vv)\\
-    &=\inf_x f_0(\vx)+\lrang{\vv,A\vx+\vb}\\
+    D(\vv)&=\inf_\vx L(\vx,\vv)\\
+    &=\inf_\vx \lrp{f_0(\vx)+\lrang{\vv,A\vx+\vb}}\\
     &\leq f_0(\hat{\vx})+\lrang{\vv,A\hat{\vx}-\vb}\\
     &=f_0(\hat{\vx})+\lrang{\vlambda,A\hat{\vx}-\vb}+\lrang{\vv-\hat{\vlambda},A\hat{\vx}-\vb}\\
-    &=D(\hat{\vlambda})+\lrang{\vv-\hat{\vlambda},A\hat{\vx}-\vb}
+    &=D(\hat{\vlambda})+\lrang{\vv-\hat{\vlambda},A\hat{\vx}-\vb}\\
+    -D(\vv)&\geq -D(\hat{\vlambda})+\lrang{\vv-\hat{\vlambda},-(A\hat{\vx}-\vb)}
 \end{aligned}\]
-\[-D(\vv)\geq -D(\hat{\vlambda})+\lrang{\vv-\hat{\vlambda},-(A\hat{\vx}-\vb)}\]
-进而得到$-(A\hat{\vx}-\vb)$就是一个次梯度
+进而$-(A\hat{\vx}-\vb)$为$-D(\vlambda)$在$\hat{\vlambda}$的次梯度
 
 这个算法一般来说性能不好，在机器学习里面很多时候都被乱用，有时候可以，有时候不行。
 \begin{itemize}
@@ -662,27 +648,25 @@ $D(\vv)$为凹函数，关注$-D(\vv)$
 任何$-D(\vlambda)$都具有$-(A\hat{\vx}-\vb)$的形式，得到当$f_0(\vx)$\textbf{严格凸}时，$f_0(\vx)+\lrang{\hat{\vlambda},A\vx-\vb}$严格凸，进而$D(\vv)$可微
 \end{itemize}
 
-\subsubsection{原对偶次梯度法}
-计算量出在$\iter{\vx}{k+1}$，那么想办法近似
+既然计算量出在$\iter{\vx}{k+1}$，那么想办法近似
 \[\begin{cases}
-    \iter{\vx}{k+1}&=\iter{\vx}{k}-\iter{\alpha}{k}\partial_x L(\vx,\iter{\vv}{k})\\
-    \iter{\vv}{k+1}&=\iter{\vv}{k}+\iter{\alpha}{k}\partial_v L(\iter{\vx}{k+1},\vv)\\
-    &=\iter{\vv}{k}+\iter{\alpha}{k}(A\iter{\vx}{k+1}-\vb)
+    \iter{\vx}{k+1}&=\iter{\vx}{k}-\iter{\alpha}{k}\partial_\vx L(\vx,\iter{\vv}{k})\\
+    \iter{\vv}{k+1}&=\iter{\vv}{k}+\iter{\alpha}{k}\partial_\vv L(\iter{\vx}{k+1},\vv)
+    =\iter{\vv}{k}+\iter{\alpha}{k}(A\iter{\vx}{k+1}-\vb)\\
+    &\to \iter{\vv}{k}+\iter{\alpha}{k}(A\iter{\vx}{k}-\vb)
 \end{cases}\]
 
-$\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用等待
-\[\iter{\vv}{k}+\iter{\alpha}{k}(A\iter{\vx}{k}-\vb)\]
+由于$\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用等待；
+但由于两个方向都不精确，故收敛性质糟糕。
 
-由于两个方向都不精确，故收敛性质糟糕。
-
-\subsubsection{增广(augmented)拉格朗日法}
-当函数不是严格凸时，依然能得到很好的效果
+\subsubsection{增广拉格朗日法}
+增广拉格朗日法(Augumented Lagrange Method, ALM)：当函数不是严格凸时，依然能得到很好的效果
 \begin{mini*}
     {}{f_0(\vx)}{}{}
     \addConstraint{A\vx}{=\vb}
 \end{mini*}
 \[L(\vx,\vv)=f_0(\vx)+\lrang{\vv,A\vx-\vb}=f_0(\vx)+\vv^\T(A\vx-\vb)\]
-增广拉格朗日函数
+增广拉格朗日函数（即在最后补充$c/2\norm{f_i(\vx)}_2^2$的正则化项）
 \[L_c(\vx,\vv)=f_0(\vx)+\lrang{\vv,A\vx-\vb}+\frac{c}{2}\norm{A\vx-\vb}^2,c>0\]
 增广拉格朗日函数是下面问题的拉格朗日函数
 \begin{mini*}
@@ -691,7 +675,7 @@ $\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用�
 \end{mini*}
 两个问题的原对偶最优解相同
 
-设$(\vx^\star,\vv^\star)$为原问题最优解，分别有以下两个KTT条件
+设$(\vx^\star,\vv^\star)$为原问题最优解，分别有以下两个KKT条件
 \[\begin{cases}
     A\vx^\star=\vb\\
     \pd{L(\vx,\vv^\star)}{\vx}\Big|_{\vx=\vx^\star}=0
@@ -701,11 +685,11 @@ $\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用�
     \pd{L_c(\vx,\vv^\star)}{\vx}\Big|_{\vx=\vx^\star}=0
 \end{cases}\]
 对于原问题有
-\[\nabla_x(f_0(\vx)+\lrang{\vv^\star,A\vx-\vb})\Big|_{\vx=\vx^\star}=0\]
+\[\nabla_\vx(f_0(\vx)+\lrang{\vv^\star,A\vx-\vb})\Big|_{\vx=\vx^\star}=0\]
 对于对偶问题有
 \[\begin{aligned}
-    \qquad&\nabla_x\lrp{f_0(\vx)+\lrang{\vv^\star,A\vx-\vb}+\frac{c}{2}\norm{A\vx-\vb}^2}\Big|_{\vx=\vx^\star}\\
-    =&\nabla_x\lrp{\frac{c}{2}\norm{A\vx-\vb}^2}\Big|_{\vx=\vx^\star}\qquad\mbox{原问题最优解代入}\\
+    \qquad&\nabla_\vx\lrp{f_0(\vx)+\lrang{\vv^\star,A\vx-\vb}+\frac{c}{2}\norm{A\vx-\vb}^2}\Big|_{\vx=\vx^\star}\\
+    =&\nabla_\vx\lrp{\frac{c}{2}\norm{A\vx-\vb}^2}\Big|_{\vx=\vx^\star}\qquad\mbox{原问题最优解代入}\\
     =&cA^\T(A\vx^\star-\vb)=0
 \end{aligned}\]
 
@@ -761,14 +745,13 @@ $\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用�
     (\iter{\vx}{k+1},\iter{\vy}{k+1})=\arg\min_{\vx,\vy}L_c(\vx,\vy,\iter{\vv}{k})\\
     \iter{\vv}{k+1}=\iter{\vv}{k}+c(A\iter{\vx}{k+1}+B\iter{\vy}{k+1})
 \end{cases}\]
-由于在$\norm{Ax+By}_2^2$中，$\vx$和$\vy$结合在一起，不好优化，故用交替的方法（选主元）来解决
+由于在$\norm{A\vx+B\vy}_2^2$中，$\vx$和$\vy$结合在一起，不好优化，故用交替的方法（选主元）来解决
 \[\begin{cases}
-    \iter{\vx}{k+1}=\argmin_{\vx}L_c(\vx,\iter{\vy}{k},\iter{\vv}{k})\\
-    \qquad=\arg\min_x f(\vx)+\lrang{\iter{\vv}{k},Ax}+\frac{c}{2}\norm{Ax+B\iter{\vy}{k}}_2^2\\
-    \qquad\iff\argmin_\vx f(\vx)+\frac{c}{2}\norm{Ax+B\iter{\vy}{k}+\frac{\iter{\vv}{k}}{c}}_2^2\qquad\text{配方，关于$\iter{\vy}{k}$的项为常数项，可忽略}\\
-    \iter{\vy}{k+1}=\argmin_{\vy}L_c(\iter{\vx}{k+1},\vy,\iter{\vv}{k})\\
-    \qquad\iff\argmin_\vy g(\vy)+\frac{c}{2}\norm{A\iter{\vx}{k+1}+By+\frac{\iter{\vv}{k}}{c}}_2^2\\
-    \iter{\vv}{k+1}=\iter{\vv}{k}+c(A\iter{\vx}{k+1}+B\iter{\vy}{k+1})
+    \iter{\vx}{k+1}&=\argmin_{\vx}L_c(\vx,\iter{\vy}{k},\iter{\vv}{k})\\
+    &\iff\argmin_\vx f(\vx)+\frac{c}{2}\norm{A\vx+B\iter{\vy}{k}+\frac{\iter{\vv}{k}}{c}}_2^2\qquad\text{配方，关于$\iter{\vy}{k}$的项为常数项，可忽略}\\
+    \iter{\vy}{k+1}&=\argmin_{\vy}L_c(\iter{\vx}{k+1},\vy,\iter{\vv}{k})\\
+    &\iff\argmin_\vy g(\vy)+\frac{c}{2}\norm{A\iter{\vx}{k+1}+B\vy+\frac{\iter{\vv}{k}}{c}}_2^2\\
+    \iter{\vv}{k+1}&=\iter{\vv}{k}+c(A\iter{\vx}{k+1}+B\iter{\vy}{k+1})
 \end{cases}\]
 两块的算法依然具有很好的收敛性，但是多块的交替方向乘子法不一定可以收敛。
 
@@ -779,7 +762,7 @@ $\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用�
     对原问题进行变形，等价于下述约束问题
 \begin{mini*}
 {}{\frac{1}{2}\norm{A\vx-\vb}_2^2+p\norm{\vy}_1}{}{}
-\addConstraint{\vx-\vy}{=0}
+\addConstraint{\vx-\vy}{=\vzero}
 \end{mini*}
 
 构造增广拉格朗日函数
@@ -801,7 +784,7 @@ $\iter{\vv}{k+1}$需要等待$\iter{\vx}{k+1}$，将其换成下式可以不用�
 
 对于$\iter{\vx}{k+1}$，可直接通过求梯度的方法得到显式解，得到
 \[\iter{\vx}{k+1}=(A^\T A+cI)^{-1}(A^\T\vb+c\iter{\vy}{k}-\iter{\vv}{k})\]
-对于$\iter{\vy}{k+1}$，由于涉及一范数，故需要求次微分，设$z_i=\iter{x}{k+1}_i+\dfrac{\iter{v}{k}_i}{c}$，可得到类似的软门限表达式
+对于$\iter{\vy}{k+1}$，由于涉及1-范数，故需要求次微分，设$z_i=\iter{x}{k+1}_i+\dfrac{\iter{v}{k}_i}{c}$，可得到类似的软门限表达式
 \[y_i=\begin{cases}
 z_i-\dfrac{p}{c} & z_i>\dfrac{p}{c}\\
 0 & z_i\in\lrs{-\dfrac{p}{c},\dfrac{p}{c}}\\
@@ -810,3 +793,50 @@ z_i+\dfrac{p}{c} & z_i<-\dfrac{p}{c}
 
 进而可以迭代求解。
 \end{analysis}
+
+\subsection{总结}
+\textcolor{red}{本质上都是在求解KKT条件！}
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multirow{4}[8]{*}{无约束优化问题} & \multirow{2}[4]{*}{一阶方法} & 梯度下降法/次梯度法 &
+$\iter{\vx}{k+1}=\iter{\vx}{k}-\alpha\partial f_0(\vx)$\\
+\cline{3-4}      &       & 邻近点梯度法 &
+$\begin{cases}
+    \iter{\vx}{k+1/2}=\iter{\vx}{k}-\alpha\nabla s(\vx)\\
+    \iter{\vx}{k+1}=\argmin_\vx\lrp{r(\vx)+\frac{1}{2\alpha}\norm{\vx-\iter{\vx}{k+1/2}}_2^2}
+\end{cases}$\bigstrut\\
+\cline{2-4}      & \multirow{2}[4]{*}{二阶方法} & 牛顿法   &
+$\iter{\vx}{k+1}=\iter{\vx}{k}-\alpha(\nabla^2 f_0(\vx))^{-1}\nabla f_0(\vx)$ \bigstrut\\
+\cline{3-4}      &       & 拟牛顿法  & 见前文 \bigstrut\\
+\hline
+\multirow{4}[8]{*}{有约束优化问题} & \multicolumn{2}{l|}{约束满足牛顿法} &
+$\bmat{\nabla^2 f_0(\iter{\vx}{k}) & A^\T\\ A & \vzero^\T}\bmat{\iter{\vd}{k}\\\iter{\vv}{k}}=\bmat{-\nabla f_0(\iter{\vx}{k})\\\vb-A\iter{\vx}{k}}$ \bigstrut\\
+\cline{2-4}      & \multirow{3}[6]{*}{原对偶方法} & 对偶分解法 &
+$\begin{cases}
+    \iter{\vx}{k+1}=\argmin_\vx L(\vx,\iter{\vv}{k})\\
+    \iter{\vv}{k+1}=\iter{\vv}{k}+\alpha(A\iter{\vx}{k+1}-\vb)
+\end{cases}$ \bigstrut\\
+\cline{3-4}      &       & 增广拉格朗日法 &
+$\begin{cases}
+    \iter{\vx}{k+1}=\argmin_\vx L_c(\vx,\iter{\vv}{k})\\
+    \iter{\vv}{k+1}=\iter{\vv}{k}+c(A\iter{\vx}{k+1}-\vb)
+\end{cases}$ \bigstrut\\
+\cline{3-4}      &       & 交替方向乘子法 &
+$\begin{cases}
+    \iter{\vx}{k+1}=\argmin_\vx L_c(\vx,\iter{\vy}{k},\iter{\vv}{k})\\
+    \iter{\vy}{k+1}=\argmin_\vy L_c(\iter{\vx}{k+1},\vy,\iter{\vv}{k})\\
+    \iter{\vv}{k+1}=\iter{\vv}{k}-c(A\iter{\vx}{k+1}+B\iter{\vy}{k+1})
+\end{cases}$ \bigstrut\\
+\hline
+\end{tabular}%
+\end{center}
+
+% 期末考
+% f,g均可微凸
+% \[\min f(\vx)+g(\vx)\]
+% 判下列迭代格式收敛性
+% \[\begin{cases}
+% \iter{\vx}{2k+1}=\iter{\vx}{2k}-\alpha\nabla f(\iter{\vx}{2k})\\
+% \iter{\vx}{2k+2}=\iter{\vx}{2k+1}-\alpha\nabla g(\iter{\vx}{2k+1})
+% \end{cases}\]

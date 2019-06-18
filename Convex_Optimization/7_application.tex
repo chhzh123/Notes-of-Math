@@ -14,13 +14,13 @@
 \[\begin{cases}
     (A_1,\vb_1)\implies\frac{1}{2}\norm{A_1 \vx-\vb_1}_2^2\\
     \vdots\\
-    (A_n,\vb_n)\implies\frac{1}{2}\norm{A_N \vx-\vb_N}_2^2\\
+    (A_N,\vb_N)\implies\frac{1}{2}\norm{A_N \vx-\vb_N}_2^2\\
     g(\vx)=v\norm{\vx}_1
 \end{cases}\]
 原问题即为
 \[\min_x\; v\norm{\vx}_1+\frac{c}{2}\norm{\bmat{A_1 & \cdots & A_N}\vx-\bmat{\vb_1 & \cdots & \vb_N}}_2^2\]
 
-\subsubsection{并行梯度下降法}
+\subsubsection{并行邻近点梯度法}
 \[\begin{cases}
     \iter{\vx}{k+\frac{1}{2}}=\iter{\vx}{k}-\alpha\sum_{i=1}^N\nabla f_i(\iter{\vx}{k})\\
     \iter{\vx}{k+1}=\argmin_\vx g(\vx)+\frac{1}{2\alpha}\norm{\vx-\iter{\vx}{k+\frac{1}{2}}}_2^2
@@ -33,11 +33,11 @@
     \addConstraint{\vx_i}{=\vz,\forall i}
 \end{mini*}
 \[L(\vx,\vz,\vv)=\sum_{i=1}^N f_i(\vx_i)+g(\vz)+\sum_{i=1}^N\lrang{\vv_i,\vx_i \vz}\]
-\[(\iter{\vx}{k+1},\iter{\vz}{k+1})=\arg\min_{\vx,\vz}L(\vx,\vz,\iter{\vv}{k})\]
+\[(\iter{\vx}{k+1},\iter{\vz}{k+1})=\argmin_{\vx,\vz}L(\vx,\vz,\iter{\vv}{k})\]
 \[\implies\begin{cases}
-    \iter{\vx_i}{k+1}=\arg\min_{\vx_i} f_i(\vx_i)+\lrang{\iter{\vv_i}{k},\vx_i}\\
-    \iter{\vz}{k+1}=\arg\min_{\vz_i} g(\vz)-\sum_{i=1}^N\lrang{\iter{\vv_i}{k},\vz}\\
-    \iter{\vv_i}{k+1}=\iter{\vv_i}{k}+\alpha\lrang{\iter{\vx_i}{k+1},\iter{\vz}{k+1}}
+    \iter{\vx_i}{k+1}=\argmin_{\vx_i} \lrp{f_i(\vx_i)+\lrang{\iter{\vv_i}{k},\vx_i}}\\
+    \iter{\vz}{k+1}=\argmin_{\vz_i} \lrp{g(\vz)-\sum_{i=1}^N\lrang{\iter{\vv_i}{k},\vz}}\\
+    \iter{\vv_i}{k+1}=\iter{\vv_i}{k}+\alpha\lrp{\iter{\vx_i}{k+1}-\iter{\vz}{k+1}}
 \end{cases}\]
 不依赖于条件数，但每一步都需要求解一个最优解，不一定好求。通信开销小，但拉格朗日类方法收敛性差。
 
@@ -47,8 +47,8 @@
 
 注意到$\vx_i$之间是没有依赖的，故采用交替方向乘子法，加了增广项，可用固定步长达到最优解
 \[\begin{cases}
-    \iter{\vx_i}{k+1}&=\arg\min f_0(\vx_i)+\lrang{\iter{\vlambda_i}{k},\vx_i}+\frac{c}{2}\norm{\vx_i-\iter{\vz}{k}}^2\\
-    \iter{\vz}{k+1}&=\arg\min g(\vz)-\lrang{\sum_{i=1}^n\iter{\vlambda_i}{k},\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\iter{\vx_i}{k+1}-\vz}^2\\
+    \iter{\vx_i}{k+1}&=\argmin_{\vx_i} \lrp{f_0(\vx_i)+\lrang{\iter{\vlambda_i}{k},\vx_i}+\frac{c}{2}\norm{\vx_i-\iter{\vz}{k}}^2}\\
+    \iter{\vz}{k+1}&=\arg\min_{\vz_i} \lrp{g(\vz)-\sum_{i=1}^n\lrang{\iter{\vlambda_i}{k},\vz}+\frac{c}{2}\sum_{i=1}^n\norm{\iter{\vx_i}{k+1}-\vz}^2}\\
     \iter{\vlambda}{k+1}&=\iter{\vlambda}{k}+c(\iter{\vx_i}{k+1}-\iter{\vz}{k+1})
 \end{cases}\]
 每次要多传一倍的变量，以通信量开销换性能提升
@@ -64,16 +64,18 @@
 \end{center}
 每个结点自己优化，协同决策
 \[\min\sum_{i=1}^n f_i(\vx)\]
+
+\subsubsection{梯度下降法}
 梯度下降法，但由于去中心，$\iter{\vx}{k}$无处摆放
 \[\iter{\vx}{k+1}=\iter{\vx}{k}-\iter{\alpha}{k}\sum_{i=1}^n\nabla f_i(\iter{\vx}{k})\]
 那就每一个点分配一个本地变量$\vx_i$，对邻居的更新做一个加权平均
 \[\iter{\vx}{k+1}=\sum_{i=1}^n\omega_{ij}\iter{\vx_j}{k}-\iter{\alpha}{k}\sum_{i=1}^n\omega_{ij}\nabla f_j(\iter{\vx_j}{k})\]
 其中
-\[\begin{cases}
+\[W=\bmat{\omega_{ij}}=\begin{cases}
     \omega_{ij}\ne 0 & (i,j)\in E, i=j\\
     \omega_{ij}=0 & \text{otherwise}
-\end{cases}\]
-\[W=\bmat{\omega_{ij}},W=W^\T,W\vone=\vone\]
+\end{cases}
+,W=W^\T,W\vone=\vone\]
 
 在不可信的系统里面，存在个人隐私等信息，故更激进些，采用自己的梯度进行更新（在本地进行梯度下降），在无人机系统中非常常见
 \[\iter{\vx_i}{k+1}=\sum_{i=1}\omega_{ij}\iter{\vx_j}{k}-\iter{\alpha}{k}\nabla f_i(\iter{\vx_i}{k})\]
@@ -86,6 +88,7 @@
 与上面的式子不等价
 \end{analysis}
 
+\subsubsection{对偶分解法}
 改成有约束优化的形式
 \begin{mini*}
     {}{\sum_{i=1}^n f_i(\vx_i)}{}{}
@@ -95,11 +98,12 @@
 \[\sum_{i=1}^nf_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\vlambda_{ij},\vx_i-\vx_j}\]
 别人的东西都在对偶变量中体现，求同存异
 \[\begin{cases}
-    \iter{\vx_i}{k+1}=\disp\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}(\iter{\vlambda_{ij}}{k},\vx_i)-\sum_{(j,i)\in E}\lrang{\vlambda_{ij},\vx_i}\\
+    \iter{\vx_i}{k+1}=\disp\argmin_{\vx_i} \lrp{f_i(\vx_i)+\sum_{(i,j)\in E}(\iter{\vlambda_{ij}}{k},\vx_i)-\sum_{(j,i)\in E}\lrang{\vlambda_{ij},\vx_i}}\\
     \iter{\vlambda_{ij}}{k+1}=\disp\iter{\vlambda_{ij}}{k}+\iter{\alpha}{k}(\iter{\vx_i}{k+1}-\iter{\vx_j}{k+1})-\sum_{(j,i)\in E}\lrang{\iter{\vlambda_{ij}}{k}\vx_i}
 \end{cases}\]
 依然要采用递减步长，才能保证收敛
 
+\subsubsection{交替方向乘子法}
 \begin{center}
     \begin{tikzcd}
         \vx_i\arrow[bend left]{rr}{\vz_{ij}} & & \vx_j\arrow[bend left]{ll}{\vz_{ji}}
@@ -117,7 +121,7 @@
     &+\sum_{(i,j)\in E}\frac{c}{2}\lrp{\norm{\vx_i-\vz_{ij}}^2+\norm{\vx_j-\vz_{ij}}^2}
 \end{aligned}\]
 \[\begin{cases}
-    \iter{\vx_i}{k+1}&=\disp\arg\min f_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\iter{\alpha_{ij}{k}},\vx_i}+\sum_{(i,j)\in E}\lrang{\iter{\vbeta_{ji}}{k},\vx_i}\\
+    \iter{\vx_i}{k+1}&=\disp\argmin_{\vx_i} f_i(\vx_i)+\sum_{(i,j)\in E}\lrang{\iter{\alpha_{ij}}{k},\vx_i}+\sum_{(i,j)\in E}\lrang{\iter{\vbeta_{ji}}{k},\vx_i}\\
     \qquad&+\frac{c}{2}\sum_{(i,j)\in E}\norm{\vx_i-\iter{\vz_j}{k}}^2+\frac{c}{2}\sum_{(i,j)\in E}\norm{\vx_i-\iter{\vz_{ji}}{k}}^2\\
     \iter{\vz_j}{k+1}&=\cdots\\
     \iter{\valpha_{ij}}{k+1}&=\cdots\\
@@ -153,11 +157,11 @@ $n$个样本，每个样本为$f_i(\vx)$
 \begin{enumerate}
 \item 小批量(mini-batch)
 \item SURG、SAG、SAGA
-\[\iter{\vx}{k+1}=\iter{\vx}{k}-\frac{\alpha}{n}\sum_{i=1}^n\iter{y_i}{k}\]
+\[\iter{\vx}{k+1}=\iter{\vx}{k}-\frac{\alpha}{n}\sum_{i=1}^n\iter{\vy_i}{k}\]
 对于每一个样本都存储一个梯度值
-\[\iter{y_i}{k}=\begin{cases}
+\[\iter{\vy_i}{k}=\begin{cases}
     \nabla f_i(\iter{\vx}{k}) & i=\iter{i}{k}\\
-    \iter{y_i}{k-1} & i\ne\iter{i}{k}
+    \iter{\vy_i}{k-1} & i\ne\iter{i}{k}
 \end{cases}\]
 当时间足够长，每一个里面都存在最优梯度
 \[\vx^\star=\vx^\star-\frac{\alpha}{n}\sum_{i=1}^n\nabla f_i(\vx^\star)\]
@@ -179,7 +183,8 @@ $n$个样本，每个样本为$f_i(\vx)$
 =\pd{\iter{E}{i}}{\iter{\vx_n}{i}}\pd{f_n(\iter{\vx_n}{i},\vw_n)}{\vw_n}
 \end{cases}\]
 
-\subsection{在线优化}
+\subsection{在线优化与动态优化}
+\subsubsection{在线优化}
 在线优化(Online Learning)：样本不是已有的，而是依照时间给出的
 \begin{mini*}
     {}{\frac{1}{T}\sum_{t=1}^T f_t(\vx)}{}{}
@@ -189,21 +194,20 @@ $n$个样本，每个样本为$f_i(\vx)$
 \[\vx_{t+1}=\vx_t-\alpha_t\nabla f_t(\vx_t)\]
 Regret分析：将当前值丢进下一刻的优化函数中，如果优化效果好，说明有预测能力
 
-\subsection{动态优化}
-动态优化问题
+\subsubsection{动态优化}
 \begin{mini*}
     {}{f_t(\vx)}{}{}
 \end{mini*}
+梯度下降迭代格式为
 \[\vx_t=\vx_{t-1}-\alpha\nabla f_t(\vx_{t-1})\]
-
 
 \subsection{Nesterov加速}
 Nesterov加速$\min f(\vx)$：$O\lrp{\frac{1}{k^2}}$
 \[\begin{cases}
-    \iter{\vx}{k+1}=\iter{\vy}{k}-\frac{1}{L}\nabla f(\iter{\vy}{k})\\
-    \iter{\vy}{k+1}=(1-\iter{\vgamma}{k})\iter{\vx}{k+1}+\iter{\vgamma}{k}\iter{\vx}{k}\\
-    \iter{\vbeta}{k}=\frac{1+\sqrt{1+4(\iter{\vbeta}{k-1})^2}}{2},\;\iter{\vbeta}{0}=0\\
-    \iter{\vgamma}{k}=\frac{1-\iter{\vbeta}{k}}{\iter{\vbeta}{k+1}}
+    \iter{\vx}{k+1}=\disp\iter{\vy}{k}-\frac{1}{L}\nabla f(\iter{\vy}{k})\\
+    \iter{\vy}{k+1}=\disp(1-\iter{\vgamma}{k})\iter{\vx}{k+1}+\iter{\vgamma}{k}\iter{\vx}{k}\\
+    \iter{\vbeta}{k}=\disp\frac{1+\sqrt{1+4(\iter{\vbeta}{k-1})^2}}{2},\;\iter{\vbeta}{0}=0\\
+    \iter{\vgamma}{k}=\disp\frac{1-\iter{\vbeta}{k}}{\iter{\vbeta}{k+1}}
 \end{cases}\]
 构造两个序列，$\vy$为辅助序列，利用问题本身\textbf{历史信息}，做一个凸组合（先跳一步，从$\iter{\vy}{k}$开始做梯度下降）。
 权重为$\vgamma$，不同时刻权重不同，引入$\vbeta$系数。
