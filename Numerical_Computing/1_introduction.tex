@@ -9,8 +9,34 @@
 	\item 计算误差：舍入误差
 \end{itemize}
 
+\begin{definition}[误差限]
+	绝对误差限
+	\[|\Delta x|=|x-\bar{x}|\leq\eps\]
+	相对误差限
+	\[|\delta x|=\frac{|x-\bar{x}}{x}\leq \eps_r\]
+\end{definition}
+
+设十进制数有以下\textbf{标准形式}：
+\[x=\pm 10^m\times 0.x_1 x_2\cdots x_n x_{n+1}\cdots\]
+其中$m\in\zz,\{x_i\}\subset\{0,1,2,\ldots,9\},x_1\ne 0$，即有效数字的表示法，除了整数位，小数位首位不能为$0$。
+
+对$x$四舍五入保留$n$位数字，得到近似值$\bar{x}$：
+\[\bar{x}=\begin{cases}
+	\pm 10^m\times 0.x_1 x_2\cdots x_n & x_{n+1}\leq 4\\
+	\pm 10^m\times 0.x_1 x_2\cdots (x_n+1) & x_{n+1}\geq 5
+\end{cases}\]
+
+进而，四舍五入近似数误差限满足（相邻两个小数之间，故取一半）
+\[|x-\bar{x}|\leq 10^m\times\lrp{\frac{1}{2}\times 10^{-n}}=\frac{1}{2}\times 10^{m-n}\]
+
+\begin{definition}[有效数字]
+	若$x$的近似值$\bar{x}$有标准形式，且满足上述四舍五入误差限，则称$\bar{x}$有$n$位有效数字，$\bar{x}$为有效数（全由有效数字组成）
+\end{definition}
+注意：由于有效数本身就体现了误差限（末位数单位的一半），故有效数末尾不能随便添加$0$。
+
 \subsection{需要注意的问题}
 \begin{itemize}
+	\item 如果舍入误差在整个运算过程中能够得到有效控制或舍入误差的增长不影响产生可靠的结果，则称该算法是\textbf{数值稳定}的
 	\item 避免相近的数相减，如$\sqrt{1001}-\sqrt{1000}$有效数字会损失，分子有理化可使误差减小。\textbf{数学上等价的公式在计算上是不等价的！}
 	\item 避免数量级相差太大的两数相除，容易溢出
 	\item 避免大数和小数相加减，浮点数计算要对阶

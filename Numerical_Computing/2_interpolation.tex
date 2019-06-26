@@ -2,7 +2,14 @@
 
 % http://mathworld.wolfram.com/DividedDifference.html
 % http://mathfaculty.fullerton.edu/mathews/n2003/Web/NewtonPolyMod/NewtonPolyMod.html
-\section{插值}
+\section{多项式插值}
+关于函数表达式，有以下三个问题：
+\begin{enumerate}
+    \item 给定一系列$\{x_i,y_i\}$，给出函数过这些点，进而可以计算其他位置的值（插值方法）
+    \item 计算函数$f$非常麻烦，找到$f$一个简单求值的合适逼近（连续函数逼近）
+    \item 若$\{x_i,y_i\}$存在误差，找到公式近似表示这些数据（离散函数逼近）
+\end{enumerate}
+
 \begin{theorem}[唯一性]
 $n$次插值多项式存在且唯一
 \end{theorem}
@@ -14,8 +21,10 @@ a_0+a_1x_1+\cdots+a_nx_1^n=y_1\\
 \vdots\\
 a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 \end{cases}\]
-其系数行列式为范德蒙特行列式$V=\prod_{i=1}^n\prod_{j=0}^{i-1}(x_i-x_j)$，因为$x_i$互不相同，故$V\ne 0$。
-进而由克莱姆法则，$a_i$解存在且唯一。
+其系数行列式为范德蒙特行列式
+\[V=\vmat{1 & x_0 & \cdots & x_0^n\\1 & x_1 & x_1^2 & \cdots & x_1^n\\1 & x_2 & x_2^2 & \cdots & x_2^n\\\vdots & \vdots & \vdots & \ddots & \vdots\\1 & x_n & x_n^2 &\cdots & x_n^n}=\prod_{i=1}^n\prod_{j=0}^{i-1}(x_i-x_j)\]
+，因为$x_i$互不相同，故$V\ne 0$。
+进而由克莱姆法则，$a_i$解存在且唯一，从而$p(x)$被唯一确定
 \end{analysis}
 
 由于$p(x)$为线性空间$P_n(x)$\footnote{次数小于等于$n$的代数多项式的集合}的一个点，因而其基底/插值基函数$\phi(x)$不唯一，有多种表示方法（不同的线性组合）
@@ -29,13 +38,32 @@ a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 \par 由定义知$l_k(x)$的零点为$x_i,i\ne k$，待定系数$A_k$
 \[l_k(x)=A_k(x-x_0)(x-x_1)\cdots(x-x_{k-1})(x-x_{k+1})\cdots(x-x_n)\]
 可求得$A_k$，进而得到插值基函数
-\[l_k(x)=\prod_{\substack{i=0\\i\ne k}}^{n}\frac{(x-x_i)}{x_k-x_i}\]
+\[l_k(x)=\prod_{\substack{i=0\\i\ne k}}^{n}\frac{x-x_i}{x_k-x_i}\]
 因此拉格朗日插值函数为
-\[L_n(x)=\sum_{k=0}^nf(x_k)\prod_{\substack{i=0\\i\ne k}}^{n}\frac{(x-x_i)}{x_k-x_i}\]
+\[L_n(x)=\sum_{k=0}^nf(x_k)\prod_{\substack{i=0\\i\ne k}}^{n}\frac{x-x_i}{x_k-x_i}\]
 其中$L_1(x)$称为线性插值，$L_2(x)$称为抛物线插值
 
-误差估计
+\begin{theorem}[Lagrange函数的误差估计]
 \[R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n(x-x_i),\;\xi=\xi(x)\in(a,b)\]
+\end{theorem}
+\begin{analysis}
+    设$R_n(x)=f(x)-L_n(x)$，则在节点$x_i$上有
+    \[R_n(x_i)=f(x_i)-L_n(x_i)=0,\qquad i=0,1,\ldots,n\]
+    即$R_n(x)$在$[a,b]$上至少有$n+1$个零点，故有
+    \[R_n(x)=K(x)(x-x_0)(x-x_1)\cdots(x-x_n)=K(x)\Pi(x)\]
+    其中$K(x)$为待定函数，$\Pi(x)$为零点乘积
+
+    引入辅助函数$\phi(t)=f(t)-L_n(t)-K(x)\Pi(t)$（误差-误差），视$x\ne x_i\in(a,b)$为固定点，则$\phi(t)$在$n+2$个点$x,x_0,x_1,\ldots,x_n$上取值为$0$。
+    由罗尔定理，在$\phi(t)$任两个零点之间必存在一点$\eta$，使得$\phi'(\eta)=0$，于是$\phi'(x)$在$(a,b)$上至少有$n+1$个零点。
+    对$\phi'(t),\phi''(t),\ldots,\phi^{(n)}(t)$反复使用罗尔定理，最后得到在$(a,b)$上至少存在一个点$\xi$，使得$\phi^{(n+1)}(\xi)=0$，而
+    \[\phi^{(n+1)}(\xi)=f^{(n+1)}(\xi)-L_n^{(n+1)}(\xi)-K(x)Pi^{(n+1)}(\xi)\]
+    式中，$L_n(x)$是次数不超过$n$的多项式，$Pi(x)$是$n+1$次多项式，故$L_n^{(n+1)}(\xi)=0,\Pi^{(n+1)}(\xi)=(n+1)!$，于是求得
+    \[K(x)=\frac{f^{n+1}(\xi)}{(n+1)!}\]
+    代入$R_n(x)$即得证
+\end{analysis}
+
+若求区间内误差的最大值，有
+\[\max_{a\leq x\leq b}|R_n(x)|\leq\frac{M_{n+1}}{(n+1)!}\max_{a\leq x\leq b}|\Pi(x)|\]
 
 \subsection{牛顿插值}
 \begin{definition}[牛顿插值基函数]
@@ -97,10 +125,26 @@ a_n&=f[x_0,x_1,\ldots,x_n]
 
 \subsection{埃尔米特插值}
 不仅要求插值点的函数值$H(x_i)$与原函数的值$f(x_i)$相同，还要求它们有公切线，即$H'(x_i)=f'(x_i)$。
-若所有插值点都要满足上述条件，则埃尔米特(Hermite)插值多项式为$2n+1$次的。
+若所有插值点都要满足上述条件，则为次数不超过$2n+1$的埃尔米特(Hermite)插值多项式
+\[H_{2n+1}(x)=\sum_{k=0}^m(1-2l'_k(x_k)(x-x_k))l_k^2(x)f_k+\sum_{k=0}^n(x-x_k)l_k^2(x)f_k'\]
+式中，$l_k(x)$为节点$\{x_i\}_{i=0}^n$上的拉格朗日基函数。
+余项为
+\[R_{2n+1}(x)=f(x)-H_{2n+1}(x)=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}(\Pi(x))^2\]
 
 \subsection{三次样条插值}
-分多段，每段用三次函数逼近
+龙格(Runge)现象告诉我们并非插值多项式的次数越高，精度就越高，其源于等距分布的插值节点。
+更好的方式是选择切比雪夫节点，如在$[-1,1]$上选择
+\[x_i=\cos\lrs{\lrp{\frac{i}{n}\pi}},\qquad 0\leq i\leq n\]
+任意区间$[a,b]$上$n+1$个切比雪夫节点可以通过线性变换得到
+\[x_i=\frac{1}{2}(a+b)+\frac{1}{2}(b-a)\cos\lrs{\lrp{\frac{i}{n}\pi}},\qquad 0\leq i\leq n\]
+
+另一种解决收敛性的方法则是分段低次插值，同时使插值函数具有一定的光滑性，故用样条(spline)插值的方式，每段用三次函数逼近，最终使得样条函数处处有二阶连续导数。
+\begin{definition}[三次样条函数]
+    若函数$s(x)\in C^2[a,b]$（区间$[a,b]$上具有二阶连续导数的函数全体），且在每个小区间$[x_j,x_{j+1}]$是三次多项式，其中$a=x_0<x_1<\cdots<x_n=b$是给定节点，则称$s(x)$是节点$x_0,x_1,\ldots,x_n$上的三次样条函数。
+    若在节点$x_j$上给定函数值$y_j=f(x_j),j=0,1,\ldots,n$，并使
+    \[s(x_j)=y_j,\qquad j=0,1,\ldots,n\]
+    则称$s(x)$为$f(x)$在$[a,b]$上的三次样条插值函数
+\end{definition}
 
 三次样条条件
 \begin{itemize}
@@ -116,3 +160,4 @@ a_n&=f[x_0,x_1,\ldots,x_n]
 
 三转角方法，用一阶导数求解；三弯矩方法，用二阶导数求解。
 \[\bmat{2 & 1 & & & \\\mu_1 & 2 & \lambda_1 & & \\ & \mu_2 & 2 & \lambda_2 & \\ & & \ddots & \ddots & \ddots \\ & & & \mu_{n-1} & 2 & \lambda_{n-1}\\&&&&1&2}\bmat{M_0\\M_1\\M_2\\\vdots\\M_{n-1}\\M_n}=\bmat{d_0\\d_1\\d_2\\\vdots\\d_{n-1}\\d_n}\]
+该矩阵严格对角占优，故有唯一解，可以用追赶法求解

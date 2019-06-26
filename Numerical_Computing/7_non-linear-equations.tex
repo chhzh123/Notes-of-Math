@@ -4,9 +4,10 @@
 对于下式，分别取$r=1,2,3$时为线性收敛、平方收敛和立方收敛，当$r\in(1,2)$时为超线性收敛
 \[\lim_{k\to\infty}\frac{|e_{k+1}|}{|e_k|^r}=C,\;C>0\]
 
+\subsection{二分法和不动点法}
 \begin{itemize}
 \item 二分法：如果指定精度为$\eps$，则最多需要迭代步数为
-\[k=\lceil\log_2\frac{b-a}{\eps}\rceil\]
+\[k=\Big\lceil\log_2\frac{b-a}{\eps}\Big\rceil\]
 \item 不动点法：$x^\star=\phi(x^\star)$
 \end{itemize}
 \begin{theorem}
@@ -19,9 +20,9 @@
     \begin{itemize}
         \item $\forall x_0\in[a,b]$，由$x_{k+1}=\phi(x_k)$产生的迭代序列$\{x_k\}$必然收敛于函数$\phi(x)$在区间$[a,b]$上的唯一不动点，即$x^\star=\phi(x^\star)$
         \item 序列$\{x_k\}$的收敛速度估计
-        \[|x_k-x^\star\leq\frac{1}{1-L}|x_{k+1}-x_k|\]
+        \[|x_k-x^\star|\leq\frac{1}{1-L}|x_{k+1}-x_k|\]
         和
-        \[|x_k-x^\star\leq\frac{L^k}{1-L}|x_1-x_0|\]
+        \[|x_k-x^\star|\leq\frac{L^k}{1-L}|x_1-x_0|\]
     \end{itemize}
 \end{theorem}
 
@@ -29,9 +30,21 @@
 \[\bar{\phi(x)}=\frac{\phi(x)-Lx}{1-L}\]
 为新的不动点函数
 
-牛顿法：下式的不动点迭代方法
+\subsection{牛顿法}
+牛顿法：相当于$\phi(x)=x-f(x)/f'(x)$的不动点迭代方法
 \[x_{k+1}=x_{k}-\frac{f(x_k)}{f'(x_k)}\]
-牛顿下山法：
+\begin{theorem}[牛顿法全局收敛性]
+非线性函数$f$在$[a,b]$上二阶连续可微，满足$f(a)f(b)<0$，且$\forall x\in[a,b]:\;f'(x)\ne 0,f''(x)\ne 0$。
+若选定初始点$x_0\in[a,b]$满足$f(x_0)f''(x_0)>0$，则牛顿迭代法收敛于方程唯一解$x^\star$
+\end{theorem}
+\begin{theorem}
+设在区间$[a,b]$上有二阶连续可微函数$f(x)$，$f(a)f(b)<0$，且对于所有$x\in[a,b]$，有$f'(x)\ne 0,f''(x)\ne 0$，若$a,b$两点满足
+\[\max\lrp{\lrabs{\frac{f(a)}{f'(a)}},\lrabs{\frac{f(b)}{f'(b)}}}<b-a\]
+则对于任何$x_0\in[a,b]$，牛顿迭代法收敛于方程的唯一根$x^\star$
+\end{theorem}
+
+牛顿下山法：相当于加了个步长
 \[x_{k+1}(\lambda)=x_k-\lambda\frac{f(x_k)}{f'(x_k)}\]
+
 割线法：
 \[x_{k+1}=x_k-f(x_k)\frac{x_k-x_{k-1}}{f(x_k)-f(x_{k-1})}\]

@@ -16,7 +16,7 @@
 \end{itemize}
 
 \subsection{三角分解}
-\subsection{LU分解}
+\subsubsection{LU分解与LDU分解}
 \begin{itemize}
 \item 杜利脱尔(Doolittle)分解：由高斯消元法，$A=L_1^{-1}\cdots L_{n-1}^{-1}U=LU$，其中$L$为\textbf{单位}下三角矩阵，$U$为上三角
 \item 克洛脱(Crout)分解：$A=LU$，其中$L$为下三角，$U$为\textbf{单位}上三角
@@ -31,7 +31,7 @@
     若$A$的所有顺序主子式均不为$0$，则矩阵$A$的LU分解都具有唯一性
 \end{theorem}
 
-\subsection{乔列斯基(Choleskey)分解}
+\subsubsection{乔列斯基分解}
 当$A$为\textbf{对称正定}矩阵时，所有顺序主子式都大于$0$，因而存在唯一LU分解。
 用LDU分解，$D$为非奇异的对角矩阵，由$A$的对称性有
 \[A=LDU=U^\T D U^\T\]
@@ -41,8 +41,19 @@
 
 记$D^{1/2}=\opdiag(\sqrt{d_1},\sqrt{d_2},\ldots,\sqrt{d_n})$，则
 \[A=LDL^\T=LD^{1/2}D^{1/2}L^\T=(LD^{1/2})(LD^{1/2})^\T=GG^\T\]
+式中$G$是对角元素均大于$0$的下三角矩阵，称该分解为正定矩阵$A$的乔列斯基(Choleskey)分解。
 
-求解方法为平方根法。
+若正定矩阵已经有了乔列斯基分解$A=GG^\T$，则原线性方程组可转化为
+\[\begin{cases}
+    G\vy=\vb\\
+    G^\T\vx=\vy
+\end{cases}\]
+从而得到计算公式
+\[\begin{cases}
+    \disp y_i=\lrp{b_i-\sum_{j=1}^{i-1}g_{ij}y_j}/g_{ii},\qquad i=1,2,\ldots,n\\
+    \disp x_i=\lrp{y_i-\sum_{j=i+1}^n g_{ji}x_j}/g_{ii},\qquad i=n,n-1,\ldots,1
+\end{cases}\]
+该求解方法称之为\textbf{平方根法}。
 
 \subsection{追赶法}
 设$n$阶方程组$A\vx=\vd$，其中$A$为三对角方程

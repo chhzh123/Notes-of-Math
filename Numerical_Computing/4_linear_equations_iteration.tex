@@ -16,26 +16,28 @@
         \norm{\vx}_\infty&=\max_{1\leq i\leq n}|x_i|
     \end{aligned}\]
 \end{definition}
+
 \begin{definition}[矩阵的范数]
-    对于$n$阶方阵$\vA$，若对应非负实数$\norm{\vA}$，满足
+    对于$n$阶方阵$A$，若对应非负实数$\norm{A}$，满足
     \begin{enumerate}
-        \item $\norm{\vA}\geq 0$，当且仅当$\vA=\vzero$时等号成立
-        \item 对任意$\alpha\in\rr$，$\norm{\alpha\vA}=|\alpha|\cdot\norm{\vA}$
-        \item 对任意两个$n$阶方阵$\vA$和$\vB$，满足三角不等式$\norm{\vA+\vB}\leq\norm{\vA}+\norm{\vB}$
-        \item 对任意两个$n$阶方阵$\vA$和$\vB$，满足矩阵乘法要求$\norm{\vA\vB}\leq\norm{\vA}\cdot\norm{\vB}$
+        \item $\norm{A}\geq 0$，当且仅当$A=\vzero$时等号成立
+        \item 对任意$\alpha\in\rr$，$\norm{\alpha A}=|\alpha|\cdot\norm{A}$
+        \item 对任意两个$n$阶方阵$A$和$B$，满足三角不等式$\norm{A+B}\leq\norm{A}+\norm{B}$
+        \item 对任意两个$n$阶方阵$A$和$B$，满足矩阵乘法要求$\norm{AB}\leq\norm{A}\cdot\norm{B}$
     \end{enumerate}
-    则称$\norm{\vA}$为方阵$\vA$的矩阵范数。
-    记$\rho(\vA)=\max_{1\leq i\leq n}|\lambda_i|$为$\vA$的谱半径，这里$\lambda_i$为$\vA$的特征值，矩阵的1-范数、2-范数、无穷范数和F范数分别定义如下
+    则称$\norm{A}$为方阵$A$的矩阵范数。
+    记$\rho(A)=\max_{1\leq i\leq n}|\lambda_i|$为$A$的谱半径，这里$\lambda_i$为$A$的特征值，矩阵的1-范数、2-范数、无穷范数和F范数分别定义如下
     \[\begin{aligned}
-        \norm{\vA}_1&=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|\\
-        \norm{\vA}_2&=\sqrt{\rho(A^\T A)}\\
-        \norm{\vA}_\infty&=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|\\
-        \norm{\vA}_F&=\sqrt{\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2}
+        \norm{A}_1&=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|\\
+        \norm{A}_2&=\sqrt{\rho(A^\T A)}\\
+        \norm{A}_\infty&=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|\\
+        \norm{A}_F&=\sqrt{\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2}
     \end{aligned}\]
     注意矩阵的F-范数才是向量2-范数的直接推广，而矩阵的2-范数是计算$A^\T A$的谱半径，又被称为谱范数
 \end{definition}
-相容的向量范数和矩阵范数，满足
-\[\norm{\vA\vx}\leq\norm{\vA}\cdot\norm{\vx}\]
+\begin{definition}[向量范数与矩阵范数相容]
+向量范数与矩阵范数相容，则满足
+\[\norm{A\vx}\leq\norm{A}\cdot\norm{\vx}\]
 一些相容的范数如下
 \begin{itemize}
     \item 矩阵1-范数与向量1-范数
@@ -43,40 +45,81 @@
     \item 矩阵无穷范数与向量无穷范数
     \item 矩阵F范数与向量2-范数
 \end{itemize}
-\begin{definition}[条件数]
-    设$\vA$为$n$阶非奇异矩阵，称数$\mathop{cond}(\vA)=\norm{\vA}\norm{\vA^{-1}}$为线性方程组$\vA\vx=\vb$或矩阵$\vA$的条件数。
-    其对方程组的解的相对误差起到关键的控制作用
 \end{definition}
 
+\begin{definition}[条件数]
+    设$A$为$n$阶非奇异矩阵，称数$\mathop{cond}(A)=\norm{A}\norm{A^{-1}}$为线性方程组$A\vx=\vb$或矩阵$A$的条件数，其对方程组的解的相对误差起到关键的控制作用\\
+    如果$A$对称正定，则有
+    \[\opcond_2(A)=\lambda_{\max}(A)/\lambda_{\min}(A)\]
+\end{definition}
+\begin{analysis}
+考虑方程$A\vx=\vb$，在方程组右端有一个小扰动$\delta b$，则解$\vx$产生一个扰动$\delta\vx$，即
+\[A(\vx+\delta\vx)=\vb+\delta\vb\]
+于是有
+\[\delta\vx=A^{-1}\delta\vb\]
+两边取范数有
+\[\norm{\delta\vx}\leq\norm{A^{-1}}\norm{\delta\vb}\]
+在原式中取范数有
+\[\norm{\vb}=\norm{A}\norm{\vx}\]
+上面两条不等式相乘，整理得
+\[\frac{\norm{\delta\vx}}{\norm{\vx}}\leq\norm{A}\norm{A^{-1}}\frac{\norm{\delta\vb}}{\norm{\vb}}\]
+进而得到扰动变化与条件数相关
+\end{analysis}
+
+条件数满足以下四条性质
+\begin{itemize}
+    \item 对于任意$n$阶非奇异矩阵$A$，$\opcond(A)\geq 1$成立
+    \item 对于任意$n$阶非奇异矩阵$A$及任意非零常数$c$，$\opcond(cA)=\opcond(A)$成立
+    \item 对于任意正交矩阵$A$，有$\opcond_2(A)=1$
+    \item 对于任意$n$阶非奇异矩阵$A$及任意$n$阶正交矩阵$P$，有$\opcond_2(PA)=\opcond_2(AP)=\opcond_2(A)$
+\end{itemize}
+
+一类十分典型的病态矩阵是希尔伯特矩阵$H_n$，其条件数$\opcond_2(H_n)\approx\ee^{3.5n}$，病态非常严重
+
 \subsection{基本迭代法}
-给定线性方程组$\vA\vx=\vb$，设$\vA=\vM-\vN$，其中$\vM$为非奇异矩阵，则原式变为
-\[\vM\vx=\vN\vx+\vb\]
-左右乘上$\vM^{-1}$，有
-\[\vx=\vM^{-1}\vN\vx+\vM^{-1}\vb=\vB\vx+\vg\]
+给定线性方程组$A\vx=\vb$，设$A=M-N$，其中$M$为非奇异矩阵，则原式变为
+\[M\vx=N\vx+\vb\]
+左右乘上$M^{-1}$，有
+\[\vx=M^{-1}N\vx+M^{-1}\vb=B\vx+\vg\]
 给定初始向量$\vx^{(0)}$，按照下式迭代
-\[\vx^{(n+1)}=\vB\vx^{(n)}+\vg\]
+\[\vx^{(k+1)}=B\vx^{(k)}+\vg\]
 最终若收敛至$\vx^\star$，则原方程得出解。
 实际迭代还是用
-\[\vM\vx^{(k+1)}=\vN\vx^{(k)}+\vb\]
-将$\vA$拆分成三个矩阵之和（只是将矩阵$\vA$元素分块而已）
-\[\vA=\vD-\vL-\vU\]
-对角线阵$\vD$、\textbf{负的}严格下三角阵$\vL$和严格上三角阵$\vU$
+\[M\vx^{(k+1)}=N\vx^{(k)}+\vb\]
+将$A$拆分成三个矩阵之和（只是将矩阵$A$元素分块而已）
+\[A=D-L-U\]
+对角线阵$D$、\textbf{负的}严格下三角阵$L$和严格上三角阵$U$
 
 \subsubsection{雅可比迭代法}
-取$\vM=\vD$和$\vN=\vL+\vU$，即得雅可比迭代法
-\[\vD\vx^{(k+1)}=(\vL+\vU)\vx^{(k)}+\vb\]
+取$M=D$和$N=L+U$，即得雅可比迭代法
+\[D\vx^{(k+1)}=(L+U)\vx^{(k)}+\vb\]
+
+\begin{theorem}
+    若$A$是对称正定矩阵，则雅可比迭代收敛的充要条件是$2D-A$也是对称正定矩阵
+\end{theorem}
 
 \subsubsection{高斯-赛德尔迭代法}
 如果在雅可比迭代算法的第三步，将算出来的$\vx^{(k+1)}$的分量立即投入到下一个迭代方程，则得到Gauss-Seidel迭代法
-\[\vD\vx^{(k+1)}=\vL\vx^{(k+1)}+\vU\vx^{(k)}+\vb\]
+\[D\vx^{(k+1)}=L\vx^{(k+1)}+U\vx^{(k)}+\vb\]
+
+\begin{theorem}
+    若$A$是严格对角占优或不可约弱对角占优矩阵，则雅可比迭代和GS迭代都收敛
+\end{theorem}
 
 \subsubsection{超松弛(SOR)迭代法}
 将GS迭代改写为
 \[\begin{aligned}
-    \vx^{(k+1)}&=\vD^{-1}(\vL\vx^{(k+1)}+\vU\vx^{(k)}+\vb\\
-    &=\vx^{(k)}+\vD^{-1}(\vL\vx^{(k+1)}+\vU\vx^{(k)}-\vD\vx^{(k)}+\vb)
+    \vx^{(k+1)}&=D^{-1}(L\vx^{(k+1)}+U\vx^{(k)}+\vb)\\
+    &=\vx^{(k)}+D^{-1}(L\vx^{(k+1)}+U\vx^{(k)}-D\vx^{(k)}+\vb)
 \end{aligned}\]
 等号右侧第二项为修正量，为获得更快的收敛速度，在其前面乘系数$\omega$，即得到逐次超松弛(SOR)迭代法，其中$\omega$为松弛因子
-\[\vx^{(k+1)}=(\vD-\omega\vL)^{-1}[(1-\omega)\vD+\omega\vU]\vx^{(k)}+\omega(\vD-\omega\vL)^{-1}\vb\]
+\[\vx^{(k+1)}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\vx^{(k)}+\omega(D-\omega L)^{-1}\vb\]
 此时迭代矩阵为
-\[\vB_{SOR}=(\vD-\omega\vL)^{-1}[(1-\omega)\vD+\omega\vU]\]
+\[B_{SOR}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\]
+
+\begin{theorem}
+SOR迭代收敛的必要条件是$\omega\in(0,2)$
+\end{theorem}
+\begin{theorem}
+设系数矩阵$A$对称正定，则$0<\omega<2$时SOR迭代收敛
+\end{theorem}

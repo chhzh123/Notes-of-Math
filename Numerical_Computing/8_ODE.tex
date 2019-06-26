@@ -1,0 +1,45 @@
+% !TEX root = main.tex
+
+\section{常微分方程}
+\[\begin{cases}
+    y'=f(x,y),&x\in[a,b]\\
+    y(a)=y_0
+\end{cases}\]
+其中，$y_0\in\rr^m$，$f(x,y)$是定义在$m+1$维区域
+\[G=\{(x,y)\mid x\in[a,b],y\in\rr^m\}\]
+上的$m$维已知函数向量
+
+\subsection{欧拉公式}
+前向欧拉公式
+\[y_{n+1}=y_n+hf(x_n,y_n)\]
+
+后退欧拉公式
+\[y_{n+1}=y_n+hf(x_{n+1},y_{n+1})\]
+
+梯形公式
+\[y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},y_{n+1})]\]
+
+改进欧拉公式
+\[\begin{cases}
+    \text{预估} & \bar{y}_{n+1}=y_n+hf(x_n,y_n)\\
+    \text{校正} & y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},\bar{y}_{n+1})]
+\end{cases}\]
+
+\begin{theorem}
+若常微分初值问题的计算公式
+\[y_{n+1}=y_n+hg(y_{n+1},y_n,\ldots,y_{n-r})\]
+的局部截断误差为
+\[\eps_{n+1}=y(x_{n+1})-\hat{y}_{n+1}=O(h^{p+1})\]
+则称该公式所代表的数值方法具有$p$阶精度或称为$p$阶方法。
+如欧拉公式就是一阶方法，梯形公式是二阶方法。
+\end{theorem}
+
+\subsection{龙格库塔公式}
+标准四阶龙格库塔公式
+\[\begin{cases}
+    y_{n+1}&=y_n+\frac{1}{6}(k_1+2k_2+2k_3+k_4)\\
+    k_1&=hf(x_n,y_n)\\
+    k_2&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_1}\\
+    k_3&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_2}\\
+    k_4&=hf(x_n+h,y_n+k_3)
+\end{cases}\]

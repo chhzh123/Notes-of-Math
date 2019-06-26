@@ -85,7 +85,13 @@
 \subsubsection{其他正交多项式}
 \begin{enumerate}
     \item 拉盖尔(Laguerre)多项式
+    \[L_n(x)=\ee^x\frac{\diff^n}{\diff x^n}(x^n\ee^{-x}),\qquad n=0,1,\ldots\]
+    递推公式为
+    \[L_{n+1}(x)=(1+2n-x)L_n(x)-n^2L_{n-1}(x),\qquad n=1,2,\ldots\]
     \item 埃尔米特(Hermite)多项式
+    \[H_n(x)=(-1)^n\ee^{x^2}\frac{\diff^n}{\diff x^n}\ee^{-x^2},\qquad n=0,1,\ldots\]
+    递推公式为
+    \[H_{n+1}(x)=2xH_n(x)-2nH_{n-1}(x),\qquad n=1,2,\ldots\]
 \end{enumerate}
 
 \subsection{最佳一致逼近}
