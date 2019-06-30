@@ -34,6 +34,23 @@
 如欧拉公式就是一阶方法，梯形公式是二阶方法。
 \end{theorem}
 
+\begin{example}
+    将下列方程化为一阶方程组
+    \[\begin{cases}
+        y''-3y'+2y=0 & x\in(0,1)\\
+        y(0)=1,\;y'(0)=1
+    \end{cases}\]
+\end{example}
+\begin{analysis}
+    令$y'=z$，则
+    \[z'=y''=3y'-2y=3z-2y\]
+    因此得到方程组
+    \[\begin{cases}
+        \bmat{y\\z}'=\bmat{0 & 1\\-2 & 3}\bmat{y\\z}\\
+        \bmat{y\\z}\Big|_{x=0}=\bmat{1\\1}
+    \end{cases}\]
+\end{analysis}
+
 \subsection{龙格库塔公式}
 标准四阶龙格库塔公式
 \[\begin{cases}

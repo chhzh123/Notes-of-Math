@@ -47,8 +47,24 @@
 \end{itemize}
 \end{definition}
 
+\begin{example}
+    证明：对于矩阵范数，如果$\norm{A}<1$，则
+    \[\norm{(I+A)^{-1}}\leq\frac{1}{1-\norm{A}}\]
+\end{example}
+\begin{analysis}
+    首先证明$I+A$为非奇异矩阵，若不然，$(I+A)\vx=\vzero$有非零解$\vx\ne\vzero$，即$\vx=-A\vx$。
+    两侧取向量范数有
+    \[\norm{\vx}=\norm{A\vx}\leq\norm{A}\cdot\norm{\vx}\]
+    由于$\norm{\vx}\ne 0$，所以$\norm{A}\geq 1$，与题设矛盾。\\
+    由$(I+A)^{-1}(I+A)=I$得到
+    \[(I+A)^{-1}=I-(I+A)^{-1}A\]
+    两边取矩阵范数，有
+    \[\norm{(I+A)^{-1}}\leq1+\norm{(I+A)^{-1}}\cdot\norm{A}\]
+    故原式成立
+\end{analysis}
+
 \begin{definition}[条件数]
-    设$A$为$n$阶非奇异矩阵，称数$\mathop{cond}(A)=\norm{A}\norm{A^{-1}}$为线性方程组$A\vx=\vb$或矩阵$A$的条件数，其对方程组的解的相对误差起到关键的控制作用\\
+    设$A$为$n$阶非奇异矩阵，称数$\opcond(A)=\norm{A}\norm{A^{-1}}$为线性方程组$A\vx=\vb$或矩阵$A$的条件数，其对方程组的解的相对误差起到关键的控制作用\\
     如果$A$对称正定，则有
     \[\opcond_2(A)=\lambda_{\max}(A)/\lambda_{\min}(A)\]
 \end{definition}
@@ -78,21 +94,21 @@
 
 \subsection{基本迭代法}
 给定线性方程组$A\vx=\vb$，设$A=M-N$，其中$M$为非奇异矩阵，则原式变为
-\[M\vx=N\vx+\vb\]
-左右乘上$M^{-1}$，有
-\[\vx=M^{-1}N\vx+M^{-1}\vb=B\vx+\vg\]
-给定初始向量$\vx^{(0)}$，按照下式迭代
-\[\vx^{(k+1)}=B\vx^{(k)}+\vg\]
-最终若收敛至$\vx^\star$，则原方程得出解。
-实际迭代还是用
 \[M\vx^{(k+1)}=N\vx^{(k)}+\vb\]
 将$A$拆分成三个矩阵之和（只是将矩阵$A$元素分块而已）
 \[A=D-L-U\]
 对角线阵$D$、\textbf{负的}严格下三角阵$L$和严格上三角阵$U$
+\[\begin{aligned}
+    D&=\opdiag(a_{11},a_{22},\ldots,a_{nn})\\
+    L&=-\bmat{0 & 0 & \cdots & 0\\ a_{21} & 0 & \cdots & 0\\\vdots & \ddots & \ddots & \vdots\\ a_{n1}&\cdots & a_{n,n-1} & 0}\\
+    U&=-\bmat{0 & a_{12} & \cdots & a_{1n}\\\vdots & \ddots & \ddots & \vdots\\0 & \ddots & \ddots & a_{n-1,n}\\ 0& 0 & \cdots & 0}
+\end{aligned}\]
 
 \subsubsection{雅可比迭代法}
 取$M=D$和$N=L+U$，即得雅可比迭代法
 \[D\vx^{(k+1)}=(L+U)\vx^{(k)}+\vb\]
+可以得到迭代格式
+\[\iter{x_i}{k+1}=\frac{1}{a_{ii}}\lrp{-\sum_{j=1,j\ne i}^n a_{ij}\iter{x_j}{k}+b_i}\]
 
 \begin{theorem}
     若$A$是对称正定矩阵，则雅可比迭代收敛的充要条件是$2D-A$也是对称正定矩阵
@@ -101,7 +117,36 @@
 \subsubsection{高斯-赛德尔迭代法}
 如果在雅可比迭代算法的第三步，将算出来的$\vx^{(k+1)}$的分量立即投入到下一个迭代方程，则得到Gauss-Seidel迭代法
 \[D\vx^{(k+1)}=L\vx^{(k+1)}+U\vx^{(k)}+\vb\]
+可以得到迭代格式
+\[\iter{x_i}{k+1}=\frac{1}{a_{ii}}\lrp{-\sum_{j=1}^{i-1}a_{ij}\iter{x_j}{k+1}-\sum_{j=i+1}^na_{ij}\iter{x_j}{k}+b_i}\]
 
+将原迭代格式
+\[M\vx^{(k+1)}=N\vx^{(k)}+\vb\]
+变为
+\[\iter{\vx}{k+1}=B\iter{\vx}{k}+\vg\]
+其中，$B=M^{-1}N$，$\vg=M^{-1}\vb$
+\begin{theorem}
+    对于上述迭代格式，给定任意初值$\iter{\vx}{0}$，有下列收敛结果和误差估计：
+    \begin{enumerate}
+        \item 迭代格式收敛的充要条件为谱半径$\rho(B)<1$
+        \item 如果$\norm{B}<1$，则有估计
+        \[\norm{\iter{\vx}{k}-\vx^\star}\leq\frac{\norm{B}^{k}}{1-\norm{B}}\norm{\iter{\vx}{1}-\iter{\vx}{0}}\]
+        和
+        \[\norm{\iter{\vx}{k}-\vx^\star}\leq\frac{\norm{B}}{1-\norm{B}}\norm{\iter{\vx}{k}-\iter{\vx}{k-1}}\]
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[不可约]
+    一个每行每列仅有唯一的非零元$1$的方阵称为排列矩阵。
+    设$A$是$n\geq 2$阶方阵，如果存在$n$阶排列矩阵$P$，使
+    \[P^\T AP=\bmat{A_{11} & A_{12}\\\vzero & A_{22}}\]
+    则称$A$为可约矩阵，否则为不可约阵
+\end{definition}
+\begin{definition}[对角占优]
+    设$A$是$n$阶方阵，若$A$满足
+    \[|a_{ii}|\geq \sum_{j=1,j\ne i}^n|a_{ij}|,\;i=1,2,\ldots,n\]
+    且其中至少有一个严格不等式成立，则称$A$是弱对角占优；若每一个不等式都是严格不等式，则称$A$是（行）严格对角占优
+\end{definition}
 \begin{theorem}
     若$A$是严格对角占优或不可约弱对角占优矩阵，则雅可比迭代和GS迭代都收敛
 \end{theorem}
@@ -114,12 +159,21 @@
 \end{aligned}\]
 等号右侧第二项为修正量，为获得更快的收敛速度，在其前面乘系数$\omega$，即得到逐次超松弛(SOR)迭代法，其中$\omega$为松弛因子
 \[\vx^{(k+1)}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\vx^{(k)}+\omega(D-\omega L)^{-1}\vb\]
-此时迭代矩阵为
-\[B_{SOR}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\]
+可以得到迭代格式
+\[\iter{x_i}{k+1}=\iter{x_i}{k}+\frac{\omega}{a_{ii}}\lrp{-\sum_{j=1}^{i-1}a_{ij}\iter{x_j}{k+1}-\sum_{j=i}^n a_{ij}\iter{x_j}{k}+b_i}\]
+
+记忆这些迭代格式只需理解清楚$L,U,D$的含义即可，然后看每一行($i$)的迭代，$L$是下三角，那么从第$1$列算到$i-1$列，其他类似。
 
 \begin{theorem}
 SOR迭代收敛的必要条件是$\omega\in(0,2)$
 \end{theorem}
 \begin{theorem}
-设系数矩阵$A$对称正定，则$0<\omega<2$时SOR迭代收敛
+设系数矩阵$A$对称正定\footnote{用顺序主子式全为正判定}，则$0<\omega<2$时SOR迭代收敛
 \end{theorem}
+
+三种迭代法的迭代矩阵
+\[\begin{aligned}
+    B_J&=D^{-1}(L+U)=I-D^{-1}A\\
+    B_G&=(D-L)^{-1}U=I-(D-L)^{-1}A\\
+    B_{SOR}&=(D-\omega L)^{-1}[(1-\omega)D+\omega U]
+\end{aligned}\]

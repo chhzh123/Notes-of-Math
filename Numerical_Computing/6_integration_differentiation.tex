@@ -43,24 +43,51 @@
     \[\intab{a}{b}{f(x)}=\sum_{i=0}^n\omega_i f(x_i)\]
     成立，但对于$m+1$次的某个多项式不精确成立，则称该求积公式代数精度为$m$次。
 \end{definition}
-对于使代数精度尽可能高的题目，都是令$f(x)=1,x,x^2,\ldots$（相当于取特殊值），然后左右两边相等解方程组。
 
-记
-\[x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})\]
+\begin{example}
+    确定下列求积公式的待定系数，使其代数精度尽可能高，并指出其代数精度次数
+    \[\intab{-1}{1}{f(x)}\approx A_0f(-\frac{1}{2})+A_1f(x_1)+A_2f(\frac{1}{2})\]
+\end{example}
+\begin{analysis}
+    分别令$f(x)=1,x,x^2,x^3$代入，使上式精确成立，得
+    \[\begin{cases}
+        A_0+A_1+A_2=2\\
+        -\frac{1}{2}A_0+x_1A_1+\frac{1}{2}A_2=0\\
+        \frac{1}{4}A_0+x_1^2A_1+\frac{1}{4}A_2=\frac{2}{3}\\
+        -\frac{1}{8}A_0+x_1^3A_1+\frac{1}{8}A_2=0
+    \end{cases}\]
+    下式乘$x_1$减上式得
+    \[\begin{cases}
+        (x+\frac{1}{2})A_0+(x_1-\frac{1}{2})A_2=2x_1\\
+        (\frac{1}{4}+\frac{1}{2}x_1)A_0+(\frac{1}{4}-\frac{1}{2}x_1)A_2=\frac{2}{3}x_1\\
+        (\frac{1}{4}x_1+\frac{1}{8})A_0+(\frac{1}{4}x_1-\frac{1}{8})A_2=\frac{2}{3}x_1
+    \end{cases}\]
+    上式乘$1/2$减下式有
+    \[\begin{cases}
+        (x_1-\frac{1}{2})A_2=\frac{1}{3}x_1\\
+        (-\frac{1}{2}x_1+\frac{1}{4})A_2=-\frac{1}{3}x_1
+    \end{cases}\]
+    相加解得$x_1=0,A_0=\frac{4}{3},A_1=-\frac{2}{3},A_2=\frac{4}{3}$，故
+    \[\intab{-1}{1}{f(x)}=\frac{4}{3}f(-\frac{1}{2})+(-\frac{2}{3})f(0)+\frac{4}{3}f(\frac{1}{2})\]
+    令$f(x)=x^4$代入有
+    \[LHS=\frac{2}{5}\ne\frac{1}{6}=RHS\]
+    故代数精度为$3$
+\end{analysis}
+
 由定积分性质
 \[\intab{a}{b}{f(x)}=\sum_{i=0}^{n-1}\intab{x_i}{x_{i+1}}{f(x)}\]
 进而每一个小段都可以用前面的基本公式，进而得到复合积分公式。
-记$h=\frac{b-a}{n}$，则
+记$h=\frac{b-a}{n},x_i=a+ih,x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})$，则
 \begin{itemize}
 \item 复合中点公式
 \[\begin{aligned}
     M_n&:=\sum_{i=0}^{n-1}hf\lrp{x_{i+\frac{1}{2}}}\\
-    R_M&=\sum_{i=0}^{n-1}\frac{1}{24}h^3f''(\xi_i)
+    R_M&=\frac{1}{24}(b-a)h^2f''(\eta)
 \end{aligned}\]
 \item 复合梯形公式
 \[\begin{aligned}
-    T_n&:=\frac{h}{2}[f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)]\\
-    R_T&=-\frac{1}{12}(b-a)h^2f''(\eta),\eta\in(a,b)
+    T_n&:=\frac{h}{2}\left[f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)\right]\\
+    R_T&=-\frac{1}{12}(b-a)h^2f''(\eta)
 \end{aligned}\]
 \item 复合辛普森公式
 \[\begin{aligned}
@@ -83,6 +110,11 @@
 其中$C_i^{(n)}$为科茨系数，有以下性质
 \begin{itemize}
     \item $\disp\sum_{i=0}^nC_{i}^{(n)}=1$
+    \begin{analysis}
+        由牛顿-科茨公式
+        \[\intab{a}{b}{f(x)}=(b-a)\sum_{i=0}^nC_i^{(n)}f(x_i)\]
+        令$f(x)=1$代入，由于代数精度至少为$0$，故两边精确相等
+    \end{analysis}
     \item $C_i^{(n)}$对$i$有对称性：$C_i^{(n)}=C_{n-1}^{(n)}$
 \begin{center}
 \begin{tabular}{c|cccc}\hline
@@ -97,6 +129,7 @@ $n$ & $C_i^{(n)}$\\\hline
 \begin{theorem}
     当$n$为奇数时，牛顿-科茨公式代数精度至少为$n$次；而当$n$为偶数时，代数精度至少为$n+1$次
 \end{theorem}
+注意：并不是节点取得越多，精度就越高
 
 \subsection{高斯公式}
 前面的方法都基于等分节点，而高斯公式则基于\textbf{非等分}节点
@@ -108,6 +141,13 @@ $n$ & $C_i^{(n)}$\\\hline
 \begin{theorem}
     $x_i$是求积公式的高斯点的充分必要条件是，多项式$\Pi(x)=\Pi_{i=0}^n(x-x_i)$与任意次数不超过$n$的多项式$q(x)$关于权函数$\rho(x)$正交，即
     \[\intab{a}{b}{\rho(x)\Pi(x)q(x)}=0\]
+\end{theorem}
+
+\begin{theorem}
+    插值型求积公式
+    \[\intab{a}{b}{\rho(x)f(x)}\approx\sum_{i=0}^n\omega_if(x_i)\]
+    的代数精度至少为$n$次，至多为$2n+1$次。
+    当达到最高代数精度$2n+1$次时，所有求积系数$\omega_i>0$，即为高斯公式
 \end{theorem}
 
 几种常见的高斯公式如下
@@ -136,10 +176,34 @@ $n$ & $C_i^{(n)}$\\\hline
     f'(x_0)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
     f'(x_1)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
 \end{cases}\]
+\begin{analysis}
+    做$f(x)$的线性插值
+    \[L_1(x)=\frac{x-x_1}{x-x_0}f(x_0)+\frac{x-x_0}{x_1-x_0}f(x_1)\]
+    对上式求导，令$x=x_0,x_1-x_0=h$，有
+    \[L_1'(x_0)=\frac{f(x_1)-f(x_0)}{h}\]
+    故得到两点公式
+\end{analysis}
 
-三点求导公式：其中第二条为中心差商公式，精度均为二阶
+三点求导公式：其中第二条为中心差商公式，误差均为$O(h^2)$，精度都二阶
 \[\begin{cases}
     f'(x_0)=\frac{1}{2h}[-3f(x_0)+4f(x_1)-f(x_2)]+\frac{h^2}{3}\iter{f}{3}(\xi)\\
     f'(x_1)=\frac{1}{2h}[-f(x_0)+f(x_2)]-\frac{h^2}{6}\iter{f}{3}(\xi)\\
     f'(x_2)=\frac{1}{2h}[f(x_0)-4f(x_1)+3f(x_2)]+\frac{h^2}{3}\iter{f}{3}(\xi)
 \end{cases}\]
+\begin{analysis}
+    做$f(x)$的二次插值
+    \[L_2(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}f(x_0)+\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}f(x_1)+\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}f(x_2)\]
+    令$x=x_0+th,x_i=x_0+ih$，上式变为
+    \[L_2(x_0+th)=\frac{1}{2}(t-1)(t-2)f(x_0)-t(t-2)f(x_1)+\frac{1}{2}t(t-1)f(x_2)\]
+    两端对$t$求导，有（注意不要忘记将左侧的$h$除过去）
+    \[L_2'(x_0+th)=\frac{1}{2h}[(2t-3)f(x_0)-4(t-1)f(x_1)+(2t-1)f(x_2)]\]
+    分别令$t=0,1,2$即得三点求导公式\\
+    误差估计举例：对中心差商公式，利用泰勒展开
+    \[\begin{aligned}
+        f(x_0)&=f(x_1-h)=f(x_1)-hf'(x_1)+\frac{h^2}{2}f''(x_1)-\frac{h^3}{3!}f'''(x_1)+\frac{h^4}{4!}f^{(4)}(\xi_1)\\
+        f(x_2)&=f(x_1+h)=f(x_1)+hf'(x_1)+\frac{h^2}{2}f''(x_1)-\frac{h^3}{3!}f'''(x_1)+\frac{h^4}{4!}f^{(4)}(\xi_2)\\
+    \end{aligned}\]
+    进而
+    \[\frac{1}{h^2}[f(x_0)-2f(x_1)+f(x_2)]=f''(x_1)+\frac{h^2}{4}[f^{(4)}(\xi_1)+f^{(4)}(\xi_2)]\]
+    即截断误差为$O(h^2)$
+\end{analysis}

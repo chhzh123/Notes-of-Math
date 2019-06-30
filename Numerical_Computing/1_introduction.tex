@@ -17,8 +17,8 @@
 \end{definition}
 
 设十进制数有以下\textbf{标准形式}：
-\[x=\pm 10^m\times 0.x_1 x_2\cdots x_n x_{n+1}\cdots\]
-其中$m\in\zz,\{x_i\}\subset\{0,1,2,\ldots,9\},x_1\ne 0$，即有效数字的表示法，除了整数位，小数位首位不能为$0$。
+\[x=\pm 10^m\times 0.x_1 x_2\cdots x_n x_{n+1}\cdots=10^m\cdot|a|\]
+其中$m\in\zz,\{x_i\}\subset\{0,1,2,\ldots,9\},x_1\ne 0,|a|\in[0,1)$，即有效数字的表示法，除了整数位，小数位首位不能为$0$。
 
 对$x$四舍五入保留$n$位数字，得到近似值$\bar{x}$：
 \[\bar{x}=\begin{cases}
@@ -28,6 +28,25 @@
 
 进而，四舍五入近似数误差限满足（相邻两个小数之间，故取一半）
 \[|x-\bar{x}|\leq 10^m\times\lrp{\frac{1}{2}\times 10^{-n}}=\frac{1}{2}\times 10^{m-n}\]
+
+\begin{example}
+	已知$\sqrt{7}$可由下述迭代公式计算
+	\[\begin{cases}
+		x_{k+1}=\frac{1}{2}\lrp{x_k+\frac{7}{x_k}} & k=0,1,2,\ldots\\
+		x_0=2
+	\end{cases}\]
+	若$x_k$是$\sqrt{7}$是具有$n$位有效数字的近似值，证明：$x_{k+1}$具有$2n$位有效数字的近似值
+\end{example}
+\begin{analysis}
+	用计算器算得
+	\[\sqrt{7}=10^1\times 0.2645\cdots\]
+	故
+	\[|x_k-\sqrt{7}|\leq\frac{1}{2}\times 10^{1-n}\]
+	注意到
+	\[x_{k+1}=\frac{1}{2}\lrp{x_k+\frac{7}{x_k}}\geq\sqrt{7}\]
+	故
+	\[|x_{k+1}-\sqrt{7}|=\frac{1}{2x_k}(x_k-\sqrt{7})^2\leq\frac{1}{2\sqrt{7}}|x_k-\sqrt{7}|^2\leq \frac{1}{2\sqrt{7}}\cdot\lrp{\frac{1}{2}\cdot 10^{1-n}}^2\leq\frac{1}{2}\cdot 10^{1-2n}\]
+\end{analysis}
 
 \begin{definition}[有效数字]
 	若$x$的近似值$\bar{x}$有标准形式，且满足上述四舍五入误差限，则称$\bar{x}$有$n$位有效数字，$\bar{x}$为有效数（全由有效数字组成）
@@ -40,5 +59,5 @@
 	\item 避免相近的数相减，如$\sqrt{1001}-\sqrt{1000}$有效数字会损失，分子有理化可使误差减小。\textbf{数学上等价的公式在计算上是不等价的！}
 	\item 避免数量级相差太大的两数相除，容易溢出
 	\item 避免大数和小数相加减，浮点数计算要对阶
-	\item 简化计算步骤
+	\item 简化计算步骤，如海伦-秦九韶算法
 \end{itemize}

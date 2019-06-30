@@ -11,7 +11,8 @@
 \end{enumerate}
 
 \begin{theorem}[唯一性]
-$n$次插值多项式存在且唯一
+$n$次插值多项式存在且唯一\\
+注意：过$n+1$个点的插值多项式并不唯一，因过$n+1$个节点的插值多项式不一定是$n$次（如后面提到的埃尔米特多项式）
 \end{theorem}
 \begin{analysis}
 设$n$次多项式$p(x)=a_0+a_1x+\cdots+a_nx^n$为函数$f(x)$在$[a,b]$上$n+1$个互异节点$x_i(i=0,1,\ldots,n)$上的插值多项式，则求$p(x)$的系数$a_i$相当于解线性方程组
@@ -21,8 +22,8 @@ a_0+a_1x_1+\cdots+a_nx_1^n=y_1\\
 \vdots\\
 a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 \end{cases}\]
-其系数行列式为范德蒙特行列式
-\[V=\vmat{1 & x_0 & \cdots & x_0^n\\1 & x_1 & x_1^2 & \cdots & x_1^n\\1 & x_2 & x_2^2 & \cdots & x_2^n\\\vdots & \vdots & \vdots & \ddots & \vdots\\1 & x_n & x_n^2 &\cdots & x_n^n}=\prod_{i=1}^n\prod_{j=0}^{i-1}(x_i-x_j)\]
+其系数行列式为范德蒙特(Vandermonde)行列式
+\[V=\vmat{1 & x_0 & x_0^2 & \cdots & x_0^n\\1 & x_1 & x_1^2 & \cdots & x_1^n\\1 & x_2 & x_2^2 & \cdots & x_2^n\\\vdots & \vdots & \vdots & \ddots & \vdots\\1 & x_n & x_n^2 &\cdots & x_n^n}=\prod_{i=1}^n\prod_{j=0}^{i-1}(x_i-x_j)=\prod_{1\leq i<j\leq n}(x_i-x_j)\]
 ，因为$x_i$互不相同，故$V\ne 0$。
 进而由克莱姆法则，$a_i$解存在且唯一，从而$p(x)$被唯一确定
 \end{analysis}
@@ -43,6 +44,14 @@ a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 \[L_n(x)=\sum_{k=0}^nf(x_k)\prod_{\substack{i=0\\i\ne k}}^{n}\frac{x-x_i}{x_k-x_i}\]
 其中$L_1(x)$称为线性插值，$L_2(x)$称为抛物线插值
 
+\begin{theorem}
+    Lagrange插值基函数之和为$1$
+\end{theorem}
+\begin{analysis}
+    取$f(x)=1$，对$f(x)$进行插值，由Lagrange插值函数的唯一性有
+    \[\sum_{i=0}^nl_i(x)\equiv 1\]
+\end{analysis}
+
 \begin{theorem}[Lagrange函数的误差估计]
 \[R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n(x-x_i),\;\xi=\xi(x)\in(a,b)\]
 \end{theorem}
@@ -56,7 +65,7 @@ a_0+a_1x_n+\cdots+a_nx_n^n=y_n
     引入辅助函数$\phi(t)=f(t)-L_n(t)-K(x)\Pi(t)$（误差-误差），视$x\ne x_i\in(a,b)$为固定点，则$\phi(t)$在$n+2$个点$x,x_0,x_1,\ldots,x_n$上取值为$0$。
     由罗尔定理，在$\phi(t)$任两个零点之间必存在一点$\eta$，使得$\phi'(\eta)=0$，于是$\phi'(x)$在$(a,b)$上至少有$n+1$个零点。
     对$\phi'(t),\phi''(t),\ldots,\phi^{(n)}(t)$反复使用罗尔定理，最后得到在$(a,b)$上至少存在一个点$\xi$，使得$\phi^{(n+1)}(\xi)=0$，而
-    \[\phi^{(n+1)}(\xi)=f^{(n+1)}(\xi)-L_n^{(n+1)}(\xi)-K(x)Pi^{(n+1)}(\xi)\]
+    \[\phi^{(n+1)}(\xi)=f^{(n+1)}(\xi)-L_n^{(n+1)}(\xi)-K(x)\Pi^{(n+1)}(\xi)\]
     式中，$L_n(x)$是次数不超过$n$的多项式，$Pi(x)$是$n+1$次多项式，故$L_n^{(n+1)}(\xi)=0,\Pi^{(n+1)}(\xi)=(n+1)!$，于是求得
     \[K(x)=\frac{f^{n+1}(\xi)}{(n+1)!}\]
     代入$R_n(x)$即得证
@@ -64,6 +73,7 @@ a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 
 若求区间内误差的最大值，有
 \[\max_{a\leq x\leq b}|R_n(x)|\leq\frac{M_{n+1}}{(n+1)!}\max_{a\leq x\leq b}|\Pi(x)|\]
+其中$\Pi(x)$常用AM-GM不等式
 
 \subsection{牛顿插值}
 \begin{definition}[牛顿插值基函数]
@@ -83,32 +93,72 @@ a_2 &=\frac{\dfrac{f(x_2)-f(x_0)}{x_2-x_0}-\dfrac{f(x_1)-f(x_0)}{x_1-x_0}}{x_2-x
 \end{aligned}\]
 
 \begin{definition}[差商]
-一阶差商$f[x_i,x_k]=\dfrac{f(x_k)-f(x_i)}{x_k-x_i}$，二阶差商$f[x_i,x_j,x_k]=\dfrac{f[x_i,x_k]-f[x_j,x_k]}{x_k-x_j}$，高阶差商为
-\[f[x_0,x_1,\ldots,x_{k-1},x_k]=\frac{f[x_0,x_1,\ldots,x_{k-2},x_k]-f[x_0,x_1,\ldots,x_{k-1}]}{x_k-x_{k-1}}\]
+一阶差商$f[x_i,x_k]=\dfrac{f(x_k)-f(x_i)}{x_k-x_i}$，二阶差商$f[x_i,x_j,x_k]=\dfrac{f[x_i,x_k]-f[x_i,x_j]}{x_k-x_j}$（一阶差商的差商），高阶差商为
+\[f[x_0,x_1,\ldots,x_{k-1},x_k]=\frac{f[x_0,x_1,\ldots,x_{k-2},x_k]-f[x_0,x_1,\ldots,x_{k-2},x_{k-1}]}{x_k-x_{k-1}}\]
 \end{definition}
+类比导数的定义就可以很快记忆
+
+差商有下列性质
+\begin{enumerate}
+    \item 差商可以表示为函数值的线性组合
+    \[f[x_0,x_1,\ldots,x_{k-1},x_k]=\sum_{j=0}^k\frac{f(x_j)}{(x_j-x_0)\cdots(x_j-x_{j-1})(x_j-x_{j+1})\cdots(x_j-x_k)}\]
+    \begin{analysis}
+        用数学归纳法，$k=1$易证，假设$k=k$成立，证明$k=k+1$成立
+        \[\begin{aligned}
+            &\quad f[x_0,x_1,\ldots,x_{k-1},x_k,x_{k+1}]\\
+            &=\frac{f[x_0,x_1,\ldots,x_{k-1},x_{k+1}]-f[x_0,x_1,\ldots,x_{k-1},x_k]}{x_{k+1}-x_{k}}\\
+            &=\lrp{\sum_{\substack{j=0\\j\ne k}}^{k+1}\frac{f(x_j)}{(j;0,\ldots,j-1,j+1,\ldots,k-1,k+1)}
+            -\sum_{j=0}^{k}\frac{f(x_j)}{(j;0,\ldots,j-1,j+1,\ldots,k)}}\Big/(x_{k+1}-x_k)\\
+            &=\lrp{\sum_{j=0}^{k-1}\frac{f(x_j)(x_j-x_k)-f(x_j)(x_j-x_{k+1})}{(j;0,\ldots,j-1,j+1,\ldots,k)}
+            +\frac{f(x_{k+1})}{(k+1;0,\ldots,k-1)}
+            -\frac{f(x_k)}{(k;0,\ldots,k-1)}}\Big/(x_{k+1}-x_k)\\
+            &=\sum_{j=0}^{k-1}\frac{f(x_j)}{(j;0,\ldots,j-1,j+1,\ldots,k)}
+            +\frac{f(x_{k+1})}{(k+1;0,\ldots,k-1,k)}
+            +\frac{f(x_k)}{(k;0,\ldots,k-1,k+1)}\\
+            &=\sum_{j=0}^{k+1}\frac{f(x_j)}{(j;0,\ldots,j-1,j+1,\ldots,k,k+1)}
+        \end{aligned}\]
+    \end{analysis}
+    \item 差商关于所含节点是对称的，即任意调换节点$x_i$和$x_j$的次序，值不变
+    \[f[x_0,\ldots,x_i,\ldots,x_j,\ldots,x_k]=f[x_0,\ldots,x_j,\ldots,x_i,\ldots,x_k]\]
+    \item 设$f(x)$在含有$x_0,x_1,\ldots,x_n$区间$(a,b)$上具有$n$阶导数，则在这区间上至少有一点$\xi$，使
+    \[f[x_0,x_1,\ldots,x_n]=\frac{f^{(n)}(\xi)}{n!},\; \xi\in(a,b)\]
+\end{enumerate}
+
 由差商定义可得以下差商表（注：下面$f_i:=f(x_i)$）
 \begin{center}
 \begin{tabular}{ccccc}\hline
 $x_k$ & $y_k$ & 一阶 & 二阶 & 三阶\\\hline
-$x_0$ & $f_0$ & & &\\
-$x_1$ & $f_1$ & $f[x_0,x_1]$ & &\\
-$x_2$ & $f_2$ & $f[x_1,x_2]$ & $f[x_0,x_1,x_2]$ &\\
-$x_3$ & $f_3$ & $f[x_2,x_3]$ & $f[x_1,x_2,x_3]$ & $f[x_0,x_1,x_2,x_3]$ \\\hline
+$x_0$ & \underline{$f_0$} & & &\\
+$x_1$ & $f_1$ & \underline{$f[x_0,x_1]$} & &\\
+$x_2$ & $f_2$ & $f[x_1,x_2]$ & \underline{$f[x_0,x_1,x_2]$} &\\
+$x_3$ & $f_3$ & $f[x_2,x_3]$ & $f[x_1,x_2,x_3]$ & \underline{$f[x_0,x_1,x_2,x_3]$} \\\hline
 \end{tabular}
 \end{center}
 并且有
 \[\begin{aligned}
 a_0&=f(x_0)\\
 a_1&=f[x_0,x_1]\\
-a_2&=f[x_0,x_1,x_2]\\
+a_2&=f[x_0,x_1,x_2]=\frac{f[x_1,x_2]-f[x_1,x_0]}{x_2-x_0}\\
 \vdots\\
 a_n&=f[x_0,x_1,\ldots,x_n]
 \end{aligned}\]
-
-由误差估计的计算可得差商与导数之间的关系
-\[f[x_0,x_1,\ldots,x_k]=\frac{f^{(k)}(\xi)}{k!}\]
-
+从而牛顿插值多项式为
+\[N_n(x)=f(x_0)+f[x_0,x_1](x-x_0)+\cdots+f[x_0,x_1,\ldots,x_n](x-x_0)\cdots(x-x_{n-1})\]
+且有递推式
+\[N_{n+1}(t)=N_n(t)+f[x_0,x_1,\ldots,x_n,x](t-x_0)(t-x_1)\cdots(t-x_n)\]
 可以看出，当增加一个节点时，牛顿插值只需增加一项，而拉格朗日插值需要全部重新算。
+
+\begin{theorem}[Newton多项式的误差估计]
+    \[R_n(x)=f[x_0,x_1,\ldots,x_n,x]\Pi(x)\]
+\end{theorem}
+\begin{analysis}
+    $N_{n+1}(t)$是$\{(x_0,f(x_0)),\ldots,(x_n,f(x_n)),(x,f(x))\}$上的$n+1$次牛顿插值多项式，则在点$x$处一定满足插值条件
+    \[f(x)=N_{n+1}(x)=N_n(x)+f[x_0,x_1,\ldots,x_n,x](x-x_0)\cdots(x-x_n)\]
+    从而余项为
+    \[f(x)-N_n(x)=f[x_0,x_1,\ldots,x_n,x]\Pi(x)\]
+    又由插值多项式的唯一性，有$N_n(x)=L_n(x)$，故可得差商与导数之间的关系
+    \[f[x_0,x_1,\ldots,x_k]=\frac{f^{(k)}(\xi)}{k!},\;\xi\in(a,b)\]
+\end{analysis}
 
 \begin{definition}[差分]
 设已知函数$f(x)$在等距节点$x_i=x_0+ih(i=0,1,2,\ldots,n)$上的函数值为$f(x_i)=f_i$，其中$h>0$为步长，则称$\Delta f_i=f(x_i+h)-f(x_i)=f_{i+1}-f_i$为$f(x)$在$x_i$处步长为$h$的一阶向前差分。
@@ -130,6 +180,66 @@ a_n&=f[x_0,x_1,\ldots,x_n]
 式中，$l_k(x)$为节点$\{x_i\}_{i=0}^n$上的拉格朗日基函数。
 余项为
 \[R_{2n+1}(x)=f(x)-H_{2n+1}(x)=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}(\Pi(x))^2\]
+
+\begin{example}
+    若函数$f(x)$在$[a,b]$上有四阶连续导数，且已知函数$f(x)$在$[a,b]$的互异节点$x_0,x_1,x_2$上的函数值以及节点$x_0$的一阶导数值如下表所示
+    \begin{center}
+        \begin{tabular}{cccc}\hline
+            $x$ & 0 & 1 & 2\\\hline
+            $f(x)$ & 0 & 1 & 1\\
+            $f'(x)$ & -3\\\hline
+        \end{tabular}
+    \end{center}
+    求一个三次埃尔米特插值多项式$H(x)$，使其满足
+    \[\begin{cases}
+        H(x_i)=f(x_i) & i=0,1,2\\
+        H'(x_0)=f'(x_0)
+    \end{cases}\]
+    并估计余项
+\end{example}
+\begin{analysis}
+    先构造过$x_0,x_1,x_2$的拉格朗日插值函数
+    \[L(x)=-\frac{1}{2}x^2+\frac{3}{2}x\]
+    令$H(x)=L(x)+A(x-0)(x-1)(x-2)$，求导（用乘法法则）
+    \[H'(0)=L'(0)+A(0-1)(0-2)\]
+    解得$A=-9/4$，故
+    \[H(x)=-\frac{9}{4}x^3+\frac{25}{4}x^2-3x\]
+    记$\Pi(x)=(x-x_0)^2(x-x_1)(x-x_2)$，将余项表为
+    \[R(x)=f(x)-H(x)=K(x)\Pi(x)\]
+    引入构造函数$\phi(t)=f(t)-H(t)-K(x)\Pi(t)$，类似推理可得
+    \[R(x)=\frac{f^{(4)}(\xi)}{4!}\Pi(x),\;\xi(x)\in(a,b)\]
+\end{analysis}
+\begin{example}
+    若函数$f(x)$在$[a,b]$上有五阶连续导数，且已知函数$f(x)$在$[a,b]$的互异节点$x_0,x_1,x_2$上的函数值以及节点$x_0,x_1$的一阶导数值如下表所示
+    \begin{center}
+        \begin{tabular}{cccc}\hline
+            $x$ & 0 & 1 & 2\\\hline
+            $f(x)$ & 0 & 1 & 1\\
+            $f'(x)$ & -3 & 9\\\hline
+        \end{tabular}
+    \end{center}
+    求一个三次埃尔米特插值多项式$H(x)$，使其满足
+    \[\begin{cases}
+        H(x_i)=f(x_i) & i=0,1,2\\
+        H'(x_0)=f'(x_0) & i=0,1
+    \end{cases}\]
+    并估计余项
+\end{example}
+\begin{analysis}
+    构造差商表（有导数的点构造两份）
+    \begin{center}
+        \begin{tabular}{cccccc}\hline
+            $x_k$ & $f(x_k)$ & 一阶 & 二阶 & 三阶 & 四阶\\\hline
+            0 & 0\\
+            0 & 0 & -3\\
+            1 & 1 & 1 & 4\\
+            1 & 1 & 9 & 8 & 4\\
+            2 & 1 & 0 & -9 & 17/2 & -25/4\\\hline
+        \end{tabular}
+    \end{center}
+    得到插值多项式
+    \[H(x)=-\frac{25}{4}x^4+\frac{33}{2}x^3-\frac{25}{4}x^2-3x\]
+\end{analysis}
 
 \subsection{三次样条插值}
 龙格(Runge)现象告诉我们并非插值多项式的次数越高，精度就越高，其源于等距分布的插值节点。
@@ -157,6 +267,12 @@ a_n&=f[x_0,x_1,\ldots,x_n]
         \item 周期性条件：$\lim_{x\to x_0^+}s^{(p)}(x)=\lim_{x\to x_n^-}s^{(p)}(x),p=1,2$
     \end{itemize}
 \end{itemize}
+
+\[\begin{cases}
+    \disp \lambda_j=\frac{h_{j+1}}{h_j+h_{j+1}}\\
+    \disp \mu_j=1-\lambda_j=\frac{h_j}{h_j+h_{j+1}}\\
+    \disp d_j=\frac{6}{h_j+h_{j+1}}\lrp{\frac{y_{j+1}-y_j}{h_{j+1}}-\frac{y_j-y_{j-1}}{h_j}}=6f[x_{j-1},x_j,x_{j+1}]
+\end{cases}\]
 
 三转角方法，用一阶导数求解；三弯矩方法，用二阶导数求解。
 \[\bmat{2 & 1 & & & \\\mu_1 & 2 & \lambda_1 & & \\ & \mu_2 & 2 & \lambda_2 & \\ & & \ddots & \ddots & \ddots \\ & & & \mu_{n-1} & 2 & \lambda_{n-1}\\&&&&1&2}\bmat{M_0\\M_1\\M_2\\\vdots\\M_{n-1}\\M_n}=\bmat{d_0\\d_1\\d_2\\\vdots\\d_{n-1}\\d_n}\]

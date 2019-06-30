@@ -44,7 +44,6 @@
     \item $\norm{f+g}\leq\norm{f}+\norm{g}$
 \end{enumerate}
 
-正交函数系
 \begin{definition}[正交]
     设$f(x),g(x)\in C[a,b]$，$\rho(x)$为$[a,b]$上的权函数，若内积
     \[\lrang{f,g}=\intab{a}{b}{\rho(x)f(x)g(x)}=0\]
@@ -76,6 +75,8 @@
 \begin{analysis}
     同样三角代换$x=\cos\theta$，并结合和差化积即得结论
 \end{analysis}
+后面几项为
+\[T_2(x)=2x^2-1,\;T_3(x)=4x^3-3x\]
     \item 奇偶性
 \[T_n(-x)=(-1)^nT_n(x)\]
     \item $T_n(x)$在$(-1,1)$内的$n$个零点为$x_k=\cos\frac{2k-1}{2n}\pi$，在$[-1,1]$上有$n+1$个极值点$y_k=\cos\frac{k}{n}\pi$
@@ -120,20 +121,51 @@
 
 \subsection{最佳平方逼近}
 \begin{definition}[最佳平方逼近]
-    设$f(x)\in C[a,b]$，如果存在$s^\star(x)\in\varphi$，使
-    \[\intab{a}{b}{\rho(x)[f(x)-s^\star(x)]^2}=\min_{s(x)\in\varphi}\intab{a}{b}{\rho(x)[f(x)-s(x)]^2}\]
-    则称$s^\star$为$f(x)$在集合$\varphi$中的最佳平方逼近函数。
-    若$\varphi=P_n=\opspan\{1,x,\ldots,x^n\}$，则$s^\star(x)$为$f(x)$的$n$次最佳平方逼近多项式。
+    设$f(x)\in C[a,b]$，如果存在$s^\star(x)\in\Phi$，使
+    \[\intab{a}{b}{\rho(x)[f(x)-s^\star(x)]^2}=\min_{s(x)\in\Phi}\intab{a}{b}{\rho(x)[f(x)-s(x)]^2}\]
+    则称$s^\star$为$f(x)$在集合$\Phi$中的最佳平方逼近函数。
+    若$\Phi=P_n=\opspan\{1,x,\ldots,x^n\}$，则$s^\star(x)$为$f(x)$的$n$次最佳平方逼近多项式。
 \end{definition}
-\[G_n=\bmat{\lrang{\varphi_0,\varphi_0} & \lrang{\varphi_0,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}\\\vdots & \vdots & \ddots & \vdots\\\lrang{\varphi_n,\varphi_0} & \lrang{\varphi_n,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}}\]
-希尔伯特(Hilbert)矩阵
+
+\begin{theorem}
+    设$f(x)\in C[a,b]$，则$f(x)$在$\Phi$中存在唯一最佳平方逼近函数$s^\star(x)$
+\end{theorem}
+\begin{analysis}
+    \[G_n=\bmat{\lrang{\varphi_0,\varphi_0} & \lrang{\varphi_0,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}\\\vdots & \vdots & \ddots & \vdots\\\lrang{\varphi_n,\varphi_0} & \lrang{\varphi_n,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}}\]
+\end{analysis}
+
+对于最佳平方逼近式，解法方程
+\[G_{n}\va=\vd\]
+
+对于最佳平方\textbf{多项式}，则$G_n=H_{n+1}$为希尔伯特(Hilbert)矩阵
 \[H_{n+1}=\bmat{1 & \frac{1}{2} & \cdots & \frac{1}{n+1}\\\frac{1}{2} & \frac{1}{3} & \cdots & \frac{1}{n+2}\\\vdots & \vdots & \ddots & \vdots\\\frac{1}{n+1} & \frac{1}{n+2} & \cdots & \frac{1}{2n+1}}\]
-法方程为
-\[H_{n+1}\va=\vd\]
-解为$\va=\va^\star$，进而得到最佳平方逼近式$p_n^\star(x)$
+
+如果所给区间不是$[-1,1]$，可以通过变量替换处理
+\[x=\frac{a+b}{2}+\frac{b-a}{2}t\]
+
+\begin{example}
+    设$f(x)=\cos x,x\in[-\pi,\pi]$，求$p(x)=a+bx^2$的最佳平方逼近
+\end{example}
+\begin{analysis}
+    基函数为$\phi_0(x)=1,\phi_1(x)=x^2$，故
+    \[\begin{aligned}
+        d_0&=\lrang{\phi_0(x),f}=\int_{-\pi}^\pi\cos x\diff x=0\\
+        d_1&=\lrang{\phi_1(x),f}=\int_{-\pi}^\pi x^2\cos x\diff x=-4\pi
+    \end{aligned}\]
+    而
+    \[\begin{aligned}
+        \lrang{\phi_0,\phi_0}&=\intab{-\pi}{\pi}{}=2\pi\\
+        \lrang{\phi_0,\phi_1}&=\intab{-\pi}{\pi}{x^2}=\frac{2}{3}\pi^3\\
+        \lrang{\phi_1,\phi_1}&=\intab{-\pi}{\pi}{x^4}=\frac{2}{5}\pi^5\\
+    \end{aligned}\]
+    有法方程
+    \[\bmat{2\pi & \frac{2}{3}\pi^3\\\frac{2}{3}\pi^3 & \frac{2}{5}\pi^5}\bmat{a\\b}=\bmat{0\\-4\pi}\]
+    解得
+    \[p(x)=\frac{15}{2\pi^2}-\frac{45}{2\pi^4}x^2\]
+\end{analysis}
 
 \subsection{最小二乘法}
-拟合函数为
+最小二乘法即离散情形的最佳平方逼近，拟合函数为
 \[\sum_{j=0}^na_j\varphi_j(x)\]
 $\varphi_i(x)$为基函数，且线性无关，求解下面法方程
 \[\bmat{\lrang{\varphi_0,\varphi_0} & \lrang{\varphi_0,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}\\\vdots & \vdots & \ddots & \vdots\\\lrang{\varphi_n,\varphi_0} & \lrang{\varphi_n,\varphi_1} & \cdots & \lrang{\varphi_n,\varphi_n}}\bmat{a_0\\\vdots\\a_n}=\bmat{\lrang{f,\varphi_0}\\\vdots\\\lrang{f,\varphi_n}}\]

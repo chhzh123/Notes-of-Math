@@ -10,6 +10,7 @@
     x_1+x_2=2
 \end{cases}\]
 
+为避免求解过程中不稳定的现象，可采用下列两种方法
 \begin{itemize}
     \item 列主元高斯消去法：每次选择一列中最大的元素所在行，然后与当前行交换
     \item 全主元消去法：每次选择矩阵中最大元素所在行，与当前行交换
@@ -19,8 +20,10 @@
 \subsubsection{LU分解与LDU分解}
 \begin{itemize}
 \item 杜利脱尔(Doolittle)分解：由高斯消元法，$A=L_1^{-1}\cdots L_{n-1}^{-1}U=LU$，其中$L$为\textbf{单位}下三角矩阵，$U$为上三角
+\[L=\bmat{1 & & & \\-m_{21} & 1 & & \\ \vdots & \ddots & \ddots & \\-m_{n1} & \cdots & -m_{n,n-1} & 1}\]
+其中，$m_{ij}=-a_{ij}/a_{jj}$
 \item 克洛脱(Crout)分解：$A=LU$，其中$L$为下三角，$U$为\textbf{单位}上三角
-\item LDU分解：$A=LD\tilde{U}$，其中$L$为\textbf{单位}下三角，$D=\opdiag(u_{11},u_{22},\ldots,u_{nn})$，$\tilde{U}=D^{-1}U$为单位上三角
+\item LDU分解：$A=LD\tilde{U}$，其中$L$为\textbf{单位}下三角，$D=\opdiag(u_{11},u_{22},\ldots,u_{nn})$，$\tilde{U}=D^{-1}U$为\textbf{单位}上三角
 \end{itemize}
 
 杜利脱尔分解要求对$A$高斯消去时，所有主元元素$a_{ii}^{(i)}$不为零
@@ -37,11 +40,20 @@
 \[A=LDU=U^\T D U^\T\]
 又由分解的唯一性，有$L=D^\T$，得$A=LDL^\T$
 
-设$D=\opdiag(d_1,\ldots,d_n),d_i\ne 0$，则$D$的对角元素均为正数
-
+设$D=\opdiag(d_1,\ldots,d_n),d_i\ne 0$，则$D$的对角元素均为正数。
 记$D^{1/2}=\opdiag(\sqrt{d_1},\sqrt{d_2},\ldots,\sqrt{d_n})$，则
 \[A=LDL^\T=LD^{1/2}D^{1/2}L^\T=(LD^{1/2})(LD^{1/2})^\T=GG^\T\]
 式中$G$是对角元素均大于$0$的下三角矩阵，称该分解为正定矩阵$A$的乔列斯基(Choleskey)分解。
+\[\begin{cases}
+    \disp \sum_{j=1}^i g_{ij}^2=a_{ii}\\
+    \disp \sum_{j=1}^i g_{ij}g_{kj}=a_{ki}
+\end{cases}
+\implies
+\begin{cases}
+    \disp g_{ii}=\sqrt{a_{ii}-\sum_{s=1}^{i-1}g_{is}^2}\\
+    \disp g_{ki}=\lrp{a_{ki}-\sum_{s=1}^{i-1}g_{is}g_{ks}}\Big/g_{ii} & k=i+1,i+2,\ldots,n
+\end{cases}\]
+注意上式只不过是$A=G G^\T$的显式表达。
 
 若正定矩阵已经有了乔列斯基分解$A=GG^\T$，则原线性方程组可转化为
 \[\begin{cases}
@@ -50,8 +62,8 @@
 \end{cases}\]
 从而得到计算公式
 \[\begin{cases}
-    \disp y_i=\lrp{b_i-\sum_{j=1}^{i-1}g_{ij}y_j}/g_{ii},\qquad i=1,2,\ldots,n\\
-    \disp x_i=\lrp{y_i-\sum_{j=i+1}^n g_{ji}x_j}/g_{ii},\qquad i=n,n-1,\ldots,1
+    \disp y_i=\lrp{b_i-\sum_{j=1}^{i-1}g_{ij}y_j}\Big/g_{ii},\qquad i=1,2,\ldots,n\\
+    \disp x_i=\lrp{y_i-\sum_{j=i+1}^n g_{ji}x_j}\Big/g_{ii},\qquad i=n,n-1,\ldots,1
 \end{cases}\]
 该求解方法称之为\textbf{平方根法}。
 
@@ -59,15 +71,42 @@
 设$n$阶方程组$A\vx=\vd$，其中$A$为三对角方程
 \[A=\bmat{b_1 & c_1 & & & \\a_2 & b_2 & c_2 & & \\ & \ddots & \ddots & \ddots & \\ & & a_{n-1} & b_{n-1} & c_{n-1}\\ & & & a_n & b_n},\;\vd=\bmat{d_1\\d_2\\\vdots\\d_{n-1}\\d_n}\]
 对矩阵$A$做克洛脱分解，有
-\[L=\bmat{l_1 & & & &\\v_2 & l_2 & & & \\ & \ddots & \ddots & & \\& & v_{n-1} & l_{n-1} &\\ & & & v_n & l_n},\;U=\bmat{1 & u_1 & & &\\ & 1 & u_2 & & \\ & & \ddots & \ddots & \\ & & & 1 & u_{n=1}\\ & & & & 1}\]
-进而$A=LU$，做两次回代即可
+\[L=\bmat{l_1 & & & &\\v_2 & l_2 & & & \\ & \ddots & \ddots & & \\& & v_{n-1} & l_{n-1} &\\ & & & v_n & l_n},\;U=\bmat{1 & u_1 & & &\\ & 1 & u_2 & & \\ & & \ddots & \ddots & \\ & & & 1 & u_{n-1}\\ & & & & 1}\]
+进而
+\[A=LU=\bmat{l_1 & l_1u_1 & & & \\v_2 & v_2u_1+l_2 & l_2u_2 & & \\ & \ddots & \ddots & \ddots & \\ & & v_{n-1} & v_{n-1}u_{n-2}+l_{n-1} & l_{n-1}u_{n-1}\\ & & & v_n & v_nu_{n-1}+l_n}\]
+做两次回代即可
 \[\begin{cases}
 L\vy=\vd\\
 U\vx=\vy
 \end{cases}\]
 
+得到追赶法
+\begin{enumerate}
+    \item （追）对$i=1,2,\ldots,n-1$做
+\[\begin{cases}
+    a_i = v_i\\
+    b_i = v_iu_{i-1}+l_i\\
+    c_i = l_iu_i\\
+    d_i = y_{i-1}a_i + y_il_i
+\end{cases}
+\implies
+\begin{cases}
+    l_i=b_i-a_iu_{i-1}\\
+    y_i=(d_i-y_{i-1}a_i)/l_i\\
+    u_i=c_i/l_i
+\end{cases}\]
+这里，置$u_0=y_0=a_1=0$
+    \item （追）$l_n=b_n-a_nu_{n-1},y_n=(d_n-y_{n-1}a_n)/l_n$
+    \item （赶）$x_n=y_n$
+    \item （赶）对$i=n-1,\ldots,2,1$做
+    \[x_i=y_i-u_ix_{i+1}\]
+\end{enumerate}
+
+为方便记忆，将$LU$两个矩阵整合
+\[L=\bmat{l_1 & \boxed{u_1} & & &\\\boxed{v_2} & \boxed{l_2} & u_2 & & \\ & \ddots & \ddots & \ddots & \\& & v_{n-1} & l_{n-1} & u_{n-1}\\ & & & v_n & l_n}\]
+
 \subsection{分块三角分解}
-\[\vL=\bmat{\vI&\vzero\\\vE&\vI},\vU=\bmat{\vF&\vG\\\vzero&\vH}\]
-且满足$\vA=\vL\vU$，经计算有
-\[\vL=\bmat{\vI & \vzero\\\vC \vA^{-1}& \vI},\vU=\bmat{\vA&\vB\\\vzero&\vD-\vC\vA^{-1}\vB}\]
-其中$\vS=\vD-\vC\vA^{-1}\vB$为$\vA$的舒尔(schur)补。
+\[ L=\bmat{ I& \vzero\\ E& I}, U=\bmat{ F& G\\ \vzero& H}\]
+且满足$ A= L U$，经计算有
+\[ L=\bmat{ I &  \vzero\\ C  A^{-1}&  I}, U=\bmat{ A& B\\ \vzero& D- C A^{-1} B}\]
+其中$ S= D- C A^{-1} B$为$ A$的舒尔(schur)补。

@@ -7,7 +7,7 @@
 \subsection{二分法和不动点法}
 \begin{itemize}
 \item 二分法：如果指定精度为$\eps$，则最多需要迭代步数为
-\[k=\Big\lceil\log_2\frac{b-a}{\eps}\Big\rceil\]
+\[k=\left\lceil\log_2\frac{b-a}{\eps}\right\rceil\]
 \item 不动点法：$x^\star=\phi(x^\star)$
 \end{itemize}
 \begin{theorem}
@@ -27,7 +27,7 @@
 \end{theorem}
 
 迭代加速：利用导数估计$\phi'(\xi)\approx L$，得到
-\[\bar{\phi(x)}=\frac{\phi(x)-Lx}{1-L}\]
+\[\bar{\phi}(x)=\frac{\phi(x)-Lx}{1-L}\]
 为新的不动点函数
 
 \subsection{牛顿法}
@@ -46,5 +46,5 @@
 牛顿下山法：相当于加了个步长
 \[x_{k+1}(\lambda)=x_k-\lambda\frac{f(x_k)}{f'(x_k)}\]
 
-割线法：
+割线法：即用割线斜率代替切线斜率
 \[x_{k+1}=x_k-f(x_k)\frac{x_k-x_{k-1}}{f(x_k)-f(x_{k-1})}\]
