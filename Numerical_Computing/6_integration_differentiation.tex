@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\section{数值积分与数值微分}
+\section{数值积分与数值微分} % 重点
 只要$\disp\max_{a\leq x\leq b}|f(x)-P_n(x)|\leq\eps$，就有误差估计
 \[\lrabs{\intab{a}{b}{f(x)}-\intab{a}{b}{P_n(x)}}\leq (b-a)\eps\]
 
@@ -77,7 +77,7 @@
 由定积分性质
 \[\intab{a}{b}{f(x)}=\sum_{i=0}^{n-1}\intab{x_i}{x_{i+1}}{f(x)}\]
 进而每一个小段都可以用前面的基本公式，进而得到复合积分公式。
-记$h=\frac{b-a}{n},x_i=a+ih,x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})$，则
+记$\disp h=\frac{b-a}{n},x_i=a+ih,x_{i+\frac{1}{2}}=\frac{1}{2}(x_i+x_{i+1})$，则
 \begin{itemize}
 \item 复合中点公式
 \[\begin{aligned}
@@ -91,7 +91,7 @@
 \end{aligned}\]
 \item 复合辛普森公式
 \[\begin{aligned}
-    S_n&:=\frac{h}{6}\left[f(a)+4\sum_{i=0}^{n-1}f(x_{i+\frac{1}{2}})+2\sum_{i=1}^{n-1}f(x_i)+f(b)\right]\\
+    S_n&:=\frac{h}{6}\left[f(a)+4\sum_{i=0}^{n-1}f\lrp{x_{i+\frac{1}{2}}}+2\sum_{i=1}^{n-1}f(x_i)+f(b)\right]\\
     R_S&=-\frac{1}{2880}(b-a)h^4f^{(4)}(\eta)
 \end{aligned}\]
 \end{itemize}
@@ -139,7 +139,7 @@ $n$ & $C_i^{(n)}$\\\hline
     的代数精度为$2n+1$，则称节点$x_i$为高斯点，$\omega_i$为高斯系数
 \end{definition}
 \begin{theorem}
-    $x_i$是求积公式的高斯点的充分必要条件是，多项式$\Pi(x)=\Pi_{i=0}^n(x-x_i)$与任意次数不超过$n$的多项式$q(x)$关于权函数$\rho(x)$正交，即
+    $x_i(i=0,1,\ldots,n)$是求积公式的高斯点的充分必要条件是，多项式$\Pi(x)=\Pi_{i=0}^n(x-x_i)$与任意次数不超过$n$的多项式$q(x)$关于权函数$\rho(x)$正交，即
     \[\intab{a}{b}{\rho(x)\Pi(x)q(x)}=0\]
 \end{theorem}
 
@@ -150,14 +150,32 @@ $n$ & $C_i^{(n)}$\\\hline
     当达到最高代数精度$2n+1$次时，所有求积系数$\omega_i>0$，即为高斯公式
 \end{theorem}
 
-几种常见的高斯公式如下
+\begin{theorem}
+    设$a,b$为有限数，则对任意连续函数$f(x)\in C[a,b]$，当$n\to\infty$时，高斯公式收敛，即
+    \[\lim_{n\to\infty}\sum_{i=0}^n\omega_i f(x_i)=\intab{a}{b}{\rho(x)f(x)}\]
+\end{theorem}
+
+几种常见的高斯公式如下，高斯点$x_i$为对应$n+1$多项式的零点
 \begin{enumerate}
     \item 高斯-勒让德(Legendre)多项式：$\rho\equiv 1,[a,b]=[-1,1]$
-    \item 高斯-切比雪夫公式：$\rho(x)=\frac{1}{\sqrt{1-x^2}},[a,b]=[-1,1]$
-    \item 高斯-拉盖尔公式：$\rho(x)=\ee^{-x},[a,b]=[0,\infty)$
-    \item 高斯-埃尔米特(Hermite)公式：$\rho(x)=\ee^{-x^2},(a,b)=(-\infty,+\infty)$
+    \[\omega_i=\frac{2}{(1-x_i^2)[P_{n+1}'(x_i)]^2}\]
+    \begin{center}
+        \begin{tabular}{ccc}\hline
+            节点个数$n+1$ & 高斯点 & 高斯系数$\omega_i$\\\hline
+            $1$ & $0$ & $2$\\\hline
+            $2$ & $\pm 1/\sqrt{3}$ & $1$\\\hline
+            $3$ & $0$ & $8/9$\\
+            & $\pm \sqrt{3/5}$ & $5/9$\\\hline
+        \end{tabular}
+    \end{center}
+    \item 高斯-切比雪夫公式：$\disp \rho(x)=\frac{1}{\sqrt{1-x^2}},[a,b]=[-1,1]$
+    \[x_i=\cos\frac{2i+1}{2(n+1)}\pi,\;\omega_i=\frac{\pi}{n+1}\]
+    \item 高斯-拉盖尔公式：$\disp \rho(x)=\ee^{-x},[a,b]=[0,\infty)$
+    \[\omega_i=\frac{(n!)^2x_i}{[(n+1)L_n(x_i)]^2}\]
+    \item 高斯-埃尔米特(Hermite)公式：$\disp \rho(x)=\ee^{-x^2},(a,b)=(-\infty,+\infty)$
+    \[\omega_i=\frac{2^{n+2}(n+1)!\sqrt{\pi}}{[H_{n+2}(x_i)]^2}\]
 \end{enumerate}
-第一步都先变换积分区间，然后查表代入$x_i$和$\omega_i$
+第一步都先变换积分区间$\disp x=\frac{a+b}{2}+\frac{b-a}{2}t$，然后查表代入$x_i$和$\omega_i$
 
 \subsection{多重积分}
 记$\omega_i,\omega_j$分别为$x,y$方向的求积系数
@@ -173,8 +191,8 @@ $n$ & $C_i^{(n)}$\\\hline
 
 两点公式：向前差商公式和向后差商公式，误差均为$O(h)$，精度都一阶
 \[\begin{cases}
-    f'(x_0)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
-    f'(x_1)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi),\xi\in(x_0,x_1)\\
+    \disp f'(x_0)=\frac{f(x_1)-f(x_0)}{h}-\frac{h}{2}f''(\xi) & \xi\in(x_0,x_1)\\
+    \disp f'(x_1)=\frac{f(x_1)-f(x_0)}{h}+\frac{h}{2}f''(\xi) & \xi\in(x_0,x_1)\\
 \end{cases}\]
 \begin{analysis}
     做$f(x)$的线性插值

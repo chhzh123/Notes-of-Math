@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\section{函数逼近}
+\section{函数逼近} % 证明
 用函数$f(x)$和$p(x)$的\textbf{最大误差}
 \[\norm{p-f}_\infty=\max_{a\leq x\leq b}|p(x)-f(x)|\]
 作为度量逼近函数$p(x)$对被逼近函数$f(x)$的逼近程度。
@@ -28,21 +28,15 @@
 定义了内积的线性空间称为内积空间。
 内积需满足
 \begin{enumerate}
-    \item $\lrang{f,g}=\lrang{g,f}$
-    \item $\lrang{c_1f+c_2g,h}=c_1\lrang{f,h}+c_2\lrang{g,h}$, $c_1,c_2$为常数
-    \item $\lrang{f,f}\geq 0\iff f\equiv 0,\lrang{f,f}=0$
+    \item （正定性）$\lrang{f,f}\geq 0\iff f\equiv 0,\lrang{f,f}=0$
+    \item （线性性）$\lrang{c_1f+c_2g,h}=c_1\lrang{f,h}+c_2\lrang{g,h}$, $c_1,c_2$为常数
+    \item （交换律）$\lrang{f,g}=\lrang{g,f}$
 \end{enumerate}
 
 \begin{definition}[范数]
 对内积空间$C[a,b]$中的每一个函数$f(x)$，都赋予一个数值
 \[\norm{f}=\sqrt{\intab{a}{b}{\rho(x)[f(x)]^2}}\]
 \end{definition}
-范数需满足
-\begin{enumerate}
-    \item $\norm{f}\geq 0$，当且仅当$f\equiv 0$时，$\norm{f}=0$
-    \item $\norm{cf}=|c|\cdot\norm{f}$，$c$是常数
-    \item $\norm{f+g}\leq\norm{f}+\norm{g}$
-\end{enumerate}
 
 \begin{definition}[正交]
     设$f(x),g(x)\in C[a,b]$，$\rho(x)$为$[a,b]$上的权函数，若内积
@@ -53,12 +47,27 @@
 \subsubsection{勒让德多项式}
 勒让德(Legendre)多项式是区间$[-1,1]$上权函数$\rho(x)=1$的正交多项式
 \[P_0(x)=1,\qquad P_n(x)=\frac{1}{2^nn!}\frac{\diff^n}{\diff x^n}(x^2-1)^n\]
+$P_n(x)$的首项$x^n$系数为$\disp\frac{(2n)!}{2^n(n!)^2}$，记
+\[\tilde{P}_0(x)=1,\qquad\tilde{P}_n(x)=\frac{n!}{(2n)!}\frac{\diff^n}{\diff x^n}(x^2-1)^n\]
+则$\tilde{P}_n(x)$是首项$x^n$系数为$1$的勒让德多项式
+
 勒让德多项式有许多重要的性质
 \begin{enumerate}
     \item 正交性
-\[\lrang{P_n,P_m}=\intab{-1}{1}{P_n(x)P_m(x)}=\begin{cases}0&m\ne n\\\frac{2}{2n+1}&m=n\end{cases}\]
+\[\lrang{P_n,P_m}=\intab{-1}{1}{P_n(x)P_m(x)}=
+\begin{cases}
+    0&m\ne n\\
+    \disp\frac{2}{2n+1}&m=n
+\end{cases}\]
+\begin{analysis}
+    令$\varphi(x)=(x^2-1)^n$，则$\iter{\varphi}{k}(\pm 1)=0,k=0,1,\ldots,n-1$，且$P_n(x)=\disp \frac{1}{2^n n!}\varphi^{(n)}(x)$，用分部积分法可证
+\end{analysis}
     \item 递推公式
-    \[(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x),P_0(x)=1,P_1(x)=x\]
+    \[P_{n+1}(x)=\frac{2n+1}{n+1}xP_n(x)-\frac{n}{n+1}P_{n-1}(x),P_0(x)=1,P_1(x)=x\]
+    可推得后面几项为
+    \[P_2(x)=\frac{1}{2}(3x^2-1),\;P_3(x)=\frac{1}{2}(5x^3-3x),\;P_4(x)=\frac{1}{8}(35x^4-30x^2+3)\]
+    \item 奇偶性
+    \[P_n(-x)=(-1)^nP_n(x)\]
 \end{enumerate}
 
 \subsubsection{切比雪夫多项式}
@@ -66,7 +75,12 @@
 \[T_n(x)=\cos(n\arccos x)\]
 \begin{enumerate}
     \item 正交性
-\[\lrang{T_n,T_m}=\intab{-1}{1}{\frac{T_n(x)P_m(x)}{\sqrt{1-x^2}}}=\begin{cases}0&m\ne n\\\frac{\pi}{2}&m=n\ne 0\\\pi&m=n=0\end{cases}\]
+\[\lrang{T_n,T_m}=\intab{-1}{1}{\frac{T_n(x)T_m(x)}{\sqrt{1-x^2}}}=
+\begin{cases}
+    0&m\ne n\\
+    \dfrac{\pi}{2}&m=n\ne 0\\
+    \pi&m=n=0
+\end{cases}\]
     \begin{analysis}
         令$x=\cos\theta$，由三角函数正交性\footnote{数学分析傅里叶级数一节，三角函数系$\{1,\cos x,\sin x,\ldots,\cos nx,\sin nx,\ldots\}$中任意两个不同函数在$[-\pi,\pi]$都正交}即得结论
     \end{analysis}
@@ -76,10 +90,10 @@
     同样三角代换$x=\cos\theta$，并结合和差化积即得结论
 \end{analysis}
 后面几项为
-\[T_2(x)=2x^2-1,\;T_3(x)=4x^3-3x\]
+\[T_2(x)=2x^2-1,\;T_3(x)=4x^3-3x,\;T_4(x)=8x^4-8x^2+1\]
     \item 奇偶性
 \[T_n(-x)=(-1)^nT_n(x)\]
-    \item $T_n(x)$在$(-1,1)$内的$n$个零点为$x_k=\cos\frac{2k-1}{2n}\pi$，在$[-1,1]$上有$n+1$个极值点$y_k=\cos\frac{k}{n}\pi$
+    \item $T_n(x)$在$(-1,1)$内的$n$个零点为$\disp x_k=\cos\frac{2k-1}{2n}\pi$，在$[-1,1]$上有$n+1$个极值点$\disp y_k=\cos\frac{k}{n}\pi$
     \item $T_n(x)$的最高次幂$x^n$的系数为$2^{n-1},n\geq 1$
 \end{enumerate}
 
@@ -140,23 +154,22 @@
 对于最佳平方\textbf{多项式}，则$G_n=H_{n+1}$为希尔伯特(Hilbert)矩阵
 \[H_{n+1}=\bmat{1 & \frac{1}{2} & \cdots & \frac{1}{n+1}\\\frac{1}{2} & \frac{1}{3} & \cdots & \frac{1}{n+2}\\\vdots & \vdots & \ddots & \vdots\\\frac{1}{n+1} & \frac{1}{n+2} & \cdots & \frac{1}{2n+1}}\]
 
-如果所给区间不是$[-1,1]$，可以通过变量替换处理
-\[x=\frac{a+b}{2}+\frac{b-a}{2}t\]
+也可以采用前面的正交多项式作为基底进行拟合。
 
 \begin{example}
     设$f(x)=\cos x,x\in[-\pi,\pi]$，求$p(x)=a+bx^2$的最佳平方逼近
 \end{example}
 \begin{analysis}
-    基函数为$\phi_0(x)=1,\phi_1(x)=x^2$，故
+    基函数为$\varphi_0(x)=1,\varphi_1(x)=x^2$，故
     \[\begin{aligned}
-        d_0&=\lrang{\phi_0(x),f}=\int_{-\pi}^\pi\cos x\diff x=0\\
-        d_1&=\lrang{\phi_1(x),f}=\int_{-\pi}^\pi x^2\cos x\diff x=-4\pi
+        d_0&=\lrang{\varphi_0(x),f}=\int_{-\pi}^\pi\cos x\diff x=0\\
+        d_1&=\lrang{\varphi_1(x),f}=\int_{-\pi}^\pi x^2\cos x\diff x=-4\pi
     \end{aligned}\]
     而
     \[\begin{aligned}
-        \lrang{\phi_0,\phi_0}&=\intab{-\pi}{\pi}{}=2\pi\\
-        \lrang{\phi_0,\phi_1}&=\intab{-\pi}{\pi}{x^2}=\frac{2}{3}\pi^3\\
-        \lrang{\phi_1,\phi_1}&=\intab{-\pi}{\pi}{x^4}=\frac{2}{5}\pi^5\\
+        \lrang{\varphi_0,\varphi_0}&=\intab{-\pi}{\pi}{}=2\pi\\
+        \lrang{\varphi_0,\varphi_1}&=\intab{-\pi}{\pi}{x^2}=\frac{2}{3}\pi^3\\
+        \lrang{\varphi_1,\varphi_1}&=\intab{-\pi}{\pi}{x^4}=\frac{2}{5}\pi^5\\
     \end{aligned}\]
     有法方程
     \[\bmat{2\pi & \frac{2}{3}\pi^3\\\frac{2}{3}\pi^3 & \frac{2}{5}\pi^5}\bmat{a\\b}=\bmat{0\\-4\pi}\]
@@ -177,7 +190,7 @@ $\varphi_i(x)$为基函数，且线性无关，求解下面法方程
 特别地，如果用代数多项式拟合，即取
 \[\{\varphi_0,\varphi_1,\ldots,\varphi_n\}=\{1,x,\ldots,x^n\}\]
 有法方程
-\[\bmat{\sum_{i=1}^m 1 & \sum_{i=1}^m x_i & \cdots & \sum_{i=1}^m x_i^n\\\vdots & \vdots & \ddots & \vdots\\\sum_{i=0}^mx_i^n & \sum_{i=0}^mx_i^{n+1} & \cdots & \sum_{i=0}^mx_i^{2n}}\]
+\[\bmat{\disp\sum_{i=1}^m 1 & \disp\sum_{i=1}^m x_i & \cdots & \disp\sum_{i=1}^m x_i^n\\\vdots & \vdots & \ddots & \vdots\\\disp\sum_{i=0}^mx_i^n & \disp\sum_{i=0}^mx_i^{n+1} & \cdots & \disp\sum_{i=0}^mx_i^{2n}}\]
 
 \begin{example}
     用最小二乘法求下面数据的二次拟合$y=a\theta+b\theta^2$
@@ -190,7 +203,7 @@ $\varphi_i(x)$为基函数，且线性无关，求解下面法方程
 \end{example}
 \begin{analysis}
     注意基底分别为$\varphi_1(x)=\theta,\varphi_2(x)=\theta^2$，则
-    \[\bmat{\sum_{i=1}^4\theta_i^2 & \sum_{i=1}^4\theta_i^3\\\sum_{i=1}^4\theta_i^3 & \sum_{i=1}^4\theta_i^4}\bmat{a\\b}=\bmat{\sum_{i=1}^4\theta_i f_i\\\sum_{i=1}^4\theta_i^2 f_i}\]
+    \[\bmat{\disp\sum_{i=1}^4\theta_i^2 & \disp\sum_{i=1}^4\theta_i^3\\\disp\sum_{i=1}^4\theta_i^3 & \disp\sum_{i=1}^4\theta_i^4}\bmat{a\\b}=\bmat{\disp\sum_{i=1}^4\theta_i f_i\\\disp\sum_{i=1}^4\theta_i^2 f_i}\]
     代入数据可解得
     \[\begin{cases}
         a=0.9491\\

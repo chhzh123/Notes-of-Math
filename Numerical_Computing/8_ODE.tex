@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-\section{常微分方程}
+\section{常微分方程} % 重点
 \[\begin{cases}
     y'=f(x,y),&x\in[a,b]\\
     y(a)=y_0
@@ -13,7 +13,7 @@
 前向欧拉公式
 \[y_{n+1}=y_n+hf(x_n,y_n)\]
 
-后退欧拉公式
+后退欧拉公式（隐格式需要解方程）
 \[y_{n+1}=y_n+hf(x_{n+1},y_{n+1})\]
 
 梯形公式
@@ -22,7 +22,7 @@
 改进欧拉公式
 \[\begin{cases}
     \text{预估} & \bar{y}_{n+1}=y_n+hf(x_n,y_n)\\
-    \text{校正} & y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},\bar{y}_{n+1})]
+    \text{校正} & \disp y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},\bar{y}_{n+1})]
 \end{cases}\]
 
 \begin{theorem}
@@ -52,11 +52,26 @@
 \end{analysis}
 
 \subsection{龙格库塔公式}
-标准四阶龙格库塔公式
+二阶龙格库塔公式（中点公式）
 \[\begin{cases}
-    y_{n+1}&=y_n+\frac{1}{6}(k_1+2k_2+2k_3+k_4)\\
+    y_{n+1}&=y_n+k_2\\
+    k_1&=hf(x_n,y_n)\\
+    k_2&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_1}
+\end{cases}\]
+
+三阶三段龙格库塔公式
+\[\begin{cases}
+    y_{n+1}&=y_n+\frac{1}{6}(k_1+4k_2+k_3)\\
     k_1&=hf(x_n,y_n)\\
     k_2&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_1}\\
-    k_3&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_2}\\
-    k_4&=hf(x_n+h,y_n+k_3)
+    k_3&=hf\lrp{x_n+h,y_n-k_1+2k_2}
+\end{cases}\]
+
+标准四阶龙格库塔公式
+\[\begin{cases}
+    \disp y_{n+1}&=y_n+\frac{1}{6}(k_1+2k_2+2k_3+k_4)\\
+    \disp k_1&=hf(x_n,y_n)\\
+    \disp k_2&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_1}\\
+    \disp k_3&=hf\lrp{x_n+\frac{1}{2}h,y_n+\frac{1}{2}k_2}\\
+    \disp k_4&=hf\lrp{x_n+h,y_n+k_3}
 \end{cases}\]

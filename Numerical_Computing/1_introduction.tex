@@ -17,7 +17,7 @@
 \end{definition}
 
 设十进制数有以下\textbf{标准形式}：
-\[x=\pm 10^m\times 0.x_1 x_2\cdots x_n x_{n+1}\cdots=10^m\cdot|a|\]
+\[x=\pm 10^m\times 0.x_1 x_2\cdots x_n x_{n+1}\cdots=10^m\cdot a\]
 其中$m\in\zz,\{x_i\}\subset\{0,1,2,\ldots,9\},x_1\ne 0,|a|\in[0,1)$，即有效数字的表示法，除了整数位，小数位首位不能为$0$。
 
 对$x$四舍五入保留$n$位数字，得到近似值$\bar{x}$：
@@ -32,7 +32,7 @@
 \begin{example}
 	已知$\sqrt{7}$可由下述迭代公式计算
 	\[\begin{cases}
-		x_{k+1}=\frac{1}{2}\lrp{x_k+\frac{7}{x_k}} & k=0,1,2,\ldots\\
+		\disp x_{k+1}=\frac{1}{2}\lrp{x_k+\frac{7}{x_k}} & ,k=0,1,2,\ldots\\
 		x_0=2
 	\end{cases}\]
 	若$x_k$是$\sqrt{7}$是具有$n$位有效数字的近似值，证明：$x_{k+1}$具有$2n$位有效数字的近似值
@@ -42,7 +42,7 @@
 	\[\sqrt{7}=10^1\times 0.2645\cdots\]
 	故
 	\[|x_k-\sqrt{7}|\leq\frac{1}{2}\times 10^{1-n}\]
-	注意到
+	注意到(AM-GM)
 	\[x_{k+1}=\frac{1}{2}\lrp{x_k+\frac{7}{x_k}}\geq\sqrt{7}\]
 	故
 	\[|x_{k+1}-\sqrt{7}|=\frac{1}{2x_k}(x_k-\sqrt{7})^2\leq\frac{1}{2\sqrt{7}}|x_k-\sqrt{7}|^2\leq \frac{1}{2\sqrt{7}}\cdot\lrp{\frac{1}{2}\cdot 10^{1-n}}^2\leq\frac{1}{2}\cdot 10^{1-2n}\]

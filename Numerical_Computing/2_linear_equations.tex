@@ -23,8 +23,30 @@
 \[L=\bmat{1 & & & \\-m_{21} & 1 & & \\ \vdots & \ddots & \ddots & \\-m_{n1} & \cdots & -m_{n,n-1} & 1}\]
 其中，$m_{ij}=-a_{ij}/a_{jj}$
 \item 克洛脱(Crout)分解：$A=LU$，其中$L$为下三角，$U$为\textbf{单位}上三角
-\item LDU分解：$A=LD\tilde{U}$，其中$L$为\textbf{单位}下三角，$D=\opdiag(u_{11},u_{22},\ldots,u_{nn})$，$\tilde{U}=D^{-1}U$为\textbf{单位}上三角
+\item LDU分解：$A=LD\tilde{U}$，其中$L$为\textbf{单位}下三角，$D=\opdiag(u_{11},u_{22},\ldots,u_{nn})$\\
+（易知$D^{-1}=\opdiag(1/u_{11},1/u_{22},\ldots,1/u_{nn})$），$\tilde{U}=D^{-1}U$为\textbf{单位}上三角
 \end{itemize}
+实际上，由LDU分解，$A=L(D\tilde{U})$可得杜利脱尔分解，$A=(LD)\tilde{U}$可得克洛脱分解
+
+\begin{example}
+    用Doolittle分解解方程组
+    \[\begin{cases}
+        x_1 + x_3& =5\\
+        x_2 + x_4  & =3\\
+        x_1 +  2x_2  +  4x_3  +  3x_4 & =17\\
+        x_2 +  3x_4 & =7
+    \end{cases}\]
+\end{example}
+\begin{analysis}
+    由题设可得系数矩阵
+    \[A=\bmat{1 & 0 & 1 & 0\\0& 1 & 0 &1\\1& 2 &4 &3\\0&1&0&3}\]
+    进而得到LU分解
+    \[A=LU=\bmat{1 & 0 & 0 & 0\\0& 1 & 0 & 0\\1 & 2 & 1 & 0\\0 & 1& 0 & 1}\bmat{1 & 0 & 1 & 0\\0 & 1 & 0 & 1\\0 & 0 & 3 & 1\\0 & 0 & 0 & 2}\]
+    由$L\vy=\vb=\bmat{5 & 3 & 17 & 7}^\T$回代，有
+    \[\vy=\bmat{5 & 3 & 6 & 4}\]
+    再对$U\vx=\vy$回代有
+    \[\vx=\bmat{11/3 & 1 & 4/3 & 2}^\T\]
+\end{analysis}
 
 杜利脱尔分解要求对$A$高斯消去时，所有主元元素$a_{ii}^{(i)}$不为零
 \begin{theorem}
@@ -36,22 +58,19 @@
 
 \subsubsection{乔列斯基分解}
 当$A$为\textbf{对称正定}矩阵时，所有顺序主子式都大于$0$，因而存在唯一LU分解。
-用LDU分解，$D$为非奇异的对角矩阵，由$A$的对称性有
+用LDU分解，$D$为非奇异的对角矩阵，$U$为单位上三角，由$A$的对称性有
 \[A=LDU=U^\T D U^\T\]
-又由分解的唯一性，有$L=D^\T$，得$A=LDL^\T$
+又由分解的唯一性，有$L=U^\T$，得$A=LDL^\T$
 
 设$D=\opdiag(d_1,\ldots,d_n),d_i\ne 0$，则$D$的对角元素均为正数。
 记$D^{1/2}=\opdiag(\sqrt{d_1},\sqrt{d_2},\ldots,\sqrt{d_n})$，则
 \[A=LDL^\T=LD^{1/2}D^{1/2}L^\T=(LD^{1/2})(LD^{1/2})^\T=GG^\T\]
-式中$G$是对角元素均大于$0$的下三角矩阵，称该分解为正定矩阵$A$的乔列斯基(Choleskey)分解。
-\[\begin{cases}
-    \disp \sum_{j=1}^i g_{ij}^2=a_{ii}\\
-    \disp \sum_{j=1}^i g_{ij}g_{kj}=a_{ki}
-\end{cases}
+式中$G$是对角元素均大于$0$的\textbf{下三角}矩阵，称该分解为正定矩阵$A$的乔列斯基(Choleskey)分解。
+\[\disp a_{ij}=\sum_{k=1}^i g_{ik}(g^\T)_{kj}=\sum_{k=1}^i g_{ik}g_{jk}
 \implies
 \begin{cases}
-    \disp g_{ii}=\sqrt{a_{ii}-\sum_{s=1}^{i-1}g_{is}^2}\\
-    \disp g_{ki}=\lrp{a_{ki}-\sum_{s=1}^{i-1}g_{is}g_{ks}}\Big/g_{ii} & k=i+1,i+2,\ldots,n
+    \disp g_{ii}=\sqrt{a_{ii}-\sum_{k=1}^{i-1}g_{ik}^2}\\
+    \disp g_{ji}=\lrp{a_{ij}-\sum_{k=1}^{i-1}g_{ik}g_{jk}}\Big/g_{ii} & j=i+1,i+2,\ldots,n
 \end{cases}\]
 注意上式只不过是$A=G G^\T$的显式表达。
 

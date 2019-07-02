@@ -5,9 +5,9 @@
 \begin{definition}[向量的范数]
     对任意$n$维向量$\vx$，若对应非负实数$\norm{\vx}$，满足
     \begin{enumerate}
-        \item $\norm{\vx}\geq 0$，当且仅当$\vx=\vzero$时等号成立
-        \item 对任意$\alpha\in\rr$，$\norm{\alpha\vx}=|\alpha|\cdot\norm{\vx}$
-        \item 对任意的$n$维向量$\vx$和$\vy$，满足三角不等式$\norm{\vx+\vy}\leq\norm{\vx}+\norm{\vy}$
+        \item 正定性：$\norm{\vx}\geq 0$，当且仅当$\vx=\vzero$时等号成立
+        \item 数乘：对任意$\alpha\in\rr$，$\norm{\alpha\vx}=|\alpha|\cdot\norm{\vx}$
+        \item 三角不等式：对任意的$n$维向量$\vx$和$\vy$，满足$\norm{\vx+\vy}\leq\norm{\vx}+\norm{\vy}$
     \end{enumerate}
     则称$\norm{\vx}$为$\vx$的范数，其中1-范数、2-范数、无穷范数定义如下
     \[\begin{aligned}
@@ -140,7 +140,8 @@
     一个每行每列仅有唯一的非零元$1$的方阵称为排列矩阵。
     设$A$是$n\geq 2$阶方阵，如果存在$n$阶排列矩阵$P$，使
     \[P^\T AP=\bmat{A_{11} & A_{12}\\\vzero & A_{22}}\]
-    则称$A$为可约矩阵，否则为不可约阵
+    则称$A$为可约矩阵，否则为不可约阵\\
+    简单来说，就是能否交换矩阵的行列使其变为上三角矩阵
 \end{definition}
 \begin{definition}[对角占优]
     设$A$是$n$阶方阵，若$A$满足
@@ -158,7 +159,10 @@
     &=\vx^{(k)}+D^{-1}(L\vx^{(k+1)}+U\vx^{(k)}-D\vx^{(k)}+\vb)
 \end{aligned}\]
 等号右侧第二项为修正量，为获得更快的收敛速度，在其前面乘系数$\omega$，即得到逐次超松弛(SOR)迭代法，其中$\omega$为松弛因子
-\[\vx^{(k+1)}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\vx^{(k)}+\omega(D-\omega L)^{-1}\vb\]
+\[\begin{aligned}
+    \vx^{(k+1)}&=\vx^{(k)}+\omega D^{-1}(L\vx^{(k+1)}+U\vx^{(k)}-D\vx^{(k)}+\vb)\\
+    &=(D-\omega L)^{-1}[(1-\omega)D+\omega U]\vx^{(k)}+\omega(D-\omega L)^{-1}\vb\qquad\mbox{将$D$乘回左边再化简}
+\end{aligned}\]
 可以得到迭代格式
 \[\iter{x_i}{k+1}=\iter{x_i}{k}+\frac{\omega}{a_{ii}}\lrp{-\sum_{j=1}^{i-1}a_{ij}\iter{x_j}{k+1}-\sum_{j=i}^n a_{ij}\iter{x_j}{k}+b_i}\]
 
@@ -171,7 +175,7 @@ SOR迭代收敛的必要条件是$\omega\in(0,2)$
 设系数矩阵$A$对称正定\footnote{用顺序主子式全为正判定}，则$0<\omega<2$时SOR迭代收敛
 \end{theorem}
 
-三种迭代法的迭代矩阵
+三种迭代法的迭代矩阵（注意到$U+A=D-L$）
 \[\begin{aligned}
     B_J&=D^{-1}(L+U)=I-D^{-1}A\\
     B_G&=(D-L)^{-1}U=I-(D-L)^{-1}A\\

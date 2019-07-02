@@ -2,7 +2,7 @@
 
 % http://mathworld.wolfram.com/DividedDifference.html
 % http://mathfaculty.fullerton.edu/mathews/n2003/Web/NewtonPolyMod/NewtonPolyMod.html
-\section{多项式插值}
+\section{多项式插值} % 证明
 关于函数表达式，有以下三个问题：
 \begin{enumerate}
     \item 给定一系列$\{x_i,y_i\}$，给出函数过这些点，进而可以计算其他位置的值（插值方法）
@@ -42,7 +42,7 @@ a_0+a_1x_n+\cdots+a_nx_n^n=y_n
 \[l_k(x)=\prod_{\substack{i=0\\i\ne k}}^{n}\frac{x-x_i}{x_k-x_i}\]
 因此拉格朗日插值函数为
 \[L_n(x)=\sum_{k=0}^nf(x_k)\prod_{\substack{i=0\\i\ne k}}^{n}\frac{x-x_i}{x_k-x_i}\]
-其中$L_1(x)$称为线性插值，$L_2(x)$称为抛物线插值
+其中$L_1(x)$称为线性插值，$L_2(x)$称为抛物线插值（$n+1$个结点插值成$n$次$L_n$多项式）
 
 \begin{theorem}
     Lagrange插值基函数之和为$1$
@@ -179,7 +179,8 @@ a_n&=f[x_0,x_1,\ldots,x_n]
 \[H_{2n+1}(x)=\sum_{k=0}^m(1-2l'_k(x_k)(x-x_k))l_k^2(x)f_k+\sum_{k=0}^n(x-x_k)l_k^2(x)f_k'\]
 式中，$l_k(x)$为节点$\{x_i\}_{i=0}^n$上的拉格朗日基函数。
 余项为
-\[R_{2n+1}(x)=f(x)-H_{2n+1}(x)=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}(\Pi(x))^2\]
+\[R_{2n+1}(x)=f(x)-H_{2n+1}(x)=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}(\Pi(x))^2,\;\xi\in(a,b)\]
+其中$\Pi(x)=\prod_{j=0}^n(x-x_j)$
 
 \begin{example}
     若函数$f(x)$在$[a,b]$上有四阶连续导数，且已知函数$f(x)$在$[a,b]$的互异节点$x_0,x_1,x_2$上的函数值以及节点$x_0$的一阶导数值如下表所示
