@@ -1,5 +1,19 @@
 # Notes-of-Math
 
+This repository is used to store my notes of math (in Chinese).
+
+| Course                     | Semester    |
+| :---:                      | :---:       |
+| Mathematical Analysis      | 2017 Autumn - 2018 Autumn |
+| Linear Algebra             | 2017 Autumn |
+| Discrete Mathematics       | 2018 Spring |
+| Probability and Statistics | 2018 Autumn |
+| Convex Optimization        | 2019 Spring |
+| Numerical Computing        | 2019 Spring |
+
+For CS notes, please refer to [CS-Notes](https://github.com/chhzh123/CS-Notes).
+
+
 ## Mathematical Analysis (v5.0 2019/01)
 数学分析笔记，章节安排如下
 1. 实数系基本定理
